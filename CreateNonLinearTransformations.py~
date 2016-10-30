@@ -1,0 +1,78 @@
+import os
+
+template = """struct NonLinearTransformation$ITER {
+
+    const float *w;
+    Activation activation;
+
+    NonLinearTransformation$ITER(const float* _w, Activation _activation) : w(_w), activation(_activation) {}
+
+    template <typename Tuple>
+    __host__ __device__
+    void operator()(Tuple t) {
+      
+      switch(activation) {
+      
+      case logistic:
+	thrust::get<$ITER>(t) = ActivationFunction<logistic>($LINEARTRANSFORMATIONthrust::get<$ITER>(t) + w[$ITER]);
+        break;
+
+      case linear:
+	thrust::get<$ITER>(t) = ActivationFunction<linear>($LINEARTRANSFORMATIONthrust::get<$ITER>(t) + w[$ITER]);
+        break;
+      
+      }
+    }
+
+};
+
+"""
+
+EquationTemplate = "thrust::get<$ITER>(t)*w[$ITER] + "
+
+output = ""
+
+for i in range(10):
+    equation = ""
+    for j in range(i):
+        equation += EquationTemplate.replace("$ITER", str(j))
+    output += template.replace("$ITER", str(i)).replace("$LINEARTRANSFORMATION", equation)
+
+NonLinearTransformation = """
+
+void NonLinearTransformation(const float *W, std::vector<NeuralNetworkNodeGPUCpp*> &HiddenNodesFedIntoMePtr, thrust::device_vector<float> &output, Activation activation) {
+
+  switch((int)(HiddenNodesFedIntoMePtr.size())) {
+  
+  $CASES
+
+  }
+
+
+}
+"""
+
+cases = ""
+case = """  case $ITER:
+    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple($HIDDENBEGINoutput.begin())),
+		     thrust::make_zip_iterator(thrust::make_tuple($HIDDENENDoutput.end())),
+		     NonLinearTransformation$ITER(W, activation));
+    break;
+
+"""
+
+begin = "HiddenNodesFedIntoMePtr[$ITER]->get_output().begin(), "
+end = "HiddenNodesFedIntoMePtr[$ITER]->get_output().end(), "
+
+
+for i in range(10):
+    hiddenbegin = "" 
+    hiddenend = ""
+    for j in range(i):
+        hiddenbegin += begin.replace("$ITER", str(j))
+        hiddenend += end.replace("$ITER", str(j))
+    cases += case.replace("$ITER", str(i)).replace("$HIDDENBEGIN", hiddenbegin).replace("$HIDDENEND", hiddenend)
+
+output += NonLinearTransformation.replace("$CASES", cases)
+
+open("NonLinearTransformations.hpp", "wb").write(output)

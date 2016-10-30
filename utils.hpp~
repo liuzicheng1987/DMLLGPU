@@ -1,0 +1,29 @@
+//A collection of useful functions and functors - alphebetical order
+
+namespace utils {
+
+  //Performs the classic saxpy operation
+  struct saxpy {
+
+    const float LearningRate;
+
+    saxpy(float _LearningRate) : LearningRate(_LearningRate) {}
+
+    __device__
+    float operator()(const float& x, const float& y) const { 
+      return LearningRate * x + y;
+    }
+
+  };
+
+  //Transformation that squares the result
+  struct square : public thrust::unary_function<float,float> {
+
+    __device__ float operator()(const float &x) const
+    {
+      return x*x;
+    }
+
+  };
+
+}

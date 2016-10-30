@@ -1,0 +1,115 @@
+import os
+import numpy as np
+os.chdir("/home/patrick/Dropbox/Programs/NeuralNetworkGPU/")
+
+template = """struct CustomTuple$ITER {
+
+$INSERT0
+    float bias;
+};
+
+struct TransformationCustomTuple$ITER {
+  
+  template <typename Tuple>
+  __device__ const CustomTuple$ITER operator()(const Tuple &t) {
+
+    float d = thrust::get<0>(t);//d is the delta value    
+    CustomTuple$ITER result;
+    
+$INSERT1
+    result.bias = d;
+
+    return result;
+  }
+
+};
+
+struct SumCustomTuple$ITER {
+ 
+  __device__ const CustomTuple$ITER operator()(const CustomTuple$ITER& lhs, const CustomTuple$ITER& rhs) {
+    
+    CustomTuple$ITER result;
+    
+$INSERT2
+    result.bias = lhs.bias + rhs.bias;
+
+    return result;
+  }
+
+};
+
+"""
+    
+template0 = """    float val$ITER;\n"""
+template1 = """    result.val$ITER = d*thrust::get<$ITPLUS1>(t);\n"""
+template2 = """    result.val$ITER = lhs.val$ITER + rhs.val$ITER;\n"""
+    
+output = """namespace ActivationFunction {\n\n"""
+    
+for i in np.arange(0,10):
+    insert0 = ""
+    insert1 = ""
+    insert2 = ""
+    for j in range(i):
+        insert0 += template0.replace("$ITER", str(j))
+        insert1 += template1.replace("$ITER", str(j)).replace("$ITPLUS1", str(j+1))
+        insert2 += template2.replace("$ITER", str(j))
+    output += template.replace("$ITER", str(i)).replace("$INSERT0", insert0).replace("$INSERT1", insert1).replace("$INSERT2", insert2)
+    
+NonLinearTransformation = """
+
+void calc_dev_hidden(float *dLdw, NeuralNetworkNodeGPUCpp **HiddenNodesFedIntoMePtr, std::size_t HiddenNodesFedIntoMePtrSize, thrust::device_vector<float> &delta) {
+
+  switch(HiddenNodesFedIntoMePtrSize) {
+
+$CASES
+
+  }
+}
+"""
+    
+cases = ""
+case = """  case $ITER:
+    CustomTuple$ITER res$ITER;
+    float dldw_host$ITER[$ITPLUS1];
+
+$INSERT4    
+    res$ITER.bias = 0.0f;
+
+    res$ITER = thrust::transform_reduce(thrust::device, thrust::make_zip_iterator(thrust::make_tuple(delta.begin()$HIDDENBEGIN)), 
+                                                    thrust::make_zip_iterator(thrust::make_tuple(delta.end()$HIDDENEND)), 
+                                                    TransformationCustomTuple$ITER(), 
+                                                    res$ITER, 
+                                                    SumCustomTuple$ITER() 
+                                                    );
+$INSERT5
+    dldw_host$ITER[$ITER] = res$ITER.bias;
+    
+    cudaMemcpy(dLdw, dldw_host$ITER, $ITPLUS1*sizeof(float), cudaMemcpyHostToDevice);
+    break;
+
+"""
+
+template4 = """    res$ITER.val$ITER2 = 0.0f;\n"""
+template5 = """    dldw_host$ITER[$ITER2] = res$ITER.val$ITER2;\n"""
+
+begin = "HiddenNodesFedIntoMePtr[$ITER]->get_output().begin()"
+end = "HiddenNodesFedIntoMePtr[$ITER]->get_output().end()"
+        
+for i in np.arange(0,10):
+    hiddenbegin = "" 
+    hiddenend = ""
+    insert4 = ""
+    insert5 = ""
+    for j in range(i):
+        insert4 += template4.replace("$ITER2", str(j))
+        insert5 += template5.replace("$ITER2", str(j))
+        if j < i:
+            hiddenbegin +=  ", " + begin.replace("$ITER", str(j))
+            hiddenend += ", " + end.replace("$ITER", str(j))
+    cases += case.replace("$HIDDENBEGIN", hiddenbegin).replace("$HIDDENEND", hiddenend).replace("$INSERT4", insert4).replace("$INSERT5", insert5).replace("$ITER", str(i)).replace("$ITPLUS1", str(i+1))
+    
+output += NonLinearTransformation.replace("$CASES", cases)
+output += "}"
+
+open("CalcDevHidden.hpp", "wb").write(output)

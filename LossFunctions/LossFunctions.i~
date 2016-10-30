@@ -1,0 +1,23 @@
+class LossFunctionCpp {
+	
+	public:	
+	LossFunctionCpp ();
+	~LossFunctionCpp();
+
+};
+
+class SquaredLossCpp: public LossFunctionCpp {
+	
+	public:	
+	SquaredLossCpp (): LossFunctionCpp();
+	~SquaredLossCpp();
+
+};
+
+class LogLossCpp: public LossFunctionCpp {
+	
+	public:	
+	LogLossCpp (): LossFunctionCpp();
+	~LogLossCpp();
+
+};

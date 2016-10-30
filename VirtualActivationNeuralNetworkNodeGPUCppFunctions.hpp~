@@ -1,0 +1,30 @@
+VirtualActivationNeuralNetworkNodeGPUCpp::VirtualActivationNeuralNetworkNodeGPUCpp(std::int32_t _NodeNumber, char *_activation, std::int32_t *_HiddenNodesFedIntoMe, std::int32_t _HiddenNodesFedIntoMeLength, std::int32_t *_InputNodesFedIntoMe, std::int32_t _InputNodesFedIntoMeLength, std::int32_t _IShareWeightsWith, bool _NoWeightUpdates): NeuralNetworkNodeGPUCpp(_NodeNumber,_HiddenNodesFedIntoMe, _HiddenNodesFedIntoMeLength, _InputNodesFedIntoMe, _InputNodesFedIntoMeLength, _IShareWeightsWith, _NoWeightUpdates) {
+
+  //Information on which activation function to use is passed as a C char*, to ensure maximum compatability with any target language
+  if (strcmp("linear", _activation) == 0) this->activation = linear;
+  else if (strcmp("logistic", _activation) == 0) this->activation = logistic;
+  
+  //We are initialising these two vectors, so we can resize them later, if necessary
+  this->output = thrust::device_vector<float>(1);
+  this->delta = thrust::device_vector<float>(1);
+
+  //This is necessary for every class that inherits from NeuralNetworkNodeGPUCpp
+  this->NumWeightsRequired = _HiddenNodesFedIntoMeLength + _InputNodesFedIntoMeLength + 1;
+
+}
+
+VirtualActivationNeuralNetworkNodeGPUCpp::~VirtualActivationNeuralNetworkNodeGPUCpp() {};
+
+void VirtualActivationNeuralNetworkNodeGPUCpp::calc_output(const float *_W, const std::int32_t _MinibatchBegin, const std::int32_t _MinibatchSize, const float *_X) {
+
+  //Resize output, if necessary
+  //Output is stored in the NeuralNetworkNodeGPUCpp base class and stores the output of this node
+  if ((std::int32_t)(this->output.size()) != _MinibatchSize) this->output.resize(_MinibatchSize);
+
+  //Transform input nodes fed into me
+  
+
+  //Transform hidden nodes fed into me and apply activation function
+  NonLinearTransformation(_W, this->HiddenNodesFedIntoMe, this->output, this->activation);
+
+}

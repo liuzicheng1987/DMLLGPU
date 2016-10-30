@@ -1,0 +1,38 @@
+#include "ActivationFunctions.hpp"
+#include "NonLinearTransformations.hpp"
+
+
+class VirtualActivationNeuralNetworkNodeGPUCpp: public NeuralNetworkNodeGPUCpp {
+
+protected:
+
+  Activation activation; //enum that signifies the activation function
+	
+public:
+	
+  VirtualActivationNeuralNetworkNodeGPUCpp(std::int32_t _NodeNumber, std::int32_t _activation, std::int32_t *_HiddenNodesFedIntoMe, std::int32_t _HiddenNodesFedIntoMeLength, std::int32_t *_InputNodesFedIntoMe, std::int32_t _InputNodesFedIntoMeLength, std::int32_t _IShareWeightsWith, bool _NoWeightUpdates);
+	
+  virtual ~VirtualActivationNeuralNetworkNodeGPUCpp();
+
+  //Functions for dense input
+  void calc_output(const float *_W, const std::int32_t _MinibatchBegin, const std::int32_t _MinibatchSize, const float *_X);		
+  void calc_dLdw(float *_dLdw, const float *_W, const std::int32_t _MinibatchBegin, const std::int32_t _MinibatchSize, const float *_X) {};	
+  void calc_dLdInput(const float *_W, const std::int32_t _MinibatchBegin, const std::int32_t _MinibatchSize, const std::int32_t _NodeNumberPointedTo, const std::int32_t _NumWeightPointedTo, const float *_X) {};	
+  void calc_delta(const float *_W, const std::int32_t _MinibatchBegin, const std::int32_t _MinibatchSize, const float *_X) {};
+  void calc_delta_output_node(const float *_W, const std::int32_t _MinibatchBegin, const std::int32_t _MinibatchSize) {};
+
+  //IMPORTANT NOTE:
+  //calc_delta() is a somewhat special virtual function: What exactly delta means can actually depend on the exact type of neural network node.
+  //For example, for sigmoid and tanh transformations, it is defined as dLdNodeOutput*dNodeOutputdLinearTransformationOfAllNodeInputs,
+  //but for RBF or linear transformations, it is simply dLdNodeOutput.
+  //delta is used for further processing in the functions calc_dLdw() and calc_dLdInput(), so it is very important that the defintion of delta in calc_delta() 
+  //harmonises with its definitions in calc_dLdw() and calc_dLdInput().
+    
+  //Functions for sparse input
+  void calc_output_sparse(const float *_W, const std::int32_t _MinibatchBegin, const std::int32_t _MinibatchSize, const float *_XData, const std::int32_t *_XIndices, const std::int32_t *_XIndptr) {};	  
+  void calc_dLdw_sparse(float *_dLdw, const float *_W, const std::int32_t _MinibatchBegin, const std::int32_t _MinibatchSize, const float *_XData, const std::int32_t *_XIndices, const std::int32_t *_XIndptr) {};	
+  void calc_dLdInput_sparse(const float *_W, const std::int32_t _MinibatchBegin, const std::int32_t _MinibatchSize, const std::int32_t _NodeNumberPointedTo, const std::int32_t _NumWeightPointedTo, const float *_XData, const std::int32_t *_XIndices, const std::int32_t *_XIndptr) {};	
+  void calc_delta_sparse(const float *_W, const std::int32_t _MinibatchBegin, const std::int32_t _MinibatchSize, const float *_XData, const std::int32_t *_XIndices, const std::int32_t *_XIndptr) {};
+  void calc_delta_output_node_sparse(const float *_W, const std::int32_t _MinibatchBegin, const std::int32_t _MinibatchSize) {}; 
+  
+};

@@ -1,0 +1,64 @@
+class NumericallyOptimisedMLAlgorithmCpp {
+
+	public:
+			
+	NumericallyOptimisedMLAlgorithmCpp();
+	
+	virtual ~NumericallyOptimisedMLAlgorithmCpp();
+	
+	int GetSumGradientsLength();
+		
+	void GetSumGradients (double *SumGradients, int SumGradientsLength);
+
+	int GetSumSubgradientsLength();
+		
+	void GetSumSubgradients (double *SumSubgradients, int SumSubgradientsLength);
+
+	void GetParams(double *W, int lengthW);
+		
+	void SetParams(double *W, int lengthW);
+	
+	int GetLengthW();	
+};
+
+class OptimiserCpp {
+	
+	public:
+
+	OptimiserCpp(const int size, const int rank);
+
+	virtual ~OptimiserCpp();
+
+};
+
+class GradientDescentCpp: public OptimiserCpp {
+	
+	public:
+		
+	GradientDescentCpp (double LearningRate, double LearningRatePower, const int size, const int rank):OptimiserCpp(size, rank);
+
+	~GradientDescentCpp();
+				
+};
+
+class GradientDescentWithMomentumCpp: public OptimiserCpp {
+	
+	public:
+		
+	GradientDescentWithMomentumCpp (double LearningRate, double LearningRatePower, double momentum, const int size, const int rank):OptimiserCpp(size, rank);
+
+	~GradientDescentWithMomentumCpp();
+				
+};
+
+class AdaGradCpp: public OptimiserCpp {
+	
+	public:
+		
+	AdaGradCpp (double LearningRate, double LearningRatePower, const int size, const int rank):OptimiserCpp(size, rank);
+
+	~AdaGradCpp();
+				
+};
+
+
