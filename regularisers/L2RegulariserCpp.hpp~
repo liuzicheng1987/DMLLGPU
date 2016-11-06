@@ -1,0 +1,36 @@
+class L2RegulariserCpp: public RegulariserCpp {
+
+private:
+  
+  //Constant that is multiplied with derivative
+  float alpha_;
+
+public:
+	
+  //Constructor
+  L2RegulariserCpp(float _alpha): RegulariserCpp() {
+    
+    this->alpha_ = _alpha;
+    
+  };
+
+  ~L2RegulariserCpp() {};
+	
+  //Calculate derivative of regulariser for w
+  void drdw (/*MPI_Comm comm,*/
+	     const std::int32_t                  _length_w,
+	     const thrust::device_vector<float> &_w,
+	     thrust::device_vector<float>       &_dldw
+	     ) {
+
+    thrust::transform(
+		      _w.begin(),
+		      _w.begin() + _length_w,
+		      _dldw.begin(),
+		      _dldw.begin(),
+		      utils::axpy<float>(this->alpha_*2.f)
+		      );
+      
+  };
+			       		
+};

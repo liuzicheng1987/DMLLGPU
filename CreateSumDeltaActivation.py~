@@ -31,9 +31,9 @@ for i in range(10):
 
 NonLinearTransformation = """
 
-void NonLinearTransformation(const float *W, std::vector<NeuralNetworkNodeGPUCpp*> &HiddenNodesFedIntoMePtr, thrust::device_vector<float> &output, ActivationFunctionGPUCpp *activation) {
+void NonLinearTransformation(const float *W, std::vector<NeuralNetworkNodeGPUCpp*> &hidden_nodes_fed_into_me_ptr, thrust::device_vector<float> &output, ActivationFunctionGPUCpp *activation) {
 
-  switch(HiddenNodesFedIntoMePtr.size()) {
+  switch(hidden_nodes_fed_into_me_ptr.size()) {
     
     $CASES
   }
@@ -49,8 +49,8 @@ case = """  case $ITER:
 
 """
 
-begin = "HiddenNodesFedIntoMePtr[$ITER]->get_output().begin(), "
-end = "HiddenNodesFedIntoMePtr[$ITER]->get_output().end(), "
+begin = "hidden_nodes_fed_into_me_ptr[$ITER]->get_output().begin(), "
+end = "hidden_nodes_fed_into_me_ptr[$ITER]->get_output().end(), "
 
 
 for i in range(10):

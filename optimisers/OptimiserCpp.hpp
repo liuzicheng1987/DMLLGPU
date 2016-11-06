@@ -9,7 +9,7 @@ protected:
 
   thrust::device_vector<float> sum_dldw_;//Sum of dLdw
 
-  std::int32_t I_;//Number of samples 
+  std::int32_t num_samples_;//Number of samples 
 
   std::int32_t num_batches_;//Number of batches
 
@@ -17,7 +17,7 @@ protected:
 
   /*
 
-  std::int32_t GlobalBatchSize;//global size of batches (meaning sum of local batch size in all processes)
+  std::int32_t global_batch_size;//global size of batches (meaning sum of local batch size in all processes)
 
   std::int32_t size;//Number of processes
 
@@ -25,8 +25,15 @@ protected:
 
   */
 
-  virtual void min(/*MPI_Comm comm,*/NeuralNetworkGPUCpp *_NeuralNet, thrust::device_vector<float> &_W, const float _tol, const std::int32_t _MaxNumEpochs, std::vector<float> &_SumGradients) 
-  {throw std::invalid_argument("This shouldn't happen!\n You need to use an optimising algorithm, not the base class!");}//Function to be accessed from minimise (does the actual work)!
+  virtual void min(/*MPI_Comm comm,*/
+		   NeuralNetworkGPUCpp          *_neural_net, 
+		   thrust::device_vector<float> &_W, 
+		   const float                   _tol, 
+		   const std::int32_t            _max_num_epochs, 
+		   std::vector<float>           &_sum_gradients
+		   ) {
+    throw std::invalid_argument("This shouldn't happen!\n You need to use an optimising algorithm, not the base class!");
+  }//Function to be accessed from minimise (does the actual work)!
 
 public:
 	
@@ -35,6 +42,14 @@ public:
 
   virtual ~OptimiserCpp();
 	
-  void minimise (/*MPI_Comm comm,*/NeuralNetworkGPUCpp *_NeuralNet, std::int32_t _I, thrust::device_vector<float> &_W, std::int32_t _GlobalBatchSize, const float _tol, const std::int32_t _MaxNumEpochs, std::vector<float> &_SumGradients);//Minimise loss function (public function)
+  void minimise (/*MPI_Comm comm,*/
+		 NeuralNetworkGPUCpp          *_neural_net, 
+		 std::int32_t                  _num_samples, 
+		 thrust::device_vector<float> &_W, 
+		 std::int32_t                  _global_batch_size, 
+		 const float                   _tol, 
+		 const std::int32_t            _max_num_epochs, 
+		 std::vector<float>           &_sum_gradients
+		 );//Minimise loss function (public function)
 			       		
 };

@@ -1,0 +1,17 @@
+class RegulariserCpp {
+	
+public:
+	
+  //Constructor
+  RegulariserCpp() {};
+
+  virtual ~RegulariserCpp() {};
+	
+  //Calculate derivative of regulariser for w
+  virtual void drdw (/*MPI_Comm comm,*/
+		     const std::int32_t                  _length_w,
+		     const thrust::device_vector<float> &_w,
+		     thrust::device_vector<float>       &_dldw
+		     ) {};
+			       		
+};

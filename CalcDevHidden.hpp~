@@ -497,9 +497,9 @@ struct SumCustomTuple9 {
 
 
 
-void calc_dev_hidden(float *dLdw, NeuralNetworkNodeGPUCpp **HiddenNodesFedIntoMePtr, std::size_t HiddenNodesFedIntoMePtrSize, thrust::device_vector<float> &delta) {
+void calc_dev_hidden(float *dLdw, NeuralNetworkNodeGPUCpp **hidden_nodes_fed_into_me_ptr, std::size_t hidden_nodes_fed_into_me_ptrSize, thrust::device_vector<float> &delta) {
 
-  switch(HiddenNodesFedIntoMePtrSize) {
+  switch(hidden_nodes_fed_into_me_ptrSize) {
 
   case 0:
     CustomTuple0 res0;
@@ -550,8 +550,8 @@ void calc_dev_hidden(float *dLdw, NeuralNetworkNodeGPUCpp **HiddenNodesFedIntoMe
 
     res2.bias = 0.0f;
 
-    res2 = thrust::transform_reduce(thrust::device, thrust::make_zip_iterator(thrust::make_tuple(delta.begin(), HiddenNodesFedIntoMePtr[0]->get_output().begin())),
-                                                    thrust::make_zip_iterator(thrust::make_tuple(delta.end(), HiddenNodesFedIntoMePtr[0]->get_output().end())),
+    res2 = thrust::transform_reduce(thrust::device, thrust::make_zip_iterator(thrust::make_tuple(delta.begin(), hidden_nodes_fed_into_me_ptr[0]->get_output().begin())),
+                                                    thrust::make_zip_iterator(thrust::make_tuple(delta.end(), hidden_nodes_fed_into_me_ptr[0]->get_output().end())),
                                                     TransformationCustomTuple2(),
                                                     res2,
                                                     SumCustomTuple2()
@@ -574,8 +574,8 @@ void calc_dev_hidden(float *dLdw, NeuralNetworkNodeGPUCpp **HiddenNodesFedIntoMe
 
     res3.bias = 0.0f;
 
-    res3 = thrust::transform_reduce(thrust::device, thrust::make_zip_iterator(thrust::make_tuple(delta.begin(), HiddenNodesFedIntoMePtr[0]->get_output().begin(), HiddenNodesFedIntoMePtr[1]->get_output().begin())),
-                                                    thrust::make_zip_iterator(thrust::make_tuple(delta.end(), HiddenNodesFedIntoMePtr[0]->get_output().end(), HiddenNodesFedIntoMePtr[1]->get_output().end())),
+    res3 = thrust::transform_reduce(thrust::device, thrust::make_zip_iterator(thrust::make_tuple(delta.begin(), hidden_nodes_fed_into_me_ptr[0]->get_output().begin(), hidden_nodes_fed_into_me_ptr[1]->get_output().begin())),
+                                                    thrust::make_zip_iterator(thrust::make_tuple(delta.end(), hidden_nodes_fed_into_me_ptr[0]->get_output().end(), hidden_nodes_fed_into_me_ptr[1]->get_output().end())),
                                                     TransformationCustomTuple3(),
                                                     res3,
                                                     SumCustomTuple3()
@@ -600,8 +600,8 @@ void calc_dev_hidden(float *dLdw, NeuralNetworkNodeGPUCpp **HiddenNodesFedIntoMe
 
     res4.bias = 0.0f;
 
-    res4 = thrust::transform_reduce(thrust::device, thrust::make_zip_iterator(thrust::make_tuple(delta.begin(), HiddenNodesFedIntoMePtr[0]->get_output().begin(), HiddenNodesFedIntoMePtr[1]->get_output().begin(), HiddenNodesFedIntoMePtr[2]->get_output().begin())),
-                                                    thrust::make_zip_iterator(thrust::make_tuple(delta.end(), HiddenNodesFedIntoMePtr[0]->get_output().end(), HiddenNodesFedIntoMePtr[1]->get_output().end(), HiddenNodesFedIntoMePtr[2]->get_output().end())),
+    res4 = thrust::transform_reduce(thrust::device, thrust::make_zip_iterator(thrust::make_tuple(delta.begin(), hidden_nodes_fed_into_me_ptr[0]->get_output().begin(), hidden_nodes_fed_into_me_ptr[1]->get_output().begin(), hidden_nodes_fed_into_me_ptr[2]->get_output().begin())),
+                                                    thrust::make_zip_iterator(thrust::make_tuple(delta.end(), hidden_nodes_fed_into_me_ptr[0]->get_output().end(), hidden_nodes_fed_into_me_ptr[1]->get_output().end(), hidden_nodes_fed_into_me_ptr[2]->get_output().end())),
                                                     TransformationCustomTuple4(),
                                                     res4,
                                                     SumCustomTuple4()
@@ -628,8 +628,8 @@ void calc_dev_hidden(float *dLdw, NeuralNetworkNodeGPUCpp **HiddenNodesFedIntoMe
 
     res5.bias = 0.0f;
 
-    res5 = thrust::transform_reduce(thrust::device, thrust::make_zip_iterator(thrust::make_tuple(delta.begin(), HiddenNodesFedIntoMePtr[0]->get_output().begin(), HiddenNodesFedIntoMePtr[1]->get_output().begin(), HiddenNodesFedIntoMePtr[2]->get_output().begin(), HiddenNodesFedIntoMePtr[3]->get_output().begin())),
-                                                    thrust::make_zip_iterator(thrust::make_tuple(delta.end(), HiddenNodesFedIntoMePtr[0]->get_output().end(), HiddenNodesFedIntoMePtr[1]->get_output().end(), HiddenNodesFedIntoMePtr[2]->get_output().end(), HiddenNodesFedIntoMePtr[3]->get_output().end())),
+    res5 = thrust::transform_reduce(thrust::device, thrust::make_zip_iterator(thrust::make_tuple(delta.begin(), hidden_nodes_fed_into_me_ptr[0]->get_output().begin(), hidden_nodes_fed_into_me_ptr[1]->get_output().begin(), hidden_nodes_fed_into_me_ptr[2]->get_output().begin(), hidden_nodes_fed_into_me_ptr[3]->get_output().begin())),
+                                                    thrust::make_zip_iterator(thrust::make_tuple(delta.end(), hidden_nodes_fed_into_me_ptr[0]->get_output().end(), hidden_nodes_fed_into_me_ptr[1]->get_output().end(), hidden_nodes_fed_into_me_ptr[2]->get_output().end(), hidden_nodes_fed_into_me_ptr[3]->get_output().end())),
                                                     TransformationCustomTuple5(),
                                                     res5,
                                                     SumCustomTuple5()
@@ -658,8 +658,8 @@ void calc_dev_hidden(float *dLdw, NeuralNetworkNodeGPUCpp **HiddenNodesFedIntoMe
 
     res6.bias = 0.0f;
 
-    res6 = thrust::transform_reduce(thrust::device, thrust::make_zip_iterator(thrust::make_tuple(delta.begin(), HiddenNodesFedIntoMePtr[0]->get_output().begin(), HiddenNodesFedIntoMePtr[1]->get_output().begin(), HiddenNodesFedIntoMePtr[2]->get_output().begin(), HiddenNodesFedIntoMePtr[3]->get_output().begin(), HiddenNodesFedIntoMePtr[4]->get_output().begin())),
-                                                    thrust::make_zip_iterator(thrust::make_tuple(delta.end(), HiddenNodesFedIntoMePtr[0]->get_output().end(), HiddenNodesFedIntoMePtr[1]->get_output().end(), HiddenNodesFedIntoMePtr[2]->get_output().end(), HiddenNodesFedIntoMePtr[3]->get_output().end(), HiddenNodesFedIntoMePtr[4]->get_output().end())),
+    res6 = thrust::transform_reduce(thrust::device, thrust::make_zip_iterator(thrust::make_tuple(delta.begin(), hidden_nodes_fed_into_me_ptr[0]->get_output().begin(), hidden_nodes_fed_into_me_ptr[1]->get_output().begin(), hidden_nodes_fed_into_me_ptr[2]->get_output().begin(), hidden_nodes_fed_into_me_ptr[3]->get_output().begin(), hidden_nodes_fed_into_me_ptr[4]->get_output().begin())),
+                                                    thrust::make_zip_iterator(thrust::make_tuple(delta.end(), hidden_nodes_fed_into_me_ptr[0]->get_output().end(), hidden_nodes_fed_into_me_ptr[1]->get_output().end(), hidden_nodes_fed_into_me_ptr[2]->get_output().end(), hidden_nodes_fed_into_me_ptr[3]->get_output().end(), hidden_nodes_fed_into_me_ptr[4]->get_output().end())),
                                                     TransformationCustomTuple6(),
                                                     res6,
                                                     SumCustomTuple6()
@@ -690,8 +690,8 @@ void calc_dev_hidden(float *dLdw, NeuralNetworkNodeGPUCpp **HiddenNodesFedIntoMe
 
     res7.bias = 0.0f;
 
-    res7 = thrust::transform_reduce(thrust::device, thrust::make_zip_iterator(thrust::make_tuple(delta.begin(), HiddenNodesFedIntoMePtr[0]->get_output().begin(), HiddenNodesFedIntoMePtr[1]->get_output().begin(), HiddenNodesFedIntoMePtr[2]->get_output().begin(), HiddenNodesFedIntoMePtr[3]->get_output().begin(), HiddenNodesFedIntoMePtr[4]->get_output().begin(), HiddenNodesFedIntoMePtr[5]->get_output().begin())),
-                                                    thrust::make_zip_iterator(thrust::make_tuple(delta.end(), HiddenNodesFedIntoMePtr[0]->get_output().end(), HiddenNodesFedIntoMePtr[1]->get_output().end(), HiddenNodesFedIntoMePtr[2]->get_output().end(), HiddenNodesFedIntoMePtr[3]->get_output().end(), HiddenNodesFedIntoMePtr[4]->get_output().end(), HiddenNodesFedIntoMePtr[5]->get_output().end())),
+    res7 = thrust::transform_reduce(thrust::device, thrust::make_zip_iterator(thrust::make_tuple(delta.begin(), hidden_nodes_fed_into_me_ptr[0]->get_output().begin(), hidden_nodes_fed_into_me_ptr[1]->get_output().begin(), hidden_nodes_fed_into_me_ptr[2]->get_output().begin(), hidden_nodes_fed_into_me_ptr[3]->get_output().begin(), hidden_nodes_fed_into_me_ptr[4]->get_output().begin(), hidden_nodes_fed_into_me_ptr[5]->get_output().begin())),
+                                                    thrust::make_zip_iterator(thrust::make_tuple(delta.end(), hidden_nodes_fed_into_me_ptr[0]->get_output().end(), hidden_nodes_fed_into_me_ptr[1]->get_output().end(), hidden_nodes_fed_into_me_ptr[2]->get_output().end(), hidden_nodes_fed_into_me_ptr[3]->get_output().end(), hidden_nodes_fed_into_me_ptr[4]->get_output().end(), hidden_nodes_fed_into_me_ptr[5]->get_output().end())),
                                                     TransformationCustomTuple7(),
                                                     res7,
                                                     SumCustomTuple7()
@@ -724,8 +724,8 @@ void calc_dev_hidden(float *dLdw, NeuralNetworkNodeGPUCpp **HiddenNodesFedIntoMe
 
     res8.bias = 0.0f;
 
-    res8 = thrust::transform_reduce(thrust::device, thrust::make_zip_iterator(thrust::make_tuple(delta.begin(), HiddenNodesFedIntoMePtr[0]->get_output().begin(), HiddenNodesFedIntoMePtr[1]->get_output().begin(), HiddenNodesFedIntoMePtr[2]->get_output().begin(), HiddenNodesFedIntoMePtr[3]->get_output().begin(), HiddenNodesFedIntoMePtr[4]->get_output().begin(), HiddenNodesFedIntoMePtr[5]->get_output().begin(), HiddenNodesFedIntoMePtr[6]->get_output().begin())),
-                                                    thrust::make_zip_iterator(thrust::make_tuple(delta.end(), HiddenNodesFedIntoMePtr[0]->get_output().end(), HiddenNodesFedIntoMePtr[1]->get_output().end(), HiddenNodesFedIntoMePtr[2]->get_output().end(), HiddenNodesFedIntoMePtr[3]->get_output().end(), HiddenNodesFedIntoMePtr[4]->get_output().end(), HiddenNodesFedIntoMePtr[5]->get_output().end(), HiddenNodesFedIntoMePtr[6]->get_output().end())),
+    res8 = thrust::transform_reduce(thrust::device, thrust::make_zip_iterator(thrust::make_tuple(delta.begin(), hidden_nodes_fed_into_me_ptr[0]->get_output().begin(), hidden_nodes_fed_into_me_ptr[1]->get_output().begin(), hidden_nodes_fed_into_me_ptr[2]->get_output().begin(), hidden_nodes_fed_into_me_ptr[3]->get_output().begin(), hidden_nodes_fed_into_me_ptr[4]->get_output().begin(), hidden_nodes_fed_into_me_ptr[5]->get_output().begin(), hidden_nodes_fed_into_me_ptr[6]->get_output().begin())),
+                                                    thrust::make_zip_iterator(thrust::make_tuple(delta.end(), hidden_nodes_fed_into_me_ptr[0]->get_output().end(), hidden_nodes_fed_into_me_ptr[1]->get_output().end(), hidden_nodes_fed_into_me_ptr[2]->get_output().end(), hidden_nodes_fed_into_me_ptr[3]->get_output().end(), hidden_nodes_fed_into_me_ptr[4]->get_output().end(), hidden_nodes_fed_into_me_ptr[5]->get_output().end(), hidden_nodes_fed_into_me_ptr[6]->get_output().end())),
                                                     TransformationCustomTuple8(),
                                                     res8,
                                                     SumCustomTuple8()
@@ -760,8 +760,8 @@ void calc_dev_hidden(float *dLdw, NeuralNetworkNodeGPUCpp **HiddenNodesFedIntoMe
 
     res9.bias = 0.0f;
 
-    res9 = thrust::transform_reduce(thrust::device, thrust::make_zip_iterator(thrust::make_tuple(delta.begin(), HiddenNodesFedIntoMePtr[0]->get_output().begin(), HiddenNodesFedIntoMePtr[1]->get_output().begin(), HiddenNodesFedIntoMePtr[2]->get_output().begin(), HiddenNodesFedIntoMePtr[3]->get_output().begin(), HiddenNodesFedIntoMePtr[4]->get_output().begin(), HiddenNodesFedIntoMePtr[5]->get_output().begin(), HiddenNodesFedIntoMePtr[6]->get_output().begin(), HiddenNodesFedIntoMePtr[7]->get_output().begin())),
-                                                    thrust::make_zip_iterator(thrust::make_tuple(delta.end(), HiddenNodesFedIntoMePtr[0]->get_output().end(), HiddenNodesFedIntoMePtr[1]->get_output().end(), HiddenNodesFedIntoMePtr[2]->get_output().end(), HiddenNodesFedIntoMePtr[3]->get_output().end(), HiddenNodesFedIntoMePtr[4]->get_output().end(), HiddenNodesFedIntoMePtr[5]->get_output().end(), HiddenNodesFedIntoMePtr[6]->get_output().end(), HiddenNodesFedIntoMePtr[7]->get_output().end())),
+    res9 = thrust::transform_reduce(thrust::device, thrust::make_zip_iterator(thrust::make_tuple(delta.begin(), hidden_nodes_fed_into_me_ptr[0]->get_output().begin(), hidden_nodes_fed_into_me_ptr[1]->get_output().begin(), hidden_nodes_fed_into_me_ptr[2]->get_output().begin(), hidden_nodes_fed_into_me_ptr[3]->get_output().begin(), hidden_nodes_fed_into_me_ptr[4]->get_output().begin(), hidden_nodes_fed_into_me_ptr[5]->get_output().begin(), hidden_nodes_fed_into_me_ptr[6]->get_output().begin(), hidden_nodes_fed_into_me_ptr[7]->get_output().begin())),
+                                                    thrust::make_zip_iterator(thrust::make_tuple(delta.end(), hidden_nodes_fed_into_me_ptr[0]->get_output().end(), hidden_nodes_fed_into_me_ptr[1]->get_output().end(), hidden_nodes_fed_into_me_ptr[2]->get_output().end(), hidden_nodes_fed_into_me_ptr[3]->get_output().end(), hidden_nodes_fed_into_me_ptr[4]->get_output().end(), hidden_nodes_fed_into_me_ptr[5]->get_output().end(), hidden_nodes_fed_into_me_ptr[6]->get_output().end(), hidden_nodes_fed_into_me_ptr[7]->get_output().end())),
                                                     TransformationCustomTuple9(),
                                                     res9,
                                                     SumCustomTuple9()

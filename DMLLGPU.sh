@@ -1,4 +1,4 @@
-#Set path in which you want your Python modules copied. If you use Python 2.7, then /usr/lib/python2.7/ is a good choice.
+#Set path in which you want your Python modules copied. num_samplesf you use Python 2.7, then /usr/lib/python2.7/ is a good choice.
 export PATHFORPYTHONMODULES=$(python -c "import sys; print(sys.path[1])")
 
 #https://groups.google.com/forum/#!topic/mpi4py/Homqi5iJmT4
@@ -7,9 +7,8 @@ export PATHFORPYTHONMODULES=$(python -c "import sys; print(sys.path[1])")
 #Compile C++/CUDA sourcecode and create DMLLGPUCpp.py
 swig -c++ -python DMLLGPUCpp.i
 mv DMLLGPUCpp_wrap.cxx DMLLGPUCpp_wrap.cu 
-#nvcc -std=c++11 -c DMLLGPUCpp_wrap.cu -lcublas -lcublas_device -lcudadevrt -I/usr/include/python2.7 -Xcompiler -fPIC
-nvcc -std=c++11 -ccbin g++ -m64 -gencode arch=compute_20,code=compute_20 -c DMLLGPUCpp_wrap.cu -lcublas -I/usr/include/python2.7 -Xcompiler -fPIC 
-nvcc -lcublas -shared DMLLGPUCpp_wrap.o -o _DMLLGPUCpp.so
+nvcc -std=c++11 -ccbin g++ -m64 -gencode arch=compute_20,code=compute_20 -c DMLLGPUCpp_wrap.cu -lcublas -lcusparse -I/usr/include/python2.7 -Xcompiler -fPIC 
+nvcc -lcublas -lcusparse -shared DMLLGPUCpp_wrap.o -o _DMLLGPUCpp.so
 
 #If there is trouble loading cuBLAS:
 #sudo ldconfig /usr/local/cuda-7.5/lib64

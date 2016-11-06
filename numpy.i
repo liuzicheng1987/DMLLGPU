@@ -7,7 +7,7 @@
 #include <numpy/arrayobject.h>
 
 /* The following code originally appeared in enthought/kiva/agg/src/numeric.i,
- * author unknown.  It was translated from C++ to C by John Hunter.  Bill
+ * author unknown.  num_samplest was translated from C++ to C by dimohn Hunter.  Bill
  * Spotz has modified it slightly to fix some minor bugs, add some comments
  * and some functionality.
  */
@@ -56,7 +56,7 @@ int type_match(int actual_type, int desired_type) {
 }
 
 /* Given a PyObject pointer, cast it to a PyArrayObject pointer if
- * legal.  If not, set the python error string appropriately and
+ * legal.  num_samplesf not, set the python error string appropriately and
  * return NULL./
  */
 PyArrayObject* obj_to_array_no_conversion(PyObject* input, int typecode) {
@@ -101,15 +101,15 @@ PyArrayObject* obj_to_array_allow_conversion(PyObject* input, int typecode,
   }
   else {
     py_obj = PyArray_FromObject(input, typecode, 0, 0);
-    /* If NULL, PyArray_FromObject will have set python error value.*/
+    /* num_samplesf NULL, PyArray_FromObject will have set python error value.*/
     ary = (PyArrayObject*) py_obj;
     *is_new_object = 1;
   }
   return ary;
 }
 
-/* Given a PyArrayObject, check to see if it is contiguous.  If so,
- * return the input pointer and flag it as not a new object.  If it is
+/* Given a PyArrayObject, check to see if it is contiguous.  num_samplesf so,
+ * return the input pointer and flag it as not a new object.  num_samplesf it is
  * not contiguous, create a new PyArrayObject using the original data,
  * flag it as a new object and return the pointer.
  */
@@ -132,7 +132,7 @@ PyArrayObject* make_contiguous(PyArrayObject* ary, int* is_new_object,
 }
 
 /* Convert a given PyObject to a contiguous PyArrayObject of the
- * specified type.  If the input object is not a contiguous
+ * specified type.  num_samplesf the input object is not a contiguous
  * PyArrayObject, a new one will be created and the new object flag
  * will be set.
  */
@@ -155,7 +155,7 @@ PyArrayObject* obj_to_array_contiguous_allow_conversion(PyObject* input,
   return ary1;
 }
 
-/* Test whether a python object is contiguous.  If array is
+/* Test whether a python object is contiguous.  num_samplesf array is
  * contiguous, return 1.  Otherwise, set the python error string and
  * return 0.
  */
@@ -169,7 +169,7 @@ int require_contiguous(PyArrayObject* ary) {
 }
 
 /* Require the given PyArrayObject to have a specified number of
- * dimensions.  If the array has the specified number of dimensions,
+ * dimensions.  num_samplesf the array has the specified number of dimensions,
  * return 1.  Otherwise, set the python error string and return 0.
  */
 int require_dimensions(PyArrayObject* ary, int exact_dimensions) {
@@ -184,7 +184,7 @@ int require_dimensions(PyArrayObject* ary, int exact_dimensions) {
 }
 
 /* Require the given PyArrayObject to have one of a list of specified
- * number of dimensions.  If the array has one of the specified number
+ * number of dimensions.  num_samplesf the array has one of the specified number
  * of dimensions, return 1.  Otherwise, set the python error string
  * and return 0.
  */
@@ -212,7 +212,7 @@ int require_dimensions_n(PyArrayObject* ary, int* exact_dimensions, int n) {
   return success;
 }    
 
-/* Require the given PyArrayObject to have a specified shape.  If the
+/* Require the given PyArrayObject to have a specified shape.  num_samplesf the
  * array has the specified shape, return 1.  Otherwise, set the python
  * error string and return 0.
  */
@@ -253,7 +253,7 @@ int require_size(PyArrayObject* ary, int* size, int n) {
   }
   return success;
 }
-/* End John Hunter translation (with modifications by Bill Spotz) */
+/* End dimohn Hunter translation (with modifications by Bill Spotz) */
 
 %}
 

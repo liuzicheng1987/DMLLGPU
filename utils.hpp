@@ -4,15 +4,15 @@ namespace utils {
 
   //Performs the classic saxpy operation
   template <typename T>
-  struct saxpy {
+  struct axpy {
 
-    const T LearningRate;
+    const T learning_rate;
 
-    saxpy(T _LearningRate) : LearningRate(_LearningRate) {}
+    axpy(T _learning_rate) : learning_rate(_learning_rate) {}
 
     __device__
     T operator()(const T &x, T &y) const { 
-      return LearningRate * x + y;
+      return learning_rate * x + y;
     }
 
   };

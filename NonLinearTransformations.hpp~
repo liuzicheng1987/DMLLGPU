@@ -170,9 +170,9 @@ struct NonLinearTransformation9 {
 
 
 
-void NonLinearTransformation(const float *W, std::vector<NeuralNetworkNodeGPUCpp*> &HiddenNodesFedIntoMePtr, thrust::device_vector<float> &output, ActivationFunctionGPUCpp *activation) {
+void NonLinearTransformation(const float *W, std::vector<NeuralNetworkNodeGPUCpp*> &hidden_nodes_fed_into_me_ptr, thrust::device_vector<float> &output, ActivationFunctionGPUCpp *activation) {
 
-  switch(HiddenNodesFedIntoMePtr.size()) {
+  switch(hidden_nodes_fed_into_me_ptr.size()) {
 
       case 0:
     thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(output.begin())),
@@ -181,56 +181,56 @@ void NonLinearTransformation(const float *W, std::vector<NeuralNetworkNodeGPUCpp
     break;
 
   case 1:
-    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(HiddenNodesFedIntoMePtr[0]->get_output().begin(), output.begin())),
-		     thrust::make_zip_iterator(thrust::make_tuple(HiddenNodesFedIntoMePtr[0]->get_output().end(), output.end())),
+    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(hidden_nodes_fed_into_me_ptr[0]->get_output().begin(), output.begin())),
+		     thrust::make_zip_iterator(thrust::make_tuple(hidden_nodes_fed_into_me_ptr[0]->get_output().end(), output.end())),
 		     NonLinearTransformation1(W, activation));
     break;
 
   case 2:
-    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(HiddenNodesFedIntoMePtr[0]->get_output().begin(), HiddenNodesFedIntoMePtr[1]->get_output().begin(), output.begin())),
-		     thrust::make_zip_iterator(thrust::make_tuple(HiddenNodesFedIntoMePtr[0]->get_output().end(), HiddenNodesFedIntoMePtr[1]->get_output().end(), output.end())),
+    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(hidden_nodes_fed_into_me_ptr[0]->get_output().begin(), hidden_nodes_fed_into_me_ptr[1]->get_output().begin(), output.begin())),
+		     thrust::make_zip_iterator(thrust::make_tuple(hidden_nodes_fed_into_me_ptr[0]->get_output().end(), hidden_nodes_fed_into_me_ptr[1]->get_output().end(), output.end())),
 		     NonLinearTransformation2(W, activation));
     break;
 
   case 3:
-    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(HiddenNodesFedIntoMePtr[0]->get_output().begin(), HiddenNodesFedIntoMePtr[1]->get_output().begin(), HiddenNodesFedIntoMePtr[2]->get_output().begin(), output.begin())),
-		     thrust::make_zip_iterator(thrust::make_tuple(HiddenNodesFedIntoMePtr[0]->get_output().end(), HiddenNodesFedIntoMePtr[1]->get_output().end(), HiddenNodesFedIntoMePtr[2]->get_output().end(), output.end())),
+    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(hidden_nodes_fed_into_me_ptr[0]->get_output().begin(), hidden_nodes_fed_into_me_ptr[1]->get_output().begin(), hidden_nodes_fed_into_me_ptr[2]->get_output().begin(), output.begin())),
+		     thrust::make_zip_iterator(thrust::make_tuple(hidden_nodes_fed_into_me_ptr[0]->get_output().end(), hidden_nodes_fed_into_me_ptr[1]->get_output().end(), hidden_nodes_fed_into_me_ptr[2]->get_output().end(), output.end())),
 		     NonLinearTransformation3(W, activation));
     break;
 
   case 4:
-    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(HiddenNodesFedIntoMePtr[0]->get_output().begin(), HiddenNodesFedIntoMePtr[1]->get_output().begin(), HiddenNodesFedIntoMePtr[2]->get_output().begin(), HiddenNodesFedIntoMePtr[3]->get_output().begin(), output.begin())),
-		     thrust::make_zip_iterator(thrust::make_tuple(HiddenNodesFedIntoMePtr[0]->get_output().end(), HiddenNodesFedIntoMePtr[1]->get_output().end(), HiddenNodesFedIntoMePtr[2]->get_output().end(), HiddenNodesFedIntoMePtr[3]->get_output().end(), output.end())),
+    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(hidden_nodes_fed_into_me_ptr[0]->get_output().begin(), hidden_nodes_fed_into_me_ptr[1]->get_output().begin(), hidden_nodes_fed_into_me_ptr[2]->get_output().begin(), hidden_nodes_fed_into_me_ptr[3]->get_output().begin(), output.begin())),
+		     thrust::make_zip_iterator(thrust::make_tuple(hidden_nodes_fed_into_me_ptr[0]->get_output().end(), hidden_nodes_fed_into_me_ptr[1]->get_output().end(), hidden_nodes_fed_into_me_ptr[2]->get_output().end(), hidden_nodes_fed_into_me_ptr[3]->get_output().end(), output.end())),
 		     NonLinearTransformation4(W, activation));
     break;
 
   case 5:
-    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(HiddenNodesFedIntoMePtr[0]->get_output().begin(), HiddenNodesFedIntoMePtr[1]->get_output().begin(), HiddenNodesFedIntoMePtr[2]->get_output().begin(), HiddenNodesFedIntoMePtr[3]->get_output().begin(), HiddenNodesFedIntoMePtr[4]->get_output().begin(), output.begin())),
-		     thrust::make_zip_iterator(thrust::make_tuple(HiddenNodesFedIntoMePtr[0]->get_output().end(), HiddenNodesFedIntoMePtr[1]->get_output().end(), HiddenNodesFedIntoMePtr[2]->get_output().end(), HiddenNodesFedIntoMePtr[3]->get_output().end(), HiddenNodesFedIntoMePtr[4]->get_output().end(), output.end())),
+    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(hidden_nodes_fed_into_me_ptr[0]->get_output().begin(), hidden_nodes_fed_into_me_ptr[1]->get_output().begin(), hidden_nodes_fed_into_me_ptr[2]->get_output().begin(), hidden_nodes_fed_into_me_ptr[3]->get_output().begin(), hidden_nodes_fed_into_me_ptr[4]->get_output().begin(), output.begin())),
+		     thrust::make_zip_iterator(thrust::make_tuple(hidden_nodes_fed_into_me_ptr[0]->get_output().end(), hidden_nodes_fed_into_me_ptr[1]->get_output().end(), hidden_nodes_fed_into_me_ptr[2]->get_output().end(), hidden_nodes_fed_into_me_ptr[3]->get_output().end(), hidden_nodes_fed_into_me_ptr[4]->get_output().end(), output.end())),
 		     NonLinearTransformation5(W, activation));
     break;
 
   case 6:
-    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(HiddenNodesFedIntoMePtr[0]->get_output().begin(), HiddenNodesFedIntoMePtr[1]->get_output().begin(), HiddenNodesFedIntoMePtr[2]->get_output().begin(), HiddenNodesFedIntoMePtr[3]->get_output().begin(), HiddenNodesFedIntoMePtr[4]->get_output().begin(), HiddenNodesFedIntoMePtr[5]->get_output().begin(), output.begin())),
-		     thrust::make_zip_iterator(thrust::make_tuple(HiddenNodesFedIntoMePtr[0]->get_output().end(), HiddenNodesFedIntoMePtr[1]->get_output().end(), HiddenNodesFedIntoMePtr[2]->get_output().end(), HiddenNodesFedIntoMePtr[3]->get_output().end(), HiddenNodesFedIntoMePtr[4]->get_output().end(), HiddenNodesFedIntoMePtr[5]->get_output().end(), output.end())),
+    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(hidden_nodes_fed_into_me_ptr[0]->get_output().begin(), hidden_nodes_fed_into_me_ptr[1]->get_output().begin(), hidden_nodes_fed_into_me_ptr[2]->get_output().begin(), hidden_nodes_fed_into_me_ptr[3]->get_output().begin(), hidden_nodes_fed_into_me_ptr[4]->get_output().begin(), hidden_nodes_fed_into_me_ptr[5]->get_output().begin(), output.begin())),
+		     thrust::make_zip_iterator(thrust::make_tuple(hidden_nodes_fed_into_me_ptr[0]->get_output().end(), hidden_nodes_fed_into_me_ptr[1]->get_output().end(), hidden_nodes_fed_into_me_ptr[2]->get_output().end(), hidden_nodes_fed_into_me_ptr[3]->get_output().end(), hidden_nodes_fed_into_me_ptr[4]->get_output().end(), hidden_nodes_fed_into_me_ptr[5]->get_output().end(), output.end())),
 		     NonLinearTransformation6(W, activation));
     break;
 
   case 7:
-    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(HiddenNodesFedIntoMePtr[0]->get_output().begin(), HiddenNodesFedIntoMePtr[1]->get_output().begin(), HiddenNodesFedIntoMePtr[2]->get_output().begin(), HiddenNodesFedIntoMePtr[3]->get_output().begin(), HiddenNodesFedIntoMePtr[4]->get_output().begin(), HiddenNodesFedIntoMePtr[5]->get_output().begin(), HiddenNodesFedIntoMePtr[6]->get_output().begin(), output.begin())),
-		     thrust::make_zip_iterator(thrust::make_tuple(HiddenNodesFedIntoMePtr[0]->get_output().end(), HiddenNodesFedIntoMePtr[1]->get_output().end(), HiddenNodesFedIntoMePtr[2]->get_output().end(), HiddenNodesFedIntoMePtr[3]->get_output().end(), HiddenNodesFedIntoMePtr[4]->get_output().end(), HiddenNodesFedIntoMePtr[5]->get_output().end(), HiddenNodesFedIntoMePtr[6]->get_output().end(), output.end())),
+    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(hidden_nodes_fed_into_me_ptr[0]->get_output().begin(), hidden_nodes_fed_into_me_ptr[1]->get_output().begin(), hidden_nodes_fed_into_me_ptr[2]->get_output().begin(), hidden_nodes_fed_into_me_ptr[3]->get_output().begin(), hidden_nodes_fed_into_me_ptr[4]->get_output().begin(), hidden_nodes_fed_into_me_ptr[5]->get_output().begin(), hidden_nodes_fed_into_me_ptr[6]->get_output().begin(), output.begin())),
+		     thrust::make_zip_iterator(thrust::make_tuple(hidden_nodes_fed_into_me_ptr[0]->get_output().end(), hidden_nodes_fed_into_me_ptr[1]->get_output().end(), hidden_nodes_fed_into_me_ptr[2]->get_output().end(), hidden_nodes_fed_into_me_ptr[3]->get_output().end(), hidden_nodes_fed_into_me_ptr[4]->get_output().end(), hidden_nodes_fed_into_me_ptr[5]->get_output().end(), hidden_nodes_fed_into_me_ptr[6]->get_output().end(), output.end())),
 		     NonLinearTransformation7(W, activation));
     break;
 
   case 8:
-    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(HiddenNodesFedIntoMePtr[0]->get_output().begin(), HiddenNodesFedIntoMePtr[1]->get_output().begin(), HiddenNodesFedIntoMePtr[2]->get_output().begin(), HiddenNodesFedIntoMePtr[3]->get_output().begin(), HiddenNodesFedIntoMePtr[4]->get_output().begin(), HiddenNodesFedIntoMePtr[5]->get_output().begin(), HiddenNodesFedIntoMePtr[6]->get_output().begin(), HiddenNodesFedIntoMePtr[7]->get_output().begin(), output.begin())),
-		     thrust::make_zip_iterator(thrust::make_tuple(HiddenNodesFedIntoMePtr[0]->get_output().end(), HiddenNodesFedIntoMePtr[1]->get_output().end(), HiddenNodesFedIntoMePtr[2]->get_output().end(), HiddenNodesFedIntoMePtr[3]->get_output().end(), HiddenNodesFedIntoMePtr[4]->get_output().end(), HiddenNodesFedIntoMePtr[5]->get_output().end(), HiddenNodesFedIntoMePtr[6]->get_output().end(), HiddenNodesFedIntoMePtr[7]->get_output().end(), output.end())),
+    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(hidden_nodes_fed_into_me_ptr[0]->get_output().begin(), hidden_nodes_fed_into_me_ptr[1]->get_output().begin(), hidden_nodes_fed_into_me_ptr[2]->get_output().begin(), hidden_nodes_fed_into_me_ptr[3]->get_output().begin(), hidden_nodes_fed_into_me_ptr[4]->get_output().begin(), hidden_nodes_fed_into_me_ptr[5]->get_output().begin(), hidden_nodes_fed_into_me_ptr[6]->get_output().begin(), hidden_nodes_fed_into_me_ptr[7]->get_output().begin(), output.begin())),
+		     thrust::make_zip_iterator(thrust::make_tuple(hidden_nodes_fed_into_me_ptr[0]->get_output().end(), hidden_nodes_fed_into_me_ptr[1]->get_output().end(), hidden_nodes_fed_into_me_ptr[2]->get_output().end(), hidden_nodes_fed_into_me_ptr[3]->get_output().end(), hidden_nodes_fed_into_me_ptr[4]->get_output().end(), hidden_nodes_fed_into_me_ptr[5]->get_output().end(), hidden_nodes_fed_into_me_ptr[6]->get_output().end(), hidden_nodes_fed_into_me_ptr[7]->get_output().end(), output.end())),
 		     NonLinearTransformation8(W, activation));
     break;
 
   case 9:
-    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(HiddenNodesFedIntoMePtr[0]->get_output().begin(), HiddenNodesFedIntoMePtr[1]->get_output().begin(), HiddenNodesFedIntoMePtr[2]->get_output().begin(), HiddenNodesFedIntoMePtr[3]->get_output().begin(), HiddenNodesFedIntoMePtr[4]->get_output().begin(), HiddenNodesFedIntoMePtr[5]->get_output().begin(), HiddenNodesFedIntoMePtr[6]->get_output().begin(), HiddenNodesFedIntoMePtr[7]->get_output().begin(), HiddenNodesFedIntoMePtr[8]->get_output().begin(), output.begin())),
-		     thrust::make_zip_iterator(thrust::make_tuple(HiddenNodesFedIntoMePtr[0]->get_output().end(), HiddenNodesFedIntoMePtr[1]->get_output().end(), HiddenNodesFedIntoMePtr[2]->get_output().end(), HiddenNodesFedIntoMePtr[3]->get_output().end(), HiddenNodesFedIntoMePtr[4]->get_output().end(), HiddenNodesFedIntoMePtr[5]->get_output().end(), HiddenNodesFedIntoMePtr[6]->get_output().end(), HiddenNodesFedIntoMePtr[7]->get_output().end(), HiddenNodesFedIntoMePtr[8]->get_output().end(), output.end())),
+    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(hidden_nodes_fed_into_me_ptr[0]->get_output().begin(), hidden_nodes_fed_into_me_ptr[1]->get_output().begin(), hidden_nodes_fed_into_me_ptr[2]->get_output().begin(), hidden_nodes_fed_into_me_ptr[3]->get_output().begin(), hidden_nodes_fed_into_me_ptr[4]->get_output().begin(), hidden_nodes_fed_into_me_ptr[5]->get_output().begin(), hidden_nodes_fed_into_me_ptr[6]->get_output().begin(), hidden_nodes_fed_into_me_ptr[7]->get_output().begin(), hidden_nodes_fed_into_me_ptr[8]->get_output().begin(), output.begin())),
+		     thrust::make_zip_iterator(thrust::make_tuple(hidden_nodes_fed_into_me_ptr[0]->get_output().end(), hidden_nodes_fed_into_me_ptr[1]->get_output().end(), hidden_nodes_fed_into_me_ptr[2]->get_output().end(), hidden_nodes_fed_into_me_ptr[3]->get_output().end(), hidden_nodes_fed_into_me_ptr[4]->get_output().end(), hidden_nodes_fed_into_me_ptr[5]->get_output().end(), hidden_nodes_fed_into_me_ptr[6]->get_output().end(), hidden_nodes_fed_into_me_ptr[7]->get_output().end(), hidden_nodes_fed_into_me_ptr[8]->get_output().end(), output.end())),
 		     NonLinearTransformation9(W, activation));
     break;
 

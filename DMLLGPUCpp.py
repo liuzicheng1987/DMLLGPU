@@ -101,6 +101,38 @@ class SquareLossCpp(LossFunctionCpp):
 SquareLossCpp_swigregister = _DMLLGPUCpp.SquareLossCpp_swigregister
 SquareLossCpp_swigregister(SquareLossCpp)
 
+class RegulariserCpp(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, RegulariserCpp, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, RegulariserCpp, name)
+    __repr__ = _swig_repr
+    def __init__(self): 
+        this = _DMLLGPUCpp.new_RegulariserCpp()
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _DMLLGPUCpp.delete_RegulariserCpp
+    __del__ = lambda self : None;
+RegulariserCpp_swigregister = _DMLLGPUCpp.RegulariserCpp_swigregister
+RegulariserCpp_swigregister(RegulariserCpp)
+
+class L2RegulariserCpp(RegulariserCpp):
+    __swig_setmethods__ = {}
+    for _s in [RegulariserCpp]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, L2RegulariserCpp, name, value)
+    __swig_getmethods__ = {}
+    for _s in [RegulariserCpp]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, L2RegulariserCpp, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _DMLLGPUCpp.new_L2RegulariserCpp(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _DMLLGPUCpp.delete_L2RegulariserCpp
+    __del__ = lambda self : None;
+L2RegulariserCpp_swigregister = _DMLLGPUCpp.L2RegulariserCpp_swigregister
+L2RegulariserCpp_swigregister(L2RegulariserCpp)
+
 class NeuralNetworkNodeGPUCpp(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, NeuralNetworkNodeGPUCpp, name, value)

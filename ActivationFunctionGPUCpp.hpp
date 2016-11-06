@@ -1,41 +1,28 @@
 class ActivationFunctionGPUCpp: public NeuralNetworkNodeGPUCpp {
 
+private:
+
+  //Helper class
+  thrust::device_vector<float> ones_;
+  float *ones_ptr_;
+  
 public:
 
   ActivationFunctionGPUCpp(
-			   std::int32_t  _NodeNumber,
-			   std::int32_t *_InputNodesFedIntoMeDense,
-			   std::int32_t  _InputNodesFedIntoMeDenseLength,
-			   std::int32_t *_InputNodesFedIntoMeSparse,
-			   std::int32_t  _InputNodesFedIntoMeSparseLength,
-			   std::int32_t *_HiddenNodesFedIntoMe,
-			   std::int32_t  _HiddenNodesFedIntoMeLength,
-			   std::int32_t  _IShareWeightsWith,
-			   bool          _NoWeightUpdates
+			   std::int32_t    _node_number,
+			   std::int32_t    _dim,
+			   std::int32_t   *_input_nodes_fed_into_me_dense,
+			   std::int32_t    _input_nodes_fed_into_me_dense_length,
+			   std::int32_t   *_input_nodes_fed_into_me_sparse,
+			   std::int32_t    _input_nodes_fed_into_me_sparse_length,
+			   std::int32_t   *_hidden_nodes_fed_into_me,
+			   std::int32_t    _hidden_nodes_fed_into_me_length,
+			   std::int32_t    _i_share_weights_with,
+			   bool            _no_weight_updates,
+			   RegulariserCpp *_regulariser			   
 			   );
 
   ~ActivationFunctionGPUCpp();
-
-  //Forward propagation and backpropagation
-  //These are function pointers that call on the
-  //appropriate kernel functions to do the actual processing
-
-  //Function pointer, which contains the activation function
-  std::function<void(
-		     const float                   *W,
-		     NeuralNetworkNodeGPUCpp      **HiddenNodesFedIntoMePtr,
-		     std::size_t                    HiddenNodesFedIntoMePtrSize,
-		     thrust::device_vector<float>  &output
-		     )> forward_propagation;
-
-  //Function pointer, which contains the derivative of the activation function
-  std::function<void(
-		     const float                   *W,
-		     NeuralNetworkNodeGPUCpp      **HiddenNodesFedIntoMePtr,
-		     std::size_t                    HiddenNodesFedIntoMePtrSize,
-		     thrust::device_vector<float>  &output,
-		     thrust::device_vector<float>  &delta
-		     )> backpropagation;
 
   //Used to get the number of weights required
   //(very important to finalise the neural network)
@@ -43,18 +30,36 @@ public:
 
   //Calculate the output of the node
   void calc_output(
-		   const std::int32_t _BatchNum,
-		   const std::int32_t _BatchSize
+		   const std::int32_t _batch_num,
+		   const std::int32_t _batch_size
 		   );
 
   //Calculate the delta of the node (which is used for backpropagation)
-  void calc_delta();
+  void calc_delta(std::int32_t _batch_size);
 
   //Calculate the derivatives for the individual weights
   void calc_dLdw(
 		 float              *_dLdw,
-		 const std::int32_t  _BatchNum,
-		 const std::int32_t  _BatchSize
+		 const std::int32_t  _batch_num,
+		 const std::int32_t  _batch_size
 		 );
+
+  //Virtual function meant to be overridden
+  //Adds the bias and applies the activation function during forward propagation
+  virtual void forward_propagation (
+				    const std::int32_t            _batch_size,
+				    const std::int32_t            _dim,
+				    const float                  *_bias,
+				    thrust::device_vector<float> &_output
+				    ) {};
+
+  //Virtual function meant to be overridden
+  //Applies the derivative of the activation function during backpropagation
+  virtual void backpropagation (
+				const std::int32_t            _batch_size,
+				const std::int32_t            _dim,
+				thrust::device_vector<float> &_output,
+				thrust::device_vector<float> &_delta
+				) {};			   
 
 };

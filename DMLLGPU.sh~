@@ -1,4 +1,4 @@
-#Set path in which you want your Python modules copied. If you use Python 2.7, then /usr/lib/python2.7/ is a good choice.
+#Set path in which you want your Python modules copied. num_samplesf you use Python 2.7, then /usr/lib/python2.7/ is a good choice.
 export PATHFORPYTHONMODULES=$(python -c "import sys; print(sys.path[1])")
 
 #https://groups.google.com/forum/#!topic/mpi4py/Homqi5iJmT4

@@ -19,7 +19,7 @@ class SGDCpp: public OptimiserCpp {
 	
 public:
 		
-  SGDCpp (float _LearningRate, float _LearningRatePower):OptimiserCpp();
+  SGDCpp (float _learning_rate, float _learning_rate_power):OptimiserCpp();
 
   ~SGDCpp();
 				

@@ -4,7 +4,7 @@ import scipy.stats
 import matplotlib.pyplot as plt
 import sklearn.datasets
 
-nn = DMLLGPU.NeuralNetwork(NumInputNodesDense=[2], NumOutputNodesDense=1)
+nn = DMLLGPU.NeuralNetwork(num_input_nodes_dense=[2], num_output_nodes_dense=1)
 
 for i in range(5):
     nn.init_hidden_node(DMLLGPU.ActivationFunction(i, "logistic", InputDense=[0]))
@@ -13,11 +13,11 @@ nn.init_output_node(DMLLGPU.ActivationFunction(5, "linear", hidden=np.arange(5))
 
 nn.finalise()
 
-#Set SampleSize
+#Set sample_size
 #You can vary this number to see what happens
-SampleSize = 2001
+sample_size = 2001
 
-X, Y = sklearn.datasets.make_classification(n_samples=SampleSize, n_features=2, n_informative=2, n_redundant=0)
+X, Y = sklearn.datasets.make_classification(n_samples=sample_size, n_features=2, n_informative=2, n_redundant=0)
 X = X.astype(np.float32)
 Y = Y.reshape(len(Y), 1).astype(np.float32)
 
@@ -26,7 +26,7 @@ plt.plot(X[Y[:,0]==0.0, 0], X[Y[:,0]==0, 1], 'co')
 plt.plot(X[Y[:,0]==1.0, 0], X[Y[:,0]==1, 1], 'ro')
 plt.show()
 
-nn.fit(Xdense=[X], Ydense=[Y], optimiser=DMLLGPU.SGD(0.1, 0.1), tol=0.0, GlobalBatchSize=200, MaxNumEpochs=1000)
+nn.fit(Xdense=[X], Ydense=[Y], optimiser=DMLLGPU.SGD(0.1, 0.1), tol=0.0, global_batch_size=200, max_num_epochs=1000)
 
 plt.grid(True)
 plt.plot(nn.get_sum_gradients())

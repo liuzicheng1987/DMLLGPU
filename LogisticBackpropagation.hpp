@@ -1,4 +1,4 @@
-namespace ActivationFunction {
+namespace ActivationFunctions {
 
 struct LogisticBackpropagation1 {
 
@@ -190,58 +190,58 @@ struct LogisticBackpropagation8 {
 
 
 
-void Logistic_backpropagation(const float *W, NeuralNetworkNodeGPUCpp **HiddenNodesFedIntoMePtr, std::size_t HiddenNodesFedIntoMePtrSize, thrust::device_vector<float> &output, thrust::device_vector<float> &delta) {
+void Logistic_backpropagation(const float *W, NeuralNetworkNodeGPUCpp **hidden_nodes_fed_into_me_ptr, std::size_t hidden_nodes_fed_into_me_ptrSize, thrust::device_vector<float> &output, thrust::device_vector<float> &delta) {
 
-  switch(HiddenNodesFedIntoMePtrSize) {
+  switch(hidden_nodes_fed_into_me_ptrSize) {
 
   case 0:
     break;
 
   case 1:
-    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(output.begin(), delta.begin(), HiddenNodesFedIntoMePtr[0]->get_delta().begin())),
-		     thrust::make_zip_iterator(thrust::make_tuple(output.end(), delta.end(), HiddenNodesFedIntoMePtr[0]->get_delta().end())),
+    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(output.begin(), delta.begin(), hidden_nodes_fed_into_me_ptr[0]->get_delta().begin())),
+		     thrust::make_zip_iterator(thrust::make_tuple(output.end(), delta.end(), hidden_nodes_fed_into_me_ptr[0]->get_delta().end())),
 		     LogisticBackpropagation1(W));
     break;
 
   case 2:
-    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(output.begin(), delta.begin(), HiddenNodesFedIntoMePtr[0]->get_delta().begin(), HiddenNodesFedIntoMePtr[1]->get_delta().begin())),
-		     thrust::make_zip_iterator(thrust::make_tuple(output.end(), delta.end(), HiddenNodesFedIntoMePtr[0]->get_delta().end(), HiddenNodesFedIntoMePtr[1]->get_delta().end())),
+    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(output.begin(), delta.begin(), hidden_nodes_fed_into_me_ptr[0]->get_delta().begin(), hidden_nodes_fed_into_me_ptr[1]->get_delta().begin())),
+		     thrust::make_zip_iterator(thrust::make_tuple(output.end(), delta.end(), hidden_nodes_fed_into_me_ptr[0]->get_delta().end(), hidden_nodes_fed_into_me_ptr[1]->get_delta().end())),
 		     LogisticBackpropagation2(W));
     break;
 
   case 3:
-    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(output.begin(), delta.begin(), HiddenNodesFedIntoMePtr[0]->get_delta().begin(), HiddenNodesFedIntoMePtr[1]->get_delta().begin(), HiddenNodesFedIntoMePtr[2]->get_delta().begin())),
-		     thrust::make_zip_iterator(thrust::make_tuple(output.end(), delta.end(), HiddenNodesFedIntoMePtr[0]->get_delta().end(), HiddenNodesFedIntoMePtr[1]->get_delta().end(), HiddenNodesFedIntoMePtr[2]->get_delta().end())),
+    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(output.begin(), delta.begin(), hidden_nodes_fed_into_me_ptr[0]->get_delta().begin(), hidden_nodes_fed_into_me_ptr[1]->get_delta().begin(), hidden_nodes_fed_into_me_ptr[2]->get_delta().begin())),
+		     thrust::make_zip_iterator(thrust::make_tuple(output.end(), delta.end(), hidden_nodes_fed_into_me_ptr[0]->get_delta().end(), hidden_nodes_fed_into_me_ptr[1]->get_delta().end(), hidden_nodes_fed_into_me_ptr[2]->get_delta().end())),
 		     LogisticBackpropagation3(W));
     break;
 
   case 4:
-    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(output.begin(), delta.begin(), HiddenNodesFedIntoMePtr[0]->get_delta().begin(), HiddenNodesFedIntoMePtr[1]->get_delta().begin(), HiddenNodesFedIntoMePtr[2]->get_delta().begin(), HiddenNodesFedIntoMePtr[3]->get_delta().begin())),
-		     thrust::make_zip_iterator(thrust::make_tuple(output.end(), delta.end(), HiddenNodesFedIntoMePtr[0]->get_delta().end(), HiddenNodesFedIntoMePtr[1]->get_delta().end(), HiddenNodesFedIntoMePtr[2]->get_delta().end(), HiddenNodesFedIntoMePtr[3]->get_delta().end())),
+    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(output.begin(), delta.begin(), hidden_nodes_fed_into_me_ptr[0]->get_delta().begin(), hidden_nodes_fed_into_me_ptr[1]->get_delta().begin(), hidden_nodes_fed_into_me_ptr[2]->get_delta().begin(), hidden_nodes_fed_into_me_ptr[3]->get_delta().begin())),
+		     thrust::make_zip_iterator(thrust::make_tuple(output.end(), delta.end(), hidden_nodes_fed_into_me_ptr[0]->get_delta().end(), hidden_nodes_fed_into_me_ptr[1]->get_delta().end(), hidden_nodes_fed_into_me_ptr[2]->get_delta().end(), hidden_nodes_fed_into_me_ptr[3]->get_delta().end())),
 		     LogisticBackpropagation4(W));
     break;
 
   case 5:
-    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(output.begin(), delta.begin(), HiddenNodesFedIntoMePtr[0]->get_delta().begin(), HiddenNodesFedIntoMePtr[1]->get_delta().begin(), HiddenNodesFedIntoMePtr[2]->get_delta().begin(), HiddenNodesFedIntoMePtr[3]->get_delta().begin(), HiddenNodesFedIntoMePtr[4]->get_delta().begin())),
-		     thrust::make_zip_iterator(thrust::make_tuple(output.end(), delta.end(), HiddenNodesFedIntoMePtr[0]->get_delta().end(), HiddenNodesFedIntoMePtr[1]->get_delta().end(), HiddenNodesFedIntoMePtr[2]->get_delta().end(), HiddenNodesFedIntoMePtr[3]->get_delta().end(), HiddenNodesFedIntoMePtr[4]->get_delta().end())),
+    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(output.begin(), delta.begin(), hidden_nodes_fed_into_me_ptr[0]->get_delta().begin(), hidden_nodes_fed_into_me_ptr[1]->get_delta().begin(), hidden_nodes_fed_into_me_ptr[2]->get_delta().begin(), hidden_nodes_fed_into_me_ptr[3]->get_delta().begin(), hidden_nodes_fed_into_me_ptr[4]->get_delta().begin())),
+		     thrust::make_zip_iterator(thrust::make_tuple(output.end(), delta.end(), hidden_nodes_fed_into_me_ptr[0]->get_delta().end(), hidden_nodes_fed_into_me_ptr[1]->get_delta().end(), hidden_nodes_fed_into_me_ptr[2]->get_delta().end(), hidden_nodes_fed_into_me_ptr[3]->get_delta().end(), hidden_nodes_fed_into_me_ptr[4]->get_delta().end())),
 		     LogisticBackpropagation5(W));
     break;
 
   case 6:
-    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(output.begin(), delta.begin(), HiddenNodesFedIntoMePtr[0]->get_delta().begin(), HiddenNodesFedIntoMePtr[1]->get_delta().begin(), HiddenNodesFedIntoMePtr[2]->get_delta().begin(), HiddenNodesFedIntoMePtr[3]->get_delta().begin(), HiddenNodesFedIntoMePtr[4]->get_delta().begin(), HiddenNodesFedIntoMePtr[5]->get_delta().begin())),
-		     thrust::make_zip_iterator(thrust::make_tuple(output.end(), delta.end(), HiddenNodesFedIntoMePtr[0]->get_delta().end(), HiddenNodesFedIntoMePtr[1]->get_delta().end(), HiddenNodesFedIntoMePtr[2]->get_delta().end(), HiddenNodesFedIntoMePtr[3]->get_delta().end(), HiddenNodesFedIntoMePtr[4]->get_delta().end(), HiddenNodesFedIntoMePtr[5]->get_delta().end())),
+    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(output.begin(), delta.begin(), hidden_nodes_fed_into_me_ptr[0]->get_delta().begin(), hidden_nodes_fed_into_me_ptr[1]->get_delta().begin(), hidden_nodes_fed_into_me_ptr[2]->get_delta().begin(), hidden_nodes_fed_into_me_ptr[3]->get_delta().begin(), hidden_nodes_fed_into_me_ptr[4]->get_delta().begin(), hidden_nodes_fed_into_me_ptr[5]->get_delta().begin())),
+		     thrust::make_zip_iterator(thrust::make_tuple(output.end(), delta.end(), hidden_nodes_fed_into_me_ptr[0]->get_delta().end(), hidden_nodes_fed_into_me_ptr[1]->get_delta().end(), hidden_nodes_fed_into_me_ptr[2]->get_delta().end(), hidden_nodes_fed_into_me_ptr[3]->get_delta().end(), hidden_nodes_fed_into_me_ptr[4]->get_delta().end(), hidden_nodes_fed_into_me_ptr[5]->get_delta().end())),
 		     LogisticBackpropagation6(W));
     break;
 
   case 7:
-    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(output.begin(), delta.begin(), HiddenNodesFedIntoMePtr[0]->get_delta().begin(), HiddenNodesFedIntoMePtr[1]->get_delta().begin(), HiddenNodesFedIntoMePtr[2]->get_delta().begin(), HiddenNodesFedIntoMePtr[3]->get_delta().begin(), HiddenNodesFedIntoMePtr[4]->get_delta().begin(), HiddenNodesFedIntoMePtr[5]->get_delta().begin(), HiddenNodesFedIntoMePtr[6]->get_delta().begin())),
-		     thrust::make_zip_iterator(thrust::make_tuple(output.end(), delta.end(), HiddenNodesFedIntoMePtr[0]->get_delta().end(), HiddenNodesFedIntoMePtr[1]->get_delta().end(), HiddenNodesFedIntoMePtr[2]->get_delta().end(), HiddenNodesFedIntoMePtr[3]->get_delta().end(), HiddenNodesFedIntoMePtr[4]->get_delta().end(), HiddenNodesFedIntoMePtr[5]->get_delta().end(), HiddenNodesFedIntoMePtr[6]->get_delta().end())),
+    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(output.begin(), delta.begin(), hidden_nodes_fed_into_me_ptr[0]->get_delta().begin(), hidden_nodes_fed_into_me_ptr[1]->get_delta().begin(), hidden_nodes_fed_into_me_ptr[2]->get_delta().begin(), hidden_nodes_fed_into_me_ptr[3]->get_delta().begin(), hidden_nodes_fed_into_me_ptr[4]->get_delta().begin(), hidden_nodes_fed_into_me_ptr[5]->get_delta().begin(), hidden_nodes_fed_into_me_ptr[6]->get_delta().begin())),
+		     thrust::make_zip_iterator(thrust::make_tuple(output.end(), delta.end(), hidden_nodes_fed_into_me_ptr[0]->get_delta().end(), hidden_nodes_fed_into_me_ptr[1]->get_delta().end(), hidden_nodes_fed_into_me_ptr[2]->get_delta().end(), hidden_nodes_fed_into_me_ptr[3]->get_delta().end(), hidden_nodes_fed_into_me_ptr[4]->get_delta().end(), hidden_nodes_fed_into_me_ptr[5]->get_delta().end(), hidden_nodes_fed_into_me_ptr[6]->get_delta().end())),
 		     LogisticBackpropagation7(W));
     break;
 
   case 8:
-    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(output.begin(), delta.begin(), HiddenNodesFedIntoMePtr[0]->get_delta().begin(), HiddenNodesFedIntoMePtr[1]->get_delta().begin(), HiddenNodesFedIntoMePtr[2]->get_delta().begin(), HiddenNodesFedIntoMePtr[3]->get_delta().begin(), HiddenNodesFedIntoMePtr[4]->get_delta().begin(), HiddenNodesFedIntoMePtr[5]->get_delta().begin(), HiddenNodesFedIntoMePtr[6]->get_delta().begin(), HiddenNodesFedIntoMePtr[7]->get_delta().begin())),
-		     thrust::make_zip_iterator(thrust::make_tuple(output.end(), delta.end(), HiddenNodesFedIntoMePtr[0]->get_delta().end(), HiddenNodesFedIntoMePtr[1]->get_delta().end(), HiddenNodesFedIntoMePtr[2]->get_delta().end(), HiddenNodesFedIntoMePtr[3]->get_delta().end(), HiddenNodesFedIntoMePtr[4]->get_delta().end(), HiddenNodesFedIntoMePtr[5]->get_delta().end(), HiddenNodesFedIntoMePtr[6]->get_delta().end(), HiddenNodesFedIntoMePtr[7]->get_delta().end())),
+    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(output.begin(), delta.begin(), hidden_nodes_fed_into_me_ptr[0]->get_delta().begin(), hidden_nodes_fed_into_me_ptr[1]->get_delta().begin(), hidden_nodes_fed_into_me_ptr[2]->get_delta().begin(), hidden_nodes_fed_into_me_ptr[3]->get_delta().begin(), hidden_nodes_fed_into_me_ptr[4]->get_delta().begin(), hidden_nodes_fed_into_me_ptr[5]->get_delta().begin(), hidden_nodes_fed_into_me_ptr[6]->get_delta().begin(), hidden_nodes_fed_into_me_ptr[7]->get_delta().begin())),
+		     thrust::make_zip_iterator(thrust::make_tuple(output.end(), delta.end(), hidden_nodes_fed_into_me_ptr[0]->get_delta().end(), hidden_nodes_fed_into_me_ptr[1]->get_delta().end(), hidden_nodes_fed_into_me_ptr[2]->get_delta().end(), hidden_nodes_fed_into_me_ptr[3]->get_delta().end(), hidden_nodes_fed_into_me_ptr[4]->get_delta().end(), hidden_nodes_fed_into_me_ptr[5]->get_delta().end(), hidden_nodes_fed_into_me_ptr[6]->get_delta().end(), hidden_nodes_fed_into_me_ptr[7]->get_delta().end())),
 		     LogisticBackpropagation8(W));
     break;
 

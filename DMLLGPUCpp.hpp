@@ -1,6 +1,7 @@
 #include <thrust/execution_policy.h>
 #include <thrust/for_each.h>
 #include <thrust/device_vector.h>
+#include <thrust/device_ptr.h>
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/transform.h>
 #include <thrust/sequence.h>
@@ -12,6 +13,7 @@
 
 #include <cuda_runtime.h>
 #include <cublas_v2.h>
+#include <cusparse.h>
 
 #include <algorithm>
 #include <iostream>
@@ -26,6 +28,9 @@
 
 #include "LossFunctions/LossFunctionCpp.hpp"
 #include "LossFunctions/SquareLossCpp.hpp"
+
+#include "regularisers/RegulariserCpp.hpp"
+#include "regularisers/L2RegulariserCpp.hpp"
 
 #include "NeuralNetworkNodeGPUCpp.hpp"
 #include "NeuralNetworkGPUCpp.hpp"
@@ -46,10 +51,10 @@
 #include "ActivationFunctionGPUCpp.hpp"
 #include "ActivationFunctionGPUCppFunctions.hpp"
 
-#include "LogisticForwardPropagation.hpp"
-#include "LogisticBackpropagation.hpp"
+//#include "LogisticForwardPropagation.hpp"
+//#include "LogisticBackpropagation.hpp"
 #include "LogisticActivationFunctionGPUCpp.hpp"
 
-#include "LinearForwardPropagation.hpp"
-#include "LinearBackpropagation.hpp"
+//#include "LinearForwardPropagation.hpp"
+//#include "LinearBackpropagation.hpp"
 #include "LinearActivationFunctionGPUCpp.hpp"

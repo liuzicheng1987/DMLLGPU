@@ -3,15 +3,15 @@ class ActivationFunctionGPUCpp: public NeuralNetworkNodeGPUCpp {
 public:
 
   ActivationFunctionGPUCpp(
-			   std::int32_t  _NodeNumber,
-			   std::int32_t *_InputNodesFedIntoMeDense,
-			   std::int32_t  _InputNodesFedIntoMeDenseLength,
-			   std::int32_t *_InputNodesFedIntoMeSparse,
-			   std::int32_t  _InputNodesFedIntoMeSparseLength,
-			   std::int32_t *_HiddenNodesFedIntoMe,
-			   std::int32_t  _HiddenNodesFedIntoMeLength,
-			   std::int32_t  _IShareWeightsWith,
-			   bool          _NoWeightUpdates
+			   std::int32_t  _node_number,
+			   std::int32_t *_input_nodes_fed_into_me_dense,
+			   std::int32_t  _input_nodes_fed_into_me_dense_length,
+			   std::int32_t *_input_nodes_fed_into_me_sparse,
+			   std::int32_t  _input_nodes_fed_into_me_sparse_length,
+			   std::int32_t *_hidden_nodes_fed_into_me,
+			   std::int32_t  _hidden_nodes_fed_into_me_length,
+			   std::int32_t  _i_share_weights_with,
+			   bool          _no_weight_updates
 			   );
 
   ~ActivationFunctionGPUCpp();
@@ -22,16 +22,16 @@ public:
 
   std::function<void(
 		     const float                   *W,
-		     NeuralNetworkNodeGPUCpp      **HiddenNodesFedIntoMePtr,
-		     std::size_t                    HiddenNodesFedIntoMePtrSize,
+		     NeuralNetworkNodeGPUCpp      **hidden_nodes_fed_into_me_ptr,
+		     std::size_t                    hidden_nodes_fed_into_me_ptrSize,
 		     thrust::device_vector<float>  &output
 		     )> forward_propagation;
   //Function pointer, which contains the activation function
 
   std::function<void(
 		     const float                   *W,
-		     NeuralNetworkNodeGPUCpp      **HiddenNodesFedIntoMePtr,
-		     std::size_t                    HiddenNodesFedIntoMePtrSize,
+		     NeuralNetworkNodeGPUCpp      **hidden_nodes_fed_into_me_ptr,
+		     std::size_t                    hidden_nodes_fed_into_me_ptrSize,
 		     thrust::device_vector<float>  &output,
 		     thrust::device_vector<float>  &delta
 		     )> backpropagation;
@@ -42,8 +42,8 @@ public:
 //(very important to finalise the neural network)
 
   void calc_output(
-		   const std::int32_t _BatchNum,
-		   const std::int32_t _BatchSize
+		   const std::int32_t _batch_num,
+		   const std::int32_t _batch_size
 		   );//Calculate the output of the node
 
 
@@ -52,8 +52,8 @@ public:
 
   void calc_dLdw(
 		 float              *_dLdw,
-		 const std::int32_t  _BatchNum,
-		 const std::int32_t  _BatchSize
+		 const std::int32_t  _batch_num,
+		 const std::int32_t  _batch_size
 		 );
   //Calculate the derivatives for the individual weights
 

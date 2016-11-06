@@ -1,11 +1,11 @@
 struct SumDeltaActivation1 {
 
   Activation activation;
-  NeuralNetworkNodeGPUCpp **HiddenNodesIAmFedIntoPtr;
+  NeuralNetworkNodeGPUCpp **hidden_nodesIAmFedIntoPtr;
   std::int32_t *NumWeightIAmToNodeIAmFedInto;
   
 
-  SumDeltaActivation1(Activation _activation, NeuralNetworkNodeGPUCpp **_HiddenNodesIAmFedIntoPtr, std::int32_t *_NumWeightIAmToNodeIAmFedInto) : activation(_activation), HiddenNodesIAmFedIntoPtr(_HiddenNodesIAmFedIntoPtr), NumWeightIAmToNodeIAmFedInto(_NumWeightIAmToNodeIAmFedInto) {}
+  SumDeltaActivation1(Activation _activation, NeuralNetworkNodeGPUCpp **_hidden_nodesIAmFedIntoPtr, std::int32_t *_NumWeightIAmToNodeIAmFedInto) : activation(_activation), hidden_nodesIAmFedIntoPtr(_hidden_nodesIAmFedIntoPtr), NumWeightIAmToNodeIAmFedInto(_NumWeightIAmToNodeIAmFedInto) {}
   
   __device__
   float operator()(std::int32_t &i) const {
@@ -13,7 +13,7 @@ struct SumDeltaActivation1 {
       switch(this->activation) {
 
       case linear:
-	return this->HiddenNodesIAmFedIntoPtr[0]->calc_dLdInput(this->NumWeightIAmToNodeIAmFedInto[0], i);
+	return this->hidden_nodesIAmFedIntoPtr[0]->calc_dLdInput(this->NumWeightIAmToNodeIAmFedInto[0], i);
 
       default:
 	return 0.0f;
@@ -22,18 +22,18 @@ struct SumDeltaActivation1 {
 
 };
 
-void SumDeltaActivation(std::vector<NeuralNetworkNodeGPUCpp*> &HiddenNodesIAmFedIntoPtr, std::int32_t *NumWeightIAmToNodeIAmFedInto, thrust::device_vector<float> &delta, Activation activation) {
+void SumDeltaActivation(std::vector<NeuralNetworkNodeGPUCpp*> &hidden_nodesIAmFedIntoPtr, std::int32_t *NumWeightIAmToNodeIAmFedInto, thrust::device_vector<float> &delta, Activation activation) {
   
   thrust::counting_iterator<std::int32_t> CounterBegin(0);
   thrust::counting_iterator<std::int32_t> CounterEnd = CounterBegin + delta.size();
 
-  switch(HiddenNodesIAmFedIntoPtr.size()) {
+  switch(hidden_nodesIAmFedIntoPtr.size()) {
    
   case 0:
     throw std::invalid_argument("Hidden node is not fed into any other node!");
     
   case 1:
-    thrust::transform(CounterBegin, CounterEnd, delta.begin(), SumDeltaActivation1(activation, HiddenNodesIAmFedIntoPtr.data(), NumWeightIAmToNodeIAmFedInto));
+    thrust::transform(CounterBegin, CounterEnd, delta.begin(), SumDeltaActivation1(activation, hidden_nodesIAmFedIntoPtr.data(), NumWeightIAmToNodeIAmFedInto));
      break;
 
   }

@@ -1,7 +1,7 @@
 import DMLLGPU
 import numpy as np
 
-nn = DMLLGPU.NeuralNetwork(NumInputNodesDense=[5], NumOutputNodesDense=1)
+nn = DMLLGPU.NeuralNetwork(num_input_nodes_dense=[5], num_output_nodes_dense=1)
 
 nn.init_hidden_node(DMLLGPU.ActivationFunction(0, "linear", InputDense=[0]))
 nn.init_hidden_node(DMLLGPU.ActivationFunction(1, "linear", hidden=[0]))

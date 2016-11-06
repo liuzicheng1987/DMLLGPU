@@ -21,5 +21,6 @@ import_array();
 }
 
 %include LossFunctions/LossFunctions.i
+%include regularisers/regularisers.i
 %include NeuralNetwork.i
 %include optimisers/optimisers.i

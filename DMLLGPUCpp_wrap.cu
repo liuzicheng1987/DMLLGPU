@@ -2938,26 +2938,28 @@ SWIG_Python_NonDynamicSetAttr(PyObject *obj, PyObject *name, PyObject *value) {
 /* -------- TYPES TABLE (BEGIN) -------- */
 
 #define SWIGTYPE_p_ActivationFunctionGPUCpp swig_types[0]
-#define SWIGTYPE_p_LinearActivationFunctionGPUCpp swig_types[1]
-#define SWIGTYPE_p_LogisticActivationFunctionGPUCpp swig_types[2]
-#define SWIGTYPE_p_LossFunctionCpp swig_types[3]
-#define SWIGTYPE_p_NeuralNetworkGPUCpp swig_types[4]
-#define SWIGTYPE_p_NeuralNetworkNodeGPUCpp swig_types[5]
-#define SWIGTYPE_p_OptimiserCpp swig_types[6]
-#define SWIGTYPE_p_SGDCpp swig_types[7]
-#define SWIGTYPE_p_SquareLossCpp swig_types[8]
-#define SWIGTYPE_p_char swig_types[9]
-#define SWIGTYPE_p_float swig_types[10]
-#define SWIGTYPE_p_int swig_types[11]
-#define SWIGTYPE_p_long_long swig_types[12]
-#define SWIGTYPE_p_short swig_types[13]
-#define SWIGTYPE_p_signed_char swig_types[14]
-#define SWIGTYPE_p_unsigned_char swig_types[15]
-#define SWIGTYPE_p_unsigned_int swig_types[16]
-#define SWIGTYPE_p_unsigned_long_long swig_types[17]
-#define SWIGTYPE_p_unsigned_short swig_types[18]
-static swig_type_info *swig_types[20];
-static swig_module_info swig_module = {swig_types, 19, 0, 0, 0, 0};
+#define SWIGTYPE_p_L2RegulariserCpp swig_types[1]
+#define SWIGTYPE_p_LinearActivationFunctionGPUCpp swig_types[2]
+#define SWIGTYPE_p_LogisticActivationFunctionGPUCpp swig_types[3]
+#define SWIGTYPE_p_LossFunctionCpp swig_types[4]
+#define SWIGTYPE_p_NeuralNetworkGPUCpp swig_types[5]
+#define SWIGTYPE_p_NeuralNetworkNodeGPUCpp swig_types[6]
+#define SWIGTYPE_p_OptimiserCpp swig_types[7]
+#define SWIGTYPE_p_RegulariserCpp swig_types[8]
+#define SWIGTYPE_p_SGDCpp swig_types[9]
+#define SWIGTYPE_p_SquareLossCpp swig_types[10]
+#define SWIGTYPE_p_char swig_types[11]
+#define SWIGTYPE_p_float swig_types[12]
+#define SWIGTYPE_p_int swig_types[13]
+#define SWIGTYPE_p_long_long swig_types[14]
+#define SWIGTYPE_p_short swig_types[15]
+#define SWIGTYPE_p_signed_char swig_types[16]
+#define SWIGTYPE_p_unsigned_char swig_types[17]
+#define SWIGTYPE_p_unsigned_int swig_types[18]
+#define SWIGTYPE_p_unsigned_long_long swig_types[19]
+#define SWIGTYPE_p_unsigned_short swig_types[20]
+static swig_type_info *swig_types[22];
+static swig_module_info swig_module = {swig_types, 21, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -3065,7 +3067,7 @@ namespace swig {
 #include <numpy/arrayobject.h>
 
 /* The following code originally appeared in enthought/kiva/agg/src/numeric.i,
- * author unknown.  It was translated from C++ to C by John Hunter.  Bill
+ * author unknown.  num_samplest was translated from C++ to C by dimohn Hunter.  Bill
  * Spotz has modified it slightly to fix some minor bugs, add some comments
  * and some functionality.
  */
@@ -3114,7 +3116,7 @@ int type_match(int actual_type, int desired_type) {
 }
 
 /* Given a PyObject pointer, cast it to a PyArrayObject pointer if
- * legal.  If not, set the python error string appropriately and
+ * legal.  num_samplesf not, set the python error string appropriately and
  * return NULL./
  */
 PyArrayObject* obj_to_array_no_conversion(PyObject* input, int typecode) {
@@ -3159,15 +3161,15 @@ PyArrayObject* obj_to_array_allow_conversion(PyObject* input, int typecode,
   }
   else {
     py_obj = PyArray_FromObject(input, typecode, 0, 0);
-    /* If NULL, PyArray_FromObject will have set python error value.*/
+    /* num_samplesf NULL, PyArray_FromObject will have set python error value.*/
     ary = (PyArrayObject*) py_obj;
     *is_new_object = 1;
   }
   return ary;
 }
 
-/* Given a PyArrayObject, check to see if it is contiguous.  If so,
- * return the input pointer and flag it as not a new object.  If it is
+/* Given a PyArrayObject, check to see if it is contiguous.  num_samplesf so,
+ * return the input pointer and flag it as not a new object.  num_samplesf it is
  * not contiguous, create a new PyArrayObject using the original data,
  * flag it as a new object and return the pointer.
  */
@@ -3190,7 +3192,7 @@ PyArrayObject* make_contiguous(PyArrayObject* ary, int* is_new_object,
 }
 
 /* Convert a given PyObject to a contiguous PyArrayObject of the
- * specified type.  If the input object is not a contiguous
+ * specified type.  num_samplesf the input object is not a contiguous
  * PyArrayObject, a new one will be created and the new object flag
  * will be set.
  */
@@ -3213,7 +3215,7 @@ PyArrayObject* obj_to_array_contiguous_allow_conversion(PyObject* input,
   return ary1;
 }
 
-/* Test whether a python object is contiguous.  If array is
+/* Test whether a python object is contiguous.  num_samplesf array is
  * contiguous, return 1.  Otherwise, set the python error string and
  * return 0.
  */
@@ -3227,7 +3229,7 @@ int require_contiguous(PyArrayObject* ary) {
 }
 
 /* Require the given PyArrayObject to have a specified number of
- * dimensions.  If the array has the specified number of dimensions,
+ * dimensions.  num_samplesf the array has the specified number of dimensions,
  * return 1.  Otherwise, set the python error string and return 0.
  */
 int require_dimensions(PyArrayObject* ary, int exact_dimensions) {
@@ -3242,7 +3244,7 @@ int require_dimensions(PyArrayObject* ary, int exact_dimensions) {
 }
 
 /* Require the given PyArrayObject to have one of a list of specified
- * number of dimensions.  If the array has one of the specified number
+ * number of dimensions.  num_samplesf the array has one of the specified number
  * of dimensions, return 1.  Otherwise, set the python error string
  * and return 0.
  */
@@ -3270,7 +3272,7 @@ int require_dimensions_n(PyArrayObject* ary, int* exact_dimensions, int n) {
   return success;
 }    
 
-/* Require the given PyArrayObject to have a specified shape.  If the
+/* Require the given PyArrayObject to have a specified shape.  num_samplesf the
  * array has the specified shape, return 1.  Otherwise, set the python
  * error string and return 0.
  */
@@ -3311,20 +3313,37 @@ int require_size(PyArrayObject* ary, int* size, int n) {
   }
   return success;
 }
-/* End John Hunter translation (with modifications by Bill Spotz) */
+/* End dimohn Hunter translation (with modifications by Bill Spotz) */
 
 
 
 #include <stdint.h>		// Use the C99 official header
 
 
-#include <limits.h>
-#if !defined(SWIG_NO_LLONG_MAX)
-# if !defined(LLONG_MAX) && defined(__GNUC__) && defined (__LONG_LONG_MAX__)
-#   define LLONG_MAX __LONG_LONG_MAX__
-#   define LLONG_MIN (-LLONG_MAX - 1LL)
-#   define ULLONG_MAX (LLONG_MAX * 2ULL + 1ULL)
+#include <float.h>
+
+
+#include <math.h>
+
+
+/* Getting isfinite working pre C99 across multiple platforms is non-trivial. Users can provide SWIG_isfinite on older platforms. */
+#ifndef SWIG_isfinite
+# if defined(isfinite)
+#  define SWIG_isfinite(X) (isfinite(X))
+# elif defined(_MSC_VER)
+#  define SWIG_isfinite(X) (_finite(X))
+# elif defined(__sun) && defined(__SVR4)
+#  include <ieeefp.h>
+#  define SWIG_isfinite(X) (finite(X))
 # endif
+#endif
+
+
+/* Accept infinite as a valid float value unless we are unable to check if a value is finite */
+#ifdef SWIG_isfinite
+# define SWIG_Float_Overflow_Check(X) ((X < -FLT_MAX || X > FLT_MAX) && SWIG_isfinite(X))
+#else
+# define SWIG_Float_Overflow_Check(X) ((X < -FLT_MAX || X > FLT_MAX))
 #endif
 
 
@@ -3372,10 +3391,30 @@ SWIG_AsVal_double (PyObject *obj, double *val)
 }
 
 
-#include <float.h>
+SWIGINTERN int
+SWIG_AsVal_float (PyObject * obj, float *val)
+{
+  double v;
+  int res = SWIG_AsVal_double (obj, &v);
+  if (SWIG_IsOK(res)) {
+    if (SWIG_Float_Overflow_Check(v)) {
+      return SWIG_OverflowError;
+    } else {
+      if (val) *val = static_cast< float >(v);
+    }
+  }  
+  return res;
+}
 
 
-#include <math.h>
+#include <limits.h>
+#if !defined(SWIG_NO_LLONG_MAX)
+# if !defined(LLONG_MAX) && defined(__GNUC__) && defined (__LONG_LONG_MAX__)
+#   define LLONG_MAX __LONG_LONG_MAX__
+#   define LLONG_MIN (-LLONG_MAX - 1LL)
+#   define ULLONG_MAX (LLONG_MAX * 2ULL + 1ULL)
+# endif
+#endif
 
 
 SWIGINTERNINLINE int
@@ -3478,43 +3517,6 @@ SWIGINTERNINLINE PyObject*
   SWIG_From_int  (int value)
 {
   return PyInt_FromLong((long) value);
-}
-
-
-/* Getting isfinite working pre C99 across multiple platforms is non-trivial. Users can provide SWIG_isfinite on older platforms. */
-#ifndef SWIG_isfinite
-# if defined(isfinite)
-#  define SWIG_isfinite(X) (isfinite(X))
-# elif defined(_MSC_VER)
-#  define SWIG_isfinite(X) (_finite(X))
-# elif defined(__sun) && defined(__SVR4)
-#  include <ieeefp.h>
-#  define SWIG_isfinite(X) (finite(X))
-# endif
-#endif
-
-
-/* Accept infinite as a valid float value unless we are unable to check if a value is finite */
-#ifdef SWIG_isfinite
-# define SWIG_Float_Overflow_Check(X) ((X < -FLT_MAX || X > FLT_MAX) && SWIG_isfinite(X))
-#else
-# define SWIG_Float_Overflow_Check(X) ((X < -FLT_MAX || X > FLT_MAX))
-#endif
-
-
-SWIGINTERN int
-SWIG_AsVal_float (PyObject * obj, float *val)
-{
-  double v;
-  int res = SWIG_AsVal_double (obj, &v);
-  if (SWIG_IsOK(res)) {
-    if (SWIG_Float_Overflow_Check(v)) {
-      return SWIG_OverflowError;
-    } else {
-      if (val) *val = static_cast< float >(v);
-    }
-  }  
-  return res;
 }
 
 #ifdef __cplusplus
@@ -3626,107 +3628,240 @@ SWIGINTERN PyObject *SquareLossCpp_swigregister(PyObject *SWIGUNUSEDPARM(self), 
   return SWIG_Py_Void();
 }
 
+SWIGINTERN PyObject *_wrap_new_RegulariserCpp(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  RegulariserCpp *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)":new_RegulariserCpp")) SWIG_fail;
+  {
+    try {
+      result = (RegulariserCpp *)new RegulariserCpp();
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_UnknownError, e.what());
+    } 
+  }
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_RegulariserCpp, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_RegulariserCpp(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  RegulariserCpp *arg1 = (RegulariserCpp *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_RegulariserCpp",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_RegulariserCpp, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_RegulariserCpp" "', argument " "1"" of type '" "RegulariserCpp *""'"); 
+  }
+  arg1 = reinterpret_cast< RegulariserCpp * >(argp1);
+  {
+    try {
+      delete arg1;
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_UnknownError, e.what());
+    } 
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *RegulariserCpp_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_RegulariserCpp, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *_wrap_new_L2RegulariserCpp(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  float arg1 ;
+  float val1 ;
+  int ecode1 = 0 ;
+  PyObject * obj0 = 0 ;
+  L2RegulariserCpp *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:new_L2RegulariserCpp",&obj0)) SWIG_fail;
+  ecode1 = SWIG_AsVal_float(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_L2RegulariserCpp" "', argument " "1"" of type '" "float""'");
+  } 
+  arg1 = static_cast< float >(val1);
+  {
+    try {
+      result = (L2RegulariserCpp *)new L2RegulariserCpp(arg1);
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_UnknownError, e.what());
+    } 
+  }
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_L2RegulariserCpp, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_L2RegulariserCpp(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  L2RegulariserCpp *arg1 = (L2RegulariserCpp *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_L2RegulariserCpp",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_L2RegulariserCpp, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_L2RegulariserCpp" "', argument " "1"" of type '" "L2RegulariserCpp *""'"); 
+  }
+  arg1 = reinterpret_cast< L2RegulariserCpp * >(argp1);
+  {
+    try {
+      delete arg1;
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_UnknownError, e.what());
+    } 
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *L2RegulariserCpp_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_L2RegulariserCpp, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
 SWIGINTERN PyObject *_wrap_new_NeuralNetworkNodeGPUCpp(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   std::int32_t arg1 ;
-  std::int32_t *arg2 = (std::int32_t *) 0 ;
-  std::int32_t arg3 ;
-  std::int32_t *arg4 = (std::int32_t *) 0 ;
-  std::int32_t arg5 ;
-  std::int32_t *arg6 = (std::int32_t *) 0 ;
-  std::int32_t arg7 ;
+  std::int32_t arg2 ;
+  std::int32_t *arg3 = (std::int32_t *) 0 ;
+  std::int32_t arg4 ;
+  std::int32_t *arg5 = (std::int32_t *) 0 ;
+  std::int32_t arg6 ;
+  std::int32_t *arg7 = (std::int32_t *) 0 ;
   std::int32_t arg8 ;
-  bool arg9 ;
+  std::int32_t arg9 ;
+  bool arg10 ;
+  RegulariserCpp *arg11 = (RegulariserCpp *) 0 ;
   int val1 ;
   int ecode1 = 0 ;
-  PyArrayObject *array2 = NULL ;
-  int is_new_object2 ;
-  PyArrayObject *array4 = NULL ;
-  int is_new_object4 ;
-  PyArrayObject *array6 = NULL ;
-  int is_new_object6 ;
-  int val8 ;
-  int ecode8 = 0 ;
-  bool val9 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyArrayObject *array3 = NULL ;
+  int is_new_object3 ;
+  PyArrayObject *array5 = NULL ;
+  int is_new_object5 ;
+  PyArrayObject *array7 = NULL ;
+  int is_new_object7 ;
+  int val9 ;
   int ecode9 = 0 ;
+  bool val10 ;
+  int ecode10 = 0 ;
+  void *argp11 = 0 ;
+  int res11 = 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   PyObject * obj2 = 0 ;
   PyObject * obj3 = 0 ;
   PyObject * obj4 = 0 ;
   PyObject * obj5 = 0 ;
+  PyObject * obj6 = 0 ;
+  PyObject * obj7 = 0 ;
   NeuralNetworkNodeGPUCpp *result = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OOOOOO:new_NeuralNetworkNodeGPUCpp",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OOOOOOOO:new_NeuralNetworkNodeGPUCpp",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7)) SWIG_fail;
   ecode1 = SWIG_AsVal_int(obj0, &val1);
   if (!SWIG_IsOK(ecode1)) {
     SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_NeuralNetworkNodeGPUCpp" "', argument " "1"" of type '" "std::int32_t""'");
   } 
   arg1 = static_cast< std::int32_t >(val1);
-  {
-    int size[1] = {
-      -1
-    };
-    array2 = obj_to_array_contiguous_allow_conversion(obj1, PyArray_INT, &is_new_object2);
-    if (!array2 || !require_dimensions(array2,1) || !require_size(array2,size,1)) SWIG_fail;
-    arg2 = (int*) array2->data;
-    arg3 = array2->dimensions[0];
-  }
-  {
-    int size[1] = {
-      -1
-    };
-    array4 = obj_to_array_contiguous_allow_conversion(obj2, PyArray_INT, &is_new_object4);
-    if (!array4 || !require_dimensions(array4,1) || !require_size(array4,size,1)) SWIG_fail;
-    arg4 = (int*) array4->data;
-    arg5 = array4->dimensions[0];
-  }
-  {
-    int size[1] = {
-      -1
-    };
-    array6 = obj_to_array_contiguous_allow_conversion(obj3, PyArray_INT, &is_new_object6);
-    if (!array6 || !require_dimensions(array6,1) || !require_size(array6,size,1)) SWIG_fail;
-    arg6 = (int*) array6->data;
-    arg7 = array6->dimensions[0];
-  }
-  ecode8 = SWIG_AsVal_int(obj4, &val8);
-  if (!SWIG_IsOK(ecode8)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode8), "in method '" "new_NeuralNetworkNodeGPUCpp" "', argument " "8"" of type '" "std::int32_t""'");
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "new_NeuralNetworkNodeGPUCpp" "', argument " "2"" of type '" "std::int32_t""'");
   } 
-  arg8 = static_cast< std::int32_t >(val8);
-  ecode9 = SWIG_AsVal_bool(obj5, &val9);
+  arg2 = static_cast< std::int32_t >(val2);
+  {
+    int size[1] = {
+      -1
+    };
+    array3 = obj_to_array_contiguous_allow_conversion(obj2, PyArray_INT, &is_new_object3);
+    if (!array3 || !require_dimensions(array3,1) || !require_size(array3,size,1)) SWIG_fail;
+    arg3 = (int*) array3->data;
+    arg4 = array3->dimensions[0];
+  }
+  {
+    int size[1] = {
+      -1
+    };
+    array5 = obj_to_array_contiguous_allow_conversion(obj3, PyArray_INT, &is_new_object5);
+    if (!array5 || !require_dimensions(array5,1) || !require_size(array5,size,1)) SWIG_fail;
+    arg5 = (int*) array5->data;
+    arg6 = array5->dimensions[0];
+  }
+  {
+    int size[1] = {
+      -1
+    };
+    array7 = obj_to_array_contiguous_allow_conversion(obj4, PyArray_INT, &is_new_object7);
+    if (!array7 || !require_dimensions(array7,1) || !require_size(array7,size,1)) SWIG_fail;
+    arg7 = (int*) array7->data;
+    arg8 = array7->dimensions[0];
+  }
+  ecode9 = SWIG_AsVal_int(obj5, &val9);
   if (!SWIG_IsOK(ecode9)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode9), "in method '" "new_NeuralNetworkNodeGPUCpp" "', argument " "9"" of type '" "bool""'");
+    SWIG_exception_fail(SWIG_ArgError(ecode9), "in method '" "new_NeuralNetworkNodeGPUCpp" "', argument " "9"" of type '" "std::int32_t""'");
   } 
-  arg9 = static_cast< bool >(val9);
+  arg9 = static_cast< std::int32_t >(val9);
+  ecode10 = SWIG_AsVal_bool(obj6, &val10);
+  if (!SWIG_IsOK(ecode10)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode10), "in method '" "new_NeuralNetworkNodeGPUCpp" "', argument " "10"" of type '" "bool""'");
+  } 
+  arg10 = static_cast< bool >(val10);
+  res11 = SWIG_ConvertPtr(obj7, &argp11,SWIGTYPE_p_RegulariserCpp, 0 |  0 );
+  if (!SWIG_IsOK(res11)) {
+    SWIG_exception_fail(SWIG_ArgError(res11), "in method '" "new_NeuralNetworkNodeGPUCpp" "', argument " "11"" of type '" "RegulariserCpp *""'"); 
+  }
+  arg11 = reinterpret_cast< RegulariserCpp * >(argp11);
   {
     try {
-      result = (NeuralNetworkNodeGPUCpp *)new NeuralNetworkNodeGPUCpp(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
+      result = (NeuralNetworkNodeGPUCpp *)new NeuralNetworkNodeGPUCpp(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11);
     } catch (const std::exception& e) {
       SWIG_exception(SWIG_UnknownError, e.what());
     } 
   }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_NeuralNetworkNodeGPUCpp, SWIG_POINTER_NEW |  0 );
   {
-    if (is_new_object2 && array2) Py_DECREF(array2);
+    if (is_new_object3 && array3) Py_DECREF(array3);
   }
   {
-    if (is_new_object4 && array4) Py_DECREF(array4);
+    if (is_new_object5 && array5) Py_DECREF(array5);
   }
   {
-    if (is_new_object6 && array6) Py_DECREF(array6);
+    if (is_new_object7 && array7) Py_DECREF(array7);
   }
   return resultobj;
 fail:
   {
-    if (is_new_object2 && array2) Py_DECREF(array2);
+    if (is_new_object3 && array3) Py_DECREF(array3);
   }
   {
-    if (is_new_object4 && array4) Py_DECREF(array4);
+    if (is_new_object5 && array5) Py_DECREF(array5);
   }
   {
-    if (is_new_object6 && array6) Py_DECREF(array6);
+    if (is_new_object7 && array7) Py_DECREF(array7);
   }
   return NULL;
 }
@@ -3769,104 +3904,122 @@ SWIGINTERN PyObject *NeuralNetworkNodeGPUCpp_swigregister(PyObject *SWIGUNUSEDPA
 SWIGINTERN PyObject *_wrap_new_ActivationFunctionGPUCpp(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   std::int32_t arg1 ;
-  std::int32_t *arg2 = (std::int32_t *) 0 ;
-  std::int32_t arg3 ;
-  std::int32_t *arg4 = (std::int32_t *) 0 ;
-  std::int32_t arg5 ;
-  std::int32_t *arg6 = (std::int32_t *) 0 ;
-  std::int32_t arg7 ;
+  std::int32_t arg2 ;
+  std::int32_t *arg3 = (std::int32_t *) 0 ;
+  std::int32_t arg4 ;
+  std::int32_t *arg5 = (std::int32_t *) 0 ;
+  std::int32_t arg6 ;
+  std::int32_t *arg7 = (std::int32_t *) 0 ;
   std::int32_t arg8 ;
-  bool arg9 ;
+  std::int32_t arg9 ;
+  bool arg10 ;
+  RegulariserCpp *arg11 = (RegulariserCpp *) 0 ;
   int val1 ;
   int ecode1 = 0 ;
-  PyArrayObject *array2 = NULL ;
-  int is_new_object2 ;
-  PyArrayObject *array4 = NULL ;
-  int is_new_object4 ;
-  PyArrayObject *array6 = NULL ;
-  int is_new_object6 ;
-  int val8 ;
-  int ecode8 = 0 ;
-  bool val9 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyArrayObject *array3 = NULL ;
+  int is_new_object3 ;
+  PyArrayObject *array5 = NULL ;
+  int is_new_object5 ;
+  PyArrayObject *array7 = NULL ;
+  int is_new_object7 ;
+  int val9 ;
   int ecode9 = 0 ;
+  bool val10 ;
+  int ecode10 = 0 ;
+  void *argp11 = 0 ;
+  int res11 = 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   PyObject * obj2 = 0 ;
   PyObject * obj3 = 0 ;
   PyObject * obj4 = 0 ;
   PyObject * obj5 = 0 ;
+  PyObject * obj6 = 0 ;
+  PyObject * obj7 = 0 ;
   ActivationFunctionGPUCpp *result = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OOOOOO:new_ActivationFunctionGPUCpp",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OOOOOOOO:new_ActivationFunctionGPUCpp",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7)) SWIG_fail;
   ecode1 = SWIG_AsVal_int(obj0, &val1);
   if (!SWIG_IsOK(ecode1)) {
     SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_ActivationFunctionGPUCpp" "', argument " "1"" of type '" "std::int32_t""'");
   } 
   arg1 = static_cast< std::int32_t >(val1);
-  {
-    int size[1] = {
-      -1
-    };
-    array2 = obj_to_array_contiguous_allow_conversion(obj1, PyArray_INT, &is_new_object2);
-    if (!array2 || !require_dimensions(array2,1) || !require_size(array2,size,1)) SWIG_fail;
-    arg2 = (int*) array2->data;
-    arg3 = array2->dimensions[0];
-  }
-  {
-    int size[1] = {
-      -1
-    };
-    array4 = obj_to_array_contiguous_allow_conversion(obj2, PyArray_INT, &is_new_object4);
-    if (!array4 || !require_dimensions(array4,1) || !require_size(array4,size,1)) SWIG_fail;
-    arg4 = (int*) array4->data;
-    arg5 = array4->dimensions[0];
-  }
-  {
-    int size[1] = {
-      -1
-    };
-    array6 = obj_to_array_contiguous_allow_conversion(obj3, PyArray_INT, &is_new_object6);
-    if (!array6 || !require_dimensions(array6,1) || !require_size(array6,size,1)) SWIG_fail;
-    arg6 = (int*) array6->data;
-    arg7 = array6->dimensions[0];
-  }
-  ecode8 = SWIG_AsVal_int(obj4, &val8);
-  if (!SWIG_IsOK(ecode8)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode8), "in method '" "new_ActivationFunctionGPUCpp" "', argument " "8"" of type '" "std::int32_t""'");
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "new_ActivationFunctionGPUCpp" "', argument " "2"" of type '" "std::int32_t""'");
   } 
-  arg8 = static_cast< std::int32_t >(val8);
-  ecode9 = SWIG_AsVal_bool(obj5, &val9);
+  arg2 = static_cast< std::int32_t >(val2);
+  {
+    int size[1] = {
+      -1
+    };
+    array3 = obj_to_array_contiguous_allow_conversion(obj2, PyArray_INT, &is_new_object3);
+    if (!array3 || !require_dimensions(array3,1) || !require_size(array3,size,1)) SWIG_fail;
+    arg3 = (int*) array3->data;
+    arg4 = array3->dimensions[0];
+  }
+  {
+    int size[1] = {
+      -1
+    };
+    array5 = obj_to_array_contiguous_allow_conversion(obj3, PyArray_INT, &is_new_object5);
+    if (!array5 || !require_dimensions(array5,1) || !require_size(array5,size,1)) SWIG_fail;
+    arg5 = (int*) array5->data;
+    arg6 = array5->dimensions[0];
+  }
+  {
+    int size[1] = {
+      -1
+    };
+    array7 = obj_to_array_contiguous_allow_conversion(obj4, PyArray_INT, &is_new_object7);
+    if (!array7 || !require_dimensions(array7,1) || !require_size(array7,size,1)) SWIG_fail;
+    arg7 = (int*) array7->data;
+    arg8 = array7->dimensions[0];
+  }
+  ecode9 = SWIG_AsVal_int(obj5, &val9);
   if (!SWIG_IsOK(ecode9)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode9), "in method '" "new_ActivationFunctionGPUCpp" "', argument " "9"" of type '" "bool""'");
+    SWIG_exception_fail(SWIG_ArgError(ecode9), "in method '" "new_ActivationFunctionGPUCpp" "', argument " "9"" of type '" "std::int32_t""'");
   } 
-  arg9 = static_cast< bool >(val9);
+  arg9 = static_cast< std::int32_t >(val9);
+  ecode10 = SWIG_AsVal_bool(obj6, &val10);
+  if (!SWIG_IsOK(ecode10)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode10), "in method '" "new_ActivationFunctionGPUCpp" "', argument " "10"" of type '" "bool""'");
+  } 
+  arg10 = static_cast< bool >(val10);
+  res11 = SWIG_ConvertPtr(obj7, &argp11,SWIGTYPE_p_RegulariserCpp, 0 |  0 );
+  if (!SWIG_IsOK(res11)) {
+    SWIG_exception_fail(SWIG_ArgError(res11), "in method '" "new_ActivationFunctionGPUCpp" "', argument " "11"" of type '" "RegulariserCpp *""'"); 
+  }
+  arg11 = reinterpret_cast< RegulariserCpp * >(argp11);
   {
     try {
-      result = (ActivationFunctionGPUCpp *)new ActivationFunctionGPUCpp(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
+      result = (ActivationFunctionGPUCpp *)new ActivationFunctionGPUCpp(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11);
     } catch (const std::exception& e) {
       SWIG_exception(SWIG_UnknownError, e.what());
     } 
   }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_ActivationFunctionGPUCpp, SWIG_POINTER_NEW |  0 );
   {
-    if (is_new_object2 && array2) Py_DECREF(array2);
+    if (is_new_object3 && array3) Py_DECREF(array3);
   }
   {
-    if (is_new_object4 && array4) Py_DECREF(array4);
+    if (is_new_object5 && array5) Py_DECREF(array5);
   }
   {
-    if (is_new_object6 && array6) Py_DECREF(array6);
+    if (is_new_object7 && array7) Py_DECREF(array7);
   }
   return resultobj;
 fail:
   {
-    if (is_new_object2 && array2) Py_DECREF(array2);
+    if (is_new_object3 && array3) Py_DECREF(array3);
   }
   {
-    if (is_new_object4 && array4) Py_DECREF(array4);
+    if (is_new_object5 && array5) Py_DECREF(array5);
   }
   {
-    if (is_new_object6 && array6) Py_DECREF(array6);
+    if (is_new_object7 && array7) Py_DECREF(array7);
   }
   return NULL;
 }
@@ -3909,104 +4062,122 @@ SWIGINTERN PyObject *ActivationFunctionGPUCpp_swigregister(PyObject *SWIGUNUSEDP
 SWIGINTERN PyObject *_wrap_new_LogisticActivationFunctionGPUCpp(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   std::int32_t arg1 ;
-  std::int32_t *arg2 = (std::int32_t *) 0 ;
-  std::int32_t arg3 ;
-  std::int32_t *arg4 = (std::int32_t *) 0 ;
-  std::int32_t arg5 ;
-  std::int32_t *arg6 = (std::int32_t *) 0 ;
-  std::int32_t arg7 ;
+  std::int32_t arg2 ;
+  std::int32_t *arg3 = (std::int32_t *) 0 ;
+  std::int32_t arg4 ;
+  std::int32_t *arg5 = (std::int32_t *) 0 ;
+  std::int32_t arg6 ;
+  std::int32_t *arg7 = (std::int32_t *) 0 ;
   std::int32_t arg8 ;
-  bool arg9 ;
+  std::int32_t arg9 ;
+  bool arg10 ;
+  RegulariserCpp *arg11 = (RegulariserCpp *) 0 ;
   int val1 ;
   int ecode1 = 0 ;
-  PyArrayObject *array2 = NULL ;
-  int is_new_object2 ;
-  PyArrayObject *array4 = NULL ;
-  int is_new_object4 ;
-  PyArrayObject *array6 = NULL ;
-  int is_new_object6 ;
-  int val8 ;
-  int ecode8 = 0 ;
-  bool val9 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyArrayObject *array3 = NULL ;
+  int is_new_object3 ;
+  PyArrayObject *array5 = NULL ;
+  int is_new_object5 ;
+  PyArrayObject *array7 = NULL ;
+  int is_new_object7 ;
+  int val9 ;
   int ecode9 = 0 ;
+  bool val10 ;
+  int ecode10 = 0 ;
+  void *argp11 = 0 ;
+  int res11 = 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   PyObject * obj2 = 0 ;
   PyObject * obj3 = 0 ;
   PyObject * obj4 = 0 ;
   PyObject * obj5 = 0 ;
+  PyObject * obj6 = 0 ;
+  PyObject * obj7 = 0 ;
   LogisticActivationFunctionGPUCpp *result = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OOOOOO:new_LogisticActivationFunctionGPUCpp",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OOOOOOOO:new_LogisticActivationFunctionGPUCpp",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7)) SWIG_fail;
   ecode1 = SWIG_AsVal_int(obj0, &val1);
   if (!SWIG_IsOK(ecode1)) {
     SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_LogisticActivationFunctionGPUCpp" "', argument " "1"" of type '" "std::int32_t""'");
   } 
   arg1 = static_cast< std::int32_t >(val1);
-  {
-    int size[1] = {
-      -1
-    };
-    array2 = obj_to_array_contiguous_allow_conversion(obj1, PyArray_INT, &is_new_object2);
-    if (!array2 || !require_dimensions(array2,1) || !require_size(array2,size,1)) SWIG_fail;
-    arg2 = (int*) array2->data;
-    arg3 = array2->dimensions[0];
-  }
-  {
-    int size[1] = {
-      -1
-    };
-    array4 = obj_to_array_contiguous_allow_conversion(obj2, PyArray_INT, &is_new_object4);
-    if (!array4 || !require_dimensions(array4,1) || !require_size(array4,size,1)) SWIG_fail;
-    arg4 = (int*) array4->data;
-    arg5 = array4->dimensions[0];
-  }
-  {
-    int size[1] = {
-      -1
-    };
-    array6 = obj_to_array_contiguous_allow_conversion(obj3, PyArray_INT, &is_new_object6);
-    if (!array6 || !require_dimensions(array6,1) || !require_size(array6,size,1)) SWIG_fail;
-    arg6 = (int*) array6->data;
-    arg7 = array6->dimensions[0];
-  }
-  ecode8 = SWIG_AsVal_int(obj4, &val8);
-  if (!SWIG_IsOK(ecode8)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode8), "in method '" "new_LogisticActivationFunctionGPUCpp" "', argument " "8"" of type '" "std::int32_t""'");
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "new_LogisticActivationFunctionGPUCpp" "', argument " "2"" of type '" "std::int32_t""'");
   } 
-  arg8 = static_cast< std::int32_t >(val8);
-  ecode9 = SWIG_AsVal_bool(obj5, &val9);
+  arg2 = static_cast< std::int32_t >(val2);
+  {
+    int size[1] = {
+      -1
+    };
+    array3 = obj_to_array_contiguous_allow_conversion(obj2, PyArray_INT, &is_new_object3);
+    if (!array3 || !require_dimensions(array3,1) || !require_size(array3,size,1)) SWIG_fail;
+    arg3 = (int*) array3->data;
+    arg4 = array3->dimensions[0];
+  }
+  {
+    int size[1] = {
+      -1
+    };
+    array5 = obj_to_array_contiguous_allow_conversion(obj3, PyArray_INT, &is_new_object5);
+    if (!array5 || !require_dimensions(array5,1) || !require_size(array5,size,1)) SWIG_fail;
+    arg5 = (int*) array5->data;
+    arg6 = array5->dimensions[0];
+  }
+  {
+    int size[1] = {
+      -1
+    };
+    array7 = obj_to_array_contiguous_allow_conversion(obj4, PyArray_INT, &is_new_object7);
+    if (!array7 || !require_dimensions(array7,1) || !require_size(array7,size,1)) SWIG_fail;
+    arg7 = (int*) array7->data;
+    arg8 = array7->dimensions[0];
+  }
+  ecode9 = SWIG_AsVal_int(obj5, &val9);
   if (!SWIG_IsOK(ecode9)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode9), "in method '" "new_LogisticActivationFunctionGPUCpp" "', argument " "9"" of type '" "bool""'");
+    SWIG_exception_fail(SWIG_ArgError(ecode9), "in method '" "new_LogisticActivationFunctionGPUCpp" "', argument " "9"" of type '" "std::int32_t""'");
   } 
-  arg9 = static_cast< bool >(val9);
+  arg9 = static_cast< std::int32_t >(val9);
+  ecode10 = SWIG_AsVal_bool(obj6, &val10);
+  if (!SWIG_IsOK(ecode10)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode10), "in method '" "new_LogisticActivationFunctionGPUCpp" "', argument " "10"" of type '" "bool""'");
+  } 
+  arg10 = static_cast< bool >(val10);
+  res11 = SWIG_ConvertPtr(obj7, &argp11,SWIGTYPE_p_RegulariserCpp, 0 |  0 );
+  if (!SWIG_IsOK(res11)) {
+    SWIG_exception_fail(SWIG_ArgError(res11), "in method '" "new_LogisticActivationFunctionGPUCpp" "', argument " "11"" of type '" "RegulariserCpp *""'"); 
+  }
+  arg11 = reinterpret_cast< RegulariserCpp * >(argp11);
   {
     try {
-      result = (LogisticActivationFunctionGPUCpp *)new LogisticActivationFunctionGPUCpp(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
+      result = (LogisticActivationFunctionGPUCpp *)new LogisticActivationFunctionGPUCpp(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11);
     } catch (const std::exception& e) {
       SWIG_exception(SWIG_UnknownError, e.what());
     } 
   }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_LogisticActivationFunctionGPUCpp, SWIG_POINTER_NEW |  0 );
   {
-    if (is_new_object2 && array2) Py_DECREF(array2);
+    if (is_new_object3 && array3) Py_DECREF(array3);
   }
   {
-    if (is_new_object4 && array4) Py_DECREF(array4);
+    if (is_new_object5 && array5) Py_DECREF(array5);
   }
   {
-    if (is_new_object6 && array6) Py_DECREF(array6);
+    if (is_new_object7 && array7) Py_DECREF(array7);
   }
   return resultobj;
 fail:
   {
-    if (is_new_object2 && array2) Py_DECREF(array2);
+    if (is_new_object3 && array3) Py_DECREF(array3);
   }
   {
-    if (is_new_object4 && array4) Py_DECREF(array4);
+    if (is_new_object5 && array5) Py_DECREF(array5);
   }
   {
-    if (is_new_object6 && array6) Py_DECREF(array6);
+    if (is_new_object7 && array7) Py_DECREF(array7);
   }
   return NULL;
 }
@@ -4049,104 +4220,122 @@ SWIGINTERN PyObject *LogisticActivationFunctionGPUCpp_swigregister(PyObject *SWI
 SWIGINTERN PyObject *_wrap_new_LinearActivationFunctionGPUCpp(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   std::int32_t arg1 ;
-  std::int32_t *arg2 = (std::int32_t *) 0 ;
-  std::int32_t arg3 ;
-  std::int32_t *arg4 = (std::int32_t *) 0 ;
-  std::int32_t arg5 ;
-  std::int32_t *arg6 = (std::int32_t *) 0 ;
-  std::int32_t arg7 ;
+  std::int32_t arg2 ;
+  std::int32_t *arg3 = (std::int32_t *) 0 ;
+  std::int32_t arg4 ;
+  std::int32_t *arg5 = (std::int32_t *) 0 ;
+  std::int32_t arg6 ;
+  std::int32_t *arg7 = (std::int32_t *) 0 ;
   std::int32_t arg8 ;
-  bool arg9 ;
+  std::int32_t arg9 ;
+  bool arg10 ;
+  RegulariserCpp *arg11 = (RegulariserCpp *) 0 ;
   int val1 ;
   int ecode1 = 0 ;
-  PyArrayObject *array2 = NULL ;
-  int is_new_object2 ;
-  PyArrayObject *array4 = NULL ;
-  int is_new_object4 ;
-  PyArrayObject *array6 = NULL ;
-  int is_new_object6 ;
-  int val8 ;
-  int ecode8 = 0 ;
-  bool val9 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyArrayObject *array3 = NULL ;
+  int is_new_object3 ;
+  PyArrayObject *array5 = NULL ;
+  int is_new_object5 ;
+  PyArrayObject *array7 = NULL ;
+  int is_new_object7 ;
+  int val9 ;
   int ecode9 = 0 ;
+  bool val10 ;
+  int ecode10 = 0 ;
+  void *argp11 = 0 ;
+  int res11 = 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   PyObject * obj2 = 0 ;
   PyObject * obj3 = 0 ;
   PyObject * obj4 = 0 ;
   PyObject * obj5 = 0 ;
+  PyObject * obj6 = 0 ;
+  PyObject * obj7 = 0 ;
   LinearActivationFunctionGPUCpp *result = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OOOOOO:new_LinearActivationFunctionGPUCpp",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OOOOOOOO:new_LinearActivationFunctionGPUCpp",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7)) SWIG_fail;
   ecode1 = SWIG_AsVal_int(obj0, &val1);
   if (!SWIG_IsOK(ecode1)) {
     SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_LinearActivationFunctionGPUCpp" "', argument " "1"" of type '" "std::int32_t""'");
   } 
   arg1 = static_cast< std::int32_t >(val1);
-  {
-    int size[1] = {
-      -1
-    };
-    array2 = obj_to_array_contiguous_allow_conversion(obj1, PyArray_INT, &is_new_object2);
-    if (!array2 || !require_dimensions(array2,1) || !require_size(array2,size,1)) SWIG_fail;
-    arg2 = (int*) array2->data;
-    arg3 = array2->dimensions[0];
-  }
-  {
-    int size[1] = {
-      -1
-    };
-    array4 = obj_to_array_contiguous_allow_conversion(obj2, PyArray_INT, &is_new_object4);
-    if (!array4 || !require_dimensions(array4,1) || !require_size(array4,size,1)) SWIG_fail;
-    arg4 = (int*) array4->data;
-    arg5 = array4->dimensions[0];
-  }
-  {
-    int size[1] = {
-      -1
-    };
-    array6 = obj_to_array_contiguous_allow_conversion(obj3, PyArray_INT, &is_new_object6);
-    if (!array6 || !require_dimensions(array6,1) || !require_size(array6,size,1)) SWIG_fail;
-    arg6 = (int*) array6->data;
-    arg7 = array6->dimensions[0];
-  }
-  ecode8 = SWIG_AsVal_int(obj4, &val8);
-  if (!SWIG_IsOK(ecode8)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode8), "in method '" "new_LinearActivationFunctionGPUCpp" "', argument " "8"" of type '" "std::int32_t""'");
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "new_LinearActivationFunctionGPUCpp" "', argument " "2"" of type '" "std::int32_t""'");
   } 
-  arg8 = static_cast< std::int32_t >(val8);
-  ecode9 = SWIG_AsVal_bool(obj5, &val9);
+  arg2 = static_cast< std::int32_t >(val2);
+  {
+    int size[1] = {
+      -1
+    };
+    array3 = obj_to_array_contiguous_allow_conversion(obj2, PyArray_INT, &is_new_object3);
+    if (!array3 || !require_dimensions(array3,1) || !require_size(array3,size,1)) SWIG_fail;
+    arg3 = (int*) array3->data;
+    arg4 = array3->dimensions[0];
+  }
+  {
+    int size[1] = {
+      -1
+    };
+    array5 = obj_to_array_contiguous_allow_conversion(obj3, PyArray_INT, &is_new_object5);
+    if (!array5 || !require_dimensions(array5,1) || !require_size(array5,size,1)) SWIG_fail;
+    arg5 = (int*) array5->data;
+    arg6 = array5->dimensions[0];
+  }
+  {
+    int size[1] = {
+      -1
+    };
+    array7 = obj_to_array_contiguous_allow_conversion(obj4, PyArray_INT, &is_new_object7);
+    if (!array7 || !require_dimensions(array7,1) || !require_size(array7,size,1)) SWIG_fail;
+    arg7 = (int*) array7->data;
+    arg8 = array7->dimensions[0];
+  }
+  ecode9 = SWIG_AsVal_int(obj5, &val9);
   if (!SWIG_IsOK(ecode9)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode9), "in method '" "new_LinearActivationFunctionGPUCpp" "', argument " "9"" of type '" "bool""'");
+    SWIG_exception_fail(SWIG_ArgError(ecode9), "in method '" "new_LinearActivationFunctionGPUCpp" "', argument " "9"" of type '" "std::int32_t""'");
   } 
-  arg9 = static_cast< bool >(val9);
+  arg9 = static_cast< std::int32_t >(val9);
+  ecode10 = SWIG_AsVal_bool(obj6, &val10);
+  if (!SWIG_IsOK(ecode10)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode10), "in method '" "new_LinearActivationFunctionGPUCpp" "', argument " "10"" of type '" "bool""'");
+  } 
+  arg10 = static_cast< bool >(val10);
+  res11 = SWIG_ConvertPtr(obj7, &argp11,SWIGTYPE_p_RegulariserCpp, 0 |  0 );
+  if (!SWIG_IsOK(res11)) {
+    SWIG_exception_fail(SWIG_ArgError(res11), "in method '" "new_LinearActivationFunctionGPUCpp" "', argument " "11"" of type '" "RegulariserCpp *""'"); 
+  }
+  arg11 = reinterpret_cast< RegulariserCpp * >(argp11);
   {
     try {
-      result = (LinearActivationFunctionGPUCpp *)new LinearActivationFunctionGPUCpp(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
+      result = (LinearActivationFunctionGPUCpp *)new LinearActivationFunctionGPUCpp(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11);
     } catch (const std::exception& e) {
       SWIG_exception(SWIG_UnknownError, e.what());
     } 
   }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_LinearActivationFunctionGPUCpp, SWIG_POINTER_NEW |  0 );
   {
-    if (is_new_object2 && array2) Py_DECREF(array2);
+    if (is_new_object3 && array3) Py_DECREF(array3);
   }
   {
-    if (is_new_object4 && array4) Py_DECREF(array4);
+    if (is_new_object5 && array5) Py_DECREF(array5);
   }
   {
-    if (is_new_object6 && array6) Py_DECREF(array6);
+    if (is_new_object7 && array7) Py_DECREF(array7);
   }
   return resultobj;
 fail:
   {
-    if (is_new_object2 && array2) Py_DECREF(array2);
+    if (is_new_object3 && array3) Py_DECREF(array3);
   }
   {
-    if (is_new_object4 && array4) Py_DECREF(array4);
+    if (is_new_object5 && array5) Py_DECREF(array5);
   }
   {
-    if (is_new_object6 && array6) Py_DECREF(array6);
+    if (is_new_object7 && array7) Py_DECREF(array7);
   }
   return NULL;
 }
@@ -5512,6 +5701,12 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"new_SquareLossCpp", _wrap_new_SquareLossCpp, METH_VARARGS, NULL},
 	 { (char *)"delete_SquareLossCpp", _wrap_delete_SquareLossCpp, METH_VARARGS, NULL},
 	 { (char *)"SquareLossCpp_swigregister", SquareLossCpp_swigregister, METH_VARARGS, NULL},
+	 { (char *)"new_RegulariserCpp", _wrap_new_RegulariserCpp, METH_VARARGS, NULL},
+	 { (char *)"delete_RegulariserCpp", _wrap_delete_RegulariserCpp, METH_VARARGS, NULL},
+	 { (char *)"RegulariserCpp_swigregister", RegulariserCpp_swigregister, METH_VARARGS, NULL},
+	 { (char *)"new_L2RegulariserCpp", _wrap_new_L2RegulariserCpp, METH_VARARGS, NULL},
+	 { (char *)"delete_L2RegulariserCpp", _wrap_delete_L2RegulariserCpp, METH_VARARGS, NULL},
+	 { (char *)"L2RegulariserCpp_swigregister", L2RegulariserCpp_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_NeuralNetworkNodeGPUCpp", _wrap_new_NeuralNetworkNodeGPUCpp, METH_VARARGS, NULL},
 	 { (char *)"delete_NeuralNetworkNodeGPUCpp", _wrap_delete_NeuralNetworkNodeGPUCpp, METH_VARARGS, NULL},
 	 { (char *)"NeuralNetworkNodeGPUCpp_swigregister", NeuralNetworkNodeGPUCpp_swigregister, METH_VARARGS, NULL},
@@ -5579,13 +5774,18 @@ static void *_p_SquareLossCppTo_p_LossFunctionCpp(void *x, int *SWIGUNUSEDPARM(n
 static void *_p_SGDCppTo_p_OptimiserCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((OptimiserCpp *)  ((SGDCpp *) x));
 }
+static void *_p_L2RegulariserCppTo_p_RegulariserCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((RegulariserCpp *)  ((L2RegulariserCpp *) x));
+}
 static swig_type_info _swigt__p_ActivationFunctionGPUCpp = {"_p_ActivationFunctionGPUCpp", "ActivationFunctionGPUCpp *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_L2RegulariserCpp = {"_p_L2RegulariserCpp", "L2RegulariserCpp *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_LinearActivationFunctionGPUCpp = {"_p_LinearActivationFunctionGPUCpp", "LinearActivationFunctionGPUCpp *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_LogisticActivationFunctionGPUCpp = {"_p_LogisticActivationFunctionGPUCpp", "LogisticActivationFunctionGPUCpp *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_LossFunctionCpp = {"_p_LossFunctionCpp", "LossFunctionCpp *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_NeuralNetworkGPUCpp = {"_p_NeuralNetworkGPUCpp", "NeuralNetworkGPUCpp *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_NeuralNetworkNodeGPUCpp = {"_p_NeuralNetworkNodeGPUCpp", "NeuralNetworkNodeGPUCpp *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_OptimiserCpp = {"_p_OptimiserCpp", "OptimiserCpp *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_RegulariserCpp = {"_p_RegulariserCpp", "RegulariserCpp *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_SGDCpp = {"_p_SGDCpp", "SGDCpp *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_SquareLossCpp = {"_p_SquareLossCpp", "SquareLossCpp *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_char = {"_p_char", "char *", 0, 0, (void*)0, 0};
@@ -5601,12 +5801,14 @@ static swig_type_info _swigt__p_unsigned_short = {"_p_unsigned_short", "unsigned
 
 static swig_type_info *swig_type_initial[] = {
   &_swigt__p_ActivationFunctionGPUCpp,
+  &_swigt__p_L2RegulariserCpp,
   &_swigt__p_LinearActivationFunctionGPUCpp,
   &_swigt__p_LogisticActivationFunctionGPUCpp,
   &_swigt__p_LossFunctionCpp,
   &_swigt__p_NeuralNetworkGPUCpp,
   &_swigt__p_NeuralNetworkNodeGPUCpp,
   &_swigt__p_OptimiserCpp,
+  &_swigt__p_RegulariserCpp,
   &_swigt__p_SGDCpp,
   &_swigt__p_SquareLossCpp,
   &_swigt__p_char,
@@ -5622,12 +5824,14 @@ static swig_type_info *swig_type_initial[] = {
 };
 
 static swig_cast_info _swigc__p_ActivationFunctionGPUCpp[] = {  {&_swigt__p_ActivationFunctionGPUCpp, 0, 0, 0},  {&_swigt__p_LogisticActivationFunctionGPUCpp, _p_LogisticActivationFunctionGPUCppTo_p_ActivationFunctionGPUCpp, 0, 0},  {&_swigt__p_LinearActivationFunctionGPUCpp, _p_LinearActivationFunctionGPUCppTo_p_ActivationFunctionGPUCpp, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_L2RegulariserCpp[] = {  {&_swigt__p_L2RegulariserCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_LinearActivationFunctionGPUCpp[] = {  {&_swigt__p_LinearActivationFunctionGPUCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_LogisticActivationFunctionGPUCpp[] = {  {&_swigt__p_LogisticActivationFunctionGPUCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_LossFunctionCpp[] = {  {&_swigt__p_LossFunctionCpp, 0, 0, 0},  {&_swigt__p_SquareLossCpp, _p_SquareLossCppTo_p_LossFunctionCpp, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_NeuralNetworkGPUCpp[] = {  {&_swigt__p_NeuralNetworkGPUCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_NeuralNetworkNodeGPUCpp[] = {  {&_swigt__p_ActivationFunctionGPUCpp, _p_ActivationFunctionGPUCppTo_p_NeuralNetworkNodeGPUCpp, 0, 0},  {&_swigt__p_LogisticActivationFunctionGPUCpp, _p_LogisticActivationFunctionGPUCppTo_p_NeuralNetworkNodeGPUCpp, 0, 0},  {&_swigt__p_LinearActivationFunctionGPUCpp, _p_LinearActivationFunctionGPUCppTo_p_NeuralNetworkNodeGPUCpp, 0, 0},  {&_swigt__p_NeuralNetworkNodeGPUCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_OptimiserCpp[] = {  {&_swigt__p_SGDCpp, _p_SGDCppTo_p_OptimiserCpp, 0, 0},  {&_swigt__p_OptimiserCpp, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_RegulariserCpp[] = {  {&_swigt__p_RegulariserCpp, 0, 0, 0},  {&_swigt__p_L2RegulariserCpp, _p_L2RegulariserCppTo_p_RegulariserCpp, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_SGDCpp[] = {  {&_swigt__p_SGDCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_SquareLossCpp[] = {  {&_swigt__p_SquareLossCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_char[] = {  {&_swigt__p_char, 0, 0, 0},{0, 0, 0, 0}};
@@ -5643,12 +5847,14 @@ static swig_cast_info _swigc__p_unsigned_short[] = {  {&_swigt__p_unsigned_short
 
 static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_ActivationFunctionGPUCpp,
+  _swigc__p_L2RegulariserCpp,
   _swigc__p_LinearActivationFunctionGPUCpp,
   _swigc__p_LogisticActivationFunctionGPUCpp,
   _swigc__p_LossFunctionCpp,
   _swigc__p_NeuralNetworkGPUCpp,
   _swigc__p_NeuralNetworkNodeGPUCpp,
   _swigc__p_OptimiserCpp,
+  _swigc__p_RegulariserCpp,
   _swigc__p_SGDCpp,
   _swigc__p_SquareLossCpp,
   _swigc__p_char,

@@ -2,20 +2,26 @@ class SGDCpp: public OptimiserCpp {
 	
 private:
 
-  float LearningRate, LearningRatePower;
+  float learning_rate_;
 
-  std::int32_t EpochNum;
+  float learning_rate_power_;
+
+  std::int32_t epoch_num_;
 
 public:
 		
   //Initialise the GradientDescent function
-  SGDCpp (float _LearningRate, float _LearningRatePower/*, const std::int32_t _size, const std::int32_t _rank*/): OptimiserCpp(/*size, rank*/) {
+  SGDCpp (
+	  float _learning_rate, 
+	  float _learning_rate_power
+	  /*, const std::int32_t _size, const std::int32_t _rank*/
+	  ): OptimiserCpp(/*size, rank*/) {
 	
     //Store all of the input values
-    this->LearningRate = _LearningRate; 
-    this->LearningRatePower = _LearningRatePower;
+    this->learning_rate_ = _learning_rate; 
+    this->learning_rate_power_ = _learning_rate_power;
 
-    this->EpochNum = 0;//Initialise number of epochs to zero
+    this->epoch_num_ = 0;
 		
   }
 
@@ -23,7 +29,13 @@ public:
   ~SGDCpp() {}
 		
    //dev_function_type is defined in OptimiserCpp.hpp!
-  void min(/*MPI_Comm comm,*/NeuralNetworkGPUCpp *_NeuralNet, thrust::device_vector<float> &_W, const float _tol, const std::int32_t _MaxNumEpochs, std::vector<float> &_SumGradients);
+  void min(/*MPI_Comm comm,*/
+	   NeuralNetworkGPUCpp          *_neural_net, 
+	   thrust::device_vector<float> &_W, 
+	   const float                   _tol, 
+	   const std::int32_t            _max_num_epochs, 
+	   std::vector<float>           &_sum_gradients
+	   );
 		
 };
 

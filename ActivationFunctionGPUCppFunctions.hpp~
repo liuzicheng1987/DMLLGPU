@@ -1,23 +1,23 @@
 ActivationFunctionGPUCpp::ActivationFunctionGPUCpp(
-						   std::int32_t  _NodeNumber, 
-						   std::int32_t *_InputNodesFedIntoMeDense, 
-						   std::int32_t  _InputNodesFedIntoMeDenseLength, 
-						   std::int32_t *_InputNodesFedIntoMeSparse, 
-						   std::int32_t  _InputNodesFedIntoMeSparseLength, 
-						   std::int32_t *_HiddenNodesFedIntoMe, 
-						   std::int32_t  _HiddenNodesFedIntoMeLength, 
-						   std::int32_t  _IShareWeightsWith, 
-						   bool          _NoWeightUpdates
+						   std::int32_t  _node_number, 
+						   std::int32_t *_input_nodes_fed_into_me_dense, 
+						   std::int32_t  _input_nodes_fed_into_me_dense_length, 
+						   std::int32_t *_input_nodes_fed_into_me_sparse, 
+						   std::int32_t  _input_nodes_fed_into_me_sparse_length, 
+						   std::int32_t *_hidden_nodes_fed_into_me, 
+						   std::int32_t  _hidden_nodes_fed_into_me_length, 
+						   std::int32_t  _i_share_weights_with, 
+						   bool          _no_weight_updates
 						   ): NeuralNetworkNodeGPUCpp (
-									      _NodeNumber,
-									      _InputNodesFedIntoMeDense, 
-									      _InputNodesFedIntoMeDenseLength, 
-									      _InputNodesFedIntoMeSparse, 
-									      _InputNodesFedIntoMeSparseLength, 
-									      _HiddenNodesFedIntoMe, 
-									      _HiddenNodesFedIntoMeLength, 
-									      _IShareWeightsWith, 
-									      _NoWeightUpdates
+									      _node_number,
+									      _input_nodes_fed_into_me_dense, 
+									      _input_nodes_fed_into_me_dense_length, 
+									      _input_nodes_fed_into_me_sparse, 
+									      _input_nodes_fed_into_me_sparse_length, 
+									      _hidden_nodes_fed_into_me, 
+									      _hidden_nodes_fed_into_me_length, 
+									      _i_share_weights_with, 
+									      _no_weight_updates
 									      ) {
 
   //We are initialising these two vectors, so we can resize them later, if necessary
@@ -31,19 +31,19 @@ ActivationFunctionGPUCpp::~ActivationFunctionGPUCpp() {};
 std::int32_t ActivationFunctionGPUCpp::get_num_weights_required() {
 
   //This is necessary for every class that inherits from NeuralNetworkNodeGPUCpp
-  return NumInputNodesCumulative + static_cast<std::int32_t>(HiddenNodesFedIntoMe.size()) + 1; 
+  return num_input_nodes_cumulative + static_cast<std::int32_t>(hidden_nodes_fed_into_me.size()) + 1; 
 
 };
 
 void ActivationFunctionGPUCpp::calc_output(
-					   const std::int32_t _BatchNum, 
-					   const std::int32_t _BatchSize
+					   const std::int32_t _batch_num, 
+					   const std::int32_t _batch_size
 					   ) {
 
   cublasStatus_t cstatus;//cuBLAS status variable - so we can check whether the cuBLAS operations were successful
   const float *w = this->W;//Pointer to weights
   
-  std::int32_t J;//Number of columns in input data - for convenience
+  std::int32_t dim;//Number of columns in input data - for convenience
 
   //Needed for cuBLAS transformations
   const float alpha = 1.0; 
@@ -51,15 +51,15 @@ void ActivationFunctionGPUCpp::calc_output(
 
   //Resize output and delta, if necessary
   //Output is stored in the NeuralNetworkNodeGPUCpp base class and stores the output of this node
-  if (static_cast<std::int32_t>(this->output.size()) != _BatchSize) {
+  if (static_cast<std::int32_t>(this->output.size()) != _batch_size) {
     
     //Resize output
-    this->output.resize(_BatchSize);
-    this->OutputPtr = thrust::raw_pointer_cast(this->output.data());
+    this->output.resize(_batch_size);
+    this->output_ptr = thrust::raw_pointer_cast(this->output.data());
 
     //Resize delta
-    this->delta.resize(_BatchSize);
-    this->DeltaPtr = thrust::raw_pointer_cast(this->delta.data());
+    this->delta.resize(_batch_size);
+    this->delta_ptr = thrust::raw_pointer_cast(this->delta.data());
 
   }
 
@@ -71,49 +71,49 @@ void ActivationFunctionGPUCpp::calc_output(
 	       );
 
   //Transform dense input nodes
-  for (std::int32_t i: this->InputNodesFedIntoMeDense) {
+  for (std::int32_t i: this->input_nodes_fed_into_me_dense) {
 
-    J = this->NeuralNet->get_dense_input_data(i, _BatchNum).J;//For convenience
+    dim = this->NeuralNet->get_dense_input_data(i, _batch_num).dim;//For convenience
 
     //Linear transformation of input data using cuBLAS
     //output = alpha*Xw + beta*output 
     //http://docs.nvidia.com/cuda/cublas/#cublas-lt-t-gt-gemv
-    cstatus = cublasSgemv(this->NeuralNet->get_handle(), 
+    cstatus = cublasSgemv(this->NeuralNet->get_dense_handle(), 
 			  CUBLAS_OP_T, 
-			  J,
-			  _BatchSize,
+			  dim,
+			  _batch_size,
 			  &alpha, 
-			  this->NeuralNet->get_dense_input_data(i, _BatchNum).Xptr, 
-			  J, 
+			  this->NeuralNet->get_dense_input_data(i, _batch_num).X_ptr, 
+			  dim, 
 			  w, 
 			  1, 
 			  &beta, 
-			  this->OutputPtr,
+			  this->output_ptr,
 			  1);
 
     //Make sure that matrix multiplication succeeded and throw error if it didn't!
     if (cstatus != CUBLAS_STATUS_SUCCESS) throw std::invalid_argument("Something went wrong during cuBLAS operation on dense input data!");
       
-    w += J;//Increment w
+    w += dim;//Increment w
     
   } 
 
   //Transform sparse input nodes
-  for (std::int32_t i: this->InputNodesFedIntoMeSparse) {
+  for (std::int32_t i: this->input_nodes_fed_into_me_sparse) {
 
-    J = this->NeuralNet->get_sparse_input_data(i, _BatchNum).J;//For convenience
+    dim = this->NeuralNet->get_sparse_input_data(i, _batch_num).dim;//For convenience
     
     //...to be implemented
 
-    w += J;//Increment w
+    w += dim;//Increment w
     
   } 
   
   //Transform hidden nodes fed into me and apply activation function
   this->forward_propagation(
 			    w, 
-			    this->HiddenNodesFedIntoMePtr.data(), 
-			    this->HiddenNodesFedIntoMePtr.size(), 
+			    this->hidden_nodes_fed_into_me_ptr.data(), 
+			    this->hidden_nodes_fed_into_me_ptr.size(), 
 			    this->output
 			    );
 
@@ -122,16 +122,16 @@ void ActivationFunctionGPUCpp::calc_output(
 void ActivationFunctionGPUCpp::calc_delta() {
 
   this->backpropagation(
-			this->W + this->NumInputNodesCumulative, 
-			this->HiddenNodesFedIntoMePtr.data(), 
-			this->HiddenNodesFedIntoMePtr.size(), 
+			this->W + this->num_input_nodes_cumulative, 
+			this->hidden_nodes_fed_into_me_ptr.data(), 
+			this->hidden_nodes_fed_into_me_ptr.size(), 
 			this->output, 
 			this->delta
 			);
 
 }
 
-void ActivationFunctionGPUCpp::calc_dLdw(float *_dLdw, const std::int32_t _BatchNum, const std::int32_t _BatchSize) {
+void ActivationFunctionGPUCpp::calc_dLdw(float *_dLdw, const std::int32_t _batch_num, const std::int32_t _batch_size) {
 
   //pointer _dLdw points to the beginning of the weights relevant for this node. This is achieved by the g(...) function.
 
@@ -140,29 +140,29 @@ void ActivationFunctionGPUCpp::calc_dLdw(float *_dLdw, const std::int32_t _Batch
   const float *w = this->W;//Pointer to weights
   float *dldw = _dLdw;//Pointer to derivatives
 
-  std::int32_t J;//Number of columns in input data - for convenience
+  std::int32_t dim;//Number of columns in input data - for convenience
 
   //Needed for cuBLAS transformations
   const float alpha = 1.0; 
   const float beta = 0.0; 
 
   //Calculate derivatives for dense input nodes
-  for (std::int32_t i: this->InputNodesFedIntoMeDense) {
+  for (std::int32_t i: this->input_nodes_fed_into_me_dense) {
 
-    J = this->NeuralNet->get_dense_input_data(i, _BatchNum).J;//For convenience
+    dim = this->NeuralNet->get_dense_input_data(i, _batch_num).dim;//For convenience
 
     //Linear transformation of input data using cuBLAS
-    //dldw = alpha*X(this->DeltaPtr) + beta*dldw 
+    //dldw = alpha*X(this->delta_ptr) + beta*dldw 
     //http://docs.nvidia.com/cuda/cublas/#cublas-lt-t-gt-gemv
     cstatus = cublasSgemv(
-			  this->NeuralNet->get_handle(), 
+			  this->NeuralNet->get_dense_handle(), 
 			  CUBLAS_OP_N, 
-			  J, 
-			  _BatchSize, 
+			  dim, 
+			  _batch_size, 
 			  &alpha, 
-			  this->NeuralNet->get_dense_input_data(i, _BatchNum).Xptr, 
-			  J, 
-			  this->DeltaPtr, 
+			  this->NeuralNet->get_dense_input_data(i, _batch_num).X_ptr, 
+			  dim, 
+			  this->delta_ptr, 
 			  1, 
 			  &beta, 
 			  dldw, 
@@ -172,28 +172,28 @@ void ActivationFunctionGPUCpp::calc_dLdw(float *_dLdw, const std::int32_t _Batch
     if (cstatus != CUBLAS_STATUS_SUCCESS) 
       throw std::runtime_error("Something went wrong during cuBLAS operation on input data while calculating derivatives!");
 
-    w += J;//Increment w
-    dldw += J;//Increment dldw
+    w += dim;//Increment w
+    dldw += dim;//Increment dldw
     
   } 
 
   //Calculate derivatives for sparse input nodes
-  for (std::int32_t i: this->InputNodesFedIntoMeSparse) {
+  for (std::int32_t i: this->input_nodes_fed_into_me_sparse) {
 
-    J = this->NeuralNet->get_sparse_input_data(i, _BatchNum).J;//For convenience
+    dim = this->NeuralNet->get_sparse_input_data(i, _batch_num).dim;//For convenience
 
     //...to be implemented
 
-    w += J;//Increment w
-    dldw += J;//Increment dldw
+    w += dim;//Increment w
+    dldw += dim;//Increment dldw
     
   }   
 
   //Calculate derivatives for hidden nodes fed into this node
   ActivationFunction::calc_dev_hidden(
 				      dldw, 
-				      this->HiddenNodesFedIntoMePtr.data(), 
-				      this->HiddenNodesFedIntoMePtr.size(), 
+				      this->hidden_nodes_fed_into_me_ptr.data(), 
+				      this->hidden_nodes_fed_into_me_ptr.size(), 
 				      this->delta
 				      );
    
