@@ -199,6 +199,23 @@ class LinearActivationFunctionGPUCpp(ActivationFunctionGPUCpp):
 LinearActivationFunctionGPUCpp_swigregister = _DMLLGPUCpp.LinearActivationFunctionGPUCpp_swigregister
 LinearActivationFunctionGPUCpp_swigregister(LinearActivationFunctionGPUCpp)
 
+class SoftmaxActivationFunctionGPUCpp(ActivationFunctionGPUCpp):
+    __swig_setmethods__ = {}
+    for _s in [ActivationFunctionGPUCpp]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, SoftmaxActivationFunctionGPUCpp, name, value)
+    __swig_getmethods__ = {}
+    for _s in [ActivationFunctionGPUCpp]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, SoftmaxActivationFunctionGPUCpp, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _DMLLGPUCpp.new_SoftmaxActivationFunctionGPUCpp(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _DMLLGPUCpp.delete_SoftmaxActivationFunctionGPUCpp
+    __del__ = lambda self : None;
+SoftmaxActivationFunctionGPUCpp_swigregister = _DMLLGPUCpp.SoftmaxActivationFunctionGPUCpp_swigregister
+SoftmaxActivationFunctionGPUCpp_swigregister(SoftmaxActivationFunctionGPUCpp)
+
 class NeuralNetworkGPUCpp(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, NeuralNetworkGPUCpp, name, value)

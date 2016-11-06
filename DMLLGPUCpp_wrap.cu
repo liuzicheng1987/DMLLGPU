@@ -2947,19 +2947,20 @@ SWIG_Python_NonDynamicSetAttr(PyObject *obj, PyObject *name, PyObject *value) {
 #define SWIGTYPE_p_OptimiserCpp swig_types[7]
 #define SWIGTYPE_p_RegulariserCpp swig_types[8]
 #define SWIGTYPE_p_SGDCpp swig_types[9]
-#define SWIGTYPE_p_SquareLossCpp swig_types[10]
-#define SWIGTYPE_p_char swig_types[11]
-#define SWIGTYPE_p_float swig_types[12]
-#define SWIGTYPE_p_int swig_types[13]
-#define SWIGTYPE_p_long_long swig_types[14]
-#define SWIGTYPE_p_short swig_types[15]
-#define SWIGTYPE_p_signed_char swig_types[16]
-#define SWIGTYPE_p_unsigned_char swig_types[17]
-#define SWIGTYPE_p_unsigned_int swig_types[18]
-#define SWIGTYPE_p_unsigned_long_long swig_types[19]
-#define SWIGTYPE_p_unsigned_short swig_types[20]
-static swig_type_info *swig_types[22];
-static swig_module_info swig_module = {swig_types, 21, 0, 0, 0, 0};
+#define SWIGTYPE_p_SoftmaxActivationFunctionGPUCpp swig_types[10]
+#define SWIGTYPE_p_SquareLossCpp swig_types[11]
+#define SWIGTYPE_p_char swig_types[12]
+#define SWIGTYPE_p_float swig_types[13]
+#define SWIGTYPE_p_int swig_types[14]
+#define SWIGTYPE_p_long_long swig_types[15]
+#define SWIGTYPE_p_short swig_types[16]
+#define SWIGTYPE_p_signed_char swig_types[17]
+#define SWIGTYPE_p_unsigned_char swig_types[18]
+#define SWIGTYPE_p_unsigned_int swig_types[19]
+#define SWIGTYPE_p_unsigned_long_long swig_types[20]
+#define SWIGTYPE_p_unsigned_short swig_types[21]
+static swig_type_info *swig_types[23];
+static swig_module_info swig_module = {swig_types, 22, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -4375,6 +4376,173 @@ SWIGINTERN PyObject *LinearActivationFunctionGPUCpp_swigregister(PyObject *SWIGU
   return SWIG_Py_Void();
 }
 
+SWIGINTERN PyObject *_wrap_new_SoftmaxActivationFunctionGPUCpp(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::int32_t arg1 ;
+  std::int32_t arg2 ;
+  std::int32_t arg3 ;
+  std::int32_t *arg4 = (std::int32_t *) 0 ;
+  std::int32_t arg5 ;
+  std::int32_t *arg6 = (std::int32_t *) 0 ;
+  std::int32_t arg7 ;
+  std::int32_t *arg8 = (std::int32_t *) 0 ;
+  std::int32_t arg9 ;
+  std::int32_t arg10 ;
+  bool arg11 ;
+  RegulariserCpp *arg12 = (RegulariserCpp *) 0 ;
+  int val1 ;
+  int ecode1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  PyArrayObject *array4 = NULL ;
+  int is_new_object4 ;
+  PyArrayObject *array6 = NULL ;
+  int is_new_object6 ;
+  PyArrayObject *array8 = NULL ;
+  int is_new_object8 ;
+  int val10 ;
+  int ecode10 = 0 ;
+  bool val11 ;
+  int ecode11 = 0 ;
+  void *argp12 = 0 ;
+  int res12 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  PyObject * obj4 = 0 ;
+  PyObject * obj5 = 0 ;
+  PyObject * obj6 = 0 ;
+  PyObject * obj7 = 0 ;
+  PyObject * obj8 = 0 ;
+  SoftmaxActivationFunctionGPUCpp *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOOOOOOO:new_SoftmaxActivationFunctionGPUCpp",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7,&obj8)) SWIG_fail;
+  ecode1 = SWIG_AsVal_int(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_SoftmaxActivationFunctionGPUCpp" "', argument " "1"" of type '" "std::int32_t""'");
+  } 
+  arg1 = static_cast< std::int32_t >(val1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "new_SoftmaxActivationFunctionGPUCpp" "', argument " "2"" of type '" "std::int32_t""'");
+  } 
+  arg2 = static_cast< std::int32_t >(val2);
+  ecode3 = SWIG_AsVal_int(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "new_SoftmaxActivationFunctionGPUCpp" "', argument " "3"" of type '" "std::int32_t""'");
+  } 
+  arg3 = static_cast< std::int32_t >(val3);
+  {
+    int size[1] = {
+      -1
+    };
+    array4 = obj_to_array_contiguous_allow_conversion(obj3, PyArray_INT, &is_new_object4);
+    if (!array4 || !require_dimensions(array4,1) || !require_size(array4,size,1)) SWIG_fail;
+    arg4 = (int*) array4->data;
+    arg5 = array4->dimensions[0];
+  }
+  {
+    int size[1] = {
+      -1
+    };
+    array6 = obj_to_array_contiguous_allow_conversion(obj4, PyArray_INT, &is_new_object6);
+    if (!array6 || !require_dimensions(array6,1) || !require_size(array6,size,1)) SWIG_fail;
+    arg6 = (int*) array6->data;
+    arg7 = array6->dimensions[0];
+  }
+  {
+    int size[1] = {
+      -1
+    };
+    array8 = obj_to_array_contiguous_allow_conversion(obj5, PyArray_INT, &is_new_object8);
+    if (!array8 || !require_dimensions(array8,1) || !require_size(array8,size,1)) SWIG_fail;
+    arg8 = (int*) array8->data;
+    arg9 = array8->dimensions[0];
+  }
+  ecode10 = SWIG_AsVal_int(obj6, &val10);
+  if (!SWIG_IsOK(ecode10)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode10), "in method '" "new_SoftmaxActivationFunctionGPUCpp" "', argument " "10"" of type '" "std::int32_t""'");
+  } 
+  arg10 = static_cast< std::int32_t >(val10);
+  ecode11 = SWIG_AsVal_bool(obj7, &val11);
+  if (!SWIG_IsOK(ecode11)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode11), "in method '" "new_SoftmaxActivationFunctionGPUCpp" "', argument " "11"" of type '" "bool""'");
+  } 
+  arg11 = static_cast< bool >(val11);
+  res12 = SWIG_ConvertPtr(obj8, &argp12,SWIGTYPE_p_RegulariserCpp, 0 |  0 );
+  if (!SWIG_IsOK(res12)) {
+    SWIG_exception_fail(SWIG_ArgError(res12), "in method '" "new_SoftmaxActivationFunctionGPUCpp" "', argument " "12"" of type '" "RegulariserCpp *""'"); 
+  }
+  arg12 = reinterpret_cast< RegulariserCpp * >(argp12);
+  {
+    try {
+      result = (SoftmaxActivationFunctionGPUCpp *)new SoftmaxActivationFunctionGPUCpp(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12);
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_UnknownError, e.what());
+    } 
+  }
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_SoftmaxActivationFunctionGPUCpp, SWIG_POINTER_NEW |  0 );
+  {
+    if (is_new_object4 && array4) Py_DECREF(array4);
+  }
+  {
+    if (is_new_object6 && array6) Py_DECREF(array6);
+  }
+  {
+    if (is_new_object8 && array8) Py_DECREF(array8);
+  }
+  return resultobj;
+fail:
+  {
+    if (is_new_object4 && array4) Py_DECREF(array4);
+  }
+  {
+    if (is_new_object6 && array6) Py_DECREF(array6);
+  }
+  {
+    if (is_new_object8 && array8) Py_DECREF(array8);
+  }
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_SoftmaxActivationFunctionGPUCpp(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  SoftmaxActivationFunctionGPUCpp *arg1 = (SoftmaxActivationFunctionGPUCpp *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_SoftmaxActivationFunctionGPUCpp",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_SoftmaxActivationFunctionGPUCpp, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_SoftmaxActivationFunctionGPUCpp" "', argument " "1"" of type '" "SoftmaxActivationFunctionGPUCpp *""'"); 
+  }
+  arg1 = reinterpret_cast< SoftmaxActivationFunctionGPUCpp * >(argp1);
+  {
+    try {
+      delete arg1;
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_UnknownError, e.what());
+    } 
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *SoftmaxActivationFunctionGPUCpp_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_SoftmaxActivationFunctionGPUCpp, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
 SWIGINTERN PyObject *_wrap_new_NeuralNetworkGPUCpp(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   std::int32_t *arg1 = (std::int32_t *) 0 ;
@@ -5719,6 +5887,9 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"new_LinearActivationFunctionGPUCpp", _wrap_new_LinearActivationFunctionGPUCpp, METH_VARARGS, NULL},
 	 { (char *)"delete_LinearActivationFunctionGPUCpp", _wrap_delete_LinearActivationFunctionGPUCpp, METH_VARARGS, NULL},
 	 { (char *)"LinearActivationFunctionGPUCpp_swigregister", LinearActivationFunctionGPUCpp_swigregister, METH_VARARGS, NULL},
+	 { (char *)"new_SoftmaxActivationFunctionGPUCpp", _wrap_new_SoftmaxActivationFunctionGPUCpp, METH_VARARGS, NULL},
+	 { (char *)"delete_SoftmaxActivationFunctionGPUCpp", _wrap_delete_SoftmaxActivationFunctionGPUCpp, METH_VARARGS, NULL},
+	 { (char *)"SoftmaxActivationFunctionGPUCpp_swigregister", SoftmaxActivationFunctionGPUCpp_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_NeuralNetworkGPUCpp", _wrap_new_NeuralNetworkGPUCpp, METH_VARARGS, NULL},
 	 { (char *)"delete_NeuralNetworkGPUCpp", _wrap_delete_NeuralNetworkGPUCpp, METH_VARARGS, NULL},
 	 { (char *)"NeuralNetworkGPUCpp_init_hidden_node", _wrap_NeuralNetworkGPUCpp_init_hidden_node, METH_VARARGS, NULL},
@@ -5762,11 +5933,17 @@ static void *_p_LogisticActivationFunctionGPUCppTo_p_NeuralNetworkNodeGPUCpp(voi
 static void *_p_LinearActivationFunctionGPUCppTo_p_NeuralNetworkNodeGPUCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((NeuralNetworkNodeGPUCpp *) (ActivationFunctionGPUCpp *) ((LinearActivationFunctionGPUCpp *) x));
 }
+static void *_p_SoftmaxActivationFunctionGPUCppTo_p_NeuralNetworkNodeGPUCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((NeuralNetworkNodeGPUCpp *) (ActivationFunctionGPUCpp *) ((SoftmaxActivationFunctionGPUCpp *) x));
+}
 static void *_p_LogisticActivationFunctionGPUCppTo_p_ActivationFunctionGPUCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((ActivationFunctionGPUCpp *)  ((LogisticActivationFunctionGPUCpp *) x));
 }
 static void *_p_LinearActivationFunctionGPUCppTo_p_ActivationFunctionGPUCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((ActivationFunctionGPUCpp *)  ((LinearActivationFunctionGPUCpp *) x));
+}
+static void *_p_SoftmaxActivationFunctionGPUCppTo_p_ActivationFunctionGPUCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((ActivationFunctionGPUCpp *)  ((SoftmaxActivationFunctionGPUCpp *) x));
 }
 static void *_p_SquareLossCppTo_p_LossFunctionCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((LossFunctionCpp *)  ((SquareLossCpp *) x));
@@ -5787,6 +5964,7 @@ static swig_type_info _swigt__p_NeuralNetworkNodeGPUCpp = {"_p_NeuralNetworkNode
 static swig_type_info _swigt__p_OptimiserCpp = {"_p_OptimiserCpp", "OptimiserCpp *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_RegulariserCpp = {"_p_RegulariserCpp", "RegulariserCpp *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_SGDCpp = {"_p_SGDCpp", "SGDCpp *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_SoftmaxActivationFunctionGPUCpp = {"_p_SoftmaxActivationFunctionGPUCpp", "SoftmaxActivationFunctionGPUCpp *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_SquareLossCpp = {"_p_SquareLossCpp", "SquareLossCpp *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_char = {"_p_char", "char *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_float = {"_p_float", "float *", 0, 0, (void*)0, 0};
@@ -5810,6 +5988,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_OptimiserCpp,
   &_swigt__p_RegulariserCpp,
   &_swigt__p_SGDCpp,
+  &_swigt__p_SoftmaxActivationFunctionGPUCpp,
   &_swigt__p_SquareLossCpp,
   &_swigt__p_char,
   &_swigt__p_float,
@@ -5823,16 +6002,17 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_unsigned_short,
 };
 
-static swig_cast_info _swigc__p_ActivationFunctionGPUCpp[] = {  {&_swigt__p_ActivationFunctionGPUCpp, 0, 0, 0},  {&_swigt__p_LogisticActivationFunctionGPUCpp, _p_LogisticActivationFunctionGPUCppTo_p_ActivationFunctionGPUCpp, 0, 0},  {&_swigt__p_LinearActivationFunctionGPUCpp, _p_LinearActivationFunctionGPUCppTo_p_ActivationFunctionGPUCpp, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_ActivationFunctionGPUCpp[] = {  {&_swigt__p_ActivationFunctionGPUCpp, 0, 0, 0},  {&_swigt__p_LogisticActivationFunctionGPUCpp, _p_LogisticActivationFunctionGPUCppTo_p_ActivationFunctionGPUCpp, 0, 0},  {&_swigt__p_LinearActivationFunctionGPUCpp, _p_LinearActivationFunctionGPUCppTo_p_ActivationFunctionGPUCpp, 0, 0},  {&_swigt__p_SoftmaxActivationFunctionGPUCpp, _p_SoftmaxActivationFunctionGPUCppTo_p_ActivationFunctionGPUCpp, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_L2RegulariserCpp[] = {  {&_swigt__p_L2RegulariserCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_LinearActivationFunctionGPUCpp[] = {  {&_swigt__p_LinearActivationFunctionGPUCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_LogisticActivationFunctionGPUCpp[] = {  {&_swigt__p_LogisticActivationFunctionGPUCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_LossFunctionCpp[] = {  {&_swigt__p_LossFunctionCpp, 0, 0, 0},  {&_swigt__p_SquareLossCpp, _p_SquareLossCppTo_p_LossFunctionCpp, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_NeuralNetworkGPUCpp[] = {  {&_swigt__p_NeuralNetworkGPUCpp, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_NeuralNetworkNodeGPUCpp[] = {  {&_swigt__p_ActivationFunctionGPUCpp, _p_ActivationFunctionGPUCppTo_p_NeuralNetworkNodeGPUCpp, 0, 0},  {&_swigt__p_LogisticActivationFunctionGPUCpp, _p_LogisticActivationFunctionGPUCppTo_p_NeuralNetworkNodeGPUCpp, 0, 0},  {&_swigt__p_LinearActivationFunctionGPUCpp, _p_LinearActivationFunctionGPUCppTo_p_NeuralNetworkNodeGPUCpp, 0, 0},  {&_swigt__p_NeuralNetworkNodeGPUCpp, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_NeuralNetworkNodeGPUCpp[] = {  {&_swigt__p_ActivationFunctionGPUCpp, _p_ActivationFunctionGPUCppTo_p_NeuralNetworkNodeGPUCpp, 0, 0},  {&_swigt__p_LogisticActivationFunctionGPUCpp, _p_LogisticActivationFunctionGPUCppTo_p_NeuralNetworkNodeGPUCpp, 0, 0},  {&_swigt__p_LinearActivationFunctionGPUCpp, _p_LinearActivationFunctionGPUCppTo_p_NeuralNetworkNodeGPUCpp, 0, 0},  {&_swigt__p_SoftmaxActivationFunctionGPUCpp, _p_SoftmaxActivationFunctionGPUCppTo_p_NeuralNetworkNodeGPUCpp, 0, 0},  {&_swigt__p_NeuralNetworkNodeGPUCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_OptimiserCpp[] = {  {&_swigt__p_SGDCpp, _p_SGDCppTo_p_OptimiserCpp, 0, 0},  {&_swigt__p_OptimiserCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_RegulariserCpp[] = {  {&_swigt__p_RegulariserCpp, 0, 0, 0},  {&_swigt__p_L2RegulariserCpp, _p_L2RegulariserCppTo_p_RegulariserCpp, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_SGDCpp[] = {  {&_swigt__p_SGDCpp, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_SoftmaxActivationFunctionGPUCpp[] = {  {&_swigt__p_SoftmaxActivationFunctionGPUCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_SquareLossCpp[] = {  {&_swigt__p_SquareLossCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_char[] = {  {&_swigt__p_char, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_float[] = {  {&_swigt__p_float, 0, 0, 0},{0, 0, 0, 0}};
@@ -5856,6 +6036,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_OptimiserCpp,
   _swigc__p_RegulariserCpp,
   _swigc__p_SGDCpp,
+  _swigc__p_SoftmaxActivationFunctionGPUCpp,
   _swigc__p_SquareLossCpp,
   _swigc__p_char,
   _swigc__p_float,

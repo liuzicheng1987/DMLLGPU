@@ -44,17 +44,11 @@
 #include "NeuralNetworkGPUCppNonParallelFunctions.hpp"
 #include "NeuralNetworkGPUCppParallelFunctions.hpp"
 
-#include "ActivationFunctions.hpp"
+#include "ActivationFunctions/ActivationFunctions.hpp"
 
-#include "CalcDevHidden.hpp"
+#include "ActivationFunctions/ActivationFunctionGPUCpp.hpp"
+#include "ActivationFunctions/ActivationFunctionGPUCppFunctions.hpp"
 
-#include "ActivationFunctionGPUCpp.hpp"
-#include "ActivationFunctionGPUCppFunctions.hpp"
-
-//#include "LogisticForwardPropagation.hpp"
-//#include "LogisticBackpropagation.hpp"
-#include "LogisticActivationFunctionGPUCpp.hpp"
-
-//#include "LinearForwardPropagation.hpp"
-//#include "LinearBackpropagation.hpp"
-#include "LinearActivationFunctionGPUCpp.hpp"
+#include "ActivationFunctions/LogisticActivationFunctionGPUCpp.hpp"
+#include "ActivationFunctions/LinearActivationFunctionGPUCpp.hpp"
+#include "ActivationFunctions/SoftmaxActivationFunctionGPUCpp.hpp"

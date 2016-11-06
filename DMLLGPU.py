@@ -62,6 +62,28 @@ class ActivationFunction:
         elif activation == "linear":
             self.thisptr = DMLLGPUCpp.LinearActivationFunctionGPUCpp(self.node_number, dim, np.asarray(InputDense).astype(np.int32), np.asarray(InputSparse).astype(np.int32), np.asarray(hidden).astype(np.int32), i_share_weights_with, no_weight_updates, self.regulariser.thisptr)
 
+
+class SoftmaxActivationFunction:
+    def __init__(self, node_number, num_vars=1, num_states_per_var=5,  InputDense=np.asarray([]).astype(np.int32), InputSparse=np.asarray([]).astype(np.int32), hidden=np.asarray([]).astype(np.int32), i_share_weights_with=-1, no_weight_updates=False, regulariser=Regulariser()):
+        """
+        node_number: Number of node in the neural network. Every node number must be assigned before neural network is finalised.
+        num_vars: Number of distinct discrete variables (output dimension is num_vars*num_states_per_var)
+        num_states_per_var: Number of states each variable can assume (output dimension is num_vars*num_states_per_var)
+        hidden: List of hidden nodes (in form of their respective node_numbers) that are fed into this node. All of these nodes must have a node number that is smaller than the node number of this node. Defaults to zero-length array (meaning that no hidden nodes are fed into this node).
+        input: List of input nodes (in form of their respective node_numbers) that are fed into this node. Defaults to zero-length array (meaning that no input nodes are fed into this node).
+        i_share_weights_with: Node number of a node that this node share weights with. -1 if it shares weights with no node. Defaults to -1.
+        no_weight_updates: True if this node is to receive no updates during the training process.
+        regulariser: Regulariser object
+        """       
+        
+        #Transform activation function into integer
+        self.node_number = node_number
+        
+        #Store regulariser
+        self.regulariser = regulariser
+        
+        self.thisptr = DMLLGPUCpp.SoftmaxActivationFunctionGPUCpp(self.node_number, num_vars, num_states_per_var, np.asarray(InputDense).astype(np.int32), np.asarray(InputSparse).astype(np.int32), np.asarray(hidden).astype(np.int32), i_share_weights_with, no_weight_updates, self.regulariser.thisptr)
+
 #Neural network
 
 class NeuralNetwork:

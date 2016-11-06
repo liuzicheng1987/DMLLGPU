@@ -118,6 +118,36 @@ public:
 };
 
 //----------------------------------------------------------------------------------------------
+//class SoftmaxActivationFunctionGPUCpp
+
+%apply (int* IN_ARRAY1, int DIM1) {(std::int32_t *_hidden_nodes_fed_into_me, std::int32_t _hidden_nodes_fed_into_me_length)};
+%apply (int* IN_ARRAY1, int DIM1) {(std::int32_t *_input_nodes_fed_into_me_dense, std::int32_t _input_nodes_fed_into_me_dense_length)};
+%apply (int* IN_ARRAY1, int DIM1) {(std::int32_t *_input_nodes_fed_into_me_sparse, std::int32_t _input_nodes_fed_into_me_sparse_length)};
+
+class SoftmaxActivationFunctionGPUCpp: public ActivationFunctionGPUCpp {
+
+public:
+
+  SoftmaxActivationFunctionGPUCpp (
+				    std::int32_t    _node_number,
+				    std::int32_t    _num_vars,
+				    std::int32_t    _num_states_per_var,
+				    std::int32_t   *_input_nodes_fed_into_me_dense,
+				    std::int32_t    _input_nodes_fed_into_me_dense_length,
+				    std::int32_t   *_input_nodes_fed_into_me_sparse,
+				    std::int32_t    _input_nodes_fed_into_me_sparse_length,
+				    std::int32_t   *_hidden_nodes_fed_into_me,
+				    std::int32_t    _hidden_nodes_fed_into_me_length,
+				    std::int32_t    _i_share_weights_with,
+				    bool            _no_weight_updates,
+				    RegulariserCpp *_regulariser			   
+				   );
+	
+  ~SoftmaxActivationFunctionGPUCpp();
+
+};
+
+//----------------------------------------------------------------------------------------------
 //class NeuralNetworkGPUCpp
 
 %apply (float* IN_ARRAY1, int DIM1) {(float *_W, std::int32_t _length_W)};
