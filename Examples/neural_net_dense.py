@@ -5,15 +5,29 @@ import scipy.sparse
 import matplotlib.pyplot as plt
 import sklearn.datasets
 
-nn = DMLLGPU.NeuralNetwork(num_input_nodes_dense=[2], num_output_nodes_dense=1)
+nn = DMLLGPU.NeuralNetwork(
+    num_input_nodes_dense=[2],
+    num_output_nodes_dense=1
+)
 
-#for i in range(8):
-#    nn.init_hidden_node(DMLLGPU.ActivationFunction(node_number=i, dim=1, activation="logistic", InputDense=[0]))
+nn.init_hidden_node(
+    DMLLGPU.ActivationFunction(
+        node_number=0, 
+        dim=50, 
+        activation="logistic", 
+        input_dense=[0], 
+        regulariser=DMLLGPU.L2Regulariser(0.0001)
+    )
+)
 
-nn.init_hidden_node(DMLLGPU.SoftmaxActivationFunction(node_number=0, num_vars=10, num_states_per_var=5, InputDense=[0], regulariser=DMLLGPU.L2Regulariser(0.0001)))
-
-nn.init_output_node(DMLLGPU.ActivationFunction(node_number=1, dim=1, activation="logistic", hidden=[0]))
-#nn.init_output_node(DMLLGPU.ActivationFunction(5, "logistic", InputDense=[0]))
+nn.init_output_node(
+    DMLLGPU.ActivationFunction(
+        node_number=1, 
+        dim=1, 
+        activation="logistic", 
+        hidden=[0]
+    )
+)
 
 nn.finalise()
 
@@ -21,16 +35,30 @@ nn.finalise()
 #You can vary this number to see what happens
 sample_size = 20000
 
-X, Y = sklearn.datasets.make_classification(n_samples=sample_size, n_features=2, n_informative=2, n_redundant=0)
+X, Y = sklearn.datasets.make_classification(
+    n_samples=sample_size, 
+    n_features=2, 
+    n_informative=2, 
+    n_redundant=0
+)
 X = X.astype(np.float32)
 Y = Y.reshape(len(Y), 1).astype(np.float32)
+
+Ysparse = scipy.sparse.csr_matrix(Y)
 
 plt.grid(True)
 plt.plot(X[Y[:,0]==0.0, 0], X[Y[:,0]==0, 1], 'co')
 plt.plot(X[Y[:,0]==1.0, 0], X[Y[:,0]==1, 1], 'ro')
 plt.show()
 
-nn.fit(Xdense=[X], Ydense=[Y], optimiser=DMLLGPU.SGD(0.1, 0.1), tol=0.0, global_batch_size=2000, max_num_epochs=2000)
+nn.fit(
+    Xdense=[X], 
+    Ydense=[Y], 
+    optimiser=DMLLGPU.SGD(1.0, 0.1), 
+    tol=0.0, 
+    global_batch_size=2000, 
+    max_num_epochs=2000
+)
 
 plt.grid(True)
 plt.plot(nn.get_sum_gradients())

@@ -6,9 +6,12 @@ private:
 
   std::int32_t num_states_per_var_;//Number of states per discrete variable
 
-  thrust::device_vector<float> linear_transformation_;
-  float *linear_transformation_ptr_;
+  thrust::device_vector<float> linear_transformation_;//Stores the linear transformation 
+                                                     //(necessary to avoid race conditions)
 
+  float *linear_transformation_ptr_;//Pointer to linear_transformation_
+
+  
 public:
 
   SoftmaxActivationFunctionGPUCpp (
@@ -52,37 +55,32 @@ public:
 			    thrust::device_vector<float> &_output
 			   ) {
 
-    float *output_ptr = thrust::raw_pointer_cast(output.data());
-
-    if (
-	static_cast<std::int32_t>(this->linear_transformation_.size()) 
-	< _dim*_batch_size
-	) {
+  if (static_cast<std::int32_t>(this->linear_transformation_.size()) < this->dim_*_batch_size) {
     
-      //Resize linear_transformation_ and reset pointer
-      this->linear_transformation_.resize(_dim*_batch_size);
-      this->linear_transformation_ptr_ = 
-	thrust::raw_pointer_cast(this->linear_transformation_.data());
-    }
+    this->linear_transformation_.resize(this->dim_*_batch_size);
+    this->linear_transformation_ptr_ = 
+      thrust::raw_pointer_cast(this->linear_transformation_.data());
 
-    thrust::copy(
-		 _output.begin(),
-		 _output.begin() + _batch_size*_dim,
-		 this->linear_transformation_.begin()
-		 );
+  }
+
+  thrust::copy(
+	       _output.begin(),
+	       _output.begin() + _batch_size*_dim,
+	       this->linear_transformation_.begin()
+	       );
       
-    thrust::transform(
-		      thrust::make_counting_iterator(0),
-		      thrust::make_counting_iterator(0) + _batch_size*_dim,
-		      _output.begin(),
-		      ActivationFunctions::SoftmaxForwardPropagation(
-								     _bias,
-								     _batch_size,
-								     this->num_vars_,
-								     this->num_states_per_var_,
-								     this->linear_transformation_ptr_
-								     )
-		      );
+  thrust::transform(
+		    thrust::make_counting_iterator(0),
+		    thrust::make_counting_iterator(0) + _batch_size*_dim,
+		    _output.begin(),
+		    ActivationFunctions::SoftmaxForwardPropagation(
+								   _bias,
+								   _batch_size,
+								   this->num_vars_,
+								   this->num_states_per_var_,
+								   this->linear_transformation_ptr_
+								   )
+		    );
        
   }
 

@@ -33,10 +33,10 @@ public:
 
 
   void forward_propagation(
-			    const std::int32_t            _batch_size,
-			    const std::int32_t            _dim,
-			    const float                  *_bias,
-			    thrust::device_vector<float> &_output
+			   const std::int32_t            _batch_size,
+			   const std::int32_t            _dim,
+			   const float                  *_bias,
+			   thrust::device_vector<float> &_output
 			   ) {
     
     thrust::transform(

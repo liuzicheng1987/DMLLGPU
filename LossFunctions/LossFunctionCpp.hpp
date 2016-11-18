@@ -1,6 +1,10 @@
 class LossFunctionCpp {
+
+protected:
+  
+  NeuralNetworkGPUCpp *NeuralNet_;
 	
- public:	
+public:	
 	
   //Constructor
   LossFunctionCpp() {}
@@ -8,12 +12,25 @@ class LossFunctionCpp {
   //Virtual destructor		
   virtual ~LossFunctionCpp() {}
 			
-  virtual void dLossdYhat (/*MPI_Comm comm, const std::int32_t rank, const std::int32_t size,*/ 
-			   const std::int32_t num_samples, 
-			   const std::int32_t dim, 
-			   thrust::device_vector<float> &dlossdYhat, 
-			   thrust::device_vector<float> &Y, 
-			   thrust::device_vector<float> &Yhat
-) {};
-	
+  virtual void dloss_dyhat_dense (
+				  DenseMatrix                  &_target, 
+				  thrust::device_vector<float> &_output,
+				  float                        *_output_ptr,
+				  thrust::device_vector<float> &_dlossdoutput
+				  ) {};
+    						
+  virtual void dloss_dyhat_sparse (
+				   COOVector                    &_target,
+				   thrust::device_vector<float> &_output,
+				   float                        *_output_ptr,
+				   thrust::device_vector<float> &_dlossdoutput			  
+				   ) {};
+
+  void set_neural_net(NeuralNetworkGPUCpp *_NeuralNet) {
+
+    this->NeuralNet_ = _NeuralNet;
+    
+  }
+  
+ 	
 };

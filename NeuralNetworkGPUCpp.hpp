@@ -1,11 +1,9 @@
 class NeuralNetworkNodeGPUCpp;
 class OptimiserCpp;
-//class DropoutCpp;
-//class BayesianDropoutCpp;
-
+class LossFunctionCpp;
 
 //Because the neural network can consist of a number of input matrices, both dense and sparse, we keep them in a vector of structs
-struct DenseInputStruct {
+struct DenseMatrix {
 
   std::int32_t batch_size;//Number of samples
   std::int32_t dim;//Number of dimensions
@@ -16,15 +14,29 @@ struct DenseInputStruct {
   
 };
 
-struct SparseInputStruct {
+struct COOVector {
 
   std::int32_t batch_size;//Number of samples
   std::int32_t dim;//Number of dimensions
   std::int32_t num_non_zero;//Number of non-zero elements in matrix
 
-  thrust::device_vector<float> X_data;//Data vector (for sparse datasets)
-  thrust::device_vector<std::int32_t> X_indices;//indices for data (for sparse datasets)
-  thrust::device_vector<std::int32_t> X_indptr;//indptr for sata (for sparse datasets)
+  thrust::device_vector<float> X_data;//Data vector
+  thrust::device_vector<std::int32_t> X_indices;//column indices
+
+  float *X_data_ptr;//Pointer to data contained in X_data
+  std::int32_t *X_indices_ptr;//Pointer to data contained in X_indices
+ 
+};
+
+struct CSRMatrix {
+
+  std::int32_t batch_size;//Number of samples
+  std::int32_t dim;//Number of dimensions
+  std::int32_t num_non_zero;//Number of non-zero elements in matrix
+
+  thrust::device_vector<float> X_data;//Data vector 
+  thrust::device_vector<std::int32_t> X_indices;//indices for data 
+  thrust::device_vector<std::int32_t> X_indptr;//indptr for data 
 
   float *X_data_ptr;//Pointer to data contained in X_data, for convenience and readability
   std::int32_t *X_indices_ptr;//Pointer to data contained in X_indices, for convenience and readability
@@ -42,14 +54,16 @@ private:
 	
   std::vector<NeuralNetworkNodeGPUCpp*> nodes;//Vector containing pointers to the neural network nodes
   NeuralNetworkNodeGPUCpp** output_nodes; //Raw pointer to the output nodes (which are also contained in nodes)
+  NeuralNetworkNodeGPUCpp** output_nodes_dense; //Raw pointer to output nodes with dense targets
+  NeuralNetworkNodeGPUCpp** output_nodes_sparse; //Raw pointer to output nodes with sparse targets
 
   thrust::device_vector<std::int32_t> cumulative_num_weights_required;//Accumulated number of weights required for each neural network node
 
-  std::vector<std::vector<DenseInputStruct>> dense_input_data;//Dense input data
-  std::vector<std::vector<SparseInputStruct>> sparse_input_data;//Sparse input data
+  std::vector<std::vector<DenseMatrix>> dense_input_data;//Dense input data
+  std::vector<std::vector<CSRMatrix>> sparse_input_data;//Sparse input data
 
-  std::vector<std::vector<DenseInputStruct>> dense_targets;//Dense target data
-  std::vector<std::vector<SparseInputStruct>> sparse_targets;//Sparse target data
+  std::vector<std::vector<DenseMatrix>> dense_targets;//Dense target data
+  std::vector<std::vector<COOVector>> sparse_targets;//Sparse target data
 
   std::vector<std::int32_t> dense_input_data_dim;//Number of dimensions in dense input data
   std::vector<std::int32_t> sparse_input_data_dim;//Number of dimensions in sparse input data
@@ -161,7 +175,7 @@ public:
   
   //load_dense_data and load_dense_targets are actually wrappers, which simply call this method
   void load_dense(
-		  std::vector<DenseInputStruct> &data, 
+		  std::vector<DenseMatrix> &data, 
 		  float                         *_X, 
 		  std::int32_t                   _num_samples, 
 		  std::int32_t                   _dim, 
@@ -186,18 +200,32 @@ public:
 			  std::int32_t _global_batch_size
 			  );
   
-  //load_sparse_data and load_sparse_targets are actually wrappers, which simply call this method
-  void load_sparse(
-		   std::vector<SparseInputStruct> &data, 
-		   float                          *_X_data, 
-		   std::int32_t                    _X_data_length, 
-		   std::int32_t                   *_X_indices,
-		   std::int32_t                    _X_indices_length,
-		   std::int32_t                   *_X_indptr, 
-		   std::int32_t                    _X_indptr_length, 
-		   std::int32_t                    _num_samples,
-		   std::int32_t                    _dim, 
-		   std::int32_t                    _num_batches
+  //load_sparse_data is a wrapper, which simply calls this method
+  void load_csr(
+		   std::vector<CSRMatrix> &_data, 
+		   float                  *_X_data, 
+		   std::int32_t            _X_data_length, 
+		   std::int32_t           *_X_indices,
+		   std::int32_t            _X_indices_length,
+		   std::int32_t           *_X_indptr, 
+		   std::int32_t            _X_indptr_length, 
+		   std::int32_t            _num_samples,
+		   std::int32_t            _dim, 
+		   std::int32_t            _num_batches
+		   );
+
+  //load_sparse_targets is a wrapper, which simply calls this method
+  void load_coo(
+		   std::vector<COOVector> &_data, 
+		   float                  *_X_data, 
+		   std::int32_t            _X_data_length, 
+		   std::int32_t           *_X_indices,
+		   std::int32_t            _X_indices_length,
+		   std::int32_t           *_X_indptr, 
+		   std::int32_t            _X_indptr_length, 
+		   std::int32_t            _num_samples,
+		   std::int32_t            _dim, 
+		   std::int32_t            _num_batches
 		   );
   
   //This functions loads the provided sparse data into the GPU
@@ -280,7 +308,7 @@ public:
   };
 
   //The nodes need to be able to access the private input data.
-  DenseInputStruct& get_dense_input_data(
+  DenseMatrix& get_dense_input_data(
 					 std::int32_t i, 
 					 std::int32_t _batch_num
 					 ) {
@@ -288,7 +316,7 @@ public:
   };
 
   //The nodes need to be able to access the private input data.
-  SparseInputStruct& get_sparse_input_data(
+  CSRMatrix& get_sparse_input_data(
 					   std::int32_t i, 
 					   std::int32_t _batch_num
 					   ) {

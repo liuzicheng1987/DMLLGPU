@@ -24,7 +24,7 @@ class SquareLoss:
 
 #Activation functions
 class ActivationFunction:
-    def __init__(self, node_number, activation, InputDense=np.asarray([]).astype(np.int32), InputSparse=np.asarray([]).astype(np.int32), hidden=np.asarray([]).astype(np.int32), i_share_weights_with=-1, no_weight_updates=False):
+    def __init__(self, node_number, activation, input_dense=np.asarray([]).astype(np.int32), input_sparse=np.asarray([]).astype(np.int32), hidden=np.asarray([]).astype(np.int32), i_share_weights_with=-1, no_weight_updates=False):
         """
         node_number: Number of node in the neural network. Every node number must be assigned before neural network is finalised.
         activation: Activation function for the node. Expects one of the following: "logistic", "linear", "rectified linear", "probit", "laplace", "cauchy", "exponential", "tanh", "pareto", "weibull".
@@ -38,10 +38,10 @@ class ActivationFunction:
         self.node_number = node_number
         
         if  activation == "logistic":
-            self.thisptr = DMLLGPUCpp.LogisticActivationFunctionGPUCpp(self.node_number, np.asarray(InputDense).astype(np.int32), np.asarray(InputSparse).astype(np.int32), np.asarray(hidden).astype(np.int32), i_share_weights_with, no_weight_updates)
+            self.thisptr = DMLLGPUCpp.LogisticActivationFunctionGPUCpp(self.node_number, np.asarray(input_dense).astype(np.int32), np.asarray(input_sparse).astype(np.int32), np.asarray(hidden).astype(np.int32), i_share_weights_with, no_weight_updates)
             
         elif activation == "linear":
-            self.thisptr = DMLLGPUCpp.LinearActivationFunctionGPUCpp(self.node_number, np.asarray(InputDense).astype(np.int32), np.asarray(InputSparse).astype(np.int32), np.asarray(hidden).astype(np.int32), i_share_weights_with, no_weight_updates)
+            self.thisptr = DMLLGPUCpp.LinearActivationFunctionGPUCpp(self.node_number, np.asarray(input_dense).astype(np.int32), np.asarray(input_sparse).astype(np.int32), np.asarray(hidden).astype(np.int32), i_share_weights_with, no_weight_updates)
 
 #Neural network
 
@@ -121,18 +121,18 @@ class NeuralNetwork:
         Get the dense input nodes which are fed into node.
         node_number: Node number of the node we are interested in
         """
-        InputDense = np.zeros(self.thisptr.get_input_nodes_fed_into_me_dense_length(node_number)).astype(np.int32)
-        self.thisptr.get_input_nodes_fed_into_me_dense(node_number, InputDense)
-        return InputDense
+        input_dense = np.zeros(self.thisptr.get_input_nodes_fed_into_me_dense_length(node_number)).astype(np.int32)
+        self.thisptr.get_input_nodes_fed_into_me_dense(node_number, input_dense)
+        return input_dense
         
     def get_input_sparse(self, node_number):
         """
         Get the sparse input nodes which are fed into node.
         node_number: Node number of the node we are interested in
         """
-        InputSparse = np.zeros(self.thisptr.get_input_nodes_fed_into_me_dense_length(node_number)).astype(np.int32)
-        self.thisptr.get_input_nodes_fed_into_me_dense(node_number, InputSparse)
-        return InputSparse        
+        input_sparse = np.zeros(self.thisptr.get_input_nodes_fed_into_me_dense_length(node_number)).astype(np.int32)
+        self.thisptr.get_input_nodes_fed_into_me_dense(node_number, input_sparse)
+        return input_sparse        
         
     def get_hidden(self, node_number):
         """

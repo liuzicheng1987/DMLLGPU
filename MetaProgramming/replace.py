@@ -15,9 +15,7 @@ def replace(folder):
             
         text = open(folder + f, "rb").read()
         
-        text = text.replace("NoWeightUpdates", "no_weight_updates")     
-        text = text.replace("OutputPtr", "output_ptr")     
-        text = text.replace("DeltaPtr", "delta_ptr")     
+        text = text.replace("COOMatrix", "COOVector")     
         
         open(folder + f, "wb").write(text)
             

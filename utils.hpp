@@ -2,20 +2,21 @@
 
 namespace utils {
 
-  //Performs the classic saxpy operation
+  //Performs the classic axpy operation
   template <typename T>
   struct axpy {
 
-    const T learning_rate;
+    const T alpha;
 
-    axpy(T _learning_rate) : learning_rate(_learning_rate) {}
+    axpy(T _alpha) : alpha(_alpha) {}
 
     __device__
     T operator()(const T &x, T &y) const { 
-      return learning_rate * x + y;
+      return alpha * x + y;
     }
 
   };
+
 
   //Transformation that squares the result
   template <typename T>

@@ -2,10 +2,10 @@ class ActivationFunctionGPUCpp: public NeuralNetworkNodeGPUCpp {
 
 private:
 
-  //Helper class
-  thrust::device_vector<float> ones_;
-  float *ones_ptr_;
-  
+  thrust::device_vector<float> ones_;//This is used to calculate the bias
+
+  float *ones_ptr_;//Pointer to ones_
+
 public:
 
   ActivationFunctionGPUCpp(
@@ -19,7 +19,7 @@ public:
 			   std::int32_t    _hidden_nodes_fed_into_me_length,
 			   std::int32_t    _i_share_weights_with,
 			   bool            _no_weight_updates,
-			   RegulariserCpp *_regulariser			   
+			   RegulariserCpp *_regulariser
 			   );
 
   ~ActivationFunctionGPUCpp();
@@ -60,6 +60,6 @@ public:
 				const std::int32_t            _dim,
 				thrust::device_vector<float> &_output,
 				thrust::device_vector<float> &_delta
-				) {};			   
+				) {};
 
 };

@@ -5,8 +5,7 @@ NeuralNetworkGPUCpp::NeuralNetworkGPUCpp(
 					 std::int32_t     _num_input_nodes_sparse_length, 
 					 std::int32_t     _num_output_nodes_dense, 
 					 std::int32_t     _num_output_nodes_sparse, 
-					 LossFunctionCpp *loss
-					 /*, RegulariserCpp *regulariser*/
+					 LossFunctionCpp *_loss
 					 ) {
 
   //Make that the input is reasonable
@@ -40,10 +39,10 @@ NeuralNetworkGPUCpp::NeuralNetworkGPUCpp(
   this->num_output_nodes = _num_output_nodes_dense + _num_output_nodes_sparse;
 
   //Set up input data and target data
-  this->dense_input_data = std::vector<std::vector<DenseInputStruct>>(_num_input_nodes_dense_length);
-  this->sparse_input_data = std::vector<std::vector<SparseInputStruct>>(_num_input_nodes_sparse_length);
-  this->dense_targets = std::vector<std::vector<DenseInputStruct>>(_num_output_nodes_dense);
-  this->sparse_targets = std::vector<std::vector<SparseInputStruct>>(_num_output_nodes_sparse);
+  this->dense_input_data = std::vector<std::vector<DenseMatrix>>(_num_input_nodes_dense_length);
+  this->sparse_input_data = std::vector<std::vector<CSRMatrix>>(_num_input_nodes_sparse_length);
+  this->dense_targets = std::vector<std::vector<DenseMatrix>>(_num_output_nodes_dense);
+  this->sparse_targets = std::vector<std::vector<COOVector>>(_num_output_nodes_sparse);
 
   this->dense_input_data_dim = std::vector<std::int32_t>(_num_input_nodes_dense_length);
   this->sparse_input_data_dim = std::vector<std::int32_t>(_num_input_nodes_sparse_length);
@@ -51,14 +50,25 @@ NeuralNetworkGPUCpp::NeuralNetworkGPUCpp(
   this->sparse_targets_dim = std::vector<std::int32_t>(_num_output_nodes_sparse);
 
   //Transfer number of input nodes
-  std::copy(_num_input_nodes_dense, _num_input_nodes_dense + _num_input_nodes_dense_length, this->dense_input_data_dim.data());
-  std::copy(_num_input_nodes_sparse, _num_input_nodes_sparse + _num_input_nodes_sparse_length, this->sparse_input_data_dim.data());
+  std::copy(
+	    _num_input_nodes_dense, 
+	    _num_input_nodes_dense + _num_input_nodes_dense_length, 
+	    this->dense_input_data_dim.data()
+	    );
+
+  std::copy(
+	    _num_input_nodes_sparse, 
+	    _num_input_nodes_sparse + _num_input_nodes_sparse_length, 
+	    this->sparse_input_data_dim.data()
+	    );
   
-  this->loss = loss;
-  //this->regulariser = regulariser;
+  this->loss = _loss;
+  this->loss->set_neural_net(this);
 		
   this->nodes = std::vector<NeuralNetworkNodeGPUCpp*>(this->num_output_nodes);		
   this->output_nodes = nodes.data();
+  this->output_nodes_dense = this->output_nodes;
+  this->output_nodes_sparse = this->output_nodes + _num_output_nodes_dense;
 
   //Initialise to nullptr
   std::fill(this->nodes.begin(), this->nodes.end(), nullptr);
@@ -83,12 +93,18 @@ void NeuralNetworkGPUCpp::init_hidden_node(NeuralNetworkNodeGPUCpp *_hidden_node
     std::vector<NeuralNetworkNodeGPUCpp*>::iterator it = this->nodes.begin() + this->nodes.size();
     this->nodes.insert(it, num_additional_nodes, nullptr);	
 
-    //Increase num_hidden_nodes and reset pointer output_nodes
+    //Increase num_hidden_nodes and reset pointers output_nodes, output_nodes_dense 
+    //and output_nodes_sparse
     this->num_hidden_nodes += num_additional_nodes;
     this->output_nodes = nodes.data() + this->num_hidden_nodes;
+    this->output_nodes_dense = this->output_nodes;
+    this->output_nodes_sparse = this->output_nodes + this->num_output_nodes_dense;
 
     //Increase node_number of output_nodes
-    for (std::int32_t i=0; i<this->num_output_nodes; ++i) if (this->output_nodes[i] != nullptr) this->output_nodes[i]->node_number += num_additional_nodes;
+    for (std::int32_t i=0; i<this->num_output_nodes; ++i)
+      if (this->output_nodes[i] != nullptr) 
+	this->output_nodes[i]->node_number += num_additional_nodes;
+  
   }
 
   this->nodes[_hidden_node->node_number] = _hidden_node;
@@ -117,7 +133,7 @@ void NeuralNetworkGPUCpp::finalise(/*MPI_Comm comm, std::int32_t rank, std::int3
 
   //Make sure that all nodes were initialised
   if (std::any_of(this->nodes.begin(), this->nodes.end(), [](NeuralNetworkNodeGPUCpp *node) {return node == nullptr;}))
-      throw std::invalid_argument("Not all nodes have been initialised!");
+    throw std::invalid_argument("Not all nodes have been initialised!");
     
   //Calculate pointer to hidden nodes fed into me
   for (auto node: this->nodes) {
@@ -247,7 +263,9 @@ void NeuralNetworkGPUCpp::get_params(float *_W, std::int32_t _length_W) {
 
 }
 
-std::int32_t NeuralNetworkGPUCpp::get_input_nodes_fed_into_me_dense_length(std::int32_t _node_number) {
+std::int32_t NeuralNetworkGPUCpp::get_input_nodes_fed_into_me_dense_length(
+									   std::int32_t _node_number
+									   ) {
 		
   if (!this->finalised) throw std::invalid_argument("Neural network has not been finalised!");
   if (_node_number < 0 || _node_number >= (std::int32_t)(nodes.size())) std::invalid_argument("node_number out of bounds!");
@@ -256,12 +274,22 @@ std::int32_t NeuralNetworkGPUCpp::get_input_nodes_fed_into_me_dense_length(std::
 		
 };
 
-void NeuralNetworkGPUCpp::get_input_nodes_fed_into_me_dense(std::int32_t _node_number, std::int32_t *_input_nodes_fed_into_me_dense, std::int32_t _input_nodes_fed_into_me_dense_length) {
+void NeuralNetworkGPUCpp::get_input_nodes_fed_into_me_dense(
+							    std::int32_t  _node_number,
+							    std::int32_t *_input_nodes_fed_into_me_dense, 
+							    std::int32_t  _input_nodes_fed_into_me_dense_length
+							    ) {
 		
   if (!this->finalised) throw std::invalid_argument("Neural network has not been finalised!");
-  if (_node_number < 0 || _node_number >= (std::int32_t)(nodes.size())) std::invalid_argument("node_number out of bounds!");
+  if (
+      _node_number < 0 || 
+      _node_number >= (std::int32_t)(nodes.size())
+      ) 
+    std::invalid_argument("node_number out of bounds!");
 		
-  for (std::int32_t i=0; i<_input_nodes_fed_into_me_dense_length; ++i) _input_nodes_fed_into_me_dense[i] = this->nodes[_node_number]->input_nodes_fed_into_me_dense[i];
+  for (std::int32_t i=0; i<_input_nodes_fed_into_me_dense_length; ++i) 
+    _input_nodes_fed_into_me_dense[i] 
+      = this->nodes[_node_number]->input_nodes_fed_into_me_dense[i];
   		
 };
 
@@ -274,7 +302,11 @@ std::int32_t NeuralNetworkGPUCpp::get_input_nodes_fed_into_me_sparse_length(std:
 		
 };
 
-void NeuralNetworkGPUCpp::get_input_nodes_fed_into_me_sparse(std::int32_t _node_number, std::int32_t *_input_nodes_fed_into_me_sparse, std::int32_t _input_nodes_fed_into_me_sparse_length) {
+void NeuralNetworkGPUCpp::get_input_nodes_fed_into_me_sparse(
+							     std::int32_t  _node_number, 
+							     std::int32_t *_input_nodes_fed_into_me_sparse, 
+							     std::int32_t _input_nodes_fed_into_me_sparse_length
+							     ) {
 		
   if (!this->finalised) throw std::invalid_argument("Neural network has not been finalised!");
   if (_node_number < 0 || _node_number >= (std::int32_t)(nodes.size())) std::invalid_argument("node_number out of bounds!");
@@ -292,7 +324,11 @@ std::int32_t NeuralNetworkGPUCpp::get_hidden_nodes_fed_into_me_length(std::int32
 		
 };
 
-void NeuralNetworkGPUCpp::get_hidden_nodes_fed_into_me(std::int32_t _node_number, std::int32_t *_hidden_nodes_fed_into_me, std::int32_t __lengthhidden_nodes_fed_into_me) {
+void NeuralNetworkGPUCpp::get_hidden_nodes_fed_into_me(
+						       std::int32_t  _node_number,
+						       std::int32_t *_hidden_nodes_fed_into_me,
+						       std::int32_t __lengthhidden_nodes_fed_into_me
+						       ) {
 		
   if (!this->finalised) throw std::invalid_argument("Neural network has not been finalised!");
   if (_node_number < 0 || _node_number >= (std::int32_t)(nodes.size())) std::invalid_argument("node_number out of bounds!");
@@ -324,11 +360,11 @@ void NeuralNetworkGPUCpp::calc_batch_begin_end (
 }
 
 void NeuralNetworkGPUCpp::load_dense(
-				     std::vector<DenseInputStruct> &data,
-				     float                         *_X,
-				     std::int32_t                   _num_samples,
-				     std::int32_t                   _dim,
-				     std::int32_t                   _num_batches
+				     std::vector<DenseMatrix> &_data,
+				     float                    *_X,
+				     std::int32_t              _num_samples,
+				     std::int32_t              _dim,
+				     std::int32_t              _num_batches
 				     ) {
 
   std::int32_t batch_begin, batch_end, batch_size;
@@ -345,16 +381,16 @@ void NeuralNetworkGPUCpp::load_dense(
 			       );
 
     //Transfer _num_samples and _dim
-    data[batch_num].batch_size = batch_size;
-    data[batch_num].dim = _dim;
+    _data[batch_num].batch_size = batch_size;
+    _data[batch_num].dim = _dim;
 
     //Transfer X to GPU and set X_ptr
-    data[batch_num].X = thrust::device_vector<float>(
+    _data[batch_num].X = thrust::device_vector<float>(
 						     _X + batch_begin*_dim,
 						     _X + batch_end*_dim
 						     );
 
-    data[batch_num].X_ptr = thrust::raw_pointer_cast(data[batch_num].X.data());
+    _data[batch_num].X_ptr = thrust::raw_pointer_cast(_data[batch_num].X.data());
 
   } 
 
@@ -384,7 +420,7 @@ void NeuralNetworkGPUCpp::load_dense_data(
 					       _global_batch_size
 					       );
 
-  this->dense_input_data[_num_input_node] = std::vector<DenseInputStruct>(num_batches);
+  this->dense_input_data[_num_input_node] = std::vector<DenseMatrix>(num_batches);
   
   this->load_dense(
 		   this->dense_input_data[_num_input_node],
@@ -418,7 +454,7 @@ void NeuralNetworkGPUCpp::load_dense_targets(
 					       );
 
   this->dense_targets[_num_output_node] = 
-    std::vector<DenseInputStruct>(num_batches);
+    std::vector<DenseMatrix>(num_batches);
 
   this->load_dense(
 		   this->dense_targets[_num_output_node],
@@ -430,18 +466,18 @@ void NeuralNetworkGPUCpp::load_dense_targets(
 
 }
 
-void NeuralNetworkGPUCpp::load_sparse(
-				      std::vector<SparseInputStruct> &data,
-				      float                          *_X_data,
-				      std::int32_t                    _X_data_length,
-				      std::int32_t                   *_X_indices,
-				      std::int32_t                    _X_indices_length,
-				      std::int32_t                   *_X_indptr,
-				      std::int32_t                    _X_indptr_length,
-				      std::int32_t                    _num_samples,
-				      std::int32_t                    _dim,
-				      std::int32_t                    _num_batches
-				      ) {
+void NeuralNetworkGPUCpp::load_csr(
+				   std::vector<CSRMatrix> &_data,
+				   float                  *_X_data,
+				   std::int32_t            _X_data_length,
+				   std::int32_t           *_X_indices,
+				   std::int32_t            _X_indices_length,
+				   std::int32_t           *_X_indptr,
+				   std::int32_t            _X_indptr_length,
+				   std::int32_t            _num_samples,
+				   std::int32_t            _dim,
+				   std::int32_t            _num_batches
+				   ) {
 
   std::int32_t batch_begin, batch_end, batch_size;
 
@@ -457,48 +493,48 @@ void NeuralNetworkGPUCpp::load_sparse(
 			       );
 
     //Transfer _num_samples and _dim
-    data[batch_num].batch_size = batch_size;
-    data[batch_num].dim = _dim;
-    data[batch_num].num_non_zero = 
+    _data[batch_num].batch_size = batch_size;
+    _data[batch_num].dim = _dim;
+    _data[batch_num].num_non_zero = 
       _X_indptr[batch_end] - _X_indptr[batch_begin];
 
     //Transfer X_data to GPU and set X_data_ptr
-    data[batch_num].X_data =
+    _data[batch_num].X_data =
       thrust::device_vector<float>(
 				   _X_data + _X_indptr[batch_begin],
 				   _X_data + _X_indptr[batch_end]
 				   );
     
-    data[batch_num].X_data_ptr =
-      thrust::raw_pointer_cast(data[batch_num].X_data.data());
+    _data[batch_num].X_data_ptr =
+      thrust::raw_pointer_cast(_data[batch_num].X_data.data());
 
     //Transfer X_indices to GPU and set X_indices_ptr
-    data[batch_num].X_indices = 
+    _data[batch_num].X_indices = 
       thrust::device_vector<std::int32_t>(
 					  _X_indices + _X_indptr[batch_begin],
 					  _X_indices + _X_indptr[batch_end]
 					  );
     
-    data[batch_num].X_indices_ptr =
-      thrust::raw_pointer_cast(data[batch_num].X_indices.data());
+    _data[batch_num].X_indices_ptr =
+      thrust::raw_pointer_cast(_data[batch_num].X_indices.data());
 
 
     //Transfer X_indptr to GPU and set X_indptr_ptr
     //Do not forget the last element - it is important
-    data[batch_num].X_indptr = 
+    _data[batch_num].X_indptr = 
       thrust::device_vector<std::int32_t>(
 					  &_X_indptr[batch_begin],
 					  &_X_indptr[batch_end] + 1 
 					  //_X_indptr has size batch_size + 1
 					  );
     
-    data[batch_num].X_indptr_ptr =
-      thrust::raw_pointer_cast(data[batch_num].X_indptr.data());
+    _data[batch_num].X_indptr_ptr =
+      thrust::raw_pointer_cast(_data[batch_num].X_indptr.data());
 
     //Substract value of first elements from all elements in X_indptr
     thrust::for_each(
-		     data[batch_num].X_indptr.begin(),
-		     data[batch_num].X_indptr.end(),
+		     _data[batch_num].X_indptr.begin(),
+		     _data[batch_num].X_indptr.end(),
 		     thrust::placeholders::_1 -= _X_indptr[batch_begin]
 		     );
 
@@ -506,113 +542,221 @@ void NeuralNetworkGPUCpp::load_sparse(
   }
 }
 
-void NeuralNetworkGPUCpp::load_sparse_data(
-					   std::int32_t  _num_input_node,
-					   float        *_X_data,
-					   std::int32_t  _X_data_length,
-					   std::int32_t *_X_indices,
-					   std::int32_t  _X_indices_length,
-					   std::int32_t *_X_indptr,
-					   std::int32_t  _X_indptr_length,
-					   std::int32_t  _num_samples,
-					   std::int32_t  _dim,
-					   std::int32_t  _global_batch_size
-					   ) {
+//This function expects a CSR matrix, but transforms it into a COO vector on the GPU
+void NeuralNetworkGPUCpp::load_coo(
+				   std::vector<COOVector> &_data,
+				   float                  *_X_data,
+				   std::int32_t            _X_data_length,
+				   std::int32_t           *_X_indices,
+				   std::int32_t            _X_indices_length,
+				   std::int32_t           *_X_indptr,
+				   std::int32_t            _X_indptr_length,
+				   std::int32_t            _num_samples,
+				   std::int32_t            _dim,
+				   std::int32_t            _num_batches
+				   ) {
 
-  if (
-      _num_input_node >= (std::int32_t)(this->sparse_input_data.size()) || 
+  std::int32_t batch_begin, batch_end, batch_size;
+
+  thrust::device_vector<std::int32_t> X_col;
+
+  for (std::int32_t batch_num = 0; batch_num<_num_batches; ++batch_num) {
+
+    this->calc_batch_begin_end(
+			       batch_begin,
+			       batch_end,
+			       batch_size,
+			       batch_num,
+			       _num_samples,
+			       _num_batches
+			       );
+
+    //Transfer _num_samples and _dim
+    _data[batch_num].batch_size = batch_size;
+    _data[batch_num].dim = _dim;
+    _data[batch_num].num_non_zero = 
+      _X_indptr[batch_end] - _X_indptr[batch_begin];
+
+    //Transfer X_data to GPU and set X_data_ptr
+    _data[batch_num].X_data =
+      thrust::device_vector<float>(
+				   _X_data + _X_indptr[batch_begin],
+				   _X_data + _X_indptr[batch_end]
+				   );
+    
+    _data[batch_num].X_data_ptr =
+      thrust::raw_pointer_cast(_data[batch_num].X_data.data());
+
+    //Transfer X_indices to GPU (which we rename X_row)
+    //Remember that the output of the neural net will be in column-major
+    //order, so we have to multiply by batch_size!
+    _data[batch_num].X_indices = 
+      thrust::device_vector<std::int32_t>(
+					  _X_indptr[batch_end] - _X_indptr[batch_begin]
+					  );
+    
+    //Multiply by batch_size - remember that the output is in column major order!
+    thrust::for_each(
+    		     _data[batch_num].X_indices.begin(),
+    		     _data[batch_num].X_indices.end(),
+    		     thrust::placeholders::_1 *= batch_size		     
+    		     );
+      
+
+    _data[batch_num].X_indices_ptr =
+      thrust::raw_pointer_cast(_data[batch_num].X_indices.data());
+
+
+    //Transfer X_indptr to GPU
+    //X_indptr is transformed into X_col
+    X_col = 
+      thrust::device_vector<std::int32_t>(
+					  _X_indptr[batch_end] 
+					  - _X_indptr[batch_begin]
+					  );
+
+    //Transform the X_indptr vector into a column vector
+    for (
+         std::int32_t i = 0; 
+	 i < batch_size;
+	 ++i
+        )
+      thrust::fill (
+                    X_col.begin() 
+		     + _X_indptr[batch_begin + i] - _X_indptr[batch_begin],
+		    X_col.begin() +
+		     _X_indptr[batch_begin + i+1] - _X_indptr[batch_begin],
+		    i
+		    );
+    
+    //Now, add X_col to X_indices
+    thrust::transform(
+		      _data[batch_num].X_indices.begin(),
+		      _data[batch_num].X_indices.end(),
+		      X_col.begin(),
+		      _data[batch_num].X_indices.begin(),
+		      thrust::plus<std::int32_t>()
+		      );
+	 
+  }
+}
+
+
+
+    void NeuralNetworkGPUCpp::load_sparse_data(
+                                               std::int32_t  _num_input_node,
+					       float        *_X_data,
+					       std::int32_t  _X_data_length,
+					       std::int32_t *_X_indices,
+                                               std::int32_t  _X_indices_length,
+                                               std::int32_t *_X_indptr,
+                                               std::int32_t  _X_indptr_length,
+                                               std::int32_t  _num_samples,
+                                               std::int32_t  _dim,
+                                               std::int32_t  _global_batch_size
+      ) {
+
+    if (
+    _num_input_node >= (std::int32_t)(this->sparse_input_data.size()) || 
       _num_input_node < 0
-      ) throw std::invalid_argument("num_input_node out of bounds!");
+			) throw std::invalid_argument("num_input_node out of bounds!");
   
-  if (_dim != this->sparse_input_data_dim[_num_input_node]) 
-    throw std::invalid_argument("Width dim of array provided does not match the width that has been set when initialising the network!");
+    if (_dim != this->sparse_input_data_dim[_num_input_node]) 
+      throw std::invalid_argument("Width dim of array provided does not match the width that has been set when initialising the network!");
 
-  std::int32_t num_batches = calc_num_batches (
-					       /*MPI_Comm comm,*/
-					       _num_samples,
-					       _global_batch_size
-					       );
+    std::int32_t num_batches = calc_num_batches (
+    /*MPI_Comm comm,*/
+    _num_samples,
+      _global_batch_size
+      );
 
-  this->sparse_input_data[_num_input_node] 
-    = std::vector<SparseInputStruct>(num_batches);
+    this->sparse_input_data[_num_input_node] 
+      = std::vector<CSRMatrix>(num_batches);
 
-  this->load_sparse(
-		    this->sparse_input_data[_num_input_node],
-		    _X_data,
-		    _X_data_length,
-		    _X_indices,
-		    _X_indices_length,
-		    _X_indptr,
-		    _X_indptr_length,
-		    _num_samples,
-		    _dim, 
-		    num_batches
-		    );
+    this->load_csr(
+    this->sparse_input_data[_num_input_node],
+      _X_data,
+      _X_data_length,
+      _X_indices,
+      _X_indices_length,
+      _X_indptr,
+      _X_indptr_length,
+      _num_samples,
+      _dim, 
+      num_batches
+      );
 
-}
+  }
 
-void NeuralNetworkGPUCpp::load_sparse_targets (
-					      std::int32_t  _num_output_node,
-					      float        *_Y_data,
-					      std::int32_t  _Y_data_length,
-					      std::int32_t *_Y_indices,
-					      std::int32_t  _Y_indices_length,
-					      std::int32_t *_Y_indptr,
-					      std::int32_t  _Y_indptr_length,
-					      std::int32_t  _num_samples,
-					      std::int32_t  _dim,
-					      std::int32_t  _global_batch_size
-					      ) {
+    void NeuralNetworkGPUCpp::load_sparse_targets (
+     std::int32_t  _num_output_node,
+      float        *_Y_data,
+      std::int32_t  _Y_data_length,
+      std::int32_t *_Y_indices,
+      std::int32_t  _Y_indices_length,
+      std::int32_t *_Y_indptr,
+      std::int32_t  _Y_indptr_length,
+      std::int32_t  _num_samples,
+      std::int32_t  _dim,
+      std::int32_t  _global_batch_size
+      ) {
 
-  if (
-      _num_output_node >= (std::int32_t)(this->sparse_targets.size()) ||
+    if (
+    _num_output_node >= (std::int32_t)(this->sparse_targets.size()) ||
       _num_output_node < 0
-      ) 
-    throw std::invalid_argument("num_output_node out of bounds!");
+			 ) 
+      throw std::invalid_argument("num_output_node out of bounds!");
 
-  if (_dim != this->sparse_targets_dim[_num_output_node]) 
-    throw std::invalid_argument("Width dim of array provided does not match the width that has been set when initialising the network!");
+    if (_dim != this->sparse_targets_dim[_num_output_node]) 
+      throw std::invalid_argument("Width dim of array provided does not match the width that has been set when initialising the network!");
 
-  std::int32_t num_batches = calc_num_batches (
-					       /*MPI_Comm comm,*/
-					       _num_samples,
-					       _global_batch_size
-					       );//Calculates the number of batches needed
+    std::int32_t num_batches = calc_num_batches (
+    /*MPI_Comm comm,*/
+    _num_samples,
+      _global_batch_size
+      );//Calculates the number of batches needed
 
-  this->sparse_targets[_num_output_node] = std::vector<SparseInputStruct>(num_batches);
+    this->sparse_targets[_num_output_node] = std::vector<COOVector>(num_batches);
 
-  this->load_sparse(
-		    this->sparse_targets[_num_output_node],
-		    _Y_data,
-		    _Y_data_length,
-		    _Y_indices,
-		    _Y_indices_length,
-		    _Y_indptr,
-		    _Y_indptr_length,
-		    _num_samples,
-		    _dim,
-		    num_batches
-		    );
+    this->load_coo(
+      this->sparse_targets[_num_output_node],
+      _Y_data,
+      _Y_data_length,
+      _Y_indices,
+      _Y_indices_length,
+      _Y_indptr,
+      _Y_indptr_length,
+      _num_samples,
+      _dim,
+      num_batches
+      );
 
-}
+  }
 
-void NeuralNetworkGPUCpp::delete_data() {
+    void NeuralNetworkGPUCpp::delete_data() {
 
-  for (auto& data: this->dense_input_data) data.clear();
-  for (auto& data: this->dense_targets) data.clear();
-  for (auto& data: this->sparse_input_data) data.clear();
-  for (auto& data: this->sparse_targets) data.clear();
+    for (auto& data: this->dense_input_data) data.clear();
+    for (auto& data: this->dense_targets) data.clear();
+    for (auto& data: this->sparse_input_data) data.clear();
+    for (auto& data: this->sparse_targets) data.clear();
 
-}
+  }
 	           
-void NeuralNetworkGPUCpp::transform(float *_Yhat, std::int32_t _Y2_num_samples, std::int32_t _Y2_dim, bool _sample, std::int32_t _sample_size, bool _Gethidden_nodes) {
+    void NeuralNetworkGPUCpp::transform(
+                                        float       *_Yhat,
+                                        std::int32_t _Y2_num_samples, 
+					std::int32_t _Y2_dim, 
+					bool         _sample, 
+					std::int32_t _sample_size, 
+					bool         _Gethidden_nodes
+					) {
 		
-  //Make sure that neural network has been finalised!
-  if (!this->finalised) throw std::invalid_argument("Neural network has not been finalised!");
+    //Make sure that neural network has been finalised!
+    if (!this->finalised) throw std::invalid_argument("Neural network has not been finalised!");
   
-  //Get batch_size
-  std::vector<std::int32_t> batch_size;
-  if (this->dense_input_data.size() > 0) {
+    //Get batch_size
+    std::vector<std::int32_t> batch_size;
+    if (this->dense_input_data.size() > 0) {
 
     for (auto data: this->dense_input_data[0])
       batch_size.push_back(data.batch_size);
@@ -624,20 +768,11 @@ void NeuralNetworkGPUCpp::transform(float *_Yhat, std::int32_t _Y2_num_samples, 
 
   } else throw std::invalid_argument("No input data provided!");
 
-  //Get num_batches
-  std::int32_t num_batches = (std::int32_t)(batch_size.size());
+    //Get num_batches
+    std::int32_t num_batches = (std::int32_t)(batch_size.size());
 
-  //Make sure that the batch_sizes are identical for all matrices provided!
-  for (auto DataVector: this->dense_input_data) {
-
-    if (DataVector.size() != batch_size.size()) throw std::invalid_argument("All input matrices must have the exact same number of samples!");
-
-    for (std::size_t i=0; i<DataVector.size(); ++i) if (DataVector[i].batch_size != batch_size[i]) throw std::invalid_argument("All input matrices must have the exact same number of samples!");
-
-  }
-
-  //Make sure that the batch_sizes are identical for all matrices provided!
-  for (auto DataVector: this->sparse_input_data) {
+    //Make sure that the batch_sizes are identical for all matrices provided!
+    for (auto DataVector: this->dense_input_data) {
 
     if (DataVector.size() != batch_size.size()) throw std::invalid_argument("All input matrices must have the exact same number of samples!");
 
@@ -645,28 +780,37 @@ void NeuralNetworkGPUCpp::transform(float *_Yhat, std::int32_t _Y2_num_samples, 
 
   }
 
-  //Store input values
-  this->num_samples = _Y2_num_samples;
-  this->sample = _sample;
-  if (!_sample) _sample_size = 1;
+    //Make sure that the batch_sizes are identical for all matrices provided!
+    for (auto DataVector: this->sparse_input_data) {
 
-  const double SampleAvg = 1.0/((double)_sample_size);
+    if (DataVector.size() != batch_size.size()) throw std::invalid_argument("All input matrices must have the exact same number of samples!");
 
-  //Set pointers contained in the NeuralNetworkNodes class
-  for (std::size_t n=0; n<this->nodes.size(); ++n) this->nodes[n]->W = thrust::raw_pointer_cast(this->W.data()) + this->cumulative_num_weights_required[n];
+    for (std::size_t i=0; i<DataVector.size(); ++i) if (DataVector[i].batch_size != batch_size[i]) throw std::invalid_argument("All input matrices must have the exact same number of samples!");
+
+  }
+
+    //Store input values
+    this->num_samples = _Y2_num_samples;
+    this->sample = _sample;
+    if (!_sample) _sample_size = 1;
+
+    const double SampleAvg = 1.0/((double)_sample_size);
+
+    //Set pointers contained in the NeuralNetworkNodes class
+    for (std::size_t n=0; n<this->nodes.size(); ++n) this->nodes[n]->W = thrust::raw_pointer_cast(this->W.data()) + this->cumulative_num_weights_required[n];
   
-  //Init YhatTemp
-  thrust::device_vector<float> YhatTemp(_Yhat, _Yhat + _Y2_num_samples*_Y2_dim);
+    //Init YhatTemp
+    thrust::device_vector<float> YhatTemp(_Yhat, _Yhat + _Y2_num_samples*_Y2_dim);
   
-  //Init cuBLAS handle, cuSPARSE handle and matrix descriptor
-  cublasCreate(&(this->dense_handle_));
-  cusparseCreate(&(this->sparse_handle_));
-  cusparseCreateMatDescr(&(this->mat_descr_));
-  cusparseSetMatType(this->mat_descr_, CUSPARSE_MATRIX_TYPE_GENERAL);
+    //Init cuBLAS handle, cuSPARSE handle and matrix descriptor
+    cublasCreate(&(this->dense_handle_));
+    cusparseCreate(&(this->sparse_handle_));
+    cusparseCreateMatDescr(&(this->mat_descr_));
+    cusparseSetMatType(this->mat_descr_, CUSPARSE_MATRIX_TYPE_GENERAL);
   
-  //Calculate output
-  std::int32_t batch_begin = 0;
-  for (std::int32_t batch_num=0; batch_num<num_batches; ++batch_num, batch_begin += batch_size[batch_num]) {
+    //Calculate output
+    std::int32_t batch_begin = 0;
+    for (std::int32_t batch_num=0; batch_num<num_batches; ++batch_num, batch_begin += batch_size[batch_num]) {
     						
     //Calculate nodes
     for (auto node: this->nodes) node->calc_output(batch_num, batch_size[batch_num]);
@@ -676,15 +820,15 @@ void NeuralNetworkGPUCpp::transform(float *_Yhat, std::int32_t _Y2_num_samples, 
 
   }	
   
-  //Get data from YhatTemp and transpose
-  for (std::int32_t i=0; i<_Y2_num_samples; ++i) for (std::int32_t j=0; j<_Y2_dim; ++j) _Yhat[i*_Y2_dim + j] = YhatTemp[j*_Y2_num_samples + i];
+    //Get data from YhatTemp and transpose
+    for (std::int32_t i=0; i<_Y2_num_samples; ++i) for (std::int32_t j=0; j<_Y2_dim; ++j) _Yhat[i*_Y2_dim + j] = YhatTemp[j*_Y2_num_samples + i];
 
-  //Destroy cuBLAS handle, cuSPARSE handle and matrix descriptor
-  cublasDestroy(this->dense_handle_);
-  cusparseDestroyMatDescr(this->mat_descr_);
-  cusparseDestroy(this->sparse_handle_);
+    //Destroy cuBLAS handle, cuSPARSE handle and matrix descriptor
+    cublasDestroy(this->dense_handle_);
+    cusparseDestroyMatDescr(this->mat_descr_);
+    cusparseDestroy(this->sparse_handle_);
 			
-  //Clear data, so it does not unnecessarily take up space on the GPU
-  this->delete_data();
+    //Clear data, so it does not unnecessarily take up space on the GPU
+    this->delete_data();
 		
-};
+  };

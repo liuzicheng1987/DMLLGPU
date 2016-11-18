@@ -38,7 +38,7 @@ class L2Regulariser:
 
 #Activation functions
 class ActivationFunction:
-    def __init__(self, node_number, dim=1, activation="logistic", InputDense=np.asarray([]).astype(np.int32), InputSparse=np.asarray([]).astype(np.int32), hidden=np.asarray([]).astype(np.int32), i_share_weights_with=-1, no_weight_updates=False, regulariser=Regulariser()):
+    def __init__(self, node_number, dim=1, activation="logistic", input_dense=np.asarray([]).astype(np.int32), input_sparse=np.asarray([]).astype(np.int32), hidden=np.asarray([]).astype(np.int32), i_share_weights_with=-1, no_weight_updates=False, regulariser=Regulariser()):
         """
         node_number: Number of node in the neural network. Every node number must be assigned before neural network is finalised.
         dim: Dimension of the output
@@ -57,14 +57,14 @@ class ActivationFunction:
         self.regulariser = regulariser
         
         if activation == "logistic":
-            self.thisptr = DMLLGPUCpp.LogisticActivationFunctionGPUCpp(self.node_number, dim, np.asarray(InputDense).astype(np.int32), np.asarray(InputSparse).astype(np.int32), np.asarray(hidden).astype(np.int32), i_share_weights_with, no_weight_updates, self.regulariser.thisptr)
+            self.thisptr = DMLLGPUCpp.LogisticActivationFunctionGPUCpp(self.node_number, dim, np.asarray(input_dense).astype(np.int32), np.asarray(input_sparse).astype(np.int32), np.asarray(hidden).astype(np.int32), i_share_weights_with, no_weight_updates, self.regulariser.thisptr)
             
         elif activation == "linear":
-            self.thisptr = DMLLGPUCpp.LinearActivationFunctionGPUCpp(self.node_number, dim, np.asarray(InputDense).astype(np.int32), np.asarray(InputSparse).astype(np.int32), np.asarray(hidden).astype(np.int32), i_share_weights_with, no_weight_updates, self.regulariser.thisptr)
+            self.thisptr = DMLLGPUCpp.LinearActivationFunctionGPUCpp(self.node_number, dim, np.asarray(input_dense).astype(np.int32), np.asarray(input_sparse).astype(np.int32), np.asarray(hidden).astype(np.int32), i_share_weights_with, no_weight_updates, self.regulariser.thisptr)
 
 
 class SoftmaxActivationFunction:
-    def __init__(self, node_number, num_vars=1, num_states_per_var=5,  InputDense=np.asarray([]).astype(np.int32), InputSparse=np.asarray([]).astype(np.int32), hidden=np.asarray([]).astype(np.int32), i_share_weights_with=-1, no_weight_updates=False, regulariser=Regulariser()):
+    def __init__(self, node_number, num_vars=1, num_states_per_var=5,  input_dense=np.asarray([]).astype(np.int32), input_sparse=np.asarray([]).astype(np.int32), hidden=np.asarray([]).astype(np.int32), i_share_weights_with=-1, no_weight_updates=False, regulariser=Regulariser()):
         """
         node_number: Number of node in the neural network. Every node number must be assigned before neural network is finalised.
         num_vars: Number of distinct discrete variables (output dimension is num_vars*num_states_per_var)
@@ -82,7 +82,7 @@ class SoftmaxActivationFunction:
         #Store regulariser
         self.regulariser = regulariser
         
-        self.thisptr = DMLLGPUCpp.SoftmaxActivationFunctionGPUCpp(self.node_number, num_vars, num_states_per_var, np.asarray(InputDense).astype(np.int32), np.asarray(InputSparse).astype(np.int32), np.asarray(hidden).astype(np.int32), i_share_weights_with, no_weight_updates, self.regulariser.thisptr)
+        self.thisptr = DMLLGPUCpp.SoftmaxActivationFunctionGPUCpp(self.node_number, num_vars, num_states_per_var, np.asarray(input_dense).astype(np.int32), np.asarray(input_sparse).astype(np.int32), np.asarray(hidden).astype(np.int32), i_share_weights_with, no_weight_updates, self.regulariser.thisptr)
 
 #Neural network
 
@@ -159,18 +159,18 @@ class NeuralNetwork:
         Get the dense input nodes which are fed into node.
         node_number: Node number of the node we are interested in
         """
-        InputDense = np.zeros(self.thisptr.get_input_nodes_fed_into_me_dense_length(node_number)).astype(np.int32)
-        self.thisptr.get_input_nodes_fed_into_me_dense(node_number, InputDense)
-        return InputDense
+        input_dense = np.zeros(self.thisptr.get_input_nodes_fed_into_me_dense_length(node_number)).astype(np.int32)
+        self.thisptr.get_input_nodes_fed_into_me_dense(node_number, input_dense)
+        return input_dense
         
     def get_input_sparse(self, node_number):
         """
         Get the sparse input nodes which are fed into node.
         node_number: Node number of the node we are interested in
         """
-        InputSparse = np.zeros(self.thisptr.get_input_nodes_fed_into_me_dense_length(node_number)).astype(np.int32)
-        self.thisptr.get_input_nodes_fed_into_me_dense(node_number, InputSparse)
-        return InputSparse        
+        input_sparse = np.zeros(self.thisptr.get_input_nodes_fed_into_me_dense_length(node_number)).astype(np.int32)
+        self.thisptr.get_input_nodes_fed_into_me_dense(node_number, input_sparse)
+        return input_sparse        
         
     def get_hidden(self, node_number):
         """

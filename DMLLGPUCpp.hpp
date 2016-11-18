@@ -26,14 +26,14 @@
 
 #include "utils.hpp"
 
-#include "LossFunctions/LossFunctionCpp.hpp"
-#include "LossFunctions/SquareLossCpp.hpp"
-
 #include "regularisers/RegulariserCpp.hpp"
 #include "regularisers/L2RegulariserCpp.hpp"
 
 #include "NeuralNetworkNodeGPUCpp.hpp"
 #include "NeuralNetworkGPUCpp.hpp"
+
+#include "LossFunctions/LossFunctionCpp.hpp"
+#include "LossFunctions/SquareLossCpp.hpp"
 
 #include "optimisers/OptimiserCpp.hpp"
 #include "optimisers/OptimiserCppFunctions.hpp"

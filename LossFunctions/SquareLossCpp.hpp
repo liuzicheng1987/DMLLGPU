@@ -1,7 +1,7 @@
 //Because this loss function is so simple, we refrain from the usual practice of keeping its functions in a separate file.
 class SquareLossCpp: public LossFunctionCpp {
 	
- public:	
+public:	
 	
   //Constructor
   SquareLossCpp (): LossFunctionCpp() {}
@@ -9,10 +9,48 @@ class SquareLossCpp: public LossFunctionCpp {
   //Destructor		
   ~SquareLossCpp() {}
 			
-  void dLossdYhat (/*MPI_Comm comm, const std::int32_t rank, const std::int32_t size,*/ const std::int32_t num_samples, const std::int32_t dim, thrust::device_vector<float> &dlossdYhat, thrust::device_vector<float> &Y, thrust::device_vector<float> &Yhat) {
+  void dloss_dyhat_dense (
+			  DenseMatrix                  &_target, 
+			  thrust::device_vector<float> &_output,
+			  float                        *_output_ptr,
+			  thrust::device_vector<float> &_dlossdoutput
+			  ) {
 	
-    thrust::transform(Yhat.begin(), Yhat.begin() + num_samples, Y.begin(), dlossdYhat.begin(), thrust::minus<float>());
+    thrust::transform(
+		      _output.begin(), 
+		      _output.begin() + _target.batch_size*_target.dim, 
+		      _target.X.begin(), 
+		      _dlossdoutput.begin(), 
+		      thrust::minus<float>()
+		      );
 		
   }
+
+  void dloss_dyhat_sparse (
+			   COOVector                    &_target,
+			   thrust::device_vector<float> &_output,
+			   float                        *_output_ptr,
+			   thrust::device_vector<float> &_dlossdoutput
+			   ) {
+    
+    thrust::copy(
+		 _output.begin(),
+		 _output.begin() + _target.batch_size*_target.dim, 
+		 _dlossdoutput.begin()
+		 );
+
+    const float alpha = -1.f;
+    
+    cusparseSaxpyi(
+		   this->NeuralNet_->get_sparse_handle(),//handle
+		   _target.num_non_zero,//nnz
+		   &alpha,//alpha
+		   _target.X_data_ptr,//xVal
+		   _target.X_indices_ptr,//xInd
+		   thrust::raw_pointer_cast(_dlossdoutput.data()),//y
+		   CUSPARSE_INDEX_BASE_ZERO//idxBase
+		   );
+     
+  };
 	
 };

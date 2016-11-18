@@ -22,10 +22,10 @@ NeuralNetworkGPUCpp::NeuralNetworkGPUCpp(std::int32_t *_num_input_nodes_dense, s
   this->num_output_nodes = _num_output_nodes_dense + _num_output_nodes_sparse;
 
   //Set up input data and target data
-  this->dense_input_data = std::vector<DenseInputStruct>(_num_input_nodes_dense_length);
-  this->sparse_input_data = std::vector<SparseInputStruct>(_num_input_nodes_sparse_length);
-  this->dense_targets = std::vector<DenseInputStruct>(_num_output_nodes_dense);
-  this->sparse_targets = std::vector<SparseInputStruct>(_num_output_nodes_sparse);
+  this->dense_input_data = std::vector<DenseMatrix>(_num_input_nodes_dense_length);
+  this->sparse_input_data = std::vector<CSRMatrix>(_num_input_nodes_sparse_length);
+  this->dense_targets = std::vector<DenseMatrix>(_num_output_nodes_dense);
+  this->sparse_targets = std::vector<CSRMatrix>(_num_output_nodes_sparse);
 
   //Transfer number of input nodes
   for (int i=0; i <_num_input_nodes_dense_length; ++i) this->dense_input_data[i].dim = _num_input_nodes_dense[i];
@@ -230,7 +230,7 @@ void NeuralNetworkGPUCpp::get_hidden_nodes_fed_into_me(std::int32_t _node_number
   		
 };
 
-void NeuralNetworkGPUCpp::load_dense(DenseInputStruct &data, float *_X, std::int32_t _num_samples, std::int32_t _dim) {
+void NeuralNetworkGPUCpp::load_dense(DenseMatrix &data, float *_X, std::int32_t _num_samples, std::int32_t _dim) {
 
   //Transfer _num_samples and _dim
   data.I = _num_samples;
@@ -260,7 +260,7 @@ void NeuralNetworkGPUCpp::load_dense_targets(std::int32_t _num_output_node, floa
 
 }
 
-void NeuralNetworkGPUCpp::load_sparse(SparseInputStruct &data, float *_X_data, std::int32_t _X_data_length,  std::int32_t *_X_indices, std::int32_t _X_indices_length, std::int32_t *_X_indptr, std::int32_t _X_indptr_length, std::int32_t _num_samples, std::int32_t _dim) {
+void NeuralNetworkGPUCpp::load_sparse(CSRMatrix &data, float *_X_data, std::int32_t _X_data_length,  std::int32_t *_X_indices, std::int32_t _X_indices_length, std::int32_t *_X_indptr, std::int32_t _X_indptr_length, std::int32_t _num_samples, std::int32_t _dim) {
 
   //Transfer _num_samples and _dim
   data.I = _num_samples;

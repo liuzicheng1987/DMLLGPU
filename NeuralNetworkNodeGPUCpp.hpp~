@@ -13,7 +13,7 @@ protected:
 
   std::vector<std::int32_t> input_nodes_fed_into_me_dense;//Integer signifying matrix of dense input matrix fed into this node
   std::vector<std::int32_t> input_nodes_fed_into_me_sparse;//Integer signifying matrix of dense input matrix fed into this node
-  std::int32_t num_input_nodes_cumulative;//Accumulated number of input nodes as signified by the value dim in DenseInputStruct and SparseInputStruct
+  std::int32_t num_input_nodes_cumulative;//Accumulated number of input nodes as signified by the value dim in DenseMatrix and CSRMatrix
   
   std::vector<std::int32_t> hidden_nodes_fed_into_me;//Node numbers of hidden nodes fed into this node
   std::vector<NeuralNetworkNodeGPUCpp*> hidden_nodes_fed_into_me_ptr;//Pointers to hidden nodes fed into this node
