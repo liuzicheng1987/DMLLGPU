@@ -92,8 +92,27 @@ Z = Z.reshape(xx.shape)
 plt.imshow(Z, extent=[xx.min(), xx.max(), yy.max(), yy.min()])
 
 #plot
-#plt.plot(X[Y[:,0]==0.0, 0], X[Y[:,0]==0, 1], 'co')
-#plt.plot(X[Y[:,0]==1.0, 0], X[Y[:,0]==1, 1], 'ro')
+plt.xlim(xx.min(), xx.max())
+plt.ylim(yy.min(), yy.max())
+
+plt.show()
+
+#Create grid
+h = .02
+x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
+                     np.arange(y_min, y_max, h))
+
+#----------------------------------training set-----------------------------------------
+Z = nn.transform(Xdense=[np.c_[xx.ravel().astype(np.float32), yy.ravel().astype(np.float32)]])
+Z = Z.reshape(xx.shape)
+
+plt.imshow(Z, extent=[xx.min(), xx.max(), yy.max(), yy.min()])
+
+#plot
+plt.plot(X[Y[:,0]==0.0, 0], X[Y[:,0]==0, 1], 'co')
+plt.plot(X[Y[:,0]==1.0, 0], X[Y[:,0]==1, 1], 'ro')
 plt.xlim(xx.min(), xx.max())
 plt.ylim(yy.min(), yy.max())
 

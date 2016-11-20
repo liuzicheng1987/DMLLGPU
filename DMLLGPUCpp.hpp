@@ -52,3 +52,14 @@
 #include "ActivationFunctions/LogisticActivationFunctionGPUCpp.hpp"
 #include "ActivationFunctions/LinearActivationFunctionGPUCpp.hpp"
 #include "ActivationFunctions/SoftmaxActivationFunctionGPUCpp.hpp"
+
+#include "LogicalGates/LogicalGateFunctors.hpp"
+#include "LogicalGates/LogicalGateCpp.hpp"
+#include "LogicalGates/LogicalGateCppFunctions.hpp"
+
+#include "LogicalGates/ANDGateCpp.hpp"
+#include "LogicalGates/ORGateCpp.hpp"
+#include "LogicalGates/XORGateCpp.hpp"
+#include "LogicalGates/XNORGateCpp.hpp"
+#include "LogicalGates/NORGateCpp.hpp"
+#include "LogicalGates/NANDGateCpp.hpp"

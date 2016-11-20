@@ -11,12 +11,12 @@ struct LinearForwardPropagation {
 			   const float       *_bias,
 			   const std::int32_t _batch_size
 			   ) : bias(_bias), batch_size(_batch_size) {}
-
+  
   __device__
   float operator()(float x, int i) { 
     return x + bias[i/batch_size]; 
   }
-
+  
 };
 
   //Backpropagation functions is not needed

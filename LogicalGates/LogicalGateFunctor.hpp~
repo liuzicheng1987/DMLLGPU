@@ -1,0 +1,68 @@
+namespace LogicalGate {
+
+//---------------------------------------------------------------------------
+//Case 1: Two input nodes
+
+struct LogicalGateForwardPropagation2 {
+
+  const float a,b,c,d;
+
+  LogicalGateForwardPropagation2 (
+				  const float _a,
+				  const float _b,
+				  const float _c,
+				  const float _d
+				  ) : a(_a), b(_b), c(_c), d(_d) {}
+   
+  __device__
+  void operator(tuple t) {
+    
+    //t<0> is the output node
+    t<0> = a + b
+      *(c*t<1> + d)
+      *(c*t<2> + d)
+      ;
+    
+  }
+  
+};
+
+struct LogicalGateBackpropagation2 {
+
+  const float a,b,c,d;
+
+  LogicalGateBackpropagation2 (
+                                   const float _a,
+				   const float _b,
+				   const float _c,
+				   const float _d
+      ) : a(_a), b(_b), c(_c), d(_d) {}
+      
+    __device__ 
+    void operator(tuple t) {
+
+    //t<0>, t<1> : delta0, delta1
+    //t<1>, t<2> : input0, input1
+    
+    t<0> = b*c
+      *(c*t<3> + d)
+      ;
+
+    t<1> = b*c
+      *(c*t<2> + d)
+      ;
+    
+   }
+
+};
+
+//---------------------------------------------------------------------------
+//Case 2: Three input nodes
+
+
+//---------------------------------------------------------------------------
+//Case 3: Four input nodes
+
+     
+}
+

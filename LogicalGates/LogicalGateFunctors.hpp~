@@ -1,0 +1,78 @@
+namespace LogicalGateFunctors {
+
+//---------------------------------------------------------------------------
+//Case 1: Two input nodes
+
+struct LogicalGateForwardPropagation2 {
+
+  const float a,b,c,d;
+
+  LogicalGateForwardPropagation2 (
+				  const float _a,
+				  const float _b,
+				  const float _c,
+				  const float _d
+				  ) : a(_a), 
+				      b(_b), 
+				      c(_c), 
+				      d(_d) {}
+  template <typename Tuple> 
+  __device__
+  void operator()(Tuple t) {
+    
+    //t<2> is the output node
+    thrust::get<2>(t) = a + b
+      *(c*thrust::get<0>(t) + d)
+      *(c*thrust::get<1>(t) + d)
+      ;
+    
+  }
+  
+};
+
+struct LogicalGateBackpropagation2 {
+
+  const float a,b,c,d;
+
+  LogicalGateBackpropagation2 (
+			       const float _a,
+			       const float _b,
+			       const float _c,
+			       const float _d
+			       ) : a(_a), 
+				   b(_b), 
+				   c(_c), 
+				   d(_d) {}
+
+  template <typename Tuple> 
+  __device__
+  void operator()(Tuple t) {
+
+    //t<0> delta
+    //t<1>, t<2> : input0, input1
+    //t<3>, t<4> : delta0, delta1
+    
+    float delta = thrust::get<0>(t);
+    
+    thrust::get<3>(t) = delta*b*c
+      *(c*thrust::get<2>(t) + d)
+      ;
+    
+    thrust::get<4>(t) = delta*b*c
+      *(c*thrust::get<1>(t) + d)
+      ;
+      
+  }
+
+};
+
+//---------------------------------------------------------------------------
+//Case 2: Three input nodes
+
+
+//---------------------------------------------------------------------------
+//Case 3: Four input nodes
+
+     
+}
+

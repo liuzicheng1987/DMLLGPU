@@ -282,6 +282,125 @@ class SGDCpp(OptimiserCpp):
 SGDCpp_swigregister = _DMLLGPUCpp.SGDCpp_swigregister
 SGDCpp_swigregister(SGDCpp)
 
+class LogicalGateCpp(NeuralNetworkNodeGPUCpp):
+    __swig_setmethods__ = {}
+    for _s in [NeuralNetworkNodeGPUCpp]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, LogicalGateCpp, name, value)
+    __swig_getmethods__ = {}
+    for _s in [NeuralNetworkNodeGPUCpp]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, LogicalGateCpp, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _DMLLGPUCpp.new_LogicalGateCpp(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _DMLLGPUCpp.delete_LogicalGateCpp
+    __del__ = lambda self : None;
+LogicalGateCpp_swigregister = _DMLLGPUCpp.LogicalGateCpp_swigregister
+LogicalGateCpp_swigregister(LogicalGateCpp)
+
+class ANDGateCpp(LogicalGateCpp):
+    __swig_setmethods__ = {}
+    for _s in [LogicalGateCpp]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, ANDGateCpp, name, value)
+    __swig_getmethods__ = {}
+    for _s in [LogicalGateCpp]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, ANDGateCpp, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _DMLLGPUCpp.new_ANDGateCpp(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _DMLLGPUCpp.delete_ANDGateCpp
+    __del__ = lambda self : None;
+ANDGateCpp_swigregister = _DMLLGPUCpp.ANDGateCpp_swigregister
+ANDGateCpp_swigregister(ANDGateCpp)
+
+class ORGateCpp(LogicalGateCpp):
+    __swig_setmethods__ = {}
+    for _s in [LogicalGateCpp]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, ORGateCpp, name, value)
+    __swig_getmethods__ = {}
+    for _s in [LogicalGateCpp]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, ORGateCpp, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _DMLLGPUCpp.new_ORGateCpp(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _DMLLGPUCpp.delete_ORGateCpp
+    __del__ = lambda self : None;
+ORGateCpp_swigregister = _DMLLGPUCpp.ORGateCpp_swigregister
+ORGateCpp_swigregister(ORGateCpp)
+
+class XORGateCpp(LogicalGateCpp):
+    __swig_setmethods__ = {}
+    for _s in [LogicalGateCpp]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, XORGateCpp, name, value)
+    __swig_getmethods__ = {}
+    for _s in [LogicalGateCpp]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, XORGateCpp, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _DMLLGPUCpp.new_XORGateCpp(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _DMLLGPUCpp.delete_XORGateCpp
+    __del__ = lambda self : None;
+XORGateCpp_swigregister = _DMLLGPUCpp.XORGateCpp_swigregister
+XORGateCpp_swigregister(XORGateCpp)
+
+class XNORGateCpp(LogicalGateCpp):
+    __swig_setmethods__ = {}
+    for _s in [LogicalGateCpp]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, XNORGateCpp, name, value)
+    __swig_getmethods__ = {}
+    for _s in [LogicalGateCpp]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, XNORGateCpp, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _DMLLGPUCpp.new_XNORGateCpp(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _DMLLGPUCpp.delete_XNORGateCpp
+    __del__ = lambda self : None;
+XNORGateCpp_swigregister = _DMLLGPUCpp.XNORGateCpp_swigregister
+XNORGateCpp_swigregister(XNORGateCpp)
+
+class NORGateCpp(LogicalGateCpp):
+    __swig_setmethods__ = {}
+    for _s in [LogicalGateCpp]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, NORGateCpp, name, value)
+    __swig_getmethods__ = {}
+    for _s in [LogicalGateCpp]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, NORGateCpp, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _DMLLGPUCpp.new_NORGateCpp(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _DMLLGPUCpp.delete_NORGateCpp
+    __del__ = lambda self : None;
+NORGateCpp_swigregister = _DMLLGPUCpp.NORGateCpp_swigregister
+NORGateCpp_swigregister(NORGateCpp)
+
+class NANDGateCpp(LogicalGateCpp):
+    __swig_setmethods__ = {}
+    for _s in [LogicalGateCpp]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, NANDGateCpp, name, value)
+    __swig_getmethods__ = {}
+    for _s in [LogicalGateCpp]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, NANDGateCpp, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _DMLLGPUCpp.new_NANDGateCpp(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _DMLLGPUCpp.delete_NANDGateCpp
+    __del__ = lambda self : None;
+NANDGateCpp_swigregister = _DMLLGPUCpp.NANDGateCpp_swigregister
+NANDGateCpp_swigregister(NANDGateCpp)
+
 # This file is compatible with both classic and new-style classes.
 
 

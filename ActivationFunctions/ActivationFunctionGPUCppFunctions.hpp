@@ -85,7 +85,10 @@ void ActivationFunctionGPUCpp::calc_output(
   //Transform dense input nodes
   for (std::int32_t i: this->input_nodes_fed_into_me_dense) {
 
-    input_dim = this->NeuralNet->get_dense_input_data(i, _batch_num).dim;//For convenience
+    input_dim = this->NeuralNet->get_dense_input_data(
+						      i, 
+						      _batch_num
+						      ).dim;//For convenience
 
     //output = alpha*(WT)X + beta*output 
     //X: (input_dim X _batch_size)-matrix
@@ -105,7 +108,10 @@ void ActivationFunctionGPUCpp::calc_output(
 				this->dim_, //n
 				input_dim, //k           
 				&alpha, //alpha
-				this->NeuralNet->get_dense_input_data(i, _batch_num).X_ptr, //A
+				this->NeuralNet->get_dense_input_data(
+								      i,
+								      _batch_num
+								      ).X_ptr, //A
 				input_dim, //lda
 				w, //B
 				input_dim, //ldb
@@ -138,12 +144,24 @@ void ActivationFunctionGPUCpp::calc_output(
 				    _batch_size,//m 
 				    this->dim_,//n
 				    input_dim, //k
-				    this->NeuralNet->get_sparse_input_data(i, _batch_num).num_non_zero, //nnz
+				    this->NeuralNet->get_sparse_input_data(
+									   i, 
+									   _batch_num
+									   ).num_non_zero, //nnz
 				    &alpha, //alpha
 				    this->NeuralNet->get_mat_descr(), //descrA 
-				    this->NeuralNet->get_sparse_input_data(i, _batch_num).X_data_ptr,//csrValA
-				    this->NeuralNet->get_sparse_input_data(i, _batch_num).X_indptr_ptr,//csrRowPtrA
-				    this->NeuralNet->get_sparse_input_data(i, _batch_num).X_indices_ptr,//csrColIndA
+				    this->NeuralNet->get_sparse_input_data(
+									   i, 
+									   _batch_num
+									   ).X_data_ptr,//csrValA
+				    this->NeuralNet->get_sparse_input_data(
+									   i, 
+									   _batch_num
+									   ).X_indptr_ptr,//csrRowPtrA
+				    this->NeuralNet->get_sparse_input_data(
+									   i, 
+									   _batch_num
+									   ).X_indices_ptr,//csrColIndA
 				    w, //B
 				    input_dim, //ldb
 				    &beta,//beta
@@ -159,7 +177,7 @@ void ActivationFunctionGPUCpp::calc_output(
     beta = 1.0;//Set beta to 1.0, so all subsequent matrix operations are added up.
     
   } 
-
+  
   //Transform hidden nodes
   //Calculate derivatives for hidden nodes
   for (auto node: this->hidden_nodes_fed_into_me_ptr) {
@@ -321,7 +339,10 @@ void ActivationFunctionGPUCpp::calc_dLdw(float *_dLdw, const std::int32_t _batch
 				this->dim_, //n
 				_batch_size, //k           
 				&alpha, //alpha
-				this->NeuralNet->get_dense_input_data(i, _batch_num).X_ptr, //A 
+				this->NeuralNet->get_dense_input_data(
+								      i, 
+								      _batch_num
+								      ).X_ptr, //A 
 				input_dim, //lda
 				this->delta_ptr,//B
 				_batch_size, //ldb
@@ -353,12 +374,24 @@ void ActivationFunctionGPUCpp::calc_dLdw(float *_dLdw, const std::int32_t _batch
 				    _batch_size,//m 
 				    this->dim_,//n
 				    input_dim, //k
-				    this->NeuralNet->get_sparse_input_data(i, _batch_num).num_non_zero, //nnz
+				    this->NeuralNet->get_sparse_input_data(
+									   i, 
+									   _batch_num
+									   ).num_non_zero, //nnz
 				    &alpha, //alpha
 				    this->NeuralNet->get_mat_descr(), //descrA 
-				    this->NeuralNet->get_sparse_input_data(i, _batch_num).X_data_ptr,//csrValA
-				    this->NeuralNet->get_sparse_input_data(i, _batch_num).X_indptr_ptr,//csrRowPtrA
-				    this->NeuralNet->get_sparse_input_data(i, _batch_num).X_indices_ptr,//csrColIndA
+				    this->NeuralNet->get_sparse_input_data(
+									   i, 
+									   _batch_num
+									   ).X_data_ptr,//csrValA
+				    this->NeuralNet->get_sparse_input_data(
+									   i, 
+									   _batch_num
+									   ).X_indptr_ptr,//csrRowPtrA
+				    this->NeuralNet->get_sparse_input_data(
+									   i, 
+									   _batch_num
+									   ).X_indices_ptr,//csrColIndA
 				    this->delta_ptr,//B
 				    _batch_size, //ldb
 				    &beta,//beta

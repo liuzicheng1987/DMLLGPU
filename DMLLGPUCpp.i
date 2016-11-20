@@ -24,3 +24,4 @@ import_array();
 %include regularisers/regularisers.i
 %include NeuralNetwork.i
 %include optimisers/optimisers.i
+%include LogicalGates/LogicalGates.i
