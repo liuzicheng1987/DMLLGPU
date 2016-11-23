@@ -5,7 +5,7 @@ protected:
   float *w_ptr_;//Pointer to W - for convenience
 
   thrust::device_vector<float> dldw_;//Derivative of loss function for weight vector
-  float *dldw_ptr_;//Pointer to dLdw - for convenience
+  float *dldw_ptr_;//Pointer to dldw - for convenience
 
   thrust::device_vector<float> sum_dldw_;//Sum of dLdw
 

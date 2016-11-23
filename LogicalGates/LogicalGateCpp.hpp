@@ -4,7 +4,6 @@ protected:
 
   //The parameters a_, b_, c_ and d_ define the gate
   //output: a_ + b_*(c_*input1 + d)*(c_*input2 + d)*...
-  //AND-Gate: a_ = 0.0, b_ = 1.0, c_ = 1.0, d_ = 0.0  
   float a_, b_, c_, d_;
 
 public:

@@ -247,6 +247,7 @@ class NeuralNetworkGPUCpp(_object):
     def transform(self, *args): return _DMLLGPUCpp.NeuralNetworkGPUCpp_transform(self, *args)
     def get_sum_gradients_length(self): return _DMLLGPUCpp.NeuralNetworkGPUCpp_get_sum_gradients_length(self)
     def get_sum_gradients(self, *args): return _DMLLGPUCpp.NeuralNetworkGPUCpp_get_sum_gradients(self, *args)
+    def get_sum_output_dim(self): return _DMLLGPUCpp.NeuralNetworkGPUCpp_get_sum_output_dim(self)
 NeuralNetworkGPUCpp_swigregister = _DMLLGPUCpp.NeuralNetworkGPUCpp_swigregister
 NeuralNetworkGPUCpp_swigregister(NeuralNetworkGPUCpp)
 

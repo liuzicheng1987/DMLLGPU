@@ -1,5 +1,9 @@
 //Calculates the number of batches needed
-std::int32_t NeuralNetworkGPUCpp::calc_num_batches (/*MPI_Comm _comm, */std::int32_t _num_samples, std::int32_t _global_batch_size) {
+std::int32_t NeuralNetworkGPUCpp::calc_num_batches (
+						    /*MPI_Comm _comm, */
+						    std::int32_t _num_samples,
+						    std::int32_t _global_batch_size
+						    ) {
 	
   std::int32_t GlobalI;
 	
@@ -78,7 +82,7 @@ void NeuralNetworkGPUCpp::dfdw(/*MPI_Comm comm,*/
 			      _batch_num, 
 			      _batch_size
 			      );
-
+  
   //Add all localdZdW and store the result in dZdW
   //MPI_Allreduce(localdZdW, this->optimiser->dZdW, this->lengthW, MPI_DOUBLE, MPI_SUM, comm);						
   //Barrier: Wait until all processes have reached this point
@@ -177,6 +181,7 @@ void NeuralNetworkGPUCpp::fit (/*MPI_Comm comm,*/
   cusparseCreate(&(this->sparse_handle_));
   cusparseCreateMatDescr(&(this->mat_descr_));
   cusparseSetMatType(this->mat_descr_, CUSPARSE_MATRIX_TYPE_GENERAL);
+  cusparseSetMatIndexBase(this->mat_descr_, CUSPARSE_INDEX_BASE_ZERO);
 
   //Do the actual optimisation
   this->optimiser->minimise(

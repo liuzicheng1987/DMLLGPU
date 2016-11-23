@@ -7,8 +7,8 @@ export PATHFORPYTHONMODULES=$(python -c "import sys; print(sys.path[1])")
 #Compile C++/CUDA sourcecode and create DMLLGPUCpp.py
 swig -c++ -python DMLLGPUCpp.i
 mv DMLLGPUCpp_wrap.cxx DMLLGPUCpp_wrap.cu 
-nvcc -std=c++11 -ccbin g++ -m64 -gencode arch=compute_20,code=compute_20 -c DMLLGPUCpp_wrap.cu -lcublas -lcusparse -I/usr/include/python2.7 -Xcompiler -fPIC 
-nvcc -lcublas -lcusparse -shared DMLLGPUCpp_wrap.o -o _DMLLGPUCpp.so
+nvcc -std=c++11 -ccbin g++ -m64 -gencode arch=compute_50,code=compute_50 -c DMLLGPUCpp_wrap.cu -lcublas -lcusparse -I/usr/include/python2.7 -Xcompiler -fPIC 
+nvcc -gencode arch=compute_50,code=compute_50 -lcublas -lcusparse -shared DMLLGPUCpp_wrap.o -o _DMLLGPUCpp.so
 
 #If there is trouble loading cuBLAS:
 #sudo ldconfig /usr/local/cuda-7.5/lib64

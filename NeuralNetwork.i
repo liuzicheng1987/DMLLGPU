@@ -316,6 +316,9 @@ public:
 			 float        *_sum_gradients,
 			 std::int32_t  _sum_gradients_length
 			 );
+  
+  //This functions returns the sum of the dimensionalities of all output nodes
+  std::int32_t get_sum_output_dim();
 	
 };
 

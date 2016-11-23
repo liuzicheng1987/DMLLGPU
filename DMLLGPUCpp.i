@@ -12,13 +12,14 @@
 import_array();
 %}
 
+
 %exception { 
     try {
         $action
     } catch (const std::exception& e) {
         SWIG_exception(SWIG_UnknownError, e.what());
     } 
-}
+ }
 
 %include LossFunctions/LossFunctions.i
 %include regularisers/regularisers.i

@@ -74,7 +74,6 @@ private:
   thrust::device_vector<float> W;//Weights for the neural network
 
   LossFunctionCpp *loss;//Pointer to loss function 
-  //RegulariserCpp *regulariser;//Pointer to regulariser
 
   OptimiserCpp *optimiser;//Pointer to optimiser
 
@@ -338,6 +337,22 @@ public:
 	      this->sum_gradients.end(),
 	      _sum_gradients
 	      );
+  };
+
+
+  //This functions returns the sum of the dimensionalities of all output nodes
+  std::int32_t get_sum_output_dim() {
+    
+    std::int32_t output_dim = 0;
+
+    for (auto dim: dense_input_data_dim)
+      output_dim += dim;
+
+    for (auto dim: sparse_input_data_dim)
+      output_dim += dim;
+
+    return output_dim;
+
   };
 
 	

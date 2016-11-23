@@ -370,23 +370,49 @@ class NeuralNetwork:
             warnings.warn("Number of matrices in Ysparse must be identical to length of num_output_nodes_sparse. Expected " + str(self.num_output_nodes_sparse) + ", got " + str(len(Ysparse)) + ".")
         
         StartTiming = datetime.now()
-        
+                    
         #Load Xdense into GPU
         for i, X in enumerate(Xdense): 
             self.thisptr.load_dense_data(i, X, global_batch_size)        
-
+            
         #Load Xsparse into GPU
         for i, X in enumerate(Xsparse): 
-            self.thisptr.load_sparse_data(i, X.data, X.indices, X.indptr, X.shape[0], X.shape[1], global_batch_size)                 
-        
+            
+            #cuSPARSE expects sorted indices!
+            Xsparse_sorted = X.sorted_indices()
+            
+            self.thisptr.load_sparse_data(
+                i, 
+                Xsparse_sorted.data, 
+                Xsparse_sorted.indices, 
+                Xsparse_sorted.indptr, 
+                Xsparse_sorted.shape[0], 
+                Xsparse_sorted.shape[1], 
+                global_batch_size
+            )   
+        del Xsparse_sorted
+            
         #Load Ydense into GPU
-        for i, Y in enumerate(Ydense): 
+        for i, Y in enumerate(Ydense):             
             self.thisptr.load_dense_targets(i, Y, global_batch_size)        
-        
+            
         #Load Ysparse into GPU
         for i, Y in enumerate(Ysparse): 
-            self.thisptr.load_sparse_targets(i, Y.data, Y.indices, Y.indptr, Y.shape[0], Y.shape[1], global_batch_size)
-        
+            
+            #cuSPARSE expects sorted indices!
+            Ysparse_sorted = Y.sorted_indices()
+            
+            self.thisptr.load_sparse_targets(
+                i, 
+                Ysparse_sorted.data, 
+                Ysparse_sorted.indices, 
+                Ysparse_sorted.indptr, 
+                Ysparse_sorted.shape[0], 
+                Ysparse_sorted.shape[1], 
+                global_batch_size
+            )
+        del Ysparse_sorted
+            
         StopTiming = datetime.now()
         TimeElapsed = StopTiming - StartTiming		
         print "Neural network loaded data into GPU."
@@ -435,15 +461,40 @@ class NeuralNetwork:
 
         #Load sparse data into GPU
         for i, X in enumerate(Xsparse): 
-            self.thisptr.load_sparse_data(i, X.data, X.indices, X.indptr, X.shape[0], X.shape[1], global_batch_size)     
+            
+            #cuSPARSE expects sorted indices!
+            Xsparse_sorted = X.sorted_indices()
+            
+            self.thisptr.load_sparse_data(
+                i, 
+                Xsparse_sorted.data, 
+                Xsparse_sorted.indices, 
+                Xsparse_sorted.indptr, 
+                Xsparse_sorted.shape[0],
+                Xsparse_sorted.shape[1],
+                global_batch_size
+            )
+            
+        del Xsparse_sorted
             
         if len(Xdense) > 0:    
-            Yhat = np.zeros((Xdense[0].shape[0], self.num_output_nodes_dense + self.num_output_nodes_sparse)).astype(np.float32)
+            Yhat = np.zeros((
+                Xdense[0].shape[0], 
+                self.thisptr.get_sum_output_dim()
+            )).astype(np.float32)
         else:
-            Yhat = np.zeros((Xsparse[0].shape[0], self.num_output_nodes_dense + self.num_output_nodes_sparse)).astype(np.float32)
+            Yhat = np.zeros((
+                Xsparse[0].shape[0], 
+                self.thisptr.get_sum_output_dim()
+            )).astype(np.float32)
         
         #Check whether the input X is a numpy vector
-        self.thisptr.transform(Yhat, sample, sample_size, get_hidden_nodes)
+        self.thisptr.transform(
+            Yhat, 
+            sample, 
+            sample_size, 
+            get_hidden_nodes
+        )
         
         return Yhat
         

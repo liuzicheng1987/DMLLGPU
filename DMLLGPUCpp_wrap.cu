@@ -5737,6 +5737,34 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_NeuralNetworkGPUCpp_get_sum_output_dim(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  NeuralNetworkGPUCpp *arg1 = (NeuralNetworkGPUCpp *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  std::int32_t result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:NeuralNetworkGPUCpp_get_sum_output_dim",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_NeuralNetworkGPUCpp, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NeuralNetworkGPUCpp_get_sum_output_dim" "', argument " "1"" of type '" "NeuralNetworkGPUCpp *""'"); 
+  }
+  arg1 = reinterpret_cast< NeuralNetworkGPUCpp * >(argp1);
+  {
+    try {
+      result = (std::int32_t)(arg1)->get_sum_output_dim();
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_UnknownError, e.what());
+    } 
+  }
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *NeuralNetworkGPUCpp_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *obj;
   if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
@@ -6555,6 +6583,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"NeuralNetworkGPUCpp_transform", _wrap_NeuralNetworkGPUCpp_transform, METH_VARARGS, NULL},
 	 { (char *)"NeuralNetworkGPUCpp_get_sum_gradients_length", _wrap_NeuralNetworkGPUCpp_get_sum_gradients_length, METH_VARARGS, NULL},
 	 { (char *)"NeuralNetworkGPUCpp_get_sum_gradients", _wrap_NeuralNetworkGPUCpp_get_sum_gradients, METH_VARARGS, NULL},
+	 { (char *)"NeuralNetworkGPUCpp_get_sum_output_dim", _wrap_NeuralNetworkGPUCpp_get_sum_output_dim, METH_VARARGS, NULL},
 	 { (char *)"NeuralNetworkGPUCpp_swigregister", NeuralNetworkGPUCpp_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_OptimiserCpp", _wrap_new_OptimiserCpp, METH_VARARGS, NULL},
 	 { (char *)"delete_OptimiserCpp", _wrap_delete_OptimiserCpp, METH_VARARGS, NULL},

@@ -43,11 +43,11 @@ class ORGateCpp: public LogicalGateCpp {
 public:
 
   ORGateCpp (
-	      std::int32_t  _node_number, 
-	      std::int32_t  _dim,
-	      std::int32_t *_hidden_nodes_fed_into_me, 
-	      std::int32_t  _hidden_nodes_fed_into_me_length	
-	      );
+	     std::int32_t  _node_number, 
+	     std::int32_t  _dim,
+	     std::int32_t *_hidden_nodes_fed_into_me, 
+	     std::int32_t  _hidden_nodes_fed_into_me_length	
+	     );
 	  
 };
 
@@ -115,11 +115,11 @@ class NANDGateCpp: public LogicalGateCpp {
 public:
 
   NANDGateCpp (
-	      std::int32_t  _node_number, 
-	      std::int32_t  _dim,
-	      std::int32_t *_hidden_nodes_fed_into_me, 
-	      std::int32_t  _hidden_nodes_fed_into_me_length	
-	      );
+	       std::int32_t  _node_number, 
+	       std::int32_t  _dim,
+	       std::int32_t *_hidden_nodes_fed_into_me, 
+	       std::int32_t  _hidden_nodes_fed_into_me_length	
+	       );
 	  
 };
 

@@ -303,9 +303,6 @@ void ActivationFunctionGPUCpp::calc_dLdw(float *_dLdw, const std::int32_t _batch
   //cuSPARSE status variable - so we can check whether the cuBLAS operations were successful
   cusparseStatus_t cstatus_sparse;
 
-  //Pointer to weights
-  const float *w = this->W;
-
   //Pointer to derivatives
   float *dldw = _dLdw;
 
@@ -315,7 +312,7 @@ void ActivationFunctionGPUCpp::calc_dLdw(float *_dLdw, const std::int32_t _batch
   //Needed for cuBLAS transformations
   const float alpha = 1.0; 
   const float beta = 0.0; 
- 
+
   //Calculate derivatives for dense input nodes
   for (std::int32_t i: this->input_nodes_fed_into_me_dense) {
 
@@ -354,7 +351,6 @@ void ActivationFunctionGPUCpp::calc_dLdw(float *_dLdw, const std::int32_t _batch
     if (cstatus_dense != CUBLAS_STATUS_SUCCESS) 
       throw std::runtime_error("Something went wrong during cuBLAS operation on input data while calculating derivatives!");
 
-    w += this->dim_*input_dim;//Increment w to prepare it for next operation
     dldw += this->dim_*input_dim;//Increment dldw to prepare it for next operation
     
   }
@@ -363,7 +359,7 @@ void ActivationFunctionGPUCpp::calc_dLdw(float *_dLdw, const std::int32_t _batch
   for (std::int32_t i: this->input_nodes_fed_into_me_sparse) {
 
     input_dim = this->NeuralNet->get_sparse_input_data(i, _batch_num).dim;//For convenience
-
+    
     //dldw = alpha*(XT)delta + beta*dldw
     //X: (_batch_size X input_dim)-CSR-matrix
     //delta: (_batch_size X this->dim_)-matrix
@@ -401,9 +397,8 @@ void ActivationFunctionGPUCpp::calc_dLdw(float *_dLdw, const std::int32_t _batch
 
     //Make sure that matrix multiplication succeeded and throw error if it didn't!
     if (cstatus_sparse != CUSPARSE_STATUS_SUCCESS)
-      throw std::invalid_argument("Something went wrong during cuSPARSE operation while calculating derivatives!");
+    throw std::invalid_argument("Something went wrong during cuSPARSE operation while calculating derivatives!");
 
-    w += this->dim_*input_dim;//Increment w to prepare it for next operation
     dldw += this->dim_*input_dim;//Increment dldw to prepare it for next operation
     
   } 
@@ -443,21 +438,20 @@ void ActivationFunctionGPUCpp::calc_dLdw(float *_dLdw, const std::int32_t _batch
     if (cstatus_dense != CUBLAS_STATUS_SUCCESS) 
       throw std::runtime_error("Something went wrong during cuBLAS operation on hidden node data while calculating derivatives!");
 
-    w += this->dim_*input_dim;//Increment w to prepare it for next operation
     dldw += this->dim_*input_dim;//Increment dldw to prepare it for next operation
     
   } 
 
   //Resize ones, if necessary
   //Output is stored in the NeuralNetworkNodeGPUCpp base class and stores the output of this node
-  if (static_cast<std::int32_t>(this->ones_.size()) < this->dim_*_batch_size) {
+  if (static_cast<std::int32_t>(this->ones_.size()) < _batch_size) {
     
-    this->ones_.resize(this->dim_*_batch_size);
+    this->ones_.resize(_batch_size);
     this->ones_ptr_ = thrust::raw_pointer_cast(this->ones_.data());
 
     thrust::fill(
 		 this->ones_.begin(), 
-		 this->ones_.begin() + this->dim_*_batch_size,
+		 this->ones_.begin() + _batch_size,
 		 1.f
 		 );
 

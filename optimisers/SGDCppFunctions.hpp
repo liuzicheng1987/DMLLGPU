@@ -40,7 +40,7 @@ void SGDCpp::min(/*MPI_Comm comm,*/
 				       this->num_samples_, 
 				       this->num_batches_
 				       );
-
+      
       //Calculate global_batch_size
       global_batch_size = batch_size;
 					
@@ -51,7 +51,7 @@ void SGDCpp::min(/*MPI_Comm comm,*/
       //It is, however, your responsibility to place a barrier after that, if required
       _neural_net->dfdw(
 		       /*comm,*/
-		       dldw_ptr_, 
+		       this->dldw_ptr_, 
 		       w_ptr_, 
 		       batch_begin, 
 		       batch_end, 
@@ -79,8 +79,16 @@ void SGDCpp::min(/*MPI_Comm comm,*/
       //Calculate current learning rate
       //Learning rates are always divided by the sample size				
       current_learning_rate = 
-	(this->learning_rate_/pow(static_cast<float>(this->epoch_num_ + 1), this->learning_rate_power_))
-	/(static_cast<float>(global_batch_size));
+	(
+	 this->learning_rate_/pow(
+				  static_cast<float>(
+						     this->epoch_num_ + 1
+						     ), 
+				  this->learning_rate_power_
+				  )
+	 )
+	/(static_cast<float>(global_batch_size)
+	  );
 
       //Update W
       thrust::transform(
@@ -90,7 +98,10 @@ void SGDCpp::min(/*MPI_Comm comm,*/
 			_W.begin(), 
 			utils::axpy<float>((-1.f)*current_learning_rate)
 			);
-            
+      
+      //Post-update manipulations are used to impose restrictions on the weights,
+      //such as that all weights must be greater or equal to 0.
+
     }//batch_num layer
 			
     //Record sum_dldw

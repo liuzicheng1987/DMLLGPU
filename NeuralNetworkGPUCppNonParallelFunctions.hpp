@@ -154,31 +154,31 @@ void NeuralNetworkGPUCpp::finalise(/*MPI_Comm comm, std::int32_t rank, std::int3
     if (std::any_of (
 		     node->input_nodes_fed_into_me_dense.begin(),
 		     node->input_nodes_fed_into_me_dense.end(),
-		     [node](std::int32_t i) {
+		     [this](std::int32_t i) {
 		       return 
 			 (i < 0) || 
 			 (
-			  i >= static_cast<std::int32_t>(node->input_nodes_fed_into_me_dense.size())
+			  i >= static_cast<std::int32_t>(this->dense_input_data_dim.size())
 			  );
 		     }
 		     )
 	)
-      throw std::invalid_argument("DenseInput out of bounds!");
+      throw std::invalid_argument("input_dense out of bounds!");
 
     //Make sure sparse input is in range
     if (std::any_of (
 		     node->input_nodes_fed_into_me_sparse.begin(),
 		     node->input_nodes_fed_into_me_sparse.end(),
-		     [node](std::int32_t i) {
+		     [this](std::int32_t i) {
 		       return 
 			 (i < 0) || 
 			 (
-			  i >= static_cast<std::int32_t>(node->input_nodes_fed_into_me_sparse.size())
+			  i >= static_cast<std::int32_t>(this->sparse_input_data_dim.size())
 			  );
 		     }
 		     )
 	)
-      throw std::invalid_argument("SparseInput out of bounds!");
+      throw std::invalid_argument("input_sparse out of bounds!");
 
     //Add dense input
     for (auto dense: node->input_nodes_fed_into_me_dense) 
@@ -508,7 +508,7 @@ void NeuralNetworkGPUCpp::load_csr(
     _data[batch_num].X_data_ptr =
       thrust::raw_pointer_cast(_data[batch_num].X_data.data());
 
-    //Transfer X_indices to GPU and set X_indices_ptr
+    //Transfer X_indices to GPU and set X_indices_ptr   
     _data[batch_num].X_indices = 
       thrust::device_vector<std::int32_t>(
 					  _X_indices + _X_indptr[batch_begin],
@@ -537,7 +537,6 @@ void NeuralNetworkGPUCpp::load_csr(
 		     _data[batch_num].X_indptr.end(),
 		     thrust::placeholders::_1 -= _X_indptr[batch_begin]
 		     );
-
  
   }
 }
@@ -592,20 +591,19 @@ void NeuralNetworkGPUCpp::load_coo(
     //order, so we have to multiply by batch_size!
     _data[batch_num].X_indices = 
       thrust::device_vector<std::int32_t>(
-					  _X_indptr[batch_end] - _X_indptr[batch_begin]
+					   _X_indices + _X_indptr[batch_begin], 
+					   _X_indices + _X_indptr[batch_end]
 					  );
-    
+   
+    _data[batch_num].X_indices_ptr =
+      thrust::raw_pointer_cast(_data[batch_num].X_indices.data());
+
     //Multiply by batch_size - remember that the output is in column major order!
     thrust::for_each(
     		     _data[batch_num].X_indices.begin(),
     		     _data[batch_num].X_indices.end(),
     		     thrust::placeholders::_1 *= batch_size		     
     		     );
-      
-
-    _data[batch_num].X_indices_ptr =
-      thrust::raw_pointer_cast(_data[batch_num].X_indices.data());
-
 
     //Transfer X_indptr to GPU
     //X_indptr is transformed into X_col
@@ -628,7 +626,7 @@ void NeuralNetworkGPUCpp::load_coo(
 		     _X_indptr[batch_begin + i+1] - _X_indptr[batch_begin],
 		    i
 		    );
-    
+     
     //Now, add X_col to X_indices
     thrust::transform(
 		      _data[batch_num].X_indices.begin(),
@@ -637,6 +635,7 @@ void NeuralNetworkGPUCpp::load_coo(
 		      _data[batch_num].X_indices.begin(),
 		      thrust::plus<std::int32_t>()
 		      );
+
 	 
   }
 }
@@ -756,17 +755,22 @@ void NeuralNetworkGPUCpp::load_coo(
   
     //Get batch_size
     std::vector<std::int32_t> batch_size;
+    
     if (this->dense_input_data.size() > 0) {
 
-    for (auto data: this->dense_input_data[0])
-      batch_size.push_back(data.batch_size);
+      for (auto data: this->dense_input_data[0])
+	batch_size.push_back(data.batch_size);
 
-  } else if (this->sparse_input_data.size() > 0) {
+    } else if (this->sparse_input_data.size() > 0) {
 
-    for (auto data: this->sparse_input_data[0])
-      batch_size.push_back(data.batch_size);
+      for (auto data: this->sparse_input_data[0])
+	batch_size.push_back(data.batch_size);
 
-  } else throw std::invalid_argument("No input data provided!");
+    } else {
+
+      throw std::invalid_argument("No input data provided!");
+
+    }
 
     //Get num_batches
     std::int32_t num_batches = (std::int32_t)(batch_size.size());
@@ -774,20 +778,26 @@ void NeuralNetworkGPUCpp::load_coo(
     //Make sure that the batch_sizes are identical for all matrices provided!
     for (auto DataVector: this->dense_input_data) {
 
-    if (DataVector.size() != batch_size.size()) throw std::invalid_argument("All input matrices must have the exact same number of samples!");
+      if (DataVector.size() != batch_size.size()) 
+	throw std::invalid_argument("All input matrices must have the exact same number of samples!");
 
-    for (std::size_t i=0; i<DataVector.size(); ++i) if (DataVector[i].batch_size != batch_size[i]) throw std::invalid_argument("All input matrices must have the exact same number of samples!");
+      for (std::size_t i=0; i<DataVector.size(); ++i) 
+	if (DataVector[i].batch_size != batch_size[i]) 
+	  throw std::invalid_argument("All input matrices must have the exact same number of samples!");
 
-  }
+    }
 
     //Make sure that the batch_sizes are identical for all matrices provided!
     for (auto DataVector: this->sparse_input_data) {
 
-    if (DataVector.size() != batch_size.size()) throw std::invalid_argument("All input matrices must have the exact same number of samples!");
+      if (DataVector.size() != batch_size.size()) 
+	throw std::invalid_argument("All input matrices must have the exact same number of samples!");
 
-    for (std::size_t i=0; i<DataVector.size(); ++i) if (DataVector[i].batch_size != batch_size[i]) throw std::invalid_argument("All input matrices must have the exact same number of samples!");
+      for (std::size_t i=0; i<DataVector.size(); ++i) 
+	if (DataVector[i].batch_size != batch_size[i]) 
+	  throw std::invalid_argument("All input matrices must have the exact same number of samples!");
 
-  }
+    }
 
     //Store input values
     this->num_samples = _Y2_num_samples;
@@ -797,31 +807,76 @@ void NeuralNetworkGPUCpp::load_coo(
     const double SampleAvg = 1.0/((double)_sample_size);
 
     //Set pointers contained in the NeuralNetworkNodes class
-    for (std::size_t n=0; n<this->nodes.size(); ++n) this->nodes[n]->W = thrust::raw_pointer_cast(this->W.data()) + this->cumulative_num_weights_required[n];
+    for (std::size_t n=0; n<this->nodes.size(); ++n) 
+      this->nodes[n]->W = thrust::raw_pointer_cast(this->W.data()) 
+	+ this->cumulative_num_weights_required[n];
   
     //Init YhatTemp
-    thrust::device_vector<float> YhatTemp(_Yhat, _Yhat + _Y2_num_samples*_Y2_dim);
+    thrust::device_vector<float> YhatTemp(
+					  _Yhat, 
+					  _Yhat + _Y2_num_samples*_Y2_dim
+					  );
   
     //Init cuBLAS handle, cuSPARSE handle and matrix descriptor
     cublasCreate(&(this->dense_handle_));
     cusparseCreate(&(this->sparse_handle_));
     cusparseCreateMatDescr(&(this->mat_descr_));
     cusparseSetMatType(this->mat_descr_, CUSPARSE_MATRIX_TYPE_GENERAL);
-  
+    cusparseSetMatIndexBase(this->mat_descr_, CUSPARSE_INDEX_BASE_ZERO);
+    
     //Calculate output
     std::int32_t batch_begin = 0;
-    for (std::int32_t batch_num=0; batch_num<num_batches; ++batch_num, batch_begin += batch_size[batch_num]) {
+    for (
+	 std::int32_t batch_num = 0; 
+	 batch_num < num_batches; 
+	 ++batch_num, batch_begin += batch_size[batch_num]
+	 ) {
     						
-    //Calculate nodes
-    for (auto node: this->nodes) node->calc_output(batch_num, batch_size[batch_num]);
+      //Calculate nodes
+      for (auto node: this->nodes) 
+	node->calc_output(
+			  batch_num, 
+			  batch_size[batch_num]
+			  );
 
-    //Add to YhatTemp
-    for (std::int32_t n=0; n<this->num_output_nodes; ++n) thrust::transform(this->output_nodes[n]->output.begin(), this->output_nodes[n]->output.end(), YhatTemp.begin() + _Y2_num_samples*n + batch_begin, YhatTemp.begin() + _Y2_num_samples*n + batch_begin, thrust::plus<float>());
+      //Add to YhatTemp
+      std::int32_t col_num = 0;
+      for (
+	   std::int32_t node_num = 0; 
+	   node_num < this->num_output_nodes; 
+	   ++node_num
+	   ) 
+	      for (
+		   std::int32_t dim = 0; 
+		   dim < this->output_nodes[node_num]->dim_; 
+		   ++dim
+		   ) {
+		
+		thrust::transform(
+				  this->output_nodes[node_num]->output.begin() 
+				  + dim*batch_size[batch_num], 
+				  
+				  this->output_nodes[node_num]->output.begin() 
+				  + (dim+1)*batch_size[batch_num], 
+				  
+				  YhatTemp.begin() + _Y2_num_samples*col_num + batch_begin, 
 
-  }	
+				  YhatTemp.begin() + _Y2_num_samples*col_num + batch_begin, 
+
+				  thrust::plus<float>()
+				  
+				  );
+		
+		++col_num;
+	      }
+      
+
+    }	
   
     //Get data from YhatTemp and transpose
-    for (std::int32_t i=0; i<_Y2_num_samples; ++i) for (std::int32_t j=0; j<_Y2_dim; ++j) _Yhat[i*_Y2_dim + j] = YhatTemp[j*_Y2_num_samples + i];
+    for (std::int32_t i=0; i<_Y2_num_samples; ++i) 
+      for (std::int32_t j=0; j<_Y2_dim; ++j) 
+	_Yhat[i*_Y2_dim + j] = YhatTemp[j*_Y2_num_samples + i];
 
     //Destroy cuBLAS handle, cuSPARSE handle and matrix descriptor
     cublasDestroy(this->dense_handle_);
