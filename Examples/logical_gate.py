@@ -59,8 +59,7 @@ nn.init_hidden_node(
         node_number=0, 
         dim=25, 
         activation="logistic", 
-        input_dense=[0], 
-        regulariser=DMLLGPU.L2Regulariser(0.0001)
+        input_dense=[0]
     )
 )
 
@@ -69,8 +68,7 @@ nn.init_hidden_node(
         node_number=1, 
         dim=25, 
         activation="logistic", 
-        input_dense=[0], 
-        regulariser=DMLLGPU.L2Regulariser(0.0001)
+        input_dense=[0]
     )
 )
 
@@ -79,8 +77,7 @@ nn.init_hidden_node(
         node_number=2, 
         dim=25, 
         activation="logistic", 
-        input_dense=[0], 
-        regulariser=DMLLGPU.L2Regulariser(0.0001)
+        input_dense=[0]
     )
 )
 
@@ -89,8 +86,7 @@ nn.init_hidden_node(
         node_number=3, 
         dim=25, 
         activation="logistic", 
-        input_dense=[0], 
-        regulariser=DMLLGPU.L2Regulariser(0.0001)
+        input_dense=[0]
     )
 )
 
@@ -98,7 +94,7 @@ nn.init_hidden_node(
     DMLLGPU.LogicalGate(
         node_number=4, 
         dim=25, 
-        activation="NAND", 
+        activation="XOR", 
         hidden=[0,1,2,3]
     )
 )

@@ -232,6 +232,7 @@ class NeuralNetworkGPUCpp(_object):
     def init_output_node(self, *args): return _DMLLGPUCpp.NeuralNetworkGPUCpp_init_output_node(self, *args)
     def get_length_params(self): return _DMLLGPUCpp.NeuralNetworkGPUCpp_get_length_params(self)
     def get_params(self, *args): return _DMLLGPUCpp.NeuralNetworkGPUCpp_get_params(self, *args)
+    def set_params(self, *args): return _DMLLGPUCpp.NeuralNetworkGPUCpp_set_params(self, *args)
     def get_input_nodes_fed_into_me_dense_length(self, *args): return _DMLLGPUCpp.NeuralNetworkGPUCpp_get_input_nodes_fed_into_me_dense_length(self, *args)
     def get_input_nodes_fed_into_me_dense(self, *args): return _DMLLGPUCpp.NeuralNetworkGPUCpp_get_input_nodes_fed_into_me_dense(self, *args)
     def get_input_nodes_fed_into_me_sparse_length(self, *args): return _DMLLGPUCpp.NeuralNetworkGPUCpp_get_input_nodes_fed_into_me_sparse_length(self, *args)

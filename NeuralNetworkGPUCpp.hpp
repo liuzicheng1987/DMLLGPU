@@ -120,13 +120,18 @@ public:
   void init_output_node(NeuralNetworkNodeGPUCpp *_output_node);//Initialise an output node
 
   //This has nothing to do with "finalize" Java. It simply calculates a number of parameters in the neural net 
-  void finalise(/*MPI_Comm comm, std::int32_t rank, std::int32_t size,*/ float _weight_init_range);
+  void finalise(/*MPI_Comm comm, std::int32_t rank, std::int32_t size,*/ 
+		float _weight_init_range
+		);
 
   //Returns the number of weights of the neural network
   std::int32_t get_length_params();
 
   //Returns the weight of the neural network
   void get_params(float *_W, std::int32_t _length_W);
+
+  //Sets the weight of the neural network
+  void set_params(float *_W, std::int32_t _length_W);
 
   //Returns an integer signifying the number of hidden nodes fed into node _node_number
   std::int32_t get_input_nodes_fed_into_me_dense_length(std::int32_t _node_number);
@@ -345,15 +350,14 @@ public:
     
     std::int32_t output_dim = 0;
 
-    for (auto dim: dense_input_data_dim)
+    for (auto dim: dense_targets_dim)
       output_dim += dim;
 
-    for (auto dim: sparse_input_data_dim)
+    for (auto dim: sparse_targets_dim)
       output_dim += dim;
 
     return output_dim;
 
   };
-
-	
+  
 };

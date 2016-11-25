@@ -1,5 +1,7 @@
 #Set path in which you want your Python modules copied. num_samplesf you use Python 2.7, then /usr/lib/python2.7/ is a good choice.
-export PATHFORPYTHONMODULES=$(python -c "import sys; print(sys.path[1])")
+export PATH_FOR_PYTHON_MODULES=$(python find_path_for_python_modules.py)
+export NUMPY_PATH=$(python find_numpy_path.py)
+export COMPUTE_CAPABILITY=compute_50
 
 #https://groups.google.com/forum/#!topic/mpi4py/Homqi5iJmT4
 #However, it would be better to update your setup.py to make distutils build the SWIG module for you, instead of running SWIG manually. Or use a makefile, see for example demo/wrap-swig in the mpi4py sources.
@@ -7,8 +9,8 @@ export PATHFORPYTHONMODULES=$(python -c "import sys; print(sys.path[1])")
 #Compile C++/CUDA sourcecode and create DMLLGPUCpp.py
 swig -c++ -python DMLLGPUCpp.i
 mv DMLLGPUCpp_wrap.cxx DMLLGPUCpp_wrap.cu 
-nvcc -std=c++11 -ccbin g++ -m64 -gencode arch=compute_50,code=compute_50 -c DMLLGPUCpp_wrap.cu -lcublas -lcusparse -I/usr/include/python2.7 -Xcompiler -fPIC 
-nvcc -gencode arch=compute_50,code=compute_50 -lcublas -lcusparse -shared DMLLGPUCpp_wrap.o -o _DMLLGPUCpp.so
+nvcc -std=c++11 -ccbin g++ -m64 -gencode arch=$COMPUTE_CAPABILITY,code=$COMPUTE_CAPABILITY -c DMLLGPUCpp_wrap.cu -lcublas -lcusparse -I/usr/include/python2.7 -I$NUMPY_PATH -Xcompiler -fPIC 
+nvcc -gencode arch=$COMPUTE_CAPABILITY,code=$COMPUTE_CAPABILITY -lcublas -lcusparse -shared DMLLGPUCpp_wrap.o -o _DMLLGPUCpp.so
 
 #If there is trouble loading cuBLAS:
 #sudo ldconfig /usr/local/cuda-7.5/lib64

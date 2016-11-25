@@ -205,6 +205,11 @@ public:
 		  std::int32_t _length_W
 		  );
 
+  void set_params(
+		  float       *_W, 
+		  std::int32_t _length_W
+		  );
+
   std::int32_t get_input_nodes_fed_into_me_dense_length(
 							std::int32_t _node_number
 							);

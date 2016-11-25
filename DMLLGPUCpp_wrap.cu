@@ -4810,6 +4810,53 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_NeuralNetworkGPUCpp_set_params(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  NeuralNetworkGPUCpp *arg1 = (NeuralNetworkGPUCpp *) 0 ;
+  float *arg2 = (float *) 0 ;
+  std::int32_t arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyArrayObject *array2 = NULL ;
+  int is_new_object2 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:NeuralNetworkGPUCpp_set_params",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_NeuralNetworkGPUCpp, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NeuralNetworkGPUCpp_set_params" "', argument " "1"" of type '" "NeuralNetworkGPUCpp *""'"); 
+  }
+  arg1 = reinterpret_cast< NeuralNetworkGPUCpp * >(argp1);
+  {
+    int size[1] = {
+      -1
+    };
+    array2 = obj_to_array_contiguous_allow_conversion(obj1, PyArray_FLOAT, &is_new_object2);
+    if (!array2 || !require_dimensions(array2,1) || !require_size(array2,size,1)) SWIG_fail;
+    arg2 = (float*) array2->data;
+    arg3 = array2->dimensions[0];
+  }
+  {
+    try {
+      (arg1)->set_params(arg2,arg3);
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_UnknownError, e.what());
+    } 
+  }
+  resultobj = SWIG_Py_Void();
+  {
+    if (is_new_object2 && array2) Py_DECREF(array2);
+  }
+  return resultobj;
+fail:
+  {
+    if (is_new_object2 && array2) Py_DECREF(array2);
+  }
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_NeuralNetworkGPUCpp_get_input_nodes_fed_into_me_dense_length(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   NeuralNetworkGPUCpp *arg1 = (NeuralNetworkGPUCpp *) 0 ;
@@ -6568,6 +6615,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"NeuralNetworkGPUCpp_init_output_node", _wrap_NeuralNetworkGPUCpp_init_output_node, METH_VARARGS, NULL},
 	 { (char *)"NeuralNetworkGPUCpp_get_length_params", _wrap_NeuralNetworkGPUCpp_get_length_params, METH_VARARGS, NULL},
 	 { (char *)"NeuralNetworkGPUCpp_get_params", _wrap_NeuralNetworkGPUCpp_get_params, METH_VARARGS, NULL},
+	 { (char *)"NeuralNetworkGPUCpp_set_params", _wrap_NeuralNetworkGPUCpp_set_params, METH_VARARGS, NULL},
 	 { (char *)"NeuralNetworkGPUCpp_get_input_nodes_fed_into_me_dense_length", _wrap_NeuralNetworkGPUCpp_get_input_nodes_fed_into_me_dense_length, METH_VARARGS, NULL},
 	 { (char *)"NeuralNetworkGPUCpp_get_input_nodes_fed_into_me_dense", _wrap_NeuralNetworkGPUCpp_get_input_nodes_fed_into_me_dense, METH_VARARGS, NULL},
 	 { (char *)"NeuralNetworkGPUCpp_get_input_nodes_fed_into_me_sparse_length", _wrap_NeuralNetworkGPUCpp_get_input_nodes_fed_into_me_sparse_length, METH_VARARGS, NULL},

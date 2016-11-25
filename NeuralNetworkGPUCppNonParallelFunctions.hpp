@@ -257,9 +257,24 @@ std::int32_t NeuralNetworkGPUCpp::get_length_params() {
 
 void NeuralNetworkGPUCpp::get_params(float *_W, std::int32_t _length_W) {
 
-  if (!this->finalised) throw std::invalid_argument("Neural network has not been finalised!");
+  if (!this->finalised) 
+    throw std::invalid_argument("Neural network has not been finalised!");
   
-  for (std::int32_t i=0; i<_length_W; ++i) _W[i] = this->W[i];
+  for (std::int32_t i=0; i<_length_W; ++i) 
+    _W[i] = this->W[i];
+
+}
+
+void NeuralNetworkGPUCpp::set_params(float *_W, std::int32_t _length_W) {
+
+  if (!this->finalised) 
+    throw std::invalid_argument("Neural network has not been finalised!");
+
+  if (_length_W != static_cast<std::int32_t>(this->W.size())) 
+    throw std::invalid_argument("Length of provided weight vector does not match expected size!");
+  
+  for (std::int32_t i=0; i<_length_W; ++i) 
+    this->W[i] = _W[i];
 
 }
 

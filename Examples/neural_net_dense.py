@@ -60,7 +60,7 @@ nn.init_hidden_node(
         dim=50, 
         activation="logistic", 
         input_dense=[0], 
-        regulariser=DMLLGPU.L2Regulariser(0.0001)
+        regulariser=DMLLGPU.L2Regulariser(0.00001)
     )
 )
 

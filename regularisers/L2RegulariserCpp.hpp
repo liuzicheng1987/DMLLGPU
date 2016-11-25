@@ -27,7 +27,7 @@ public:
     
     cublasStatus_t cstatus;
 
-    float alpha = this->alpha_*(-2.f)*_batch_size_float;
+    float alpha = this->alpha_*2.f*_batch_size_float;
 
     cstatus = cublasSaxpy(
 			  _handle, //handle 

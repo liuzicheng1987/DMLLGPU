@@ -327,7 +327,13 @@ class NeuralNetwork:
         params  = np.zeros(self.thisptr.get_length_params()).astype(np.float32)
         self.thisptr.get_params(params)
         return params
-
+        
+    def set_params(self, params):
+        """
+        Set the weights of the neural network
+        """
+        self.thisptr.set_params(params)
+        
     def fit(
             self,
             Xdense=[],
@@ -390,7 +396,7 @@ class NeuralNetwork:
                 Xsparse_sorted.shape[1], 
                 global_batch_size
             )   
-        del Xsparse_sorted
+            del Xsparse_sorted
             
         #Load Ydense into GPU
         for i, Y in enumerate(Ydense):             
@@ -411,7 +417,7 @@ class NeuralNetwork:
                 Ysparse_sorted.shape[1], 
                 global_batch_size
             )
-        del Ysparse_sorted
+            del Ysparse_sorted
             
         StopTiming = datetime.now()
         TimeElapsed = StopTiming - StartTiming		
@@ -475,7 +481,7 @@ class NeuralNetwork:
                 global_batch_size
             )
             
-        del Xsparse_sorted
+            del Xsparse_sorted
             
         if len(Xdense) > 0:    
             Yhat = np.zeros((
