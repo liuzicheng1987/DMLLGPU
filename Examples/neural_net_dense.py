@@ -81,7 +81,7 @@ nn.finalise()
 nn.fit(
     Xdense=[X_train], 
     Ydense=[Y_train], 
-    optimiser=DMLLGPU.SGD(1.0, 0.1), 
+    optimiser=DMLLGPU.AdaGrad(0.5), 
     tol=0.0, 
     global_batch_size=2000, 
     max_num_epochs=2000

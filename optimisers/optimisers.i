@@ -19,11 +19,26 @@ class SGDCpp: public OptimiserCpp {
 	
 public:
 		
-  SGDCpp (float _learning_rate, float _learning_rate_power):OptimiserCpp();
+  SGDCpp (float _learning_rate, float _learning_rate_power) : OptimiserCpp();
 
   ~SGDCpp();
 				
 };
+
+//----------------------------------------------------------------------------------------------
+//class AdaGradCpp
+
+
+class AdaGradCpp: public OptimiserCpp {
+	
+public:
+		
+  AdaGradCpp (float _learning_rate) : OptimiserCpp();
+
+  ~AdaGradCpp();
+				
+};
+
 
 
 

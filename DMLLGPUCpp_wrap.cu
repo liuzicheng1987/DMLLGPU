@@ -2939,35 +2939,36 @@ SWIG_Python_NonDynamicSetAttr(PyObject *obj, PyObject *name, PyObject *value) {
 
 #define SWIGTYPE_p_ANDGateCpp swig_types[0]
 #define SWIGTYPE_p_ActivationFunctionGPUCpp swig_types[1]
-#define SWIGTYPE_p_L2RegulariserCpp swig_types[2]
-#define SWIGTYPE_p_LinearActivationFunctionGPUCpp swig_types[3]
-#define SWIGTYPE_p_LogicalGateCpp swig_types[4]
-#define SWIGTYPE_p_LogisticActivationFunctionGPUCpp swig_types[5]
-#define SWIGTYPE_p_LossFunctionCpp swig_types[6]
-#define SWIGTYPE_p_NANDGateCpp swig_types[7]
-#define SWIGTYPE_p_NORGateCpp swig_types[8]
-#define SWIGTYPE_p_NeuralNetworkGPUCpp swig_types[9]
-#define SWIGTYPE_p_NeuralNetworkNodeGPUCpp swig_types[10]
-#define SWIGTYPE_p_ORGateCpp swig_types[11]
-#define SWIGTYPE_p_OptimiserCpp swig_types[12]
-#define SWIGTYPE_p_RegulariserCpp swig_types[13]
-#define SWIGTYPE_p_SGDCpp swig_types[14]
-#define SWIGTYPE_p_SoftmaxActivationFunctionGPUCpp swig_types[15]
-#define SWIGTYPE_p_SquareLossCpp swig_types[16]
-#define SWIGTYPE_p_XNORGateCpp swig_types[17]
-#define SWIGTYPE_p_XORGateCpp swig_types[18]
-#define SWIGTYPE_p_char swig_types[19]
-#define SWIGTYPE_p_float swig_types[20]
-#define SWIGTYPE_p_int swig_types[21]
-#define SWIGTYPE_p_long_long swig_types[22]
-#define SWIGTYPE_p_short swig_types[23]
-#define SWIGTYPE_p_signed_char swig_types[24]
-#define SWIGTYPE_p_unsigned_char swig_types[25]
-#define SWIGTYPE_p_unsigned_int swig_types[26]
-#define SWIGTYPE_p_unsigned_long_long swig_types[27]
-#define SWIGTYPE_p_unsigned_short swig_types[28]
-static swig_type_info *swig_types[30];
-static swig_module_info swig_module = {swig_types, 29, 0, 0, 0, 0};
+#define SWIGTYPE_p_AdaGradCpp swig_types[2]
+#define SWIGTYPE_p_L2RegulariserCpp swig_types[3]
+#define SWIGTYPE_p_LinearActivationFunctionGPUCpp swig_types[4]
+#define SWIGTYPE_p_LogicalGateCpp swig_types[5]
+#define SWIGTYPE_p_LogisticActivationFunctionGPUCpp swig_types[6]
+#define SWIGTYPE_p_LossFunctionCpp swig_types[7]
+#define SWIGTYPE_p_NANDGateCpp swig_types[8]
+#define SWIGTYPE_p_NORGateCpp swig_types[9]
+#define SWIGTYPE_p_NeuralNetworkGPUCpp swig_types[10]
+#define SWIGTYPE_p_NeuralNetworkNodeGPUCpp swig_types[11]
+#define SWIGTYPE_p_ORGateCpp swig_types[12]
+#define SWIGTYPE_p_OptimiserCpp swig_types[13]
+#define SWIGTYPE_p_RegulariserCpp swig_types[14]
+#define SWIGTYPE_p_SGDCpp swig_types[15]
+#define SWIGTYPE_p_SoftmaxActivationFunctionGPUCpp swig_types[16]
+#define SWIGTYPE_p_SquareLossCpp swig_types[17]
+#define SWIGTYPE_p_XNORGateCpp swig_types[18]
+#define SWIGTYPE_p_XORGateCpp swig_types[19]
+#define SWIGTYPE_p_char swig_types[20]
+#define SWIGTYPE_p_float swig_types[21]
+#define SWIGTYPE_p_int swig_types[22]
+#define SWIGTYPE_p_long_long swig_types[23]
+#define SWIGTYPE_p_short swig_types[24]
+#define SWIGTYPE_p_signed_char swig_types[25]
+#define SWIGTYPE_p_unsigned_char swig_types[26]
+#define SWIGTYPE_p_unsigned_int swig_types[27]
+#define SWIGTYPE_p_unsigned_long_long swig_types[28]
+#define SWIGTYPE_p_unsigned_short swig_types[29]
+static swig_type_info *swig_types[31];
+static swig_module_info swig_module = {swig_types, 30, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -5943,6 +5944,68 @@ SWIGINTERN PyObject *SGDCpp_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObjec
   return SWIG_Py_Void();
 }
 
+SWIGINTERN PyObject *_wrap_new_AdaGradCpp(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  float arg1 ;
+  float val1 ;
+  int ecode1 = 0 ;
+  PyObject * obj0 = 0 ;
+  AdaGradCpp *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:new_AdaGradCpp",&obj0)) SWIG_fail;
+  ecode1 = SWIG_AsVal_float(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_AdaGradCpp" "', argument " "1"" of type '" "float""'");
+  } 
+  arg1 = static_cast< float >(val1);
+  {
+    try {
+      result = (AdaGradCpp *)new AdaGradCpp(arg1);
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_UnknownError, e.what());
+    } 
+  }
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_AdaGradCpp, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_AdaGradCpp(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  AdaGradCpp *arg1 = (AdaGradCpp *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_AdaGradCpp",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_AdaGradCpp, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_AdaGradCpp" "', argument " "1"" of type '" "AdaGradCpp *""'"); 
+  }
+  arg1 = reinterpret_cast< AdaGradCpp * >(argp1);
+  {
+    try {
+      delete arg1;
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_UnknownError, e.what());
+    } 
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *AdaGradCpp_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_AdaGradCpp, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
 SWIGINTERN PyObject *_wrap_new_LogicalGateCpp(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   std::int32_t arg1 ;
@@ -6639,6 +6702,9 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"new_SGDCpp", _wrap_new_SGDCpp, METH_VARARGS, NULL},
 	 { (char *)"delete_SGDCpp", _wrap_delete_SGDCpp, METH_VARARGS, NULL},
 	 { (char *)"SGDCpp_swigregister", SGDCpp_swigregister, METH_VARARGS, NULL},
+	 { (char *)"new_AdaGradCpp", _wrap_new_AdaGradCpp, METH_VARARGS, NULL},
+	 { (char *)"delete_AdaGradCpp", _wrap_delete_AdaGradCpp, METH_VARARGS, NULL},
+	 { (char *)"AdaGradCpp_swigregister", AdaGradCpp_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_LogicalGateCpp", _wrap_new_LogicalGateCpp, METH_VARARGS, NULL},
 	 { (char *)"delete_LogicalGateCpp", _wrap_delete_LogicalGateCpp, METH_VARARGS, NULL},
 	 { (char *)"LogicalGateCpp_swigregister", LogicalGateCpp_swigregister, METH_VARARGS, NULL},
@@ -6711,6 +6777,9 @@ static void *_p_SoftmaxActivationFunctionGPUCppTo_p_ActivationFunctionGPUCpp(voi
 static void *_p_SquareLossCppTo_p_LossFunctionCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((LossFunctionCpp *)  ((SquareLossCpp *) x));
 }
+static void *_p_AdaGradCppTo_p_OptimiserCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((OptimiserCpp *)  ((AdaGradCpp *) x));
+}
 static void *_p_SGDCppTo_p_OptimiserCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((OptimiserCpp *)  ((SGDCpp *) x));
 }
@@ -6737,6 +6806,7 @@ static void *_p_NANDGateCppTo_p_LogicalGateCpp(void *x, int *SWIGUNUSEDPARM(newm
 }
 static swig_type_info _swigt__p_ANDGateCpp = {"_p_ANDGateCpp", "ANDGateCpp *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_ActivationFunctionGPUCpp = {"_p_ActivationFunctionGPUCpp", "ActivationFunctionGPUCpp *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_AdaGradCpp = {"_p_AdaGradCpp", "AdaGradCpp *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_L2RegulariserCpp = {"_p_L2RegulariserCpp", "L2RegulariserCpp *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_LinearActivationFunctionGPUCpp = {"_p_LinearActivationFunctionGPUCpp", "LinearActivationFunctionGPUCpp *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_LogicalGateCpp = {"_p_LogicalGateCpp", "LogicalGateCpp *", 0, 0, (void*)0, 0};
@@ -6768,6 +6838,7 @@ static swig_type_info _swigt__p_unsigned_short = {"_p_unsigned_short", "unsigned
 static swig_type_info *swig_type_initial[] = {
   &_swigt__p_ANDGateCpp,
   &_swigt__p_ActivationFunctionGPUCpp,
+  &_swigt__p_AdaGradCpp,
   &_swigt__p_L2RegulariserCpp,
   &_swigt__p_LinearActivationFunctionGPUCpp,
   &_swigt__p_LogicalGateCpp,
@@ -6799,6 +6870,7 @@ static swig_type_info *swig_type_initial[] = {
 
 static swig_cast_info _swigc__p_ANDGateCpp[] = {  {&_swigt__p_ANDGateCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_ActivationFunctionGPUCpp[] = {  {&_swigt__p_ActivationFunctionGPUCpp, 0, 0, 0},  {&_swigt__p_LogisticActivationFunctionGPUCpp, _p_LogisticActivationFunctionGPUCppTo_p_ActivationFunctionGPUCpp, 0, 0},  {&_swigt__p_LinearActivationFunctionGPUCpp, _p_LinearActivationFunctionGPUCppTo_p_ActivationFunctionGPUCpp, 0, 0},  {&_swigt__p_SoftmaxActivationFunctionGPUCpp, _p_SoftmaxActivationFunctionGPUCppTo_p_ActivationFunctionGPUCpp, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_AdaGradCpp[] = {  {&_swigt__p_AdaGradCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_L2RegulariserCpp[] = {  {&_swigt__p_L2RegulariserCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_LinearActivationFunctionGPUCpp[] = {  {&_swigt__p_LinearActivationFunctionGPUCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_LogicalGateCpp[] = {  {&_swigt__p_LogicalGateCpp, 0, 0, 0},  {&_swigt__p_ANDGateCpp, _p_ANDGateCppTo_p_LogicalGateCpp, 0, 0},  {&_swigt__p_ORGateCpp, _p_ORGateCppTo_p_LogicalGateCpp, 0, 0},  {&_swigt__p_XORGateCpp, _p_XORGateCppTo_p_LogicalGateCpp, 0, 0},  {&_swigt__p_XNORGateCpp, _p_XNORGateCppTo_p_LogicalGateCpp, 0, 0},  {&_swigt__p_NORGateCpp, _p_NORGateCppTo_p_LogicalGateCpp, 0, 0},  {&_swigt__p_NANDGateCpp, _p_NANDGateCppTo_p_LogicalGateCpp, 0, 0},{0, 0, 0, 0}};
@@ -6809,7 +6881,7 @@ static swig_cast_info _swigc__p_NORGateCpp[] = {  {&_swigt__p_NORGateCpp, 0, 0, 
 static swig_cast_info _swigc__p_NeuralNetworkGPUCpp[] = {  {&_swigt__p_NeuralNetworkGPUCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_NeuralNetworkNodeGPUCpp[] = {  {&_swigt__p_ActivationFunctionGPUCpp, _p_ActivationFunctionGPUCppTo_p_NeuralNetworkNodeGPUCpp, 0, 0},  {&_swigt__p_LogisticActivationFunctionGPUCpp, _p_LogisticActivationFunctionGPUCppTo_p_NeuralNetworkNodeGPUCpp, 0, 0},  {&_swigt__p_LinearActivationFunctionGPUCpp, _p_LinearActivationFunctionGPUCppTo_p_NeuralNetworkNodeGPUCpp, 0, 0},  {&_swigt__p_SoftmaxActivationFunctionGPUCpp, _p_SoftmaxActivationFunctionGPUCppTo_p_NeuralNetworkNodeGPUCpp, 0, 0},  {&_swigt__p_NeuralNetworkNodeGPUCpp, 0, 0, 0},  {&_swigt__p_LogicalGateCpp, _p_LogicalGateCppTo_p_NeuralNetworkNodeGPUCpp, 0, 0},  {&_swigt__p_ANDGateCpp, _p_ANDGateCppTo_p_NeuralNetworkNodeGPUCpp, 0, 0},  {&_swigt__p_ORGateCpp, _p_ORGateCppTo_p_NeuralNetworkNodeGPUCpp, 0, 0},  {&_swigt__p_XORGateCpp, _p_XORGateCppTo_p_NeuralNetworkNodeGPUCpp, 0, 0},  {&_swigt__p_XNORGateCpp, _p_XNORGateCppTo_p_NeuralNetworkNodeGPUCpp, 0, 0},  {&_swigt__p_NORGateCpp, _p_NORGateCppTo_p_NeuralNetworkNodeGPUCpp, 0, 0},  {&_swigt__p_NANDGateCpp, _p_NANDGateCppTo_p_NeuralNetworkNodeGPUCpp, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_ORGateCpp[] = {  {&_swigt__p_ORGateCpp, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_OptimiserCpp[] = {  {&_swigt__p_SGDCpp, _p_SGDCppTo_p_OptimiserCpp, 0, 0},  {&_swigt__p_OptimiserCpp, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_OptimiserCpp[] = {  {&_swigt__p_AdaGradCpp, _p_AdaGradCppTo_p_OptimiserCpp, 0, 0},  {&_swigt__p_SGDCpp, _p_SGDCppTo_p_OptimiserCpp, 0, 0},  {&_swigt__p_OptimiserCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_RegulariserCpp[] = {  {&_swigt__p_RegulariserCpp, 0, 0, 0},  {&_swigt__p_L2RegulariserCpp, _p_L2RegulariserCppTo_p_RegulariserCpp, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_SGDCpp[] = {  {&_swigt__p_SGDCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_SoftmaxActivationFunctionGPUCpp[] = {  {&_swigt__p_SoftmaxActivationFunctionGPUCpp, 0, 0, 0},{0, 0, 0, 0}};
@@ -6830,6 +6902,7 @@ static swig_cast_info _swigc__p_unsigned_short[] = {  {&_swigt__p_unsigned_short
 static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_ANDGateCpp,
   _swigc__p_ActivationFunctionGPUCpp,
+  _swigc__p_AdaGradCpp,
   _swigc__p_L2RegulariserCpp,
   _swigc__p_LinearActivationFunctionGPUCpp,
   _swigc__p_LogicalGateCpp,

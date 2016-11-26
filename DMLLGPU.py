@@ -12,6 +12,13 @@ class SGD:
         learning_rate_power: Speed by which learning rate decreases
         """
         self.thisptr = DMLLGPUCpp.SGDCpp(learning_rate, learning_rate_power)
+
+class AdaGrad:
+    def __init__(self, learning_rate):
+        """
+        learning_rate: Learning rate of the optimisation problem
+        """
+        self.thisptr = DMLLGPUCpp.AdaGradCpp(learning_rate)
     
 #Loss functions
 

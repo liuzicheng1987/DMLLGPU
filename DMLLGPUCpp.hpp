@@ -35,10 +35,13 @@
 #include "LossFunctions/LossFunctionCpp.hpp"
 #include "LossFunctions/SquareLossCpp.hpp"
 
+#include "optimisers/OptimiserFunctors.hpp"
 #include "optimisers/OptimiserCpp.hpp"
 #include "optimisers/OptimiserCppFunctions.hpp"
 #include "optimisers/SGDCpp.hpp"
 #include "optimisers/SGDCppFunctions.hpp"
+#include "optimisers/AdaGradCpp.hpp"
+#include "optimisers/AdaGradCppFunctions.hpp"
 
 #include "NeuralNetworkNodeGPUCppFunctions.hpp"
 #include "NeuralNetworkGPUCppNonParallelFunctions.hpp"
