@@ -7,6 +7,7 @@
 #include <thrust/sequence.h>
 #include <thrust/copy.h>
 #include <thrust/fill.h>
+#include <thrust/random.h>
 #include <thrust/replace.h>
 #include <thrust/functional.h>
 #include <thrust/transform_reduce.h>
@@ -55,6 +56,10 @@
 #include "ActivationFunctions/LogisticActivationFunctionGPUCpp.hpp"
 #include "ActivationFunctions/LinearActivationFunctionGPUCpp.hpp"
 #include "ActivationFunctions/SoftmaxActivationFunctionGPUCpp.hpp"
+
+#include "dropout/DropoutFunctors.hpp"
+#include "dropout/DropoutCpp.hpp"
+#include "dropout/DropoutCppFunctions.hpp"
 
 #include "LogicalGates/LogicalGateFunctors.hpp"
 #include "LogicalGates/LogicalGateCpp.hpp"

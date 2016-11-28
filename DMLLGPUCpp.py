@@ -420,6 +420,23 @@ class NANDGateCpp(LogicalGateCpp):
 NANDGateCpp_swigregister = _DMLLGPUCpp.NANDGateCpp_swigregister
 NANDGateCpp_swigregister(NANDGateCpp)
 
+class DropoutCpp(NeuralNetworkNodeGPUCpp):
+    __swig_setmethods__ = {}
+    for _s in [NeuralNetworkNodeGPUCpp]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, DropoutCpp, name, value)
+    __swig_getmethods__ = {}
+    for _s in [NeuralNetworkNodeGPUCpp]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, DropoutCpp, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _DMLLGPUCpp.new_DropoutCpp(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _DMLLGPUCpp.delete_DropoutCpp
+    __del__ = lambda self : None;
+DropoutCpp_swigregister = _DMLLGPUCpp.DropoutCpp_swigregister
+DropoutCpp_swigregister(DropoutCpp)
+
 # This file is compatible with both classic and new-style classes.
 
 

@@ -137,6 +137,34 @@ class SoftmaxActivationFunction:
             self.regulariser.thisptr
         )
 
+#Dropout
+
+class Dropout:
+    def __init__(
+            self, 
+            node_number, 
+            dropout_probability=0.5, 
+            input_dense=np.asarray([]).astype(np.int32), 
+            input_sparse=np.asarray([]).astype(np.int32), 
+            hidden=np.asarray([]).astype(np.int32), 
+    ):
+        """
+        node_number: Number of node in the neural network. Every node number must be assigned before neural network is finalised.
+        dropout_probability: Probability of node being dropped out
+        hidden: List of hidden nodes (in form of their respective node_numbers) that are fed into this node. All of these nodes must have a node number that is smaller than the node number of this node. Defaults to zero-length array (meaning that no hidden nodes are fed into this node).
+        input: List of input nodes (in form of their respective node_numbers) that are fed into this node. Defaults to zero-length array (meaning that no input nodes are fed into this node).
+        """       
+        
+        self.node_number = node_number
+        
+        self.thisptr = DMLLGPUCpp.DropoutCpp(
+            self.node_number, 
+            dropout_probability, 
+            np.asarray(input_dense).astype(np.int32),
+            np.asarray(input_sparse).astype(np.int32),
+            np.asarray(hidden).astype(np.int32)
+        )
+
 #Logical gates
 
 class LogicalGate:
@@ -214,7 +242,7 @@ class NeuralNetwork:
             loss=SquareLoss()
     ):
         """
-        num_samplesnitialise neural network.
+        Initialise neural network.
         num_input_nodes_dense: Number of dimensions for dense inputs. For instance, if your inputs consist of two dense matrices with 300 and 400 nodes respectively, then num_input_nodes_dense=[300,400].
         num_input_nodes_sparse: Number of dimensions for sparse inputs. For instance, if your inputs consist of two sparse matrices with 3000 and 4000 nodes respectively, then num_input_nodes_dense=[3000,4000]. (It is possible to have dense and sparse inputs at the same time.)
         LossFunction: Loss function object
@@ -406,8 +434,8 @@ class NeuralNetwork:
             del Xsparse_sorted
             
         #Load Ydense into GPU
-        for i, Y in enumerate(Ydense):             
-            self.thisptr.load_dense_targets(i, Y, global_batch_size)        
+        for i, Y in enumerate(Ydense): 
+            self.thisptr.load_dense_targets(i, Y, global_batch_size) 
             
         #Load Ysparse into GPU
         for i, Y in enumerate(Ysparse): 

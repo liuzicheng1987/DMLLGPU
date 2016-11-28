@@ -180,10 +180,11 @@ public:
   //load_dense_data and load_dense_targets are actually wrappers, which simply call this method
   void load_dense(
 		  std::vector<DenseMatrix> &data, 
-		  float                         *_X, 
-		  std::int32_t                   _num_samples, 
-		  std::int32_t                   _dim, 
-		  std::int32_t                   _num_batches
+		  float                    *_X, 
+		  std::int32_t              _num_samples, 
+		  std::int32_t              _dim, 
+		  std::int32_t              _num_batches,
+		  bool                      _transpose
 		  );
   
   //This functions loads the provided dataset into the GPU
@@ -317,6 +318,16 @@ public:
 					 std::int32_t _batch_num
 					 ) {
     return this->dense_input_data[i][_batch_num];
+  };
+
+  //The nodes need to be able to access the private input data dimension.
+  std::vector<std::int32_t>& get_dense_input_data_dim() {
+    return this->dense_input_data_dim;
+  };
+
+  //The nodes need to be able to access the private input data dimension.
+  std::vector<std::int32_t>& get_sparse_input_data_dim() {
+    return this->sparse_input_data_dim;
   };
 
   //The nodes need to be able to access the private input data.

@@ -1,0 +1,34 @@
+class DropoutCpp: public NeuralNetworkNodeGPUCpp {
+
+private:
+
+  std::int32_t discard_;//discard_ denotes the number of random numbers we need to discard
+
+public:
+
+  DropoutCpp(
+	     std::int32_t    _node_number,
+	     std::int32_t   *_input_nodes_fed_into_me_dense,
+	     std::int32_t    _input_nodes_fed_into_me_dense_length,
+	     std::int32_t   *_input_nodes_fed_into_me_sparse,
+	     std::int32_t    _input_nodes_fed_into_me_sparse_length,
+	     std::int32_t   *_hidden_nodes_fed_into_me,
+	     std::int32_t    _hidden_nodes_fed_into_me_length,
+	     );
+
+  ~DropoutCpp();
+
+  //Used to get the number of weights required
+  //(very important to finalise the neural network)
+  std::int32_t get_num_weights_required();
+
+  //Calculate the output of the node
+  void calc_output(
+		   const std::int32_t _batch_num,
+		   const std::int32_t _batch_size
+		   );
+
+  //Calculate the delta of the node (which is used for backpropagation)
+  void calc_delta(std::int32_t _batch_size);
+
+};

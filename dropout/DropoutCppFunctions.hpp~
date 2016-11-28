@@ -1,0 +1,118 @@
+DropoutCpp::DropoutCpp(
+		       std::int32_t    _node_number,
+		       float           _dropout_probability,
+		       std::int32_t   *_input_nodes_fed_into_me_dense, 
+		       std::int32_t    _input_nodes_fed_into_me_dense_length, 
+		       std::int32_t   *_input_nodes_fed_into_me_sparse, 
+		       std::int32_t    _input_nodes_fed_into_me_sparse_length, 
+		       std::int32_t   *_hidden_nodes_fed_into_me, 
+		       std::int32_t    _hidden_nodes_fed_into_me_length 
+		       ): NeuralNetworkNodeGPUCpp (
+						   _node_number,
+						   0,
+						   _input_nodes_fed_into_me_dense, 
+						   _input_nodes_fed_into_me_dense_length, 
+						   _input_nodes_fed_into_me_sparse, 
+						   _input_nodes_fed_into_me_sparse_length, 
+						   _hidden_nodes_fed_into_me, 
+						   _hidden_nodes_fed_into_me_length, 
+						   -1, 
+						   false,
+						   nullptr
+						   ) {
+
+  //Calculate dim_
+
+  for (auto i: this->input_nodes_fed_into_me_dense)
+    this->dim_ += this->NeuralNet->get_dense_input_data(i,0).dim;
+
+  for (auto i: this->input_nodes_fed_into_me_sparse)
+    this->dim_ += this->NeuralNet->get_sparse_input_data(i,0).dim;
+
+  for (auto node: this->hidden_nodes_fed_into_me_ptr)
+    this->dim_ += node->get_dim();
+
+  //Initialise values
+  this->discard_ = 0;
+  this->dropout_probability_ = _dropout_probability;
+
+}
+
+DropoutCpp::~DropoutCpp() {};
+
+std::int32_t DropoutCpp::get_num_weights_required() {
+
+  return 0; 
+
+};
+
+void DropoutCpp::calc_output(
+			     const std::int32_t _batch_num, 
+			     const std::int32_t _batch_size
+			     ) {
+  
+  //Resize output and delta, if necessary
+  //Output is stored in the NeuralNetworkNodeGPUCpp base class and stores the output of this node
+  if (static_cast<std::int32_t>(this->output.size()) != this->dim_*_batch_size) {
+    
+    //Resize output
+    this->output.resize(this->dim_*_batch_size);
+    this->output_ptr = thrust::raw_pointer_cast(this->output.data());
+
+    //Resize delta
+    this->delta.resize(this->dim_*_batch_size);
+    this->delta_ptr = thrust::raw_pointer_cast(this->delta.data());
+
+  }
+
+  std::int32_t input_dim;//Dimension of input nodes, for convenience
+
+  std::int32_t output_begin = 0;//Marks beginning of output, note that output is in column-major order
+
+  //Transform hidden nodes
+  //Calculate derivatives for hidden nodes
+  for (auto node: this->hidden_nodes_fed_into_me_ptr) {
+
+    input_dim = node->get_dim();//For convenience
+
+    thrust::transform(
+		      thrust::make_counting_iterator(this->discard_),
+		      thrust::make_counting_iterator(this->discard_)
+		      + input_dim*_batch_size,
+		      node->get_output().begin(),
+		      this->output.begin() + output_begin,
+		      DropoutFunctors::StandardDropout(this->dropout_probability_)
+		      );
+
+    this->discard_ += input_dim*_batch_size;
+    output_begin += input_dim*_batch_size;
+
+  }  
+  
+}
+
+void DropoutCpp::calc_delta(std::int32_t _batch_size) {
+
+  for (auto node: this->hidden_nodes_fed_into_me_ptr)
+     thrust::for_each(
+		     thrust::make_zip_iterator(
+					       thrust::make_tuple(
+								  this->output.begin(),
+								  this->delta.begin(),
+								  node->get_delta().begin()
+								  )
+					       ),
+		     thrust::make_zip_iterator(
+					       thrust::make_tuple(
+								  this->output.begin()
+								  + this->dim_*_batch_size,
+								  this->delta.begin()
+								  + this->dim_*_batch_size,
+								  node->get_delta().begin()
+								  + this->dim_*_batch_size
+								  )
+					       ),
+		     DropoutFunctors::CalcDelta() 
+		      );
+
+}

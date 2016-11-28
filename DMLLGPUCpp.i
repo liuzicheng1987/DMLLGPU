@@ -26,3 +26,4 @@ import_array();
 %include NeuralNetwork.i
 %include optimisers/optimisers.i
 %include LogicalGates/LogicalGates.i
+%include dropout/dropout.i

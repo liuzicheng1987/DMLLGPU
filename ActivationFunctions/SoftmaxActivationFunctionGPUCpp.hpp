@@ -6,10 +6,9 @@ private:
 
   std::int32_t num_states_per_var_;//Number of states per discrete variable
 
-  thrust::device_vector<float> linear_transformation_;//Stores the linear transformation 
-                                                     //(necessary to avoid race conditions)
+  thrust::device_vector<float> sum_states_per_var_;//Stores the sum of all states per variable
 
-  float *linear_transformation_ptr_;//Pointer to linear_transformation_
+  float *sum_states_per_var_ptr_;//Pointer to sum_states_per_var_
 
   
 public:
@@ -55,30 +54,43 @@ public:
 			    thrust::device_vector<float> &_output
 			   ) {
 
-  if (static_cast<std::int32_t>(this->linear_transformation_.size()) < this->dim_*_batch_size) {
+  if (static_cast<std::int32_t>(this->sum_states_per_var_.size()) 
+      < this->num_vars_*_batch_size) {
     
-    this->linear_transformation_.resize(this->dim_*_batch_size);
-    this->linear_transformation_ptr_ = 
-      thrust::raw_pointer_cast(this->linear_transformation_.data());
+    this->sum_states_per_var_.resize(this->num_vars_*_batch_size);
+    this->sum_states_per_var_ptr_ = 
+      thrust::raw_pointer_cast(this->sum_states_per_var_.data());
 
   }
 
-  thrust::copy(
-	       _output.begin(),
-	       _output.begin() + _batch_size*_dim,
-	       this->linear_transformation_.begin()
-	       );
-      
+  float *output_ptr = thrust::raw_pointer_cast(_output.data());
+
+  //Calculate sum
   thrust::transform(
 		    thrust::make_counting_iterator(0),
-		    thrust::make_counting_iterator(0) + _batch_size*_dim,
+		    thrust::make_counting_iterator(0) + this->num_vars_*_batch_size,
+		    this->sum_states_per_var_.begin(),
+		    ActivationFunctions::SoftmaxCalculateSum(
+							     _bias,
+							     _batch_size,
+							     this->num_vars_,
+							     this->num_states_per_var_,
+							     output_ptr
+							     )
+		    );
+		    
+  //Transform output
+  thrust::transform(
+		    _output.begin(),
+		    _output.begin() + _batch_size*_dim,
+		    thrust::make_counting_iterator(0),
 		    _output.begin(),
 		    ActivationFunctions::SoftmaxForwardPropagation(
 								   _bias,
 								   _batch_size,
 								   this->num_vars_,
 								   this->num_states_per_var_,
-								   this->linear_transformation_ptr_
+								   this->sum_states_per_var_ptr_
 								   )
 		    );
        

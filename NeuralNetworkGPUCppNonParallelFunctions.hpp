@@ -379,7 +379,8 @@ void NeuralNetworkGPUCpp::load_dense(
 				     float                    *_X,
 				     std::int32_t              _num_samples,
 				     std::int32_t              _dim,
-				     std::int32_t              _num_batches
+				     std::int32_t              _num_batches,
+				     bool                      _transpose
 				     ) {
 
   std::int32_t batch_begin, batch_end, batch_size;
@@ -399,12 +400,35 @@ void NeuralNetworkGPUCpp::load_dense(
     _data[batch_num].batch_size = batch_size;
     _data[batch_num].dim = _dim;
 
-    //Transfer X to GPU and set X_ptr
-    _data[batch_num].X = thrust::device_vector<float>(
-						     _X + batch_begin*_dim,
-						     _X + batch_end*_dim
-						     );
+    std::vector<float> X_transpose;
 
+    //Target vectors need to be transposed
+    if (_transpose) {
+      
+      X_transpose = std::vector<float>(batch_size*_dim);
+
+      //Transpose target
+      for (std::int32_t i=0; i<batch_size; ++i)
+	for (std::int32_t j=0; j<_dim; ++j)
+	  X_transpose[j*batch_size + i] = 
+	    _X[(batch_begin + i)*_dim + j];
+
+      //Transfer to GPU
+      _data[batch_num].X = thrust::device_vector<float>(
+							X_transpose.begin(),
+							X_transpose.end()
+							);
+      
+    } else {
+
+      //Transfer X to GPU
+      _data[batch_num].X = thrust::device_vector<float>(
+							_X + batch_begin*_dim,
+							_X + batch_end*_dim
+							);
+    }
+    
+    //Set X_ptr
     _data[batch_num].X_ptr = thrust::raw_pointer_cast(_data[batch_num].X.data());
 
   } 
@@ -442,7 +466,8 @@ void NeuralNetworkGPUCpp::load_dense_data(
 		   _X,
 		   _num_samples,
 		   _dim,
-		   num_batches
+		   num_batches,
+		   false //do not transpose
 		   );
 
 }
@@ -476,7 +501,8 @@ void NeuralNetworkGPUCpp::load_dense_targets(
 		   _Y,
 		   _num_samples,
 		   _dim,
-		   num_batches
+		   num_batches,
+		   true //do transpose
 		   );
 
 }

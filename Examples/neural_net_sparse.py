@@ -80,10 +80,10 @@ nn.init_hidden_node(
 )
 
 nn.init_output_node(
-    DMLLGPU.ActivationFunction(
-        node_number=2, 
-        dim=Ysparse.shape[1], 
-        activation="logistic", 
+    DMLLGPU.SoftmaxActivationFunction(
+        node_number=2,
+        num_vars=1,
+        num_states_per_var=Ysparse.shape[1], 
         hidden=[1]
     )
 )
