@@ -370,5 +370,13 @@ public:
     return output_dim;
 
   };
+
+  //This functions returns the boolean that determines whether we should sample
+  bool get_sample() {
+
+    return this->sample;
+
+  };
+
   
 };

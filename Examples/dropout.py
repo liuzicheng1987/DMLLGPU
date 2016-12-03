@@ -67,7 +67,7 @@ nn.init_hidden_node(
 nn.init_hidden_node(
     DMLLGPU.Dropout(
         node_number=1, 
-        dropout_probability=0.5, 
+        dropout_probability=-1.0, 
         hidden=[0]
     )
 )
@@ -92,7 +92,8 @@ nn.fit(
     optimiser=DMLLGPU.AdaGrad(0.5), 
     tol=0.0, 
     global_batch_size=2000, 
-    max_num_epochs=2000
+    max_num_epochs=2000,
+    sample=True
 )
 
 plt.grid(True)
@@ -102,7 +103,11 @@ plt.show()
 #-------------------------------------------
 #Evaluate results on testing set
 
-Y_hat = nn.transform(Xdense = [X_test])
+Y_hat = nn.transform(
+    Xdense = [X_test], 
+    sample = True,
+    sample_size = 100
+)
 
 print scipy.stats.pearsonr(Y_hat.ravel(), Y_test.ravel())
 
@@ -119,7 +124,9 @@ xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
 Z = nn.transform(
     Xdense = [
         np.c_[xx.ravel().astype(np.float32), yy.ravel().astype(np.float32)]
-    ]
+    ],
+    sample = True,
+    sample_size = 100
 )
 Z = Z.reshape(xx.shape)
 
@@ -144,7 +151,9 @@ xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
 Z = nn.transform(
     Xdense = [
         np.c_[xx.ravel().astype(np.float32), yy.ravel().astype(np.float32)]
-    ]
+    ],
+    sample = True,
+    sample_size = 100
 )
 Z = Z.reshape(xx.shape)
 

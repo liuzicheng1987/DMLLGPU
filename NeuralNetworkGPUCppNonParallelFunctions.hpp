@@ -871,48 +871,51 @@ void NeuralNetworkGPUCpp::load_coo(
 	 std::int32_t batch_num = 0; 
 	 batch_num < num_batches; 
 	 ++batch_num, batch_begin += batch_size[batch_num]
-	 ) {
-    						
-      //Calculate nodes
-      for (auto node: this->nodes) 
-	node->calc_output(
-			  batch_num, 
-			  batch_size[batch_num]
-			  );
-
-      //Add to YhatTemp
-      std::int32_t col_num = 0;
+	 ) 
       for (
-	   std::int32_t node_num = 0; 
-	   node_num < this->num_output_nodes; 
-	   ++node_num
-	   ) 
-	      for (
-		   std::int32_t dim = 0; 
-		   dim < this->output_nodes[node_num]->dim_; 
-		   ++dim
-		   ) {
+	   std::int32_t iteration = 0;
+	   iteration < _sample_size;
+	   ++iteration
+	   ) {
+    						
+	//Calculate nodes
+	for (auto node: this->nodes) 
+	  node->calc_output(
+			    batch_num, 
+			    batch_size[batch_num]
+			    );
+
+	//Add to YhatTemp
+	std::int32_t col_num = 0;
+	for (
+	     std::int32_t node_num = 0; 
+	     node_num < this->num_output_nodes; 
+	     ++node_num
+	     ) 
+	  for (
+	       std::int32_t dim = 0; 
+	       dim < this->output_nodes[node_num]->dim_; 
+	       ++dim
+	       ) {
 		
-		thrust::transform(
-				  this->output_nodes[node_num]->output.begin() 
-				  + dim*batch_size[batch_num], 
+	    thrust::transform(
+			      this->output_nodes[node_num]->output.begin() 
+			      + dim*batch_size[batch_num], 
 				  
-				  this->output_nodes[node_num]->output.begin() 
-				  + (dim+1)*batch_size[batch_num], 
+			      this->output_nodes[node_num]->output.begin() 
+			      + (dim+1)*batch_size[batch_num], 
 				  
-				  YhatTemp.begin() + _Y2_num_samples*col_num + batch_begin, 
+			      YhatTemp.begin() + _Y2_num_samples*col_num + batch_begin, 
 
-				  YhatTemp.begin() + _Y2_num_samples*col_num + batch_begin, 
+			      YhatTemp.begin() + _Y2_num_samples*col_num + batch_begin, 
 
-				  thrust::plus<float>()
+			      thrust::plus<float>()
 				  
-				  );
+			      );
 		
-		++col_num;
-	      }
-      
-
-    }	
+	    ++col_num;
+	  }
+      }
   
     //Get data from YhatTemp and transpose
     for (std::int32_t i=0; i<_Y2_num_samples; ++i) 

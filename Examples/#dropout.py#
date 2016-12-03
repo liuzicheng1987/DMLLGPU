@@ -21,11 +21,6 @@ X, Y = sklearn.datasets.make_classification(
 X = X.astype(np.float32)
 Y = Y.reshape(len(Y), 1).astype(np.float32)
 
-Y = np.hstack((
-    Y,
-    1.0 - Y
-))
-
 Xsparse = scipy.sparse.csr_matrix(X)
 Ysparse = scipy.sparse.csr_matrix(Y)
 
@@ -65,26 +60,23 @@ nn.init_hidden_node(
         dim=50, 
         activation="logistic", 
         input_dense=[0], 
-        regulariser=DMLLGPU.L2Regulariser(0.0001)
+        regulariser=DMLLGPU.L2Regulariser(0.00001)
     )
 )
 
-
 nn.init_hidden_node(
-    DMLLGPU.ActivationFunction(
+    DMLLGPU.Dropout(
         node_number=1, 
-        dim=50, 
-        activation="logistic", 
-        hidden=[0], 
-        regulariser=DMLLGPU.L2Regulariser(0.0001)
+        dropout_probability=-1.0, 
+        hidden=[0]
     )
 )
 
 nn.init_output_node(
-    DMLLGPU.SoftmaxActivationFunction(
+    DMLLGPU.ActivationFunction(
         node_number=2, 
-        num_vars=1,
-        num_states_per_var=2, 
+        dim=1, 
+        activation="logistic", 
         hidden=[1]
     )
 )
@@ -97,10 +89,11 @@ nn.finalise()
 nn.fit(
     Xdense=[X_train], 
     Ydense=[Y_train], 
-    optimiser=DMLLGPU.SGD(1.0, 0.1), 
+    optimiser=DMLLGPU.AdaGrad(0.5), 
     tol=0.0, 
     global_batch_size=2000, 
-    max_num_epochs=2000
+    max_num_epochs=2000,
+    sample=True
 )
 
 plt.grid(True)
@@ -110,10 +103,13 @@ plt.show()
 #-------------------------------------------
 #Evaluate results on testing set
 
-Y_hat = nn.transform(Xdense = [X_test])
+Y_hat = nn.transform(
+    Xdense = [X_test], 
+    sample = True,
+    sample_size = 100
+)
 
-print scipy.stats.pearsonr(Y_hat[:,0], Y_test[:,0])
-print scipy.stats.pearsonr(Y_hat[:,1], Y_test[:,1])
+print scipy.stats.pearsonr(Y_hat.ravel(), Y_test.ravel())
 
 #-------------------------------------------
 #Display decision function
@@ -128,8 +124,10 @@ xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
 Z = nn.transform(
     Xdense = [
         np.c_[xx.ravel().astype(np.float32), yy.ravel().astype(np.float32)]
-    ]
-)[:,0]
+    ],
+    sample = True,
+    sample_size = 100
+)
 Z = Z.reshape(xx.shape)
 
 plt.imshow(Z, extent=[xx.min(), xx.max(), yy.max(), yy.min()])
@@ -153,8 +151,10 @@ xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
 Z = nn.transform(
     Xdense = [
         np.c_[xx.ravel().astype(np.float32), yy.ravel().astype(np.float32)]
-    ]
-)[:,0]
+    ],
+    sample = True,
+    sample_size = 100
+)
 Z = Z.reshape(xx.shape)
 
 plt.imshow(Z, extent=[xx.min(), xx.max(), yy.max(), yy.min()])

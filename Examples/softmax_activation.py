@@ -60,23 +60,21 @@ nn = DMLLGPU.NeuralNetwork(
 )
 
 nn.init_hidden_node(
-    DMLLGPU.ActivationFunction(
+    DMLLGPU.SoftmaxActivationFunction(
         node_number=0, 
-        dim=50, 
-        activation="logistic", 
-        input_dense=[0], 
-        regulariser=DMLLGPU.L2Regulariser(0.0001)
+        num_vars=1,
+        num_states_per_var=50,
+        input_dense=[0]
     )
 )
 
 
 nn.init_hidden_node(
-    DMLLGPU.ActivationFunction(
+    DMLLGPU.SoftmaxActivationFunction(
         node_number=1, 
-        dim=50, 
-        activation="logistic", 
-        hidden=[0], 
-        regulariser=DMLLGPU.L2Regulariser(0.0001)
+        num_vars=1,
+        num_states_per_var=50, 
+        hidden=[0]
     )
 )
 

@@ -121,7 +121,7 @@ struct SoftmaxForwardPropagation {
   const std::int32_t num_vars;
   const std::int32_t num_states_per_var;
   const float       *sum_states_per_var;
-
+  
 
   SoftmaxForwardPropagation(
 			    const float       *_bias,
@@ -135,7 +135,7 @@ struct SoftmaxForwardPropagation {
 				num_states_per_var(_num_states_per_var),
 				sum_states_per_var(_sum_states_per_var)			
   {}
-
+  
   __device__
   float operator()(
 		   const float x,
@@ -146,12 +146,12 @@ struct SoftmaxForwardPropagation {
     //Leading dimension is batch_size, then num_states_per_var, then num_vars
     const std::int32_t sample_num = i % batch_size;
     const std::int32_t var_num =  i / (batch_size*num_states_per_var);
-
+    
     float xplusbias = x + bias[i/batch_size];
-
+    
     //Return normalised output
-    return expf(xplusbias) 
-      / sum_states_per_var[var_num*batch_size + sample_num]; 
+      return expf(xplusbias) 
+	/ sum_states_per_var[var_num*batch_size + sample_num]; 
   }
 
 };
