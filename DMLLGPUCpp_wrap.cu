@@ -6652,10 +6652,6 @@ SWIGINTERN PyObject *_wrap_new_DropoutCpp(PyObject *SWIGUNUSEDPARM(self), PyObje
   std::int32_t arg4 ;
   std::int32_t *arg5 = (std::int32_t *) 0 ;
   std::int32_t arg6 ;
-  std::int32_t *arg7 = (std::int32_t *) 0 ;
-  std::int32_t arg8 ;
-  std::int32_t *arg9 = (std::int32_t *) 0 ;
-  std::int32_t arg10 ;
   int val1 ;
   int ecode1 = 0 ;
   float val2 ;
@@ -6666,20 +6662,14 @@ SWIGINTERN PyObject *_wrap_new_DropoutCpp(PyObject *SWIGUNUSEDPARM(self), PyObje
   int ecode4 = 0 ;
   PyArrayObject *array5 = NULL ;
   int is_new_object5 ;
-  PyArrayObject *array7 = NULL ;
-  int is_new_object7 ;
-  PyArrayObject *array9 = NULL ;
-  int is_new_object9 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   PyObject * obj2 = 0 ;
   PyObject * obj3 = 0 ;
   PyObject * obj4 = 0 ;
-  PyObject * obj5 = 0 ;
-  PyObject * obj6 = 0 ;
   DropoutCpp *result = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OOOOOOO:new_DropoutCpp",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OOOOO:new_DropoutCpp",&obj0,&obj1,&obj2,&obj3,&obj4)) SWIG_fail;
   ecode1 = SWIG_AsVal_int(obj0, &val1);
   if (!SWIG_IsOK(ecode1)) {
     SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_DropoutCpp" "', argument " "1"" of type '" "std::int32_t""'");
@@ -6710,26 +6700,8 @@ SWIGINTERN PyObject *_wrap_new_DropoutCpp(PyObject *SWIGUNUSEDPARM(self), PyObje
     arg6 = array5->dimensions[0];
   }
   {
-    int size[1] = {
-      -1
-    };
-    array7 = obj_to_array_contiguous_allow_conversion(obj5, PyArray_INT, &is_new_object7);
-    if (!array7 || !require_dimensions(array7,1) || !require_size(array7,size,1)) SWIG_fail;
-    arg7 = (int*) array7->data;
-    arg8 = array7->dimensions[0];
-  }
-  {
-    int size[1] = {
-      -1
-    };
-    array9 = obj_to_array_contiguous_allow_conversion(obj6, PyArray_INT, &is_new_object9);
-    if (!array9 || !require_dimensions(array9,1) || !require_size(array9,size,1)) SWIG_fail;
-    arg9 = (int*) array9->data;
-    arg10 = array9->dimensions[0];
-  }
-  {
     try {
-      result = (DropoutCpp *)new DropoutCpp(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10);
+      result = (DropoutCpp *)new DropoutCpp(arg1,arg2,arg3,arg4,arg5,arg6);
     } catch (const std::exception& e) {
       SWIG_exception(SWIG_UnknownError, e.what());
     } 
@@ -6738,22 +6710,10 @@ SWIGINTERN PyObject *_wrap_new_DropoutCpp(PyObject *SWIGUNUSEDPARM(self), PyObje
   {
     if (is_new_object5 && array5) Py_DECREF(array5);
   }
-  {
-    if (is_new_object7 && array7) Py_DECREF(array7);
-  }
-  {
-    if (is_new_object9 && array9) Py_DECREF(array9);
-  }
   return resultobj;
 fail:
   {
     if (is_new_object5 && array5) Py_DECREF(array5);
-  }
-  {
-    if (is_new_object7 && array7) Py_DECREF(array7);
-  }
-  {
-    if (is_new_object9 && array9) Py_DECREF(array9);
   }
   return NULL;
 }

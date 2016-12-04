@@ -3,19 +3,15 @@ DropoutCpp::DropoutCpp(
 		       float           _dropout_probability,
 		       std::int32_t    _numbers_per_kernel,
 		       std::int32_t    _num_kernels,
-		       std::int32_t   *_input_nodes_fed_into_me_dense, 
-		       std::int32_t    _input_nodes_fed_into_me_dense_length, 
-		       std::int32_t   *_input_nodes_fed_into_me_sparse, 
-		       std::int32_t    _input_nodes_fed_into_me_sparse_length, 
 		       std::int32_t   *_hidden_nodes_fed_into_me, 
 		       std::int32_t    _hidden_nodes_fed_into_me_length 
 		       ): NeuralNetworkNodeGPUCpp (
 						   _node_number,
 						   0,
-						   _input_nodes_fed_into_me_dense, 
-						   _input_nodes_fed_into_me_dense_length, 
-						   _input_nodes_fed_into_me_sparse, 
-						   _input_nodes_fed_into_me_sparse_length, 
+						   nullptr, 
+						   0,
+						   nullptr, 
+						   0, 
 						   _hidden_nodes_fed_into_me, 
 						   _hidden_nodes_fed_into_me_length, 
 						   -1, 
@@ -57,12 +53,6 @@ std::int32_t DropoutCpp::get_num_weights_required() {
 
   //Number of weights required is always 0, but we use
   //this function to calculate the dimensionality
-
-  for (auto i: this->input_nodes_fed_into_me_dense)
-    this->dim_ += this->NeuralNet->get_dense_input_data_dim()[i];
-
-  for (auto i: this->input_nodes_fed_into_me_sparse)
-    this->dim_ += this->NeuralNet->get_sparse_input_data_dim()[i];
 
   for (auto node: this->hidden_nodes_fed_into_me_ptr)
     this->dim_ += node->get_dim();

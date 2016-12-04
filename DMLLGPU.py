@@ -146,9 +146,7 @@ class Dropout:
             dropout_probability=0.5, 
             numbers_per_kernel=10000,
             num_kernels=1000,
-            input_dense=np.asarray([]).astype(np.int32), 
-            input_sparse=np.asarray([]).astype(np.int32), 
-            hidden=np.asarray([]).astype(np.int32), 
+            hidden=np.asarray([]).astype(np.int32)
     ):
         """
         node_number: Number of node in the neural network. Every node number must be assigned before neural network is finalised.
@@ -166,8 +164,6 @@ class Dropout:
             dropout_probability, 
             numbers_per_kernel,
             num_kernels,
-            np.asarray(input_dense).astype(np.int32),
-            np.asarray(input_sparse).astype(np.int32),
             np.asarray(hidden).astype(np.int32)
         )
 
