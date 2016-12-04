@@ -27,17 +27,14 @@ struct CalcDelta {
 struct GenerateRandomNumbers {
 
   const std::int32_t numbers_per_kernel;
-  const std::int32_t discard;
   std::uint32_t      seed;
   float             *random_numbers;
 
   GenerateRandomNumbers (
 			 std::int32_t  _numbers_per_kernel,
-			 std::int32_t  _discard,
 			 std::uint32_t _seed,
 			 float        *_random_numbers
 			 ) : numbers_per_kernel(_numbers_per_kernel),
-			     discard(_discard),
 			     seed(_seed),
 			     random_numbers(_random_numbers)
   {}
@@ -49,7 +46,7 @@ struct GenerateRandomNumbers {
     
     thrust::uniform_real_distribution<float> dist(0.f, 1.f);
     
-    rng.discard(discard + i*numbers_per_kernel);
+    rng.discard(i*numbers_per_kernel);
 
     for (std::int32_t j = 0; j < numbers_per_kernel; ++j)
       random_numbers[i*numbers_per_kernel + j] = dist(rng);

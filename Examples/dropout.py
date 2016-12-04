@@ -67,7 +67,7 @@ nn.init_hidden_node(
 nn.init_hidden_node(
     DMLLGPU.Dropout(
         node_number=1, 
-        dropout_probability=-1.0, 
+        dropout_probability=0.5, 
         hidden=[0]
     )
 )

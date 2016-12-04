@@ -24,7 +24,6 @@ DropoutCpp::DropoutCpp(
 						   ) {
 
   //Initialise values
-  this->discard_ = 0;
   this->skip_ = 0;
   this->dropout_probability_ = _dropout_probability;
   this->numbers_per_kernel_ = _numbers_per_kernel;
@@ -45,8 +44,7 @@ DropoutCpp::DropoutCpp(
 		   + this->num_kernels_,
 		   DropoutFunctors::GenerateRandomNumbers(
 							  this->numbers_per_kernel_,
-							  this->discard_,
-							  this->node_number,//seed
+							  this->random_seed_(),
 							  this->random_numbers_ptr_
 							  )
 		   );
@@ -116,13 +114,11 @@ void DropoutCpp::calc_output(
 			 + this->num_kernels_,
 			 DropoutFunctors::GenerateRandomNumbers(
 								this->numbers_per_kernel_,
-								this->discard_,
-								this->node_number,//seed
+								this->random_seed_(),
 								this->random_numbers_ptr_
 								)
 			 );
-
-	this->discard_ += this->numbers_per_kernel_*this->num_kernels_;
+	
 	this->skip_ = 0;
       
       }
