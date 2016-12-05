@@ -61,6 +61,8 @@
 #include "dropout/DropoutFunctors.hpp"
 #include "dropout/DropoutCpp.hpp"
 #include "dropout/DropoutCppFunctions.hpp"
+#include "dropout/NodeSamplerCpp.hpp"
+#include "dropout/NodeSamplerCppFunctions.hpp"
 
 #include "LogicalGates/LogicalGateFunctors.hpp"
 #include "LogicalGates/LogicalGateCpp.hpp"

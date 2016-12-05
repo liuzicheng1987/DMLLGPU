@@ -437,6 +437,23 @@ class DropoutCpp(NeuralNetworkNodeGPUCpp):
 DropoutCpp_swigregister = _DMLLGPUCpp.DropoutCpp_swigregister
 DropoutCpp_swigregister(DropoutCpp)
 
+class NodeSamplerCpp(NeuralNetworkNodeGPUCpp):
+    __swig_setmethods__ = {}
+    for _s in [NeuralNetworkNodeGPUCpp]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, NodeSamplerCpp, name, value)
+    __swig_getmethods__ = {}
+    for _s in [NeuralNetworkNodeGPUCpp]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, NodeSamplerCpp, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _DMLLGPUCpp.new_NodeSamplerCpp(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _DMLLGPUCpp.delete_NodeSamplerCpp
+    __del__ = lambda self : None;
+NodeSamplerCpp_swigregister = _DMLLGPUCpp.NodeSamplerCpp_swigregister
+NodeSamplerCpp_swigregister(NodeSamplerCpp)
+
 # This file is compatible with both classic and new-style classes.
 
 

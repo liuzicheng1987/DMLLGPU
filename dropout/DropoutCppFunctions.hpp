@@ -115,39 +115,22 @@ void DropoutCpp::calc_output(
       }
     
       //Apply dropout
-      if (this->dropout_probability_ > 0.f) {
+      thrust::transform(
+			thrust::make_counting_iterator(this->skip_),
+			thrust::make_counting_iterator(this->skip_)
+			+ input_dim*_batch_size,
+			node->get_output().begin(),
+			this->output.begin() + output_begin,
+			DropoutFunctors::StandardDropout(
+							 this->dropout_probability_,
+							 this->random_numbers_ptr_
+							 )
+			);
 
-	thrust::transform(
-			  thrust::make_counting_iterator(this->skip_),
-			  thrust::make_counting_iterator(this->skip_)
-			  + input_dim*_batch_size,
-			  node->get_output().begin(),
-			  this->output.begin() + output_begin,
-			  DropoutFunctors::StandardDropout(
-							   this->dropout_probability_,
-							   this->random_numbers_ptr_
-							   )
-			  );
+    }
 
-      } else {
-
-	thrust::transform(
-			  thrust::make_counting_iterator(this->skip_),
-			  thrust::make_counting_iterator(this->skip_)
-			  + input_dim*_batch_size,
-			  node->get_output().begin(),
-			  this->output.begin() + output_begin,
-			  DropoutFunctors::DropoutDependsOnInput(
-								 this->random_numbers_ptr_
-								 )
-			  );
-
-      }
-
-      this->skip_ += input_dim*_batch_size;
-      output_begin += input_dim*_batch_size;
-
-    }  
+    this->skip_ += input_dim*_batch_size;
+    output_begin += input_dim*_batch_size;
   
   } else {//If sample is not true
     
@@ -208,7 +191,7 @@ void DropoutCpp::calc_delta(std::int32_t _batch_size) {
 								    + input_dim*_batch_size
 								    )
 						 ),
-		       DropoutFunctors::CalcDelta() 
+		       DropoutFunctors::DropoutCalcDelta() 
 		       );
 
       output_begin += input_dim*_batch_size;

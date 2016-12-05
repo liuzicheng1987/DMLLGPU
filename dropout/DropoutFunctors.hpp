@@ -1,26 +1,6 @@
 namespace DropoutFunctors {
 
 //---------------------------------------------------------------------------
-//Calculate Delta
-
-struct CalcDelta {
-
-  CalcDelta () {}
-
-  template <typename Tuple> 
-  __device__
-  void operator()(Tuple t) {
-
-    //t<0> is the dropout node's output value
-    //t<1> is the dropout node's own delta
-    //t<2> is the child node's delta
-    thrust::get<2>(t) += ((thrust::get<0>(t) == 0.f) ? (0.f) : (thrust::get<1>(t)));
-    
-  }
-  
-};
-
-//---------------------------------------------------------------------------
 //Generate random numbers
 
 
@@ -86,16 +66,36 @@ struct StandardDropout {
 };
 
 //---------------------------------------------------------------------------
+//Calculate Delta
+
+struct DropoutCalcDelta {
+
+  DropoutCalcDelta () {}
+
+  template <typename Tuple> 
+  __device__
+  void operator()(Tuple t) {
+
+    //t<0> is the dropout node's output value
+    //t<1> is the dropout node's own delta
+    //t<2> is the child node's delta
+    thrust::get<2>(t) += ((thrust::get<0>(t) == 0.f) ? (0.f) : (thrust::get<1>(t)));
+    
+  }
+  
+};
+
+//---------------------------------------------------------------------------
 //Calculate output when activation probability depends on input
 
 
-struct DropoutDependsOnInput {
+struct NodeSampler {
 
   const float *random_numbers;
 
-  DropoutDependsOnInput (
-		   const float *_random_numbers
-		   ) : random_numbers(_random_numbers)
+  NodeSampler (
+	       const float *_random_numbers
+	       ) : random_numbers(_random_numbers)
   {}
 
   __device__
@@ -109,6 +109,23 @@ struct DropoutDependsOnInput {
 	    (1.f) :
 	    (0.f)
 	    );
+    
+  }
+  
+};
+
+//---------------------------------------------------------------------------
+//Calculate Delta
+
+struct NodeSamplerCalcDelta {
+
+  NodeSamplerCalcDelta () {}
+
+  template <typename Tuple> 
+  __device__
+  void operator()(Tuple t) {
+
+    thrust::get<1>(t) += thrust::get<0>(t);
     
   }
   

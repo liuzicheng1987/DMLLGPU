@@ -89,9 +89,6 @@ void NeuralNetworkGPUCpp::dfdw(/*MPI_Comm comm,*/
   //Barrier: Wait until all processes have reached this point
   //MPI_Barrier(comm);							
 
-  //Apply regulariser
-  //this->regulariser->g(this->optimiser->dZdW, W, 0, this->lengthW, this->lengthW, (double)batch_size); 		
-
 
 }
 
