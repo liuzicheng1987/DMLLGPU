@@ -54,11 +54,11 @@ struct LogicalGateBackpropagation2 {
     
     float delta = thrust::get<0>(t);
     
-    thrust::get<3>(t) = delta*b*c
+    thrust::get<3>(t) += delta*b*c
       *(c*thrust::get<2>(t) + d)
       ;
     
-    thrust::get<4>(t) = delta*b*c
+    thrust::get<4>(t) += delta*b*c
       *(c*thrust::get<1>(t) + d)
       ;
       
@@ -121,17 +121,17 @@ struct LogicalGateBackpropagation3 {
     
     float delta = thrust::get<0>(t);
     
-    thrust::get<4>(t) = delta*b*c
+    thrust::get<4>(t) += delta*b*c
       *(c*thrust::get<2>(t) + d)
       *(c*thrust::get<3>(t) + d)
       ;
     
-    thrust::get<5>(t) = delta*b*c
+    thrust::get<5>(t) += delta*b*c
       *(c*thrust::get<1>(t) + d)
       *(c*thrust::get<3>(t) + d)
       ;
 
-    thrust::get<6>(t) = delta*b*c
+    thrust::get<6>(t) += delta*b*c
       *(c*thrust::get<1>(t) + d)
       *(c*thrust::get<2>(t) + d)
       ;
@@ -196,25 +196,25 @@ struct LogicalGateBackpropagation4 {
     
     float delta = thrust::get<0>(t);
     
-    thrust::get<5>(t) = delta*b*c
+    thrust::get<5>(t) += delta*b*c
       *(c*thrust::get<2>(t) + d)
       *(c*thrust::get<3>(t) + d)
       *(c*thrust::get<4>(t) + d)
       ;
     
-    thrust::get<6>(t) = delta*b*c
+    thrust::get<6>(t) += delta*b*c
       *(c*thrust::get<1>(t) + d)
       *(c*thrust::get<3>(t) + d)
       *(c*thrust::get<4>(t) + d)
       ;
 
-    thrust::get<7>(t) = delta*b*c
+    thrust::get<7>(t) += delta*b*c
       *(c*thrust::get<1>(t) + d)
       *(c*thrust::get<2>(t) + d)
       *(c*thrust::get<4>(t) + d)      
       ;
 
-    thrust::get<8>(t) = delta*b*c
+    thrust::get<8>(t) += delta*b*c
       *(c*thrust::get<1>(t) + d)
       *(c*thrust::get<2>(t) + d)
       *(c*thrust::get<3>(t) + d)

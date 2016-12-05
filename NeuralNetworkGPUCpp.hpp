@@ -57,7 +57,7 @@ private:
   NeuralNetworkNodeGPUCpp** output_nodes_dense; //Raw pointer to output nodes with dense targets
   NeuralNetworkNodeGPUCpp** output_nodes_sparse; //Raw pointer to output nodes with sparse targets
 
-  thrust::device_vector<std::int32_t> cumulative_num_weights_required;//Accumulated number of weights required for each neural network node
+  std::vector<std::int32_t> cumulative_num_weights_required_;//Accumulated number of weights required for each neural network node
 
   std::vector<std::vector<DenseMatrix>> dense_input_data;//Dense input data
   std::vector<std::vector<CSRMatrix>> sparse_input_data;//Sparse input data

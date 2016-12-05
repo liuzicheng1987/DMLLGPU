@@ -53,6 +53,7 @@ std::int32_t DropoutCpp::get_num_weights_required() {
 
   //Number of weights required is always 0, but we use
   //this function to calculate the dimensionality
+  this->dim_ = 0;
 
   for (auto node: this->hidden_nodes_fed_into_me_ptr)
     this->dim_ += node->get_dim();

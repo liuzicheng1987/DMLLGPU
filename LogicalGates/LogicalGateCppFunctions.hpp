@@ -216,6 +216,7 @@ void LogicalGateCpp::calc_delta(std::int32_t _batch_size) {
 								      this->d_
 								      )
 		     );
+    break;
     
   case 3:
     thrust::for_each(

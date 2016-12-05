@@ -310,8 +310,11 @@ void ActivationFunctionGPUCpp::calc_dLdw(float *_dLdw, const std::int32_t _batch
   std::int32_t input_dim;
 
   //Needed for cuBLAS transformations
-  const float alpha = 1.0; 
-  const float beta = 0.0; 
+  //beta is set to 1.f, because of the possibility of weight sharing
+  //This is why it is so important that the optimisers intialise
+  //the derivatives to 0.f!
+  const float alpha = 1.f; 
+  const float beta = 1.f;
 
   //Calculate derivatives for dense input nodes
   for (std::int32_t i: this->input_nodes_fed_into_me_dense) {

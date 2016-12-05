@@ -35,7 +35,7 @@ void NeuralNetworkGPUCpp::dfdw(/*MPI_Comm comm,*/
   
   //Set pointers contained in the NeuralNetworkNodes class
   for (std::size_t n=0; n<this->nodes.size(); ++n) 
-    this->nodes[n]->W = _W + this->cumulative_num_weights_required[n];
+    this->nodes[n]->W = _W + this->cumulative_num_weights_required_[n];
    
   //Forward propagation
   for (auto node: this->nodes) 
@@ -77,11 +77,12 @@ void NeuralNetworkGPUCpp::dfdw(/*MPI_Comm comm,*/
 
   //Calculate derivative
   for (std::size_t n=0; n<this->nodes.size(); ++n) 
-    this->nodes[n]->calc_dLdw(
-			      _dLdw + this->cumulative_num_weights_required[n], 
-			      _batch_num, 
-			      _batch_size
-			      );
+    if (this->nodes[n]->no_weight_updates == false)
+      this->nodes[n]->calc_dLdw(
+				_dLdw + this->cumulative_num_weights_required_[n], 
+				_batch_num, 
+				_batch_size
+				);
   
   //Add all localdZdW and store the result in dZdW
   //MPI_Allreduce(localdZdW, this->optimiser->dZdW, this->lengthW, MPI_DOUBLE, MPI_SUM, comm);						

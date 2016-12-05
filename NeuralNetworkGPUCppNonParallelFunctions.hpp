@@ -202,24 +202,37 @@ void NeuralNetworkGPUCpp::finalise(/*MPI_Comm comm, std::int32_t rank, std::int3
   //Calculate cumulative_num_weights_required and initialise W
   std::int32_t lengthW = 0;
   
-  std::vector<std::int32_t> cumulative_num_weights_requiredHost;
+  this->cumulative_num_weights_required_.clear();
+
   for (auto node: this->nodes) {
 
     node->NeuralNet = this;
-    cumulative_num_weights_requiredHost.push_back(lengthW);
-    lengthW += node->get_num_weights_required();
+
+    if (node->i_share_weights_with < 0) {
+
+      //If node does not share weights with another node, then count lengthW
+      this->cumulative_num_weights_required_.push_back(lengthW);
+      lengthW += node->get_num_weights_required();
+
+    } else {
+
+      //If node does share weights with another node, then make sure num_weights_required match
+      if (
+	  node->get_num_weights_required() !=
+	  this->nodes[node->i_share_weights_with]->get_num_weights_required()
+	  )
+	std::invalid_argument("Number of weights of nodes must match for weight sharing to be possible!");
+	
+      this->cumulative_num_weights_required_.push_back(
+						       this->cumulative_num_weights_required_[node->i_share_weights_with]
+						       );
+      
+
+    }
 
   }
 
-  cumulative_num_weights_requiredHost.push_back(lengthW);
-
-  //Transfer cumulative_num_weights_required to device vector
-  this->cumulative_num_weights_required = 
-    thrust::device_vector<std::int32_t>(
-					cumulative_num_weights_requiredHost.data(), 
-					cumulative_num_weights_requiredHost.data() 
-					+ cumulative_num_weights_requiredHost.size()
-					);
+  this->cumulative_num_weights_required_.push_back(lengthW);
 
   //Init Whost
   std::vector<float> Whost(lengthW);
@@ -232,8 +245,8 @@ void NeuralNetworkGPUCpp::finalise(/*MPI_Comm comm, std::int32_t rank, std::int3
   for (auto node: this->nodes) {
          
     for (
-	 std::int32_t i = cumulative_num_weights_requiredHost[node->node_number]; 
-	 i < cumulative_num_weights_requiredHost[node->node_number + 1]; 
+	 std::int32_t i = cumulative_num_weights_required_[node->node_number]; 
+	 i < cumulative_num_weights_required_[node->node_number + 1]; 
 	 ++i
 	 ) Whost[i] = dist(gen);
             
@@ -850,7 +863,7 @@ void NeuralNetworkGPUCpp::load_coo(
     //Set pointers contained in the NeuralNetworkNodes class
     for (std::size_t n=0; n<this->nodes.size(); ++n) 
       this->nodes[n]->W = thrust::raw_pointer_cast(this->W.data()) 
-	+ this->cumulative_num_weights_required[n];
+	+ this->cumulative_num_weights_required_[n];
   
     //Init YhatTemp
     thrust::device_vector<float> YhatTemp(

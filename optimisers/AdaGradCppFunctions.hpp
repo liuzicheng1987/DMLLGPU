@@ -51,7 +51,22 @@ void AdaGradCpp::min(/*MPI_Comm comm,*/
       
       //Calculate global_batch_size
       global_batch_size = batch_size;
-					
+
+      //Init this->dldw_
+      //VERY IMPORTANT CONVENTION: Optimisers must set dldw to zero before
+      //passing it to the neural network!
+      thrust::fill(
+		   this->dldw_.begin(), 
+		   this->dldw_.end(), 
+		   0.f
+		   );
+
+      //You must also recast, the pointer, because thrust::fill
+      //sometimes completely reallocates the vector
+      this->dldw_ptr_ = thrust::raw_pointer_cast(
+						 this->dldw_.data()
+						 );
+
       //Barrier: Wait until all processes have reached this point
       //MPI_Barrier(comm);													 	
       //Call dfdw()
