@@ -1,8 +1,8 @@
-class LinearActivationFunctionGPUCpp: public ActivationFunctionGPUCpp {
+class LinearActivationFunctionCpp: public ActivationFunctionCpp {
 
 public:
 
-  LinearActivationFunctionGPUCpp (
+  LinearActivationFunctionCpp (
 				  std::int32_t    _node_number,
 				  std::int32_t    _dim,
 				  std::int32_t   *_input_nodes_fed_into_me_dense,
@@ -14,7 +14,7 @@ public:
 				  std::int32_t    _i_share_weights_with,
 				  bool            _no_weight_updates,
 				  RegulariserCpp *_regulariser			   
-				  ): ActivationFunctionGPUCpp(
+				  ): ActivationFunctionCpp(
 							      _node_number,
 							      _dim,
 							      _input_nodes_fed_into_me_dense,
@@ -29,7 +29,7 @@ public:
 							      ) {};
 	
 	
-  ~LinearActivationFunctionGPUCpp() {};
+  ~LinearActivationFunctionCpp() {};
 
 
   void forward_propagation(

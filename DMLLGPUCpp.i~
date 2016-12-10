@@ -1,7 +1,7 @@
-%module DMLLGPUCpp
+%module discoveryCpp
 %{
 #define SWIG_FILE_WITH_INIT
-#include "DMLLGPUCpp.hpp"
+#include "discoveryCpp.hpp"
 %}
 
 %include numpy.i

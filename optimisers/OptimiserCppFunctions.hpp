@@ -9,7 +9,7 @@ OptimiserCpp::~OptimiserCpp() {}
 	
 //dev_function_type is defined in file OptimiserCpp.hpp
 void OptimiserCpp::minimise (/*MPI_Comm _comm,*/
-			     NeuralNetworkGPUCpp          *_neural_net, 
+			     NeuralNetworkCpp          *_neural_net, 
 			     std::int32_t                  _num_samples, 
 			     thrust::device_vector<float> &_W, 
 			     std::int32_t                  _global_batch_size, 
@@ -38,7 +38,7 @@ void OptimiserCpp::minimise (/*MPI_Comm _comm,*/
   //Create the threads and pass the values they need
   this->min(/*comm,*/_neural_net, _W, _tol, _max_num_epochs, _sum_gradients);
 
-  //Clear this->dLdw and this->SumdLdw, so they don't take up space on the GPU
+  //Clear this->dLdw and this->SumdLdw, so they don't take up space on the 
   this->dldw_.clear();
   this->sum_dldw_.clear();
 		

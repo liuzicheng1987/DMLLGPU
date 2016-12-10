@@ -1,4 +1,4 @@
-import DMLLGPU
+import discovery
 import numpy as np
 import scipy.stats
 import scipy.sparse
@@ -49,23 +49,23 @@ Ysparse_test = Ysparse[ix == False]
 #-------------------------------------------
 #Set up neural network
 
-nn = DMLLGPU.NeuralNetwork(
+nn = discovery.NeuralNetwork(
     num_input_nodes_dense=[2],
     num_output_nodes_dense=1
 )
 
 nn.init_hidden_node(
-    DMLLGPU.ActivationFunction(
+    discovery.ActivationFunction(
         node_number=0, 
         dim=50, 
         activation="logistic", 
         input_dense=[0], 
-        regulariser=DMLLGPU.L2Regulariser(0.00001)
+        regulariser=discovery.L2Regulariser(0.00001)
     )
 )
 
 nn.init_hidden_node(
-    DMLLGPU.Dropout(
+    discovery.Dropout(
         node_number=1, 
         dropout_probability=0.5, 
         hidden=[0]
@@ -73,7 +73,7 @@ nn.init_hidden_node(
 )
 
 nn.init_output_node(
-    DMLLGPU.ActivationFunction(
+    discovery.ActivationFunction(
         node_number=2, 
         dim=1, 
         activation="logistic", 
@@ -89,7 +89,7 @@ nn.finalise()
 nn.fit(
     Xdense=[X_train], 
     Ydense=[Y_train], 
-    optimiser=DMLLGPU.AdaGrad(0.5), 
+    optimiser=discovery.AdaGrad(0.5), 
     tol=0.0, 
     global_batch_size=2000, 
     max_num_epochs=2000,

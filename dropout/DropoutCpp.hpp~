@@ -1,4 +1,4 @@
-class DropoutCpp: public NeuralNetworkNodeGPUCpp {
+class DropoutCpp: public NeuralNetworkNodeCpp {
 
 private:
 

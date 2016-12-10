@@ -26,7 +26,7 @@ protected:
   */
 
   virtual void min(/*MPI_Comm comm,*/
-		   NeuralNetworkGPUCpp          *_neural_net, 
+		   NeuralNetworkCpp          *_neural_net, 
 		   thrust::device_vector<float> &_W, 
 		   const float                   _tol, 
 		   const std::int32_t            _max_num_epochs, 
@@ -43,7 +43,7 @@ public:
   virtual ~OptimiserCpp();
 	
   void minimise (/*MPI_Comm comm,*/
-		 NeuralNetworkGPUCpp          *_neural_net, 
+		 NeuralNetworkCpp          *_neural_net, 
 		 std::int32_t                  _num_samples, 
 		 thrust::device_vector<float> &_W, 
 		 std::int32_t                  _global_batch_size, 

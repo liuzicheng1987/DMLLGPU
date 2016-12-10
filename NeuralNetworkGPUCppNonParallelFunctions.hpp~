@@ -4,7 +4,7 @@
 
 //Public member functions (keep this comment - it is necessary for the automatic generation of the script)
 
-NeuralNetworkGPUCpp::NeuralNetworkGPUCpp(std::int32_t *_num_input_nodes_dense, std::int32_t _num_input_nodes_dense_length, std::int32_t *_num_input_nodes_sparse, std::int32_t _num_input_nodes_sparse_length, std::int32_t _num_output_nodes_dense, std::int32_t _num_output_nodes_sparse, LossFunctionCpp *loss/*, RegulariserCpp *regulariser*/) {
+NeuralNetworkCpp::NeuralNetworkCpp(std::int32_t *_num_input_nodes_dense, std::int32_t _num_input_nodes_dense_length, std::int32_t *_num_input_nodes_sparse, std::int32_t _num_input_nodes_sparse_length, std::int32_t _num_output_nodes_dense, std::int32_t _num_output_nodes_sparse, LossFunctionCpp *loss/*, RegulariserCpp *regulariser*/) {
 
   //Make that the input is reasonable
   if (_num_input_nodes_dense_length + _num_input_nodes_sparse_length <= 0) throw std::invalid_argument("You must provide at least some input nodes!");
@@ -34,7 +34,7 @@ NeuralNetworkGPUCpp::NeuralNetworkGPUCpp(std::int32_t *_num_input_nodes_dense, s
   this->loss = loss;
   //this->regulariser = regulariser;
 		
-  this->nodes = std::vector<NeuralNetworkNodeGPUCpp*>(this->num_output_nodes);		
+  this->nodes = std::vector<NeuralNetworkNodeCpp*>(this->num_output_nodes);		
   this->output_nodes = nodes.data();
 
   //Initialise to nullptr\
@@ -45,9 +45,9 @@ NeuralNetworkGPUCpp::NeuralNetworkGPUCpp(std::int32_t *_num_input_nodes_dense, s
 
 }
 					 
-NeuralNetworkGPUCpp::~NeuralNetworkGPUCpp()  {};
+NeuralNetworkCpp::~NeuralNetworkCpp()  {};
 
-void NeuralNetworkGPUCpp::init_hidden_node(NeuralNetworkNodeGPUCpp *_hidden_node) {
+void NeuralNetworkCpp::init_hidden_node(NeuralNetworkNodeCpp *_hidden_node) {
 	
   //Make sure that the neural network has not already been finalised!
   if (this->finalised) throw std::invalid_argument("Neural network has already been finalised!");
@@ -57,7 +57,7 @@ void NeuralNetworkGPUCpp::init_hidden_node(NeuralNetworkNodeGPUCpp *_hidden_node
     std::int32_t NumAdditionalNodes = _hidden_node->node_number + 1 - this->num_hidden_nodes;
 
     //Extend hidden nodes vector
-    std::vector<NeuralNetworkNodeGPUCpp*>::iterator it = this->nodes.begin() + this->nodes.size();
+    std::vector<NeuralNetworkNodeCpp*>::iterator it = this->nodes.begin() + this->nodes.size();
     this->nodes.insert(it, NumAdditionalNodes, nullptr);	
 
     //Increase num_hidden_nodes and reset pointer output_nodes
@@ -72,7 +72,7 @@ void NeuralNetworkGPUCpp::init_hidden_node(NeuralNetworkNodeGPUCpp *_hidden_node
 					
 };
 
-void NeuralNetworkGPUCpp::init_output_node(NeuralNetworkNodeGPUCpp *_output_node) {
+void NeuralNetworkCpp::init_output_node(NeuralNetworkNodeCpp *_output_node) {
 		
   //Make sure that the neural network has not already been finalised!
   if (this->finalised) 
@@ -86,14 +86,14 @@ void NeuralNetworkGPUCpp::init_output_node(NeuralNetworkNodeGPUCpp *_output_node
 						
 };
 
-void NeuralNetworkGPUCpp::finalise(/*MPI_Comm comm, std::int32_t rank, std::int32_t size,*/float _weight_init_range) {
+void NeuralNetworkCpp::finalise(/*MPI_Comm comm, std::int32_t rank, std::int32_t size,*/float _weight_init_range) {
 
   //Make sure that neural net has not been finalised already
   if (this->finalised == true)
     throw std::invalid_argument("Neural network has already been finalised!");
 
   //Make sure that all nodes were initialised
-  if (std::any_of(this->nodes.begin(), this->nodes.end(), [](NeuralNetworkNodeGPUCpp *node) {return node == nullptr;}))
+  if (std::any_of(this->nodes.begin(), this->nodes.end(), [](NeuralNetworkNodeCpp *node) {return node == nullptr;}))
       throw std::invalid_argument("Not all nodes have been initialised!");
     
   //Calculate pointer to hidden nodes fed into me
@@ -160,7 +160,7 @@ void NeuralNetworkGPUCpp::finalise(/*MPI_Comm comm, std::int32_t rank, std::int3
   
 }
 
-std::int32_t NeuralNetworkGPUCpp::get_length_params() {
+std::int32_t NeuralNetworkCpp::get_length_params() {
 		
   if (!this->finalised) throw std::invalid_argument("Neural network has not been finalised!");
 
@@ -168,7 +168,7 @@ std::int32_t NeuralNetworkGPUCpp::get_length_params() {
 		
 };
 
-void NeuralNetworkGPUCpp::get_params(float *_W, std::int32_t _length_W) {
+void NeuralNetworkCpp::get_params(float *_W, std::int32_t _length_W) {
 
   if (!this->finalised) throw std::invalid_argument("Neural network has not been finalised!");
   
@@ -176,7 +176,7 @@ void NeuralNetworkGPUCpp::get_params(float *_W, std::int32_t _length_W) {
 
 }
 
-std::int32_t NeuralNetworkGPUCpp::get_input_nodes_fed_into_me_dense_length(std::int32_t _node_number) {
+std::int32_t NeuralNetworkCpp::get_input_nodes_fed_into_me_dense_length(std::int32_t _node_number) {
 		
   if (!this->finalised) throw std::invalid_argument("Neural network has not been finalised!");
   if (_node_number < 0 || _node_number >= (std::int32_t)(nodes.size())) std::invalid_argument("node_number out of bounds!");
@@ -185,7 +185,7 @@ std::int32_t NeuralNetworkGPUCpp::get_input_nodes_fed_into_me_dense_length(std::
 		
 };
 
-void NeuralNetworkGPUCpp::get_input_nodes_fed_into_me_dense(std::int32_t _node_number, std::int32_t *_input_nodes_fed_into_me_dense, std::int32_t _input_nodes_fed_into_me_dense_length) {
+void NeuralNetworkCpp::get_input_nodes_fed_into_me_dense(std::int32_t _node_number, std::int32_t *_input_nodes_fed_into_me_dense, std::int32_t _input_nodes_fed_into_me_dense_length) {
 		
   if (!this->finalised) throw std::invalid_argument("Neural network has not been finalised!");
   if (_node_number < 0 || _node_number >= (std::int32_t)(nodes.size())) std::invalid_argument("node_number out of bounds!");
@@ -194,7 +194,7 @@ void NeuralNetworkGPUCpp::get_input_nodes_fed_into_me_dense(std::int32_t _node_n
   		
 };
 
-std::int32_t NeuralNetworkGPUCpp::get_input_nodes_fed_into_me_sparse_length(std::int32_t _node_number) {
+std::int32_t NeuralNetworkCpp::get_input_nodes_fed_into_me_sparse_length(std::int32_t _node_number) {
 		
   if (!this->finalised) throw std::invalid_argument("Neural network has not been finalised!");
   if (_node_number < 0 || _node_number >= (std::int32_t)(nodes.size())) std::invalid_argument("node_number out of bounds!");
@@ -203,7 +203,7 @@ std::int32_t NeuralNetworkGPUCpp::get_input_nodes_fed_into_me_sparse_length(std:
 		
 };
 
-void NeuralNetworkGPUCpp::get_input_nodes_fed_into_me_sparse(std::int32_t _node_number, std::int32_t *_input_nodes_fed_into_me_sparse, std::int32_t _input_nodes_fed_into_me_sparse_length) {
+void NeuralNetworkCpp::get_input_nodes_fed_into_me_sparse(std::int32_t _node_number, std::int32_t *_input_nodes_fed_into_me_sparse, std::int32_t _input_nodes_fed_into_me_sparse_length) {
 		
   if (!this->finalised) throw std::invalid_argument("Neural network has not been finalised!");
   if (_node_number < 0 || _node_number >= (std::int32_t)(nodes.size())) std::invalid_argument("node_number out of bounds!");
@@ -212,7 +212,7 @@ void NeuralNetworkGPUCpp::get_input_nodes_fed_into_me_sparse(std::int32_t _node_
   		
 };
      
-std::int32_t NeuralNetworkGPUCpp::get_hidden_nodes_fed_into_me_length(std::int32_t _node_number) {
+std::int32_t NeuralNetworkCpp::get_hidden_nodes_fed_into_me_length(std::int32_t _node_number) {
 		
   if (!this->finalised) throw std::invalid_argument("Neural network has not been finalised!");
   if (_node_number < 0 || _node_number >= (std::int32_t)(nodes.size())) std::invalid_argument("node_number out of bounds!");
@@ -221,7 +221,7 @@ std::int32_t NeuralNetworkGPUCpp::get_hidden_nodes_fed_into_me_length(std::int32
 		
 };
 
-void NeuralNetworkGPUCpp::get_hidden_nodes_fed_into_me(std::int32_t _node_number, std::int32_t *_hidden_nodes_fed_into_me, std::int32_t __lengthhidden_nodes_fed_into_me) {
+void NeuralNetworkCpp::get_hidden_nodes_fed_into_me(std::int32_t _node_number, std::int32_t *_hidden_nodes_fed_into_me, std::int32_t __lengthhidden_nodes_fed_into_me) {
 		
   if (!this->finalised) throw std::invalid_argument("Neural network has not been finalised!");
   if (_node_number < 0 || _node_number >= (std::int32_t)(nodes.size())) std::invalid_argument("node_number out of bounds!");
@@ -230,19 +230,19 @@ void NeuralNetworkGPUCpp::get_hidden_nodes_fed_into_me(std::int32_t _node_number
   		
 };
 
-void NeuralNetworkGPUCpp::load_dense(DenseMatrix &data, float *_X, std::int32_t _num_samples, std::int32_t _dim) {
+void NeuralNetworkCpp::load_dense(DenseMatrix &data, float *_X, std::int32_t _num_samples, std::int32_t _dim) {
 
   //Transfer _num_samples and _dim
   data.I = _num_samples;
   data.dim = _dim;
 
-  //Transfer X to GPU and set X_ptr
+  //Transfer X to  and set X_ptr
   data.X = thrust::device_vector<float>(_X, _X + _num_samples*_dim);
   data.X_ptr = thrust::raw_pointer_cast(data.X.data()); 
 
 }
 
-void NeuralNetworkGPUCpp::load_dense_data(std::int32_t _num_input_node, float *_X, std::int32_t _num_samples, std::int32_t _dim) {
+void NeuralNetworkCpp::load_dense_data(std::int32_t _num_input_node, float *_X, std::int32_t _num_samples, std::int32_t _dim) {
 
   if (_num_input_node >= (std::int32_t)(this->dense_input_data.size()) || _num_input_node < 0) throw std::invalid_argument("num_input_node out of bounds!");
   if (_dim != this->dense_input_data[_num_input_node].dim) throw std::invalid_argument("Width dim of array provided does not match the width that has been set when initialising the network!");
@@ -251,7 +251,7 @@ void NeuralNetworkGPUCpp::load_dense_data(std::int32_t _num_input_node, float *_
 
 }
 
-void NeuralNetworkGPUCpp::load_dense_targets(std::int32_t _num_output_node, float *_Y, std::int32_t _num_samples, std::int32_t _dim) {
+void NeuralNetworkCpp::load_dense_targets(std::int32_t _num_output_node, float *_Y, std::int32_t _num_samples, std::int32_t _dim) {
 
   if (_num_output_node >= (std::int32_t)(this->dense_targets.size()) || _num_output_node < 0) throw std::invalid_argument("num_output_node out of bounds!");
   if (_dim != this->dense_targets[_num_output_node].dim) throw std::invalid_argument("Width dim of array provided does not match the width that has been set when initialising the network!");
@@ -260,27 +260,27 @@ void NeuralNetworkGPUCpp::load_dense_targets(std::int32_t _num_output_node, floa
 
 }
 
-void NeuralNetworkGPUCpp::load_sparse(CSRMatrix &data, float *_X_data, std::int32_t _X_data_length,  std::int32_t *_X_indices, std::int32_t _X_indices_length, std::int32_t *_X_indptr, std::int32_t _X_indptr_length, std::int32_t _num_samples, std::int32_t _dim) {
+void NeuralNetworkCpp::load_sparse(CSRMatrix &data, float *_X_data, std::int32_t _X_data_length,  std::int32_t *_X_indices, std::int32_t _X_indices_length, std::int32_t *_X_indptr, std::int32_t _X_indptr_length, std::int32_t _num_samples, std::int32_t _dim) {
 
   //Transfer _num_samples and _dim
   data.I = _num_samples;
   data.dim = _dim;
 
-  //Transfer X_data to GPU and set X_data_ptr  
+  //Transfer X_data to  and set X_data_ptr  
   data.X_data = thrust::device_vector<float>(_X_data, _X_data + _X_data_length);
   data.X_data_ptr = thrust::raw_pointer_cast(data.X_data.data()); 
 
-  //Transfer X_indices to GPU and set X_indices_ptr
+  //Transfer X_indices to  and set X_indices_ptr
   data.X_indices = thrust::device_vector<std::int32_t>(_X_indices, _X_indices + _X_indices_length);
   data.X_indices_ptr = thrust::raw_pointer_cast(data.X_indices.data()); 
 
-  //Transfer X_indptr to GPU and set X_indptr_ptr
+  //Transfer X_indptr to  and set X_indptr_ptr
   data.X_indptr = thrust::device_vector<std::int32_t>(_X_indptr, _X_indptr + _X_indptr_length);
   data.X_indptr_ptr = thrust::raw_pointer_cast(data.X_indptr.data()); 
 
 }
 
-void NeuralNetworkGPUCpp::load_sparse_data(std::int32_t _num_input_node, float *_X_data, std::int32_t _X_data_length,  std::int32_t *_X_indices, std::int32_t _X_indices_length, std::int32_t *_X_indptr, std::int32_t _X_indptr_length, std::int32_t _num_samples, std::int32_t _dim) {
+void NeuralNetworkCpp::load_sparse_data(std::int32_t _num_input_node, float *_X_data, std::int32_t _X_data_length,  std::int32_t *_X_indices, std::int32_t _X_indices_length, std::int32_t *_X_indptr, std::int32_t _X_indptr_length, std::int32_t _num_samples, std::int32_t _dim) {
 
   if (_num_input_node >= (std::int32_t)(this->sparse_input_data.size()) || _num_input_node < 0) throw std::invalid_argument("num_input_node out of bounds!");
   if (_dim != this->sparse_input_data[_num_input_node].dim) throw std::invalid_argument("Width dim of array provided does not match the width that has been set when initialising the network!");
@@ -289,7 +289,7 @@ void NeuralNetworkGPUCpp::load_sparse_data(std::int32_t _num_input_node, float *
 
 }
 
-void NeuralNetworkGPUCpp::load_sparse_targets(std::int32_t _num_output_node, float *_Y_data, std::int32_t _Y_data_length,  std::int32_t *_Y_indices, std::int32_t _Y_indices_length, std::int32_t *_Y_indptr, std::int32_t _Y_indptr_length, std::int32_t _num_samples, std::int32_t _dim) {
+void NeuralNetworkCpp::load_sparse_targets(std::int32_t _num_output_node, float *_Y_data, std::int32_t _Y_data_length,  std::int32_t *_Y_indices, std::int32_t _Y_indices_length, std::int32_t *_Y_indptr, std::int32_t _Y_indptr_length, std::int32_t _num_samples, std::int32_t _dim) {
 
   if (_num_output_node >= (std::int32_t)(this->sparse_targets.size()) || _num_output_node < 0) throw std::invalid_argument("num_output_node out of bounds!");
   if (_dim != this->sparse_targets[_num_output_node].dim) throw std::invalid_argument("Width dim of array provided does not match the width that has been set when initialising the network!");
@@ -298,7 +298,7 @@ void NeuralNetworkGPUCpp::load_sparse_targets(std::int32_t _num_output_node, flo
 
 }
 
-void NeuralNetworkGPUCpp::delete_data() {
+void NeuralNetworkCpp::delete_data() {
 
   for (auto data: this->dense_input_data) data.X.clear();
 
@@ -318,7 +318,7 @@ void NeuralNetworkGPUCpp::delete_data() {
 
 }
 	           
-void NeuralNetworkGPUCpp::transform(float *_Yhat, std::int32_t _Y2_num_samples, std::int32_t _Y2_dim, const std::int32_t _MinibatchSizeStandard, bool _sample, std::int32_t _sample_size, bool _Gethidden_nodes) {
+void NeuralNetworkCpp::transform(float *_Yhat, std::int32_t _Y2_num_samples, std::int32_t _Y2_dim, const std::int32_t _MinibatchSizeStandard, bool _sample, std::int32_t _sample_size, bool _Gethidden_nodes) {
 		
   //Make sure that neural network has been finalised!
   if (!this->finalised) throw std::invalid_argument("Neural network has not been finalised!");
@@ -369,7 +369,7 @@ void NeuralNetworkGPUCpp::transform(float *_Yhat, std::int32_t _Y2_num_samples, 
   //Destroy cuBLAS handle
   cublasDestroy(this->handle);
 			
-  //Clear data. so it does not unnecessarily take up space on the GPU
+  //Clear data. so it does not unnecessarily take up space on the 
   this->delete_data();
 		
 };

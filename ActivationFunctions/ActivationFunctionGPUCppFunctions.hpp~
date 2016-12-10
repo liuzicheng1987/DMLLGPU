@@ -1,4 +1,4 @@
-ActivationFunctionGPUCpp::ActivationFunctionGPUCpp(
+ActivationFunctionCpp::ActivationFunctionCpp(
 						   std::int32_t    _node_number, 
 						   std::int32_t    _dim,
 						   std::int32_t   *_input_nodes_fed_into_me_dense, 
@@ -10,7 +10,7 @@ ActivationFunctionGPUCpp::ActivationFunctionGPUCpp(
 						   std::int32_t    _i_share_weights_with, 
 						   bool            _no_weight_updates,
 						   RegulariserCpp *_regulariser
-						   ): NeuralNetworkNodeGPUCpp (
+						   ): NeuralNetworkNodeCpp (
 									      _node_number,
 									      _dim,
 									      _input_nodes_fed_into_me_dense, 
@@ -30,9 +30,9 @@ ActivationFunctionGPUCpp::ActivationFunctionGPUCpp(
 
 }
 
-ActivationFunctionGPUCpp::~ActivationFunctionGPUCpp() {};
+ActivationFunctionCpp::~ActivationFunctionCpp() {};
 
-std::int32_t ActivationFunctionGPUCpp::get_num_weights_required() {
+std::int32_t ActivationFunctionCpp::get_num_weights_required() {
 
   std::int32_t num_weights_required = this->num_input_nodes_cumulative;
 
@@ -47,7 +47,7 @@ std::int32_t ActivationFunctionGPUCpp::get_num_weights_required() {
 
 };
 
-void ActivationFunctionGPUCpp::calc_output(
+void ActivationFunctionCpp::calc_output(
 					   const std::int32_t _batch_num, 
 					   const std::int32_t _batch_size
 					   ) {
@@ -69,7 +69,7 @@ void ActivationFunctionGPUCpp::calc_output(
   float beta = 0.0; 
 
   //Resize output and delta, if necessary
-  //Output is stored in the NeuralNetworkNodeGPUCpp base class and stores the output of this node
+  //Output is stored in the NeuralNetworkNodeCpp base class and stores the output of this node
   if (static_cast<std::int32_t>(this->output.size()) != this->dim_*_batch_size) {
     
     //Resize output
@@ -212,7 +212,7 @@ void ActivationFunctionGPUCpp::calc_output(
 
 }
 
-void ActivationFunctionGPUCpp::calc_delta(std::int32_t _batch_size) {
+void ActivationFunctionCpp::calc_delta(std::int32_t _batch_size) {
 
   //Begin by applying the backpropagation functor
   //This multiplies delta by the derivative of the activation function
@@ -275,7 +275,7 @@ void ActivationFunctionGPUCpp::calc_delta(std::int32_t _batch_size) {
   
 }
 
-void ActivationFunctionGPUCpp::calc_dLdw(float *_dLdw, const std::int32_t _batch_num, const std::int32_t _batch_size) {
+void ActivationFunctionCpp::calc_dLdw(float *_dLdw, const std::int32_t _batch_num, const std::int32_t _batch_size) {
 
   //pointer _dLdw points to the beginning of the weights relevant for this node. This is achieved by the g(...) function.
 
@@ -416,7 +416,7 @@ void ActivationFunctionGPUCpp::calc_dLdw(float *_dLdw, const std::int32_t _batch
   } 
 
   //Resize ones, if necessary
-  //Output is stored in the NeuralNetworkNodeGPUCpp base class and stores the output of this node
+  //Output is stored in the NeuralNetworkNodeCpp base class and stores the output of this node
   if (static_cast<std::int32_t>(this->ones_.size()) < this->dim_*_batch_size) {
     
     this->ones_.resize(this->dim_*_batch_size);

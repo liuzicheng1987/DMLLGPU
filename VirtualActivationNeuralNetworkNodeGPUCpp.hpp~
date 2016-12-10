@@ -2,7 +2,7 @@
 #include "NonLinearTransformations.hpp"
 
 
-class VirtualActivationNeuralNetworkNodeGPUCpp: public NeuralNetworkNodeGPUCpp {
+class VirtualActivationNeuralNetworkNodeCpp: public NeuralNetworkNodeCpp {
 
 protected:
 
@@ -10,9 +10,9 @@ protected:
 	
 public:
 	
-  VirtualActivationNeuralNetworkNodeGPUCpp(std::int32_t _node_number, std::int32_t _activation, std::int32_t *_hidden_nodes_fed_into_me, std::int32_t _hidden_nodes_fed_into_me_length, std::int32_t *_InputNodesFedIntoMe, std::int32_t _InputNodesFedIntoMe_length, std::int32_t _i_share_weights_with, bool _no_weight_updates);
+  VirtualActivationNeuralNetworkNodeCpp(std::int32_t _node_number, std::int32_t _activation, std::int32_t *_hidden_nodes_fed_into_me, std::int32_t _hidden_nodes_fed_into_me_length, std::int32_t *_InputNodesFedIntoMe, std::int32_t _InputNodesFedIntoMe_length, std::int32_t _i_share_weights_with, bool _no_weight_updates);
 	
-  virtual ~VirtualActivationNeuralNetworkNodeGPUCpp();
+  virtual ~VirtualActivationNeuralNetworkNodeCpp();
 
   //Functions for dense input
   void calc_output(const float *_W, const std::int32_t _MinibatchBegin, const std::int32_t _MinibatchSize, const float *_X);		

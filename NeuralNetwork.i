@@ -1,17 +1,17 @@
 //----------------------------------------------------------------------------------------------
-//class NeuralNetworkNodeGPUCpp
+//class NeuralNetworkNodeCpp
 
 %apply (int* IN_ARRAY1, int DIM1) {(std::int32_t *_hidden_nodes_fed_into_me, std::int32_t _hidden_nodes_fed_into_me_length)};
 %apply (int* IN_ARRAY1, int DIM1) {(std::int32_t *_input_nodes_fed_into_me_dense, std::int32_t _input_nodes_fed_into_me_dense_length)};
 %apply (int* IN_ARRAY1, int DIM1) {(std::int32_t *_input_nodes_fed_into_me_sparse, std::int32_t _input_nodes_fed_into_me_sparse_length)};
 
-class NeuralNetworkNodeGPUCpp {
+class NeuralNetworkNodeCpp {
 	
-  //friend class NeuralNetworkGPUCpp;
+  //friend class NeuralNetworkCpp;
 	
  public://This is temporary - change to protected later
 			
-  NeuralNetworkNodeGPUCpp (
+  NeuralNetworkNodeCpp (
 			   std::int32_t    _node_number, 
 			   std::int32_t    _dim,
 			   std::int32_t   *_input_nodes_fed_into_me_dense, 
@@ -25,23 +25,23 @@ class NeuralNetworkNodeGPUCpp {
 			   RegulariserCpp *_regulariser
 			   );
 	
-  virtual ~NeuralNetworkNodeGPUCpp();
+  virtual ~NeuralNetworkNodeCpp();
 
 	  		
 };
 
 //----------------------------------------------------------------------------------------------
-//class ActivationFunctionGPUCpp
+//class ActivationFunctionCpp
 
 %apply (int* IN_ARRAY1, int DIM1) {(std::int32_t *_hidden_nodes_fed_into_me, std::int32_t _hidden_nodes_fed_into_me_length)};
 %apply (int* IN_ARRAY1, int DIM1) {(std::int32_t *_input_nodes_fed_into_me_dense, std::int32_t _input_nodes_fed_into_me_dense_length)};
 %apply (int* IN_ARRAY1, int DIM1) {(std::int32_t *_input_nodes_fed_into_me_sparse, std::int32_t _input_nodes_fed_into_me_sparse_length)};
 
-class ActivationFunctionGPUCpp: public NeuralNetworkNodeGPUCpp {
+class ActivationFunctionCpp: public NeuralNetworkNodeCpp {
 	
 public:
 	
-  ActivationFunctionGPUCpp(
+  ActivationFunctionCpp(
 			   std::int32_t    _node_number,
 			   std::int32_t    _dim,
 			   std::int32_t   *_input_nodes_fed_into_me_dense,
@@ -55,22 +55,22 @@ public:
 			   RegulariserCpp *_regulariser			   
 			   );
 	
-  ~ActivationFunctionGPUCpp();
+  ~ActivationFunctionCpp();
 
 };
 
 //----------------------------------------------------------------------------------------------
-//class LogisticActivationFunctionGPUCpp
+//class LogisticActivationFunctionCpp
 
 %apply (int* IN_ARRAY1, int DIM1) {(std::int32_t *_hidden_nodes_fed_into_me, std::int32_t _hidden_nodes_fed_into_me_length)};
 %apply (int* IN_ARRAY1, int DIM1) {(std::int32_t *_input_nodes_fed_into_me_dense, std::int32_t _input_nodes_fed_into_me_dense_length)};
 %apply (int* IN_ARRAY1, int DIM1) {(std::int32_t *_input_nodes_fed_into_me_sparse, std::int32_t _input_nodes_fed_into_me_sparse_length)};
 
-class LogisticActivationFunctionGPUCpp: public ActivationFunctionGPUCpp {
+class LogisticActivationFunctionCpp: public ActivationFunctionCpp {
 	
 public:
 
-  LogisticActivationFunctionGPUCpp (
+  LogisticActivationFunctionCpp (
 				    std::int32_t    _node_number,
 				    std::int32_t    _dim,
 				    std::int32_t   *_input_nodes_fed_into_me_dense,
@@ -84,22 +84,22 @@ public:
 				    RegulariserCpp *_regulariser			   
 				    );
     
-  ~LogisticActivationFunctionGPUCpp();
+  ~LogisticActivationFunctionCpp();
 
 };
 
 //----------------------------------------------------------------------------------------------
-//class LinearActivationFunctionGPUCpp
+//class LinearActivationFunctionCpp
 
 %apply (int* IN_ARRAY1, int DIM1) {(std::int32_t *_hidden_nodes_fed_into_me, std::int32_t _hidden_nodes_fed_into_me_length)};
 %apply (int* IN_ARRAY1, int DIM1) {(std::int32_t *_input_nodes_fed_into_me_dense, std::int32_t _input_nodes_fed_into_me_dense_length)};
 %apply (int* IN_ARRAY1, int DIM1) {(std::int32_t *_input_nodes_fed_into_me_sparse, std::int32_t _input_nodes_fed_into_me_sparse_length)};
 
-class LinearActivationFunctionGPUCpp: public ActivationFunctionGPUCpp {
+class LinearActivationFunctionCpp: public ActivationFunctionCpp {
 	
 public:
 	
-  LinearActivationFunctionGPUCpp (
+  LinearActivationFunctionCpp (
 				  std::int32_t    _node_number,
 				  std::int32_t    _dim,
 				  std::int32_t   *_input_nodes_fed_into_me_dense,
@@ -113,22 +113,22 @@ public:
 				  RegulariserCpp *_regulariser			   
 				  );
 
-  ~LinearActivationFunctionGPUCpp();
+  ~LinearActivationFunctionCpp();
 
 };
 
 //----------------------------------------------------------------------------------------------
-//class SoftmaxActivationFunctionGPUCpp
+//class SoftmaxActivationFunctionCpp
 
 %apply (int* IN_ARRAY1, int DIM1) {(std::int32_t *_hidden_nodes_fed_into_me, std::int32_t _hidden_nodes_fed_into_me_length)};
 %apply (int* IN_ARRAY1, int DIM1) {(std::int32_t *_input_nodes_fed_into_me_dense, std::int32_t _input_nodes_fed_into_me_dense_length)};
 %apply (int* IN_ARRAY1, int DIM1) {(std::int32_t *_input_nodes_fed_into_me_sparse, std::int32_t _input_nodes_fed_into_me_sparse_length)};
 
-class SoftmaxActivationFunctionGPUCpp: public ActivationFunctionGPUCpp {
+class SoftmaxActivationFunctionCpp: public ActivationFunctionCpp {
 
 public:
 
-  SoftmaxActivationFunctionGPUCpp (
+  SoftmaxActivationFunctionCpp (
 				    std::int32_t    _node_number,
 				    std::int32_t    _num_vars,
 				    std::int32_t    _num_states_per_var,
@@ -143,12 +143,12 @@ public:
 				    RegulariserCpp *_regulariser			   
 				   );
 	
-  ~SoftmaxActivationFunctionGPUCpp();
+  ~SoftmaxActivationFunctionCpp();
 
 };
 
 //----------------------------------------------------------------------------------------------
-//class NeuralNetworkGPUCpp
+//class NeuralNetworkCpp
 
 %apply (float* IN_ARRAY1, int DIM1) {(float *_W, std::int32_t _length_W)};
 
@@ -174,11 +174,11 @@ public:
 %apply (float* IN_ARRAY1, int DIM1) {(float *_sum_gradients, std::int32_t _sum_gradients_length)};
 
 
-class NeuralNetworkGPUCpp/*: public NumericallyOptimisedMLAlgorithmCpp*/ {
+class NeuralNetworkCpp/*: public NumericallyOptimisedMLAlgorithmCpp*/ {
 		
 public:
 	
-  NeuralNetworkGPUCpp (
+  NeuralNetworkCpp (
 		       std::int32_t *_num_input_nodes_dense, 
 		       std::int32_t _num_input_nodes_dense_length, 
 		       std::int32_t *_num_input_nodes_sparse,
@@ -188,14 +188,14 @@ public:
 		       LossFunctionCpp *_loss/*, _RegulariserCpp *_regulariser*/
 		       );
 	
-  ~NeuralNetworkGPUCpp();
+  ~NeuralNetworkCpp();
 
   void init_hidden_node(
-			NeuralNetworkNodeGPUCpp *_hidden_node
+			NeuralNetworkNodeCpp *_hidden_node
 			);
 	
   void init_output_node(
-			NeuralNetworkNodeGPUCpp *_output_node
+			NeuralNetworkNodeCpp *_output_node
 			);
 
   std::int32_t get_length_params();
@@ -246,7 +246,7 @@ public:
 		float _weight_init_range
 		);
 	
-  //This function loads the provided dataset into the GPU
+  //This function loads the provided dataset into the 
   void load_dense_data(
 		       std::int32_t _num_input_node, 
 		       float       *_X, 
@@ -255,7 +255,7 @@ public:
 		       std::int32_t _global_batch_size
 		       );
 
-  //This function loads the provided targets into the GPU
+  //This function loads the provided targets into the 
   void load_dense_targets(
 			  std::int32_t num_output_node, 
 			  float       *_Y, 
@@ -264,7 +264,7 @@ public:
 			  std::int32_t _global_batch_size
 			  );
 
-  //This function loads the provided dataset into the GPU
+  //This function loads the provided dataset into the 
   void load_sparse_data(
 			std::int32_t  _num_input_node, 
 			float        *_X_data, 
@@ -278,7 +278,7 @@ public:
 			std::int32_t  _global_batch_size
 			);
 
-  //This functions loads the provided targets into the GPU
+  //This functions loads the provided targets into the 
   void load_sparse_targets(
 			   std::int32_t  _num_output_node, 
 			   float        *_Y_data, 

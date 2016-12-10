@@ -3,9 +3,9 @@ import os
 template = """struct NonLinearTransformation$ITER {
 
   const float *w;
-  ActivationFunctionGPUCpp *activation;
+  ActivationFunctionCpp *activation;
 
-  NonLinearTransformation$ITER(const float* _w, ActivationFunctionGPUCpp *_activation) : w(_w), activation(_activation) {}
+  NonLinearTransformation$ITER(const float* _w, ActivationFunctionCpp *_activation) : w(_w), activation(_activation) {}
 
   template <typename Tuple>
   __device__
@@ -31,7 +31,7 @@ for i in range(10):
 
 NonLinearTransformation = """
 
-void NonLinearTransformation(const float *W, std::vector<NeuralNetworkNodeGPUCpp*> &hidden_nodes_fed_into_me_ptr, thrust::device_vector<float> &output, ActivationFunctionGPUCpp *activation) {
+void NonLinearTransformation(const float *W, std::vector<NeuralNetworkNodeCpp*> &hidden_nodes_fed_into_me_ptr, thrust::device_vector<float> &output, ActivationFunctionCpp *activation) {
 
   switch(hidden_nodes_fed_into_me_ptr.size()) {
     

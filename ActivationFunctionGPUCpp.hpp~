@@ -1,8 +1,8 @@
-class ActivationFunctionGPUCpp: public NeuralNetworkNodeGPUCpp {
+class ActivationFunctionCpp: public NeuralNetworkNodeCpp {
 
 public:
 
-  ActivationFunctionGPUCpp(
+  ActivationFunctionCpp(
 			   std::int32_t  _node_number,
 			   std::int32_t *_input_nodes_fed_into_me_dense,
 			   std::int32_t  _input_nodes_fed_into_me_dense_length,
@@ -14,7 +14,7 @@ public:
 			   bool          _no_weight_updates
 			   );
 
-  ~ActivationFunctionGPUCpp();
+  ~ActivationFunctionCpp();
 
   //Forward propagation and backpropagation
   //These are function pointers that call on the
@@ -22,7 +22,7 @@ public:
 
   std::function<void(
 		     const float                   *W,
-		     NeuralNetworkNodeGPUCpp      **hidden_nodes_fed_into_me_ptr,
+		     NeuralNetworkNodeCpp      **hidden_nodes_fed_into_me_ptr,
 		     std::size_t                    hidden_nodes_fed_into_me_ptrSize,
 		     thrust::device_vector<float>  &output
 		     )> forward_propagation;
@@ -30,7 +30,7 @@ public:
 
   std::function<void(
 		     const float                   *W,
-		     NeuralNetworkNodeGPUCpp      **hidden_nodes_fed_into_me_ptr,
+		     NeuralNetworkNodeCpp      **hidden_nodes_fed_into_me_ptr,
 		     std::size_t                    hidden_nodes_fed_into_me_ptrSize,
 		     thrust::device_vector<float>  &output,
 		     thrust::device_vector<float>  &delta

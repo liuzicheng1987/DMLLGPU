@@ -1,4 +1,4 @@
-NeuralNetworkNodeGPUCpp::NeuralNetworkNodeGPUCpp(std::int32_t _node_number, std::int32_t *_input_nodes_fed_into_me_dense, std::int32_t _input_nodes_fed_into_me_dense_length, std::int32_t *_hidden_nodes_fed_into_meSparse, std::int32_t _hidden_nodes_fed_into_meSparse_length, std::int32_t _i_share_weights_with, bool _no_weight_updates) {
+NeuralNetworkNodeCpp::NeuralNetworkNodeCpp(std::int32_t _node_number, std::int32_t *_input_nodes_fed_into_me_dense, std::int32_t _input_nodes_fed_into_me_dense_length, std::int32_t *_hidden_nodes_fed_into_meSparse, std::int32_t _hidden_nodes_fed_into_meSparse_length, std::int32_t _i_share_weights_with, bool _no_weight_updates) {
 		
   this->node_number = _node_number;
       		
@@ -30,4 +30,4 @@ NeuralNetworkNodeGPUCpp::NeuralNetworkNodeGPUCpp(std::int32_t _node_number, std:
 		
 };
 
-NeuralNetworkNodeGPUCpp::~NeuralNetworkNodeGPUCpp(){};
+NeuralNetworkNodeCpp::~NeuralNetworkNodeCpp(){};

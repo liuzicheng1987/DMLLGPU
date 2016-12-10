@@ -1,6 +1,6 @@
 import os
 
-os.chdir("/home/patrick/Dropbox/Programs/NeuralNetworkGPU/")
+os.chdir("/home/patrick/Dropbox/Programs/discovery/")
 
 def replace(folder):
     flist = os.listdir(folder)
@@ -15,10 +15,11 @@ def replace(folder):
             
         text = open(folder + f, "rb").read()
         
-        text = text.replace("COOMatrix", "COOVector")     
+        text = text.replace("GPU", "")     
+        text = text.replace("DMLL", "discovery")     
         
         open(folder + f, "wb").write(text)
             
-replace("/home/patrick/Dropbox/Programs/NeuralNetworkGPU/")
+replace("/home/patrick/Dropbox/Programs/discovery/")
 
 

@@ -1,11 +1,11 @@
 struct SumDeltaActivation1 {
 
   Activation activation;
-  NeuralNetworkNodeGPUCpp **hidden_nodesIAmFedIntoPtr;
+  NeuralNetworkNodeCpp **hidden_nodesIAmFedIntoPtr;
   std::int32_t *NumWeightIAmToNodeIAmFedInto;
   
 
-  SumDeltaActivation1(Activation _activation, NeuralNetworkNodeGPUCpp **_hidden_nodesIAmFedIntoPtr, std::int32_t *_NumWeightIAmToNodeIAmFedInto) : activation(_activation), hidden_nodesIAmFedIntoPtr(_hidden_nodesIAmFedIntoPtr), NumWeightIAmToNodeIAmFedInto(_NumWeightIAmToNodeIAmFedInto) {}
+  SumDeltaActivation1(Activation _activation, NeuralNetworkNodeCpp **_hidden_nodesIAmFedIntoPtr, std::int32_t *_NumWeightIAmToNodeIAmFedInto) : activation(_activation), hidden_nodesIAmFedIntoPtr(_hidden_nodesIAmFedIntoPtr), NumWeightIAmToNodeIAmFedInto(_NumWeightIAmToNodeIAmFedInto) {}
   
   __device__
   float operator()(std::int32_t &i) const {
@@ -22,7 +22,7 @@ struct SumDeltaActivation1 {
 
 };
 
-void SumDeltaActivation(std::vector<NeuralNetworkNodeGPUCpp*> &hidden_nodesIAmFedIntoPtr, std::int32_t *NumWeightIAmToNodeIAmFedInto, thrust::device_vector<float> &delta, Activation activation) {
+void SumDeltaActivation(std::vector<NeuralNetworkNodeCpp*> &hidden_nodesIAmFedIntoPtr, std::int32_t *NumWeightIAmToNodeIAmFedInto, thrust::device_vector<float> &delta, Activation activation) {
   
   thrust::counting_iterator<std::int32_t> CounterBegin(0);
   thrust::counting_iterator<std::int32_t> CounterEnd = CounterBegin + delta.size();

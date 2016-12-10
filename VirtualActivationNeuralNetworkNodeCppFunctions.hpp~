@@ -1,4 +1,4 @@
-VirtualActivationNeuralNetworkNodeGPUCpp::VirtualActivationNeuralNetworkNodeGPUCpp(std::int32_t _node_number, char *_activation, std::int32_t *_hidden_nodes_fed_into_me, std::int32_t _hidden_nodes_fed_into_me_length, std::int32_t *_InputNodesFedIntoMe, std::int32_t _InputNodesFedIntoMe_length, std::int32_t _i_share_weights_with, bool _no_weight_updates): NeuralNetworkNodeGPUCpp(_node_number,_hidden_nodes_fed_into_me, _hidden_nodes_fed_into_me_length, _InputNodesFedIntoMe, _InputNodesFedIntoMe_length, _i_share_weights_with, _no_weight_updates) {
+VirtualActivationNeuralNetworkNodeCpp::VirtualActivationNeuralNetworkNodeCpp(std::int32_t _node_number, char *_activation, std::int32_t *_hidden_nodes_fed_into_me, std::int32_t _hidden_nodes_fed_into_me_length, std::int32_t *_InputNodesFedIntoMe, std::int32_t _InputNodesFedIntoMe_length, std::int32_t _i_share_weights_with, bool _no_weight_updates): NeuralNetworkNodeCpp(_node_number,_hidden_nodes_fed_into_me, _hidden_nodes_fed_into_me_length, _InputNodesFedIntoMe, _InputNodesFedIntoMe_length, _i_share_weights_with, _no_weight_updates) {
 
   //Information on which activation function to use is passed as a C char*, to ensure maximum compatability with any target language
   if (strcmp("linear", _activation) == 0) this->activation = linear;
@@ -8,17 +8,17 @@ VirtualActivationNeuralNetworkNodeGPUCpp::VirtualActivationNeuralNetworkNodeGPUC
   this->output = thrust::device_vector<float>(1);
   this->delta = thrust::device_vector<float>(1);
 
-  //This is necessary for every class that inherits from NeuralNetworkNodeGPUCpp
+  //This is necessary for every class that inherits from NeuralNetworkNodeCpp
   this->NumWeightsRequired = _hidden_nodes_fed_into_me_length + _InputNodesFedIntoMe_length + 1;
 
 }
 
-VirtualActivationNeuralNetworkNodeGPUCpp::~VirtualActivationNeuralNetworkNodeGPUCpp() {};
+VirtualActivationNeuralNetworkNodeCpp::~VirtualActivationNeuralNetworkNodeCpp() {};
 
-void VirtualActivationNeuralNetworkNodeGPUCpp::calc_output(const float *_W, const std::int32_t _MinibatchBegin, const std::int32_t _MinibatchSize, const float *_X) {
+void VirtualActivationNeuralNetworkNodeCpp::calc_output(const float *_W, const std::int32_t _MinibatchBegin, const std::int32_t _MinibatchSize, const float *_X) {
 
   //Resize output, if necessary
-  //Output is stored in the NeuralNetworkNodeGPUCpp base class and stores the output of this node
+  //Output is stored in the NeuralNetworkNodeCpp base class and stores the output of this node
   if ((std::int32_t)(this->output.size()) != _MinibatchSize) this->output.resize(_MinibatchSize);
 
   //Transform input nodes fed into me

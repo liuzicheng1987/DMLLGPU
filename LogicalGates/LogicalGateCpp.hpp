@@ -1,4 +1,4 @@
-class LogicalGateCpp: public NeuralNetworkNodeGPUCpp {
+class LogicalGateCpp: public NeuralNetworkNodeCpp {
 
 protected:
 

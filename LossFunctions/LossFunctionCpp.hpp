@@ -2,7 +2,7 @@ class LossFunctionCpp {
 
 protected:
   
-  NeuralNetworkGPUCpp *NeuralNet_;
+  NeuralNetworkCpp *NeuralNet_;
 	
 public:	
 	
@@ -26,7 +26,7 @@ public:
 				   thrust::device_vector<float> &_dlossdoutput			  
 				   ) {};
 
-  void set_neural_net(NeuralNetworkGPUCpp *_NeuralNet) {
+  void set_neural_net(NeuralNetworkCpp *_NeuralNet) {
 
     this->NeuralNet_ = _NeuralNet;
     

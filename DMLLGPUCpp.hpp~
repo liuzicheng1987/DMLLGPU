@@ -26,29 +26,29 @@
 #include "LossFunctions/LossFunctionCpp.hpp"
 #include "LossFunctions/SquareLossCpp.hpp"
 
-#include "NeuralNetworkNodeGPUCpp.hpp"
-#include "NeuralNetworkGPUCpp.hpp"
+#include "NeuralNetworkNodeCpp.hpp"
+#include "NeuralNetworkCpp.hpp"
 
 #include "optimisers/OptimiserCpp.hpp"
 #include "optimisers/OptimiserCppFunctions.hpp"
 #include "optimisers/SGDCpp.hpp"
 #include "optimisers/SGDCppFunctions.hpp"
 
-#include "NeuralNetworkNodeGPUCppFunctions.hpp"
-#include "NeuralNetworkGPUCppNonParallelFunctions.hpp"
-#include "NeuralNetworkGPUCppParallelFunctions.hpp"
+#include "NeuralNetworkNodeCppFunctions.hpp"
+#include "NeuralNetworkCppNonParallelFunctions.hpp"
+#include "NeuralNetworkCppParallelFunctions.hpp"
 
 #include "ActivationFunctions.hpp"
 
 #include "CalcDevHidden.hpp"
 
-#include "ActivationFunctionGPUCpp.hpp"
-#include "ActivationFunctionGPUCppFunctions.hpp"
+#include "ActivationFunctionCpp.hpp"
+#include "ActivationFunctionCppFunctions.hpp"
 
 #include "LogisticForwardPropagation.hpp"
 #include "LogisticBackpropagation.hpp"
-#include "LogisticActivationFunctionGPUCpp.hpp"
+#include "LogisticActivationFunctionCpp.hpp"
 
 #include "LinearForwardPropagation.hpp"
 #include "LinearBackpropagation.hpp"
-#include "LinearActivationFunctionGPUCpp.hpp"
+#include "LinearActivationFunctionCpp.hpp"

@@ -1,9 +1,9 @@
 struct NonLinearTransformation0 {
 
   const float *w;
-  ActivationFunctionGPUCpp *activation;
+  ActivationFunctionCpp *activation;
 
-  NonLinearTransformation0(const float* _w, ActivationFunctionGPUCpp *_activation) : w(_w), activation(_activation) {}
+  NonLinearTransformation0(const float* _w, ActivationFunctionCpp *_activation) : w(_w), activation(_activation) {}
 
   template <typename Tuple>
   __device__
@@ -18,9 +18,9 @@ struct NonLinearTransformation0 {
 struct NonLinearTransformation1 {
 
   const float *w;
-  ActivationFunctionGPUCpp *activation;
+  ActivationFunctionCpp *activation;
 
-  NonLinearTransformation1(const float* _w, ActivationFunctionGPUCpp *_activation) : w(_w), activation(_activation) {}
+  NonLinearTransformation1(const float* _w, ActivationFunctionCpp *_activation) : w(_w), activation(_activation) {}
 
   template <typename Tuple>
   __device__
@@ -35,9 +35,9 @@ struct NonLinearTransformation1 {
 struct NonLinearTransformation2 {
 
   const float *w;
-  ActivationFunctionGPUCpp *activation;
+  ActivationFunctionCpp *activation;
 
-  NonLinearTransformation2(const float* _w, ActivationFunctionGPUCpp *_activation) : w(_w), activation(_activation) {}
+  NonLinearTransformation2(const float* _w, ActivationFunctionCpp *_activation) : w(_w), activation(_activation) {}
 
   template <typename Tuple>
   __device__
@@ -52,9 +52,9 @@ struct NonLinearTransformation2 {
 struct NonLinearTransformation3 {
 
   const float *w;
-  ActivationFunctionGPUCpp *activation;
+  ActivationFunctionCpp *activation;
 
-  NonLinearTransformation3(const float* _w, ActivationFunctionGPUCpp *_activation) : w(_w), activation(_activation) {}
+  NonLinearTransformation3(const float* _w, ActivationFunctionCpp *_activation) : w(_w), activation(_activation) {}
 
   template <typename Tuple>
   __device__
@@ -69,9 +69,9 @@ struct NonLinearTransformation3 {
 struct NonLinearTransformation4 {
 
   const float *w;
-  ActivationFunctionGPUCpp *activation;
+  ActivationFunctionCpp *activation;
 
-  NonLinearTransformation4(const float* _w, ActivationFunctionGPUCpp *_activation) : w(_w), activation(_activation) {}
+  NonLinearTransformation4(const float* _w, ActivationFunctionCpp *_activation) : w(_w), activation(_activation) {}
 
   template <typename Tuple>
   __device__
@@ -86,9 +86,9 @@ struct NonLinearTransformation4 {
 struct NonLinearTransformation5 {
 
   const float *w;
-  ActivationFunctionGPUCpp *activation;
+  ActivationFunctionCpp *activation;
 
-  NonLinearTransformation5(const float* _w, ActivationFunctionGPUCpp *_activation) : w(_w), activation(_activation) {}
+  NonLinearTransformation5(const float* _w, ActivationFunctionCpp *_activation) : w(_w), activation(_activation) {}
 
   template <typename Tuple>
   __device__
@@ -103,9 +103,9 @@ struct NonLinearTransformation5 {
 struct NonLinearTransformation6 {
 
   const float *w;
-  ActivationFunctionGPUCpp *activation;
+  ActivationFunctionCpp *activation;
 
-  NonLinearTransformation6(const float* _w, ActivationFunctionGPUCpp *_activation) : w(_w), activation(_activation) {}
+  NonLinearTransformation6(const float* _w, ActivationFunctionCpp *_activation) : w(_w), activation(_activation) {}
 
   template <typename Tuple>
   __device__
@@ -120,9 +120,9 @@ struct NonLinearTransformation6 {
 struct NonLinearTransformation7 {
 
   const float *w;
-  ActivationFunctionGPUCpp *activation;
+  ActivationFunctionCpp *activation;
 
-  NonLinearTransformation7(const float* _w, ActivationFunctionGPUCpp *_activation) : w(_w), activation(_activation) {}
+  NonLinearTransformation7(const float* _w, ActivationFunctionCpp *_activation) : w(_w), activation(_activation) {}
 
   template <typename Tuple>
   __device__
@@ -137,9 +137,9 @@ struct NonLinearTransformation7 {
 struct NonLinearTransformation8 {
 
   const float *w;
-  ActivationFunctionGPUCpp *activation;
+  ActivationFunctionCpp *activation;
 
-  NonLinearTransformation8(const float* _w, ActivationFunctionGPUCpp *_activation) : w(_w), activation(_activation) {}
+  NonLinearTransformation8(const float* _w, ActivationFunctionCpp *_activation) : w(_w), activation(_activation) {}
 
   template <typename Tuple>
   __device__
@@ -154,9 +154,9 @@ struct NonLinearTransformation8 {
 struct NonLinearTransformation9 {
 
   const float *w;
-  ActivationFunctionGPUCpp *activation;
+  ActivationFunctionCpp *activation;
 
-  NonLinearTransformation9(const float* _w, ActivationFunctionGPUCpp *_activation) : w(_w), activation(_activation) {}
+  NonLinearTransformation9(const float* _w, ActivationFunctionCpp *_activation) : w(_w), activation(_activation) {}
 
   template <typename Tuple>
   __device__
@@ -170,7 +170,7 @@ struct NonLinearTransformation9 {
 
 
 
-void NonLinearTransformation(const float *W, std::vector<NeuralNetworkNodeGPUCpp*> &hidden_nodes_fed_into_me_ptr, thrust::device_vector<float> &output, ActivationFunctionGPUCpp *activation) {
+void NonLinearTransformation(const float *W, std::vector<NeuralNetworkNodeCpp*> &hidden_nodes_fed_into_me_ptr, thrust::device_vector<float> &output, ActivationFunctionCpp *activation) {
 
   switch(hidden_nodes_fed_into_me_ptr.size()) {
 

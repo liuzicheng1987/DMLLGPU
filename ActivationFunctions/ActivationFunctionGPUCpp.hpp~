@@ -1,4 +1,4 @@
-class ActivationFunctionGPUCpp: public NeuralNetworkNodeGPUCpp {
+class ActivationFunctionCpp: public NeuralNetworkNodeCpp {
 
 private:
 
@@ -8,7 +8,7 @@ private:
   
 public:
 
-  ActivationFunctionGPUCpp(
+  ActivationFunctionCpp(
 			   std::int32_t    _node_number,
 			   std::int32_t    _dim,
 			   std::int32_t   *_input_nodes_fed_into_me_dense,
@@ -22,7 +22,7 @@ public:
 			   RegulariserCpp *_regulariser			   
 			   );
 
-  ~ActivationFunctionGPUCpp();
+  ~ActivationFunctionCpp();
 
   //Used to get the number of weights required
   //(very important to finalise the neural network)

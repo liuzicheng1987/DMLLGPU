@@ -1,5 +1,5 @@
 //Calculates the number of batches needed
-std::int32_t NeuralNetworkGPUCpp::calc_num_batches (/*MPI_Comm _comm, */std::int32_t _num_samples, std::int32_t _global_batch_size) {
+std::int32_t NeuralNetworkCpp::calc_num_batches (/*MPI_Comm _comm, */std::int32_t _num_samples, std::int32_t _global_batch_size) {
 	
   std::int32_t GlobalI;
 	
@@ -19,7 +19,7 @@ std::int32_t NeuralNetworkGPUCpp::calc_num_batches (/*MPI_Comm _comm, */std::int
 				
 }
 
-void NeuralNetworkGPUCpp::dfdw(/*MPI_Comm comm,*/float *_dLdw, const float *_W, const std::int32_t _batch_begin, const std::int32_t _batch_end, const std::int32_t _batch_size, const std::int32_t _batch_num, const std::int32_t _epoch_num) {
+void NeuralNetworkCpp::dfdw(/*MPI_Comm comm,*/float *_dLdw, const float *_W, const std::int32_t _batch_begin, const std::int32_t _batch_end, const std::int32_t _batch_size, const std::int32_t _batch_num, const std::int32_t _epoch_num) {
 
   //Set pointers contained in the NeuralNetworkNodes class
   for (std::size_t n=0; n<this->nodes.size(); ++n) this->nodes[n]->W = _W + this->cumulative_num_weights_required[n];
@@ -56,7 +56,7 @@ void NeuralNetworkGPUCpp::dfdw(/*MPI_Comm comm,*/float *_dLdw, const float *_W, 
 
 }
 
-void NeuralNetworkGPUCpp::fit (/*MPI_Comm comm,*/ OptimiserCpp *_optimiser, std::int32_t _global_batch_size, const float _tol, const std::int32_t _max_num_epochs, const std::int32_t _MinibatchSizeStandard, const bool _sample) {
+void NeuralNetworkCpp::fit (/*MPI_Comm comm,*/ OptimiserCpp *_optimiser, std::int32_t _global_batch_size, const float _tol, const std::int32_t _max_num_epochs, const std::int32_t _MinibatchSizeStandard, const bool _sample) {
 
   //Make sure that neural network has been finalised!
   if (!this->finalised) throw std::invalid_argument("Neural network has not been finalised!");
@@ -130,7 +130,7 @@ void NeuralNetworkGPUCpp::fit (/*MPI_Comm comm,*/ OptimiserCpp *_optimiser, std:
   //Destroy cuBLAS handle
   cublasDestroy(this->handle);
 			
-  //Clear data. so it does not unnecessarily take up space on the GPU
+  //Clear data. so it does not unnecessarily take up space on the 
   this->delete_data();
 
 }

@@ -3,7 +3,7 @@
 
 %apply (int* IN_ARRAY1, int DIM1) {(std::int32_t *_hidden_nodes_fed_into_me, std::int32_t _hidden_nodes_fed_into_me_length)};
 
-class DropoutCpp: public NeuralNetworkNodeGPUCpp {
+class DropoutCpp: public NeuralNetworkNodeCpp {
 
 public:
 
@@ -23,7 +23,7 @@ public:
 
 %apply (int* IN_ARRAY1, int DIM1) {(std::int32_t *_hidden_nodes_fed_into_me, std::int32_t _hidden_nodes_fed_into_me_length)};
 
-class NodeSamplerCpp: public NeuralNetworkNodeGPUCpp {
+class NodeSamplerCpp: public NeuralNetworkNodeCpp {
 
 public:
 

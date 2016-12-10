@@ -1,4 +1,4 @@
-import DMLLGPU
+import discovery
 import numpy as np
 import scipy.stats
 import scipy.sparse
@@ -49,13 +49,13 @@ Ysparse_test = Ysparse[ix == False]
 #-------------------------------------------
 #Set up neural network
 
-nn = DMLLGPU.NeuralNetwork(
+nn = discovery.NeuralNetwork(
     num_input_nodes_dense=[2],
     num_output_nodes_dense=1
 )
 
 nn.init_hidden_node(
-    DMLLGPU.ActivationFunction(
+    discovery.ActivationFunction(
         node_number=0, 
         dim=25, 
         activation="logistic", 
@@ -64,7 +64,7 @@ nn.init_hidden_node(
 )
 
 nn.init_hidden_node(
-    DMLLGPU.ActivationFunction(
+    discovery.ActivationFunction(
         node_number=1, 
         dim=25, 
         activation="logistic", 
@@ -73,7 +73,7 @@ nn.init_hidden_node(
 )
 
 nn.init_hidden_node(
-    DMLLGPU.ActivationFunction(
+    discovery.ActivationFunction(
         node_number=2, 
         dim=25, 
         activation="logistic", 
@@ -82,7 +82,7 @@ nn.init_hidden_node(
 )
 
 nn.init_hidden_node(
-    DMLLGPU.ActivationFunction(
+    discovery.ActivationFunction(
         node_number=3, 
         dim=25, 
         activation="logistic", 
@@ -91,7 +91,7 @@ nn.init_hidden_node(
 )
 
 nn.init_hidden_node(
-    DMLLGPU.LogicalGate(
+    discovery.LogicalGate(
         node_number=4, 
         dim=25, 
         activation="XOR", 
@@ -100,7 +100,7 @@ nn.init_hidden_node(
 )
 
 nn.init_output_node(
-    DMLLGPU.ActivationFunction(
+    discovery.ActivationFunction(
         node_number=5, 
         dim=1, 
         activation="logistic", 
@@ -116,7 +116,7 @@ nn.finalise()
 nn.fit(
     Xdense=[X_train], 
     Ydense=[Y_train], 
-    optimiser=DMLLGPU.AdaGrad(0.5), 
+    optimiser=discovery.AdaGrad(0.5), 
     tol=0.0, 
     global_batch_size=2000, 
     max_num_epochs=2000

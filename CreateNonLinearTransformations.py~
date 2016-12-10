@@ -40,7 +40,7 @@ for i in range(10):
 
 NonLinearTransformation = """
 
-void NonLinearTransformation(const float *W, std::vector<NeuralNetworkNodeGPUCpp*> &hidden_nodes_fed_into_me_ptr, thrust::device_vector<float> &output, Activation activation) {
+void NonLinearTransformation(const float *W, std::vector<NeuralNetworkNodeCpp*> &hidden_nodes_fed_into_me_ptr, thrust::device_vector<float> &output, Activation activation) {
 
   switch((int)(hidden_nodes_fed_into_me_ptr.size())) {
   

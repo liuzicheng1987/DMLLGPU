@@ -1,15 +1,15 @@
-import DMLLGPU
+import discovery
 import numpy as np
 
-nn = DMLLGPU.NeuralNetwork(num_input_nodes_dense=[5], num_output_nodes_dense=1)
+nn = discovery.NeuralNetwork(num_input_nodes_dense=[5], num_output_nodes_dense=1)
 
-nn.init_hidden_node(DMLLGPU.ActivationFunction(0, "linear", input_dense=[0]))
-nn.init_hidden_node(DMLLGPU.ActivationFunction(1, "linear", hidden=[0]))
-nn.init_hidden_node(DMLLGPU.ActivationFunction(2, "linear", hidden=[1]))
-nn.init_hidden_node(DMLLGPU.ActivationFunction(3, "linear", hidden=[2]))
-nn.init_hidden_node(DMLLGPU.ActivationFunction(4, "linear", hidden=[3]))
+nn.init_hidden_node(discovery.ActivationFunction(0, "linear", input_dense=[0]))
+nn.init_hidden_node(discovery.ActivationFunction(1, "linear", hidden=[0]))
+nn.init_hidden_node(discovery.ActivationFunction(2, "linear", hidden=[1]))
+nn.init_hidden_node(discovery.ActivationFunction(3, "linear", hidden=[2]))
+nn.init_hidden_node(discovery.ActivationFunction(4, "linear", hidden=[3]))
 
-nn.init_output_node(DMLLGPU.ActivationFunction(5, "linear", hidden=[4]))
+nn.init_output_node(discovery.ActivationFunction(5, "linear", hidden=[4]))
 
 nn.finalise()
 

@@ -497,7 +497,7 @@ struct SumCustomTuple9 {
 
 
 
-void calc_dev_hidden(float *dLdw, NeuralNetworkNodeGPUCpp **hidden_nodes_fed_into_me_ptr, std::size_t hidden_nodes_fed_into_me_ptrSize, thrust::device_vector<float> &delta) {
+void calc_dev_hidden(float *dLdw, NeuralNetworkNodeCpp **hidden_nodes_fed_into_me_ptr, std::size_t hidden_nodes_fed_into_me_ptrSize, thrust::device_vector<float> &delta) {
 
   switch(hidden_nodes_fed_into_me_ptrSize) {
 

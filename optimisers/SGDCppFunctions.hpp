@@ -1,5 +1,5 @@
 void SGDCpp::min(/*MPI_Comm comm,*/
-		 NeuralNetworkGPUCpp          *_neural_net, 
+		 NeuralNetworkCpp          *_neural_net, 
 		 thrust::device_vector<float> &_W, 
 		 const float                   _tol, 
 		 const std::int32_t            _max_num_epochs, 

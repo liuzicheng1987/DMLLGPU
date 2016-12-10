@@ -4,7 +4,7 @@ NodeSamplerCpp::NodeSamplerCpp(
 		       std::int32_t    _num_kernels,
 		       std::int32_t   *_hidden_nodes_fed_into_me, 
 		       std::int32_t    _hidden_nodes_fed_into_me_length 
-		       ): NeuralNetworkNodeGPUCpp (
+		       ): NeuralNetworkNodeCpp (
 						   _node_number,
 						   0,
 						   nullptr, 
@@ -66,7 +66,7 @@ void NodeSamplerCpp::calc_output(
 			     ) {
   
   //Resize output and delta, if necessary
-  //Output is stored in the NeuralNetworkNodeGPUCpp base class and stores the output of this node
+  //Output is stored in the NeuralNetworkNodeCpp base class and stores the output of this node
   if (static_cast<std::int32_t>(this->output.size()) != this->dim_*_batch_size) {
     
     //Resize output

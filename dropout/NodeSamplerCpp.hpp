@@ -1,4 +1,4 @@
-class NodeSamplerCpp: public NeuralNetworkNodeGPUCpp {
+class NodeSamplerCpp: public NeuralNetworkNodeCpp {
 
 private:
 

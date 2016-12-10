@@ -1,7 +1,7 @@
 import os
 
-os.chdir("/home/patrick/Dropbox/Programs/NeuralNetworkGPU/")
-flist = os.listdir("/home/patrick/Dropbox/Programs/NeuralNetworkGPU/")
+os.chdir("/home/patrick/Dropbox/Programs/NeuralNetwork/")
+flist = os.listdir("/home/patrick/Dropbox/Programs/NeuralNetwork/")
 
 for f in flist:
     text = open(f, "rb").read()

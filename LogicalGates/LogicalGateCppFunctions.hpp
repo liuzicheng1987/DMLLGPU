@@ -3,7 +3,7 @@ LogicalGateCpp::LogicalGateCpp (
 				std::int32_t  _dim,
 				std::int32_t *_hidden_nodes_fed_into_me, 
 				std::int32_t  _hidden_nodes_fed_into_me_length
-				): NeuralNetworkNodeGPUCpp (
+				): NeuralNetworkNodeCpp (
 							    _node_number,
 							    _dim,
 							    nullptr, 
@@ -40,7 +40,7 @@ std::int32_t LogicalGateCpp::get_num_weights_required() {
       std::any_of(
 		  this->hidden_nodes_fed_into_me_ptr.begin(), 
 		  this->hidden_nodes_fed_into_me_ptr.end(), 
-		  [this](NeuralNetworkNodeGPUCpp* node) {
+		  [this](NeuralNetworkNodeCpp* node) {
 		    return node->get_dim() != this->dim_;
 		  }
 		  )
@@ -57,7 +57,7 @@ void LogicalGateCpp::calc_output(
 				 ) {
 
   //Resize output and delta, if necessary
-  //Output is stored in the NeuralNetworkNodeGPUCpp base class and stores the output of this node
+  //Output is stored in the NeuralNetworkNodeCpp base class and stores the output of this node
   if (static_cast<std::int32_t>(this->output.size()) < this->dim_*_batch_size) {
     
     //Resize output

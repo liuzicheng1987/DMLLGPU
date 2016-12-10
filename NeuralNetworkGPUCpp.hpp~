@@ -1,4 +1,4 @@
-class NeuralNetworkNodeGPUCpp;
+class NeuralNetworkNodeCpp;
 class OptimiserCpp;
 //class DropoutCpp;
 //class BayesianDropoutCpp;
@@ -31,16 +31,16 @@ struct CSRMatrix {
 
 };
 
-class NeuralNetworkGPUCpp {
+class NeuralNetworkCpp {
 
-  friend class NeuralNetworkNodeGPUCpp;
+  friend class NeuralNetworkNodeCpp;
   //friend class DropoutCpp;
   //friend class BayesianDropoutCpp;
   
 private:
 	
-  std::vector<NeuralNetworkNodeGPUCpp*> nodes;//Vector containing pointers to the neural network nodes
-  NeuralNetworkNodeGPUCpp** output_nodes; //Raw pointer to the output nodes (which are also contained in nodes)
+  std::vector<NeuralNetworkNodeCpp*> nodes;//Vector containing pointers to the neural network nodes
+  NeuralNetworkNodeCpp** output_nodes; //Raw pointer to the output nodes (which are also contained in nodes)
   thrust::device_vector<std::int32_t> cumulative_num_weights_required;//Accumulated number of weights required for each neural network node
 
   std::vector<std::vector<DenseMatrix>> dense_input_data;//Dense input data
@@ -82,15 +82,15 @@ private:
 		
 public:
 	
-  NeuralNetworkGPUCpp (std::int32_t *_num_input_nodes_dense, std::int32_t _num_input_nodes_dense_length, std::int32_t *_num_input_nodes_sparse, std::int32_t _num_input_nodes_sparse_length, std::int32_t _num_output_nodes_dense, std::int32_t _num_output_nodes_sparse, LossFunctionCpp *_loss/*, _RegulariserCpp *_regulariser*/);
+  NeuralNetworkCpp (std::int32_t *_num_input_nodes_dense, std::int32_t _num_input_nodes_dense_length, std::int32_t *_num_input_nodes_sparse, std::int32_t _num_input_nodes_sparse_length, std::int32_t _num_output_nodes_dense, std::int32_t _num_output_nodes_sparse, LossFunctionCpp *_loss/*, _RegulariserCpp *_regulariser*/);
 	
-  ~NeuralNetworkGPUCpp();
+  ~NeuralNetworkCpp();
 
   //Functions are ordered by order in which they would be executed (roughly)
 	
-  void init_hidden_node(NeuralNetworkNodeGPUCpp *_hidden_node);//Initialise an input node
+  void init_hidden_node(NeuralNetworkNodeCpp *_hidden_node);//Initialise an input node
 	
-  void init_output_node(NeuralNetworkNodeGPUCpp *_output_node);//Initialise an output node
+  void init_output_node(NeuralNetworkNodeCpp *_output_node);//Initialise an output node
 
   void finalise(/*MPI_Comm comm, std::int32_t rank, std::int32_t size,*/ float _weight_init_range);//This has nothing to do with "finalize" in dimava. num_samplest simply calculates a number of parameters in the neural net 
 
@@ -116,15 +116,15 @@ public:
 
   void load_dense(std::vector<DenseMatrix> &data, float *_X, std::int32_t _num_samples, std::int32_t _dim, std::int32_t _num_batches);//load_dense_data and load_dense_targets are actually wrappers, which simply call this method
 		
-  void load_dense_data(std::int32_t _num_input_node, float *_X, std::int32_t _num_samples, std::int32_t _dim, std::int32_t _global_batch_size);//This functions loads the provided dataset into the GPU
+  void load_dense_data(std::int32_t _num_input_node, float *_X, std::int32_t _num_samples, std::int32_t _dim, std::int32_t _global_batch_size);//This functions loads the provided dataset into the 
 
-  void load_dense_targets(std::int32_t num_output_node, float *_Y, std::int32_t _num_samples, std::int32_t _dim, std::int32_t _global_batch_size);//This functions loads the provided targets into the GPU
+  void load_dense_targets(std::int32_t num_output_node, float *_Y, std::int32_t _num_samples, std::int32_t _dim, std::int32_t _global_batch_size);//This functions loads the provided targets into the 
 
   void load_sparse(std::vector<CSRMatrix> &data, float *_X_data, std::int32_t _X_data_length,  std::int32_t *_X_indices, std::int32_t _X_indices_length, std::int32_t *_X_indptr, std::int32_t _X_indptr_length, std::int32_t _num_samples, std::int32_t _dim, std::int32_t _num_batches);//load_sparse_data and load_sparse_targets are actually wrappers, which simply call this method
 
-  void load_sparse_data(std::int32_t _num_input_node, float *_X_data, std::int32_t _X_data_length,  std::int32_t *_X_indices, std::int32_t _X_indices_length, std::int32_t *_X_indptr, std::int32_t _X_indptr_length, std::int32_t _num_samples, std::int32_t _dim, std::int32_t _global_batch_size);//This functions loads the provided dataset into the GPU
+  void load_sparse_data(std::int32_t _num_input_node, float *_X_data, std::int32_t _X_data_length,  std::int32_t *_X_indices, std::int32_t _X_indices_length, std::int32_t *_X_indptr, std::int32_t _X_indptr_length, std::int32_t _num_samples, std::int32_t _dim, std::int32_t _global_batch_size);//This functions loads the provided dataset into the 
 
-  void load_sparse_targets(std::int32_t _num_output_node, float *_Y_data, std::int32_t _Y_data_length,  std::int32_t *_Y_indices, std::int32_t _Y_indices_length, std::int32_t *_Y_indptr, std::int32_t _Y_indptr_length, std::int32_t _num_samples, std::int32_t _dim, std::int32_t _global_batch_size);//This functions loads the provided targets into the GPU
+  void load_sparse_targets(std::int32_t _num_output_node, float *_Y_data, std::int32_t _Y_data_length,  std::int32_t *_Y_indices, std::int32_t _Y_indices_length, std::int32_t *_Y_indptr, std::int32_t _Y_indptr_length, std::int32_t _num_samples, std::int32_t _dim, std::int32_t _global_batch_size);//This functions loads the provided targets into the 
 
   void fit (/*MPI_Comm comm,*/ OptimiserCpp *_optimiser, std::int32_t _global_batch_size, const float _tol, const std::int32_t _max_num_epochs, const std::int32_t _MinibatchSizeStandard, const bool _sample);//The purpose of this function is to fit the neural network
 
@@ -132,7 +132,7 @@ public:
 
   void transform(float *_Yhat, std::int32_t _Y2_num_samples, std::int32_t _Y2_dim, bool _sample, std::int32_t _sample_size, bool _Gethidden_nodes);//The purpose of this function is to generate a prediction through the fitted network
   
-  void delete_data();//The purpose of this function is to delete the input data used for fitting or transforming after it is no longer needed, so it doesn't take up space on the GPU
+  void delete_data();//The purpose of this function is to delete the input data used for fitting or transforming after it is no longer needed, so it doesn't take up space on the 
 
   //A bunch of getters and setters
   cublasHandle_t& get_dense_handle() {return this->handle;};

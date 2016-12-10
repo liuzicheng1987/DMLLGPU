@@ -3,7 +3,7 @@
 
 %apply (int* IN_ARRAY1, int DIM1) {(std::int32_t *_hidden_nodes_fed_into_me, std::int32_t _hidden_nodes_fed_into_me_length)};
 
-class LogicalGateCpp: public NeuralNetworkNodeGPUCpp {
+class LogicalGateCpp: public NeuralNetworkNodeCpp {
 
 public:
 

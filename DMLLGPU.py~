@@ -1,7 +1,7 @@
 import numpy as np
 import warnings
 from datetime import datetime
-import DMLLGPUCpp
+import discoveryCpp
 
 #Optimisers
 
@@ -11,14 +11,14 @@ class SGD:
         learning_rate: Learning rate of the optimisation problem
         learning_rate_power: Speed by which learning rate decreases
         """
-        self.thisptr = DMLLGPUCpp.SGDCpp(learning_rate, learning_rate_power)
+        self.thisptr = discoveryCpp.SGDCpp(learning_rate, learning_rate_power)
     
 
 #Loss functions
 
 class SquareLoss:
     def __init__(self):
-        self.thisptr = DMLLGPUCpp.SquareLossCpp()
+        self.thisptr = discoveryCpp.SquareLossCpp()
 
 #Regularisers
 
@@ -38,10 +38,10 @@ class ActivationFunction:
         self.node_number = node_number
         
         if  activation == "logistic":
-            self.thisptr = DMLLGPUCpp.LogisticActivationFunctionGPUCpp(self.node_number, np.asarray(input_dense).astype(np.int32), np.asarray(input_sparse).astype(np.int32), np.asarray(hidden).astype(np.int32), i_share_weights_with, no_weight_updates)
+            self.thisptr = discoveryCpp.LogisticActivationFunctionCpp(self.node_number, np.asarray(input_dense).astype(np.int32), np.asarray(input_sparse).astype(np.int32), np.asarray(hidden).astype(np.int32), i_share_weights_with, no_weight_updates)
             
         elif activation == "linear":
-            self.thisptr = DMLLGPUCpp.LinearActivationFunctionGPUCpp(self.node_number, np.asarray(input_dense).astype(np.int32), np.asarray(input_sparse).astype(np.int32), np.asarray(hidden).astype(np.int32), i_share_weights_with, no_weight_updates)
+            self.thisptr = discoveryCpp.LinearActivationFunctionCpp(self.node_number, np.asarray(input_dense).astype(np.int32), np.asarray(input_sparse).astype(np.int32), np.asarray(hidden).astype(np.int32), i_share_weights_with, no_weight_updates)
 
 #Neural network
 
@@ -71,12 +71,12 @@ class NeuralNetwork:
         self.nodes = []
         for i in range(self.num_output_nodes_dense + self.num_output_nodes_sparse + self.num_hidden_nodes):
             self.nodes += [None]
-        self.thisptr = DMLLGPUCpp.NeuralNetworkGPUCpp(num_input_nodes_dense, num_input_nodes_sparse, num_output_nodes_dense, num_output_nodes_sparse, self.loss.thisptr)#, self.regulariser.thisptr)
+        self.thisptr = discoveryCpp.NeuralNetworkCpp(num_input_nodes_dense, num_input_nodes_sparse, num_output_nodes_dense, num_output_nodes_sparse, self.loss.thisptr)#, self.regulariser.thisptr)
         
     def init_hidden_node(self, hidden_node, name=""):
         """
         num_samplesnitialise hidden node in the neural network.
-        hidden_node: DMLL.NeuralNetworkNode object
+        hidden_node: discovery.NeuralNetworkNode object
         name: Name of the node (optional)
         """
         
@@ -101,7 +101,7 @@ class NeuralNetwork:
     def init_output_node(self, output_node, name=""):
         """
         num_samplesnitialise output node in the neural network.
-        output_node: DMLL.NeuralNetworkNode object
+        output_node: discovery.NeuralNetworkNode object
         name: Name of the node (optional)
         """
                 
@@ -182,25 +182,25 @@ class NeuralNetwork:
         
         StartTiming = datetime.now()
         
-        #Load Xdense into GPU
+        #Load Xdense into 
         for i, X in enumerate(Xdense): 
             self.thisptr.load_dense_data(i, X, global_batch_size)        
 
-        #Load Xsparse into GPU
+        #Load Xsparse into 
         for i, X in enumerate(Xsparse): 
             self.thisptr.load_sparse_data(i, X.data, X.indices, X.indptr, X.shape[0], X.shape[1], global_batch_size)                 
         
-        #Load Ydense into GPU
+        #Load Ydense into 
         for i, Y in enumerate(Ydense): 
             self.thisptr.load_dense_targets(i, Y, global_batch_size)        
         
-        #Load Ysparse into GPU
+        #Load Ysparse into 
         for i, Y in enumerate(Ysparse): 
             self.thisptr.load_sparse_targets(i, Y.data, Y.indices, Y.indptr, Y.shape[0], Y.shape[1], global_batch_size)
         
         StopTiming = datetime.now()
         TimeElapsed = StopTiming - StartTiming		
-        print "Neural network loaded data into GPU."
+        print "Neural network loaded data into ."
         print "Time taken: %.2dh:%.2dm:%.2d.%.6ds" % (TimeElapsed.seconds//3600, (TimeElapsed.seconds//60)%60, TimeElapsed.seconds%60, TimeElapsed.microseconds)	
         print				                   
         
@@ -232,11 +232,11 @@ class NeuralNetwork:
         if len(Xsparse) != self.num_input_nodes_sparse_length:
             warnings.warn("Number of matrices in Xsparse must be identical to length of num_input_nodes_sparse. Expected " + str(self.num_input_nodes_sparse_length) + ", got " + str(len(Xsparse)) + ".")
         
-        #Load dense data into GPU
+        #Load dense data into 
         for i, X in enumerate(Xdense): 
             self.thisptr.load_dense_data(i, X, global_batch_size)        
 
-        #Load sparse data into GPU
+        #Load sparse data into 
         for i, X in enumerate(Xsparse): 
             self.thisptr.load_dense_data(i, X.data, X.indices, X.indptr, X.shape[0], X.shape[1], global_batch_size)     
         
