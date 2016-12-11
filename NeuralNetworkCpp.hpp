@@ -2,48 +2,6 @@ class NeuralNetworkNodeCpp;
 class OptimiserCpp;
 class LossFunctionCpp;
 
-//Because the neural network can consist of a number of input matrices, both dense and sparse, we keep them in a vector of structs
-struct DenseMatrix {
-
-  std::int32_t batch_size;//Number of samples
-  std::int32_t dim;//Number of dimensions
-
-  thrust::device_vector<float> X;//Vector containing data
-
-  float *X_ptr;//Pointer to data contained in X, for convenience and readability
-  
-};
-
-struct COOVector {
-
-  std::int32_t batch_size;//Number of samples
-  std::int32_t dim;//Number of dimensions
-  std::int32_t num_non_zero;//Number of non-zero elements in matrix
-
-  thrust::device_vector<float> X_data;//Data vector
-  thrust::device_vector<std::int32_t> X_indices;//column indices
-
-  float *X_data_ptr;//Pointer to data contained in X_data
-  std::int32_t *X_indices_ptr;//Pointer to data contained in X_indices
- 
-};
-
-struct CSRMatrix {
-
-  std::int32_t batch_size;//Number of samples
-  std::int32_t dim;//Number of dimensions
-  std::int32_t num_non_zero;//Number of non-zero elements in matrix
-
-  thrust::device_vector<float> X_data;//Data vector 
-  thrust::device_vector<std::int32_t> X_indices;//indices for data 
-  thrust::device_vector<std::int32_t> X_indptr;//indptr for data 
-
-  float *X_data_ptr;//Pointer to data contained in X_data, for convenience and readability
-  std::int32_t *X_indices_ptr;//Pointer to data contained in X_indices, for convenience and readability
-  std::int32_t *X_indptr_ptr;//Pointer to data contained in X_indptr, for convenience and readability
-
-};
-
 class NeuralNetworkCpp {
 
   friend class NeuralNetworkNodeCpp;
@@ -59,11 +17,11 @@ private:
 
   std::vector<std::int32_t> cumulative_num_weights_required_;//Accumulated number of weights required for each neural network node
 
-  std::vector<std::vector<DenseMatrix>> dense_input_data;//Dense input data
-  std::vector<std::vector<CSRMatrix>> sparse_input_data;//Sparse input data
+  std::vector<std::vector<matrix::DenseMatrix>> dense_input_data;//Dense input data
+  std::vector<std::vector<matrix::CSRMatrix>> sparse_input_data;//Sparse input data
 
-  std::vector<std::vector<DenseMatrix>> dense_targets;//Dense target data
-  std::vector<std::vector<COOVector>> sparse_targets;//Sparse target data
+  std::vector<std::vector<matrix::DenseMatrix>> dense_targets;//Dense target data
+  std::vector<std::vector<matrix::COOVector>> sparse_targets;//Sparse target data
 
   std::vector<std::int32_t> dense_input_data_dim;//Number of dimensions in dense input data
   std::vector<std::int32_t> sparse_input_data_dim;//Number of dimensions in sparse input data
@@ -179,12 +137,12 @@ public:
   
   //load_dense_data and load_dense_targets are actually wrappers, which simply call this method
   void load_dense(
-		  std::vector<DenseMatrix> &data, 
-		  float                    *_X, 
-		  std::int32_t              _num_samples, 
-		  std::int32_t              _dim, 
-		  std::int32_t              _num_batches,
-		  bool                      _transpose
+		  std::vector<matrix::DenseMatrix> &data, 
+		  float                            *_X, 
+		  std::int32_t                      _num_samples, 
+		  std::int32_t                      _dim, 
+		  std::int32_t                      _num_batches,
+		  bool                              _transpose
 		  );
   
   //This functions loads the provided dataset into the 
@@ -207,30 +165,30 @@ public:
   
   //load_sparse_data is a wrapper, which simply calls this method
   void load_csr(
-		   std::vector<CSRMatrix> &_data, 
-		   float                  *_X_data, 
-		   std::int32_t            _X_data_length, 
-		   std::int32_t           *_X_indices,
-		   std::int32_t            _X_indices_length,
-		   std::int32_t           *_X_indptr, 
-		   std::int32_t            _X_indptr_length, 
-		   std::int32_t            _num_samples,
-		   std::int32_t            _dim, 
-		   std::int32_t            _num_batches
+		   std::vector<matrix::CSRMatrix> &_data, 
+		   float                          *_X_data, 
+		   std::int32_t                    _X_data_length, 
+		   std::int32_t                   *_X_indices,
+		   std::int32_t                    _X_indices_length,
+		   std::int32_t                   *_X_indptr, 
+		   std::int32_t                    _X_indptr_length, 
+		   std::int32_t                    _num_samples,
+		   std::int32_t                    _dim, 
+		   std::int32_t                    _num_batches
 		   );
 
   //load_sparse_targets is a wrapper, which simply calls this method
   void load_coo(
-		   std::vector<COOVector> &_data, 
-		   float                  *_X_data, 
-		   std::int32_t            _X_data_length, 
-		   std::int32_t           *_X_indices,
-		   std::int32_t            _X_indices_length,
-		   std::int32_t           *_X_indptr, 
-		   std::int32_t            _X_indptr_length, 
-		   std::int32_t            _num_samples,
-		   std::int32_t            _dim, 
-		   std::int32_t            _num_batches
+		   std::vector<matrix::COOVector> &_data, 
+		   float                          *_X_data, 
+		   std::int32_t                    _X_data_length, 
+		   std::int32_t                   *_X_indices,
+		   std::int32_t                    _X_indices_length,
+		   std::int32_t                   *_X_indptr, 
+		   std::int32_t                    _X_indptr_length, 
+		   std::int32_t                    _num_samples,
+		   std::int32_t                    _dim, 
+		   std::int32_t                    _num_batches
 		   );
   
   //This functions loads the provided sparse data into the 
@@ -273,8 +231,8 @@ public:
 
   //The purpose of this function is to calculate the gradient of the weights
   void dfdw(/*MPI_Comm comm,*/
-	    float *_dLdw, 
-	    const float *_W, 
+	    float             *_dLdw, 
+	    const float       *_W, 
 	    const std::int32_t _batch_begin, 
 	    const std::int32_t _batch_end, 
 	    const std::int32_t _batch_size, 
@@ -313,10 +271,10 @@ public:
   };
 
   //The nodes need to be able to access the private input data.
-  DenseMatrix& get_dense_input_data(
-					 std::int32_t i, 
-					 std::int32_t _batch_num
-					 ) {
+  matrix::DenseMatrix& get_dense_input_data(
+					    std::int32_t i, 
+					    std::int32_t _batch_num
+					    ) {
     return this->dense_input_data[i][_batch_num];
   };
 
@@ -331,7 +289,7 @@ public:
   };
 
   //The nodes need to be able to access the private input data.
-  CSRMatrix& get_sparse_input_data(
+  matrix::CSRMatrix& get_sparse_input_data(
 					   std::int32_t i, 
 					   std::int32_t _batch_num
 					   ) {

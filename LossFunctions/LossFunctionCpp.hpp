@@ -13,17 +13,17 @@ public:
   virtual ~LossFunctionCpp() {}
 			
   virtual void dloss_dyhat_dense (
-				  DenseMatrix                  &_target, 
-				  thrust::device_vector<float> &_output,
-				  float                        *_output_ptr,
-				  thrust::device_vector<float> &_dlossdoutput
+				  matrix::DenseMatrix                  &_target, 
+				  thrust::device_vector<float>         &_output,
+				  float                                *_output_ptr,
+				  thrust::device_vector<float>         &_dlossdoutput
 				  ) {};
     						
   virtual void dloss_dyhat_sparse (
-				   COOVector                    &_target,
-				   thrust::device_vector<float> &_output,
-				   float                        *_output_ptr,
-				   thrust::device_vector<float> &_dlossdoutput			  
+				   matrix::COOVector                    &_target,
+				   thrust::device_vector<float>         &_output,
+				   float                                *_output_ptr,
+				   thrust::device_vector<float>         &_dlossdoutput			  
 				   ) {};
 
   void set_neural_net(NeuralNetworkCpp *_NeuralNet) {

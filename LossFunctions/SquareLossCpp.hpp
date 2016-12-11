@@ -10,7 +10,7 @@ public:
   ~SquareLossCpp() {}
 			
   void dloss_dyhat_dense (
-			  DenseMatrix                  &_target, 
+			  matrix::DenseMatrix          &_target, 
 			  thrust::device_vector<float> &_output,
 			  float                        *_output_ptr,
 			  thrust::device_vector<float> &_dlossdoutput
@@ -27,7 +27,7 @@ public:
   }
 
   void dloss_dyhat_sparse (
-			   COOVector                    &_target,
+			   matrix::COOVector            &_target,
 			   thrust::device_vector<float> &_output,
 			   float                        *_output_ptr,
 			   thrust::device_vector<float> &_dlossdoutput

@@ -1,12 +1,12 @@
 NeuralNetworkCpp::NeuralNetworkCpp(
-					 std::int32_t    *_num_input_nodes_dense, 
-					 std::int32_t     _num_input_nodes_dense_length, 
-					 std::int32_t    *_num_input_nodes_sparse, 
-					 std::int32_t     _num_input_nodes_sparse_length, 
-					 std::int32_t     _num_output_nodes_dense, 
-					 std::int32_t     _num_output_nodes_sparse, 
-					 LossFunctionCpp *_loss
-					 ) {
+				   std::int32_t    *_num_input_nodes_dense, 
+				   std::int32_t     _num_input_nodes_dense_length, 
+				   std::int32_t    *_num_input_nodes_sparse, 
+				   std::int32_t     _num_input_nodes_sparse_length, 
+				   std::int32_t     _num_output_nodes_dense, 
+				   std::int32_t     _num_output_nodes_sparse, 
+				   LossFunctionCpp *_loss
+				   ) {
 
   //Make that the input is reasonable
   if (_num_input_nodes_dense_length + _num_input_nodes_sparse_length <= 0) 
@@ -39,10 +39,10 @@ NeuralNetworkCpp::NeuralNetworkCpp(
   this->num_output_nodes = _num_output_nodes_dense + _num_output_nodes_sparse;
 
   //Set up input data and target data
-  this->dense_input_data = std::vector<std::vector<DenseMatrix>>(_num_input_nodes_dense_length);
-  this->sparse_input_data = std::vector<std::vector<CSRMatrix>>(_num_input_nodes_sparse_length);
-  this->dense_targets = std::vector<std::vector<DenseMatrix>>(_num_output_nodes_dense);
-  this->sparse_targets = std::vector<std::vector<COOVector>>(_num_output_nodes_sparse);
+  this->dense_input_data = std::vector<std::vector<matrix::DenseMatrix>>(_num_input_nodes_dense_length);
+  this->sparse_input_data = std::vector<std::vector<matrix::CSRMatrix>>(_num_input_nodes_sparse_length);
+  this->dense_targets = std::vector<std::vector<matrix::DenseMatrix>>(_num_output_nodes_dense);
+  this->sparse_targets = std::vector<std::vector<matrix::COOVector>>(_num_output_nodes_sparse);
 
   this->dense_input_data_dim = std::vector<std::int32_t>(_num_input_nodes_dense_length);
   this->sparse_input_data_dim = std::vector<std::int32_t>(_num_input_nodes_sparse_length);
@@ -388,7 +388,7 @@ void NeuralNetworkCpp::calc_batch_begin_end (
 }
 
 void NeuralNetworkCpp::load_dense(
-				     std::vector<DenseMatrix> &_data,
+				     std::vector<matrix::DenseMatrix> &_data,
 				     float                    *_X,
 				     std::int32_t              _num_samples,
 				     std::int32_t              _dim,
@@ -472,7 +472,7 @@ void NeuralNetworkCpp::load_dense_data(
 					       _global_batch_size
 					       );
 
-  this->dense_input_data[_num_input_node] = std::vector<DenseMatrix>(num_batches);
+  this->dense_input_data[_num_input_node] = std::vector<matrix::DenseMatrix>(num_batches);
   
   this->load_dense(
 		   this->dense_input_data[_num_input_node],
@@ -507,7 +507,7 @@ void NeuralNetworkCpp::load_dense_targets(
 					       );
 
   this->dense_targets[_num_output_node] = 
-    std::vector<DenseMatrix>(num_batches);
+    std::vector<matrix::DenseMatrix>(num_batches);
 
   this->load_dense(
 		   this->dense_targets[_num_output_node],
@@ -521,16 +521,16 @@ void NeuralNetworkCpp::load_dense_targets(
 }
 
 void NeuralNetworkCpp::load_csr(
-				   std::vector<CSRMatrix> &_data,
-				   float                  *_X_data,
-				   std::int32_t            _X_data_length,
-				   std::int32_t           *_X_indices,
-				   std::int32_t            _X_indices_length,
-				   std::int32_t           *_X_indptr,
-				   std::int32_t            _X_indptr_length,
-				   std::int32_t            _num_samples,
-				   std::int32_t            _dim,
-				   std::int32_t            _num_batches
+				   std::vector<matrix::CSRMatrix> &_data,
+				   float                          *_X_data,
+				   std::int32_t                    _X_data_length,
+				   std::int32_t                   *_X_indices,
+				   std::int32_t                    _X_indices_length,
+				   std::int32_t                   *_X_indptr,
+				   std::int32_t                    _X_indptr_length,
+				   std::int32_t                    _num_samples,
+				   std::int32_t                    _dim,
+				   std::int32_t                    _num_batches
 				   ) {
 
   std::int32_t batch_begin, batch_end, batch_size;
@@ -597,7 +597,7 @@ void NeuralNetworkCpp::load_csr(
 
 //This function expects a CSR matrix, but transforms it into a COO vector on the 
 void NeuralNetworkCpp::load_coo(
-				   std::vector<COOVector> &_data,
+				   std::vector<matrix::COOVector> &_data,
 				   float                  *_X_data,
 				   std::int32_t            _X_data_length,
 				   std::int32_t           *_X_indices,
@@ -724,7 +724,7 @@ void NeuralNetworkCpp::load_coo(
       );
 
     this->sparse_input_data[_num_input_node] 
-      = std::vector<CSRMatrix>(num_batches);
+      = std::vector<matrix::CSRMatrix>(num_batches);
 
     this->load_csr(
     this->sparse_input_data[_num_input_node],
@@ -769,7 +769,7 @@ void NeuralNetworkCpp::load_coo(
       _global_batch_size
       );//Calculates the number of batches needed
 
-    this->sparse_targets[_num_output_node] = std::vector<COOVector>(num_batches);
+    this->sparse_targets[_num_output_node] = std::vector<matrix::COOVector>(num_batches);
 
     this->load_coo(
       this->sparse_targets[_num_output_node],

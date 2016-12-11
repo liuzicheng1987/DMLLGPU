@@ -27,6 +27,7 @@
 #include <time.h>
 
 #include "utils.hpp"
+#include "matrix.hpp"
 
 #include "regularisers/RegulariserCpp.hpp"
 #include "regularisers/L2RegulariserCpp.hpp"
