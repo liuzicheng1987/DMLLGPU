@@ -22,13 +22,7 @@ ActivationFunctionCpp::ActivationFunctionCpp(
 									      _i_share_weights_with, 
 									      _no_weight_updates,
 									      _regulariser
-									      ) {
-
-  //We are initialising these two vectors, so we can resize them later, if necessary
-  this->output = thrust::device_vector<float>(1);
-  this->delta = thrust::device_vector<float>(1);
-
-}
+									      ) {}
 
 ActivationFunctionCpp::~ActivationFunctionCpp() {};
 
