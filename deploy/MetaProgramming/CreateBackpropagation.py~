@@ -1,0 +1,81 @@
+import os
+import numpy as np
+os.chdir("/home/patrick/Dropbox/Programs/NeuralNetworkGPU/")
+
+
+ActivationFunctionsList = ["Linear", "Logistic"]
+
+for activation in ActivationFunctionsList:
+    template = """struct $ACTIVATIONBackpropagation$ITPLUS1 {
+
+  const float *w;
+
+  $ACTIVATIONBackpropagation$ITPLUS1(const float* _w) : w(_w) {}
+
+  template <typename Tuple>
+  __device__
+  void operator()(Tuple t) {
+    
+    float d = thrust::get<1>(t)*dLogisticdw(thrust::get<0>(t));
+    
+$LINEARTRANSFORMATION
+    
+  }
+
+};
+
+"""
+    
+    EquationTemplate = """    thrust::get<$ITPLUS2>(t) += d*w[$ITER];\n"""
+    
+    output = ""
+    
+    for i in range(8):
+        equation = ""
+        for j in range(i+1):
+            equation += EquationTemplate.replace("$ITER", str(j)).replace("$ITPLUS2", str(j+2))
+        output += template.replace("$ITER", str(i)).replace("$ITPLUS1", str(i+1)).replace("$LINEARTRANSFORMATION", equation)
+
+    NonLinearTransformation = """
+
+void $ACTIVATION_backpropagation(const float *W, NeuralNetworkNodeGPUCpp **HiddenNodesFedIntoMePtr, std::size_t HiddenNodesFedIntoMePtrSize, thrust::device_vector<float> &output, thrust::device_vector<float> &delta) {
+
+  switch(HiddenNodesFedIntoMePtrSize) {
+
+  case 0:
+    break;
+
+$CASES
+
+  }
+}
+"""
+    
+    cases = ""
+    case = """  case $ITER:
+    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(output.begin(), delta.begin(), $HIDDENBEGIN)),
+		     thrust::make_zip_iterator(thrust::make_tuple(output.end(), delta.end(), $HIDDENEND)),
+		     LogisticBackpropagation$ITER(W));
+    break;
+
+"""
+    
+    begin = "HiddenNodesFedIntoMePtr[$ITER]->get_delta().begin()"
+    end = "HiddenNodesFedIntoMePtr[$ITER]->get_delta().end()"
+        
+    for i in np.arange(1,9):
+        hiddenbegin = "" 
+        hiddenend = ""
+        for j in range(i):
+            if j < i-1:
+                hiddenbegin += begin.replace("$ITER", str(j)) + ", "
+                hiddenend += end.replace("$ITER", str(j)) + ", "
+            else:
+                hiddenbegin += begin.replace("$ITER", str(j))
+                hiddenend += end.replace("$ITER", str(j))
+        cases += case.replace("$ITER", str(i)).replace("$HIDDENBEGIN", hiddenbegin).replace("$HIDDENEND", hiddenend)
+    
+    output += NonLinearTransformation.replace("$CASES", cases)
+    output = output.replace("$ACTIVATION", activation)
+    
+    open(activation + "Backpropagation.hpp", "wb").write(output)
