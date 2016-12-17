@@ -2,7 +2,7 @@ class NeuralNetworkNodeCpp;
 class OptimiserCpp;
 class LossFunctionCpp;
 
-class NeuralNetworkCpp {
+class NeuralNetworkCpp: public NumericallyOptimisedAlgorithmCpp {
 
   friend class NeuralNetworkNodeCpp;
   //friend class DropoutCpp;

@@ -1,4 +1,17 @@
 //----------------------------------------------------------------------------------------------
+//class NumericallyOptimisedAlgorithmCpp
+
+class NumericallyOptimisedAlgorithmCpp {
+	
+public:
+
+  NumericallyOptimisedAlgorithmCpp();
+
+  virtual ~NumericallyOptimisedAlgorithmCpp();
+
+};
+
+//----------------------------------------------------------------------------------------------
 //class OptimiserCpp
 
 class OptimiserCpp {

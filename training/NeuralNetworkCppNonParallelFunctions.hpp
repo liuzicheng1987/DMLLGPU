@@ -6,7 +6,7 @@ NeuralNetworkCpp::NeuralNetworkCpp(
 				   std::int32_t     _num_output_nodes_dense, 
 				   std::int32_t     _num_output_nodes_sparse, 
 				   LossFunctionCpp *_loss
-				   ) {
+				   ): NumericallyOptimisedAlgorithmCpp() {
 
   //Make that the input is reasonable
   if (_num_input_nodes_dense_length + _num_input_nodes_sparse_length <= 0) 

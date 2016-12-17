@@ -9,13 +9,13 @@ OptimiserCpp::~OptimiserCpp() {}
 	
 //dev_function_type is defined in file OptimiserCpp.hpp
 void OptimiserCpp::minimise (/*MPI_Comm _comm,*/
-			     NeuralNetworkCpp          *_neural_net, 
-			     std::int32_t                  _num_samples, 
-			     thrust::device_vector<float> &_W, 
-			     std::int32_t                  _global_batch_size, 
-			     const float                   _tol, 
-			     const std::int32_t            _max_num_epochs, 
-			     std::vector<float>           &_sum_gradients
+			     NumericallyOptimisedAlgorithmCpp *_numerically_optimised_algorithm, 
+			     std::int32_t                      _num_samples, 
+			     thrust::device_vector<float>     &_W, 
+			     std::int32_t                      _global_batch_size, 
+			     const float                       _tol, 
+			     const std::int32_t                _max_num_epochs, 
+			     std::vector<float>               &_sum_gradients
 			     ) {
 	
   //Store all of the input values
@@ -29,14 +29,23 @@ void OptimiserCpp::minimise (/*MPI_Comm _comm,*/
   this->dldw_ = thrust::device_vector<float>(_W.size());
   this->dldw_ptr_ = thrust::raw_pointer_cast(this->dldw_.data());
   
-  //Initialise SumdLdw
+  //Initialise sum_dldw
   this->sum_dldw_ = thrust::device_vector<float>(_W.size());	
 		
   //Calculate the number of batches needed
-  this->num_batches_ = _neural_net->calc_num_batches(_num_samples, _global_batch_size);
+  this->num_batches_ = _numerically_optimised_algorithm->calc_num_batches(
+									  _num_samples, 
+									  _global_batch_size
+									  );
 					
   //Create the threads and pass the values they need
-  this->min(/*comm,*/_neural_net, _W, _tol, _max_num_epochs, _sum_gradients);
+  this->min( /*comm,*/
+	    _numerically_optimised_algorithm,
+	    _W, 
+	    _tol, 
+	    _max_num_epochs,
+	    _sum_gradients
+	     );
 
   //Clear this->dLdw and this->SumdLdw, so they don't take up space on the 
   this->dldw_.clear();

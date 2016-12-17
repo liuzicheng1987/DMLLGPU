@@ -27,11 +27,11 @@ public:
 		
    //dev_function_type is defined in OptimiserCpp.hpp!
   void min(/*MPI_Comm comm,*/
-	   NeuralNetworkCpp          *_neural_net, 
-	   thrust::device_vector<float> &_W, 
-	   const float                   _tol, 
-	   const std::int32_t            _max_num_epochs, 
-	   std::vector<float>           &_sum_gradients
+	   NumericallyOptimisedAlgorithmCpp *_numerically_optimised_algorithm, 
+	   thrust::device_vector<float>     &_W, 
+	   const float                       _tol, 
+	   const std::int32_t                _max_num_epochs, 
+	   std::vector<float>               &_sum_gradients
 	   );
 		
 };

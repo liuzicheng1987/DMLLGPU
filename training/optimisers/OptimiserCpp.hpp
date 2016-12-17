@@ -26,11 +26,11 @@ protected:
   */
 
   virtual void min(/*MPI_Comm comm,*/
-		   NeuralNetworkCpp          *_neural_net, 
-		   thrust::device_vector<float> &_W, 
-		   const float                   _tol, 
-		   const std::int32_t            _max_num_epochs, 
-		   std::vector<float>           &_sum_gradients
+		   NumericallyOptimisedAlgorithmCpp *_numerically_optimised_algorithm, 
+		   thrust::device_vector<float>     &_W, 
+		   const float                       _tol, 
+		   const std::int32_t                _max_num_epochs, 
+		   std::vector<float>               &_sum_gradients
 		   ) {
     throw std::invalid_argument("This shouldn't happen!\n You need to use an optimising algorithm, not the base class!");
   }//Function to be accessed from minimise (does the actual work)!
@@ -43,13 +43,13 @@ public:
   virtual ~OptimiserCpp();
 	
   void minimise (/*MPI_Comm comm,*/
-		 NeuralNetworkCpp          *_neural_net, 
-		 std::int32_t                  _num_samples, 
-		 thrust::device_vector<float> &_W, 
-		 std::int32_t                  _global_batch_size, 
-		 const float                   _tol, 
-		 const std::int32_t            _max_num_epochs, 
-		 std::vector<float>           &_sum_gradients
+		 NumericallyOptimisedAlgorithmCpp *_numerically_optimised_algorithm, 
+		 std::int32_t                      _num_samples, 
+		 thrust::device_vector<float>     &_W, 
+		 std::int32_t                      _global_batch_size, 
+		 const float                       _tol, 
+		 const std::int32_t                _max_num_epochs, 
+		 std::vector<float>               &_sum_gradients
 		 );//Minimise loss function (public function)
 			       		
 };

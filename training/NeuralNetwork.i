@@ -174,7 +174,7 @@ public:
 %apply (float* IN_ARRAY1, int DIM1) {(float *_sum_gradients, std::int32_t _sum_gradients_length)};
 
 
-class NeuralNetworkCpp/*: public NumericallyOptimisedMLAlgorithmCpp*/ {
+class NeuralNetworkCpp: public NumericallyOptimisedAlgorithmCpp {
 		
 public:
 	

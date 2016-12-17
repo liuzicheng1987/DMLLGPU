@@ -133,6 +133,70 @@ class L2RegulariserCpp(RegulariserCpp):
 L2RegulariserCpp_swigregister = _DiscoveryCpp.L2RegulariserCpp_swigregister
 L2RegulariserCpp_swigregister(L2RegulariserCpp)
 
+class NumericallyOptimisedAlgorithmCpp(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, NumericallyOptimisedAlgorithmCpp, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, NumericallyOptimisedAlgorithmCpp, name)
+    __repr__ = _swig_repr
+    def __init__(self): 
+        this = _DiscoveryCpp.new_NumericallyOptimisedAlgorithmCpp()
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _DiscoveryCpp.delete_NumericallyOptimisedAlgorithmCpp
+    __del__ = lambda self : None;
+NumericallyOptimisedAlgorithmCpp_swigregister = _DiscoveryCpp.NumericallyOptimisedAlgorithmCpp_swigregister
+NumericallyOptimisedAlgorithmCpp_swigregister(NumericallyOptimisedAlgorithmCpp)
+
+class OptimiserCpp(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, OptimiserCpp, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, OptimiserCpp, name)
+    __repr__ = _swig_repr
+    def __init__(self): 
+        this = _DiscoveryCpp.new_OptimiserCpp()
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _DiscoveryCpp.delete_OptimiserCpp
+    __del__ = lambda self : None;
+OptimiserCpp_swigregister = _DiscoveryCpp.OptimiserCpp_swigregister
+OptimiserCpp_swigregister(OptimiserCpp)
+
+class SGDCpp(OptimiserCpp):
+    __swig_setmethods__ = {}
+    for _s in [OptimiserCpp]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, SGDCpp, name, value)
+    __swig_getmethods__ = {}
+    for _s in [OptimiserCpp]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, SGDCpp, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _DiscoveryCpp.new_SGDCpp(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _DiscoveryCpp.delete_SGDCpp
+    __del__ = lambda self : None;
+SGDCpp_swigregister = _DiscoveryCpp.SGDCpp_swigregister
+SGDCpp_swigregister(SGDCpp)
+
+class AdaGradCpp(OptimiserCpp):
+    __swig_setmethods__ = {}
+    for _s in [OptimiserCpp]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, AdaGradCpp, name, value)
+    __swig_getmethods__ = {}
+    for _s in [OptimiserCpp]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, AdaGradCpp, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _DiscoveryCpp.new_AdaGradCpp(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _DiscoveryCpp.delete_AdaGradCpp
+    __del__ = lambda self : None;
+AdaGradCpp_swigregister = _DiscoveryCpp.AdaGradCpp_swigregister
+AdaGradCpp_swigregister(AdaGradCpp)
+
 class NeuralNetworkNodeCpp(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, NeuralNetworkNodeCpp, name, value)
@@ -216,10 +280,12 @@ class SoftmaxActivationFunctionCpp(ActivationFunctionCpp):
 SoftmaxActivationFunctionCpp_swigregister = _DiscoveryCpp.SoftmaxActivationFunctionCpp_swigregister
 SoftmaxActivationFunctionCpp_swigregister(SoftmaxActivationFunctionCpp)
 
-class NeuralNetworkCpp(_object):
+class NeuralNetworkCpp(NumericallyOptimisedAlgorithmCpp):
     __swig_setmethods__ = {}
+    for _s in [NumericallyOptimisedAlgorithmCpp]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
     __setattr__ = lambda self, name, value: _swig_setattr(self, NeuralNetworkCpp, name, value)
     __swig_getmethods__ = {}
+    for _s in [NumericallyOptimisedAlgorithmCpp]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
     __getattr__ = lambda self, name: _swig_getattr(self, NeuralNetworkCpp, name)
     __repr__ = _swig_repr
     def __init__(self, *args): 
@@ -251,55 +317,6 @@ class NeuralNetworkCpp(_object):
     def get_sum_output_dim(self): return _DiscoveryCpp.NeuralNetworkCpp_get_sum_output_dim(self)
 NeuralNetworkCpp_swigregister = _DiscoveryCpp.NeuralNetworkCpp_swigregister
 NeuralNetworkCpp_swigregister(NeuralNetworkCpp)
-
-class OptimiserCpp(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, OptimiserCpp, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, OptimiserCpp, name)
-    __repr__ = _swig_repr
-    def __init__(self): 
-        this = _DiscoveryCpp.new_OptimiserCpp()
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _DiscoveryCpp.delete_OptimiserCpp
-    __del__ = lambda self : None;
-OptimiserCpp_swigregister = _DiscoveryCpp.OptimiserCpp_swigregister
-OptimiserCpp_swigregister(OptimiserCpp)
-
-class SGDCpp(OptimiserCpp):
-    __swig_setmethods__ = {}
-    for _s in [OptimiserCpp]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
-    __setattr__ = lambda self, name, value: _swig_setattr(self, SGDCpp, name, value)
-    __swig_getmethods__ = {}
-    for _s in [OptimiserCpp]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
-    __getattr__ = lambda self, name: _swig_getattr(self, SGDCpp, name)
-    __repr__ = _swig_repr
-    def __init__(self, *args): 
-        this = _DiscoveryCpp.new_SGDCpp(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _DiscoveryCpp.delete_SGDCpp
-    __del__ = lambda self : None;
-SGDCpp_swigregister = _DiscoveryCpp.SGDCpp_swigregister
-SGDCpp_swigregister(SGDCpp)
-
-class AdaGradCpp(OptimiserCpp):
-    __swig_setmethods__ = {}
-    for _s in [OptimiserCpp]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
-    __setattr__ = lambda self, name, value: _swig_setattr(self, AdaGradCpp, name, value)
-    __swig_getmethods__ = {}
-    for _s in [OptimiserCpp]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
-    __getattr__ = lambda self, name: _swig_getattr(self, AdaGradCpp, name)
-    __repr__ = _swig_repr
-    def __init__(self, *args): 
-        this = _DiscoveryCpp.new_AdaGradCpp(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _DiscoveryCpp.delete_AdaGradCpp
-    __del__ = lambda self : None;
-AdaGradCpp_swigregister = _DiscoveryCpp.AdaGradCpp_swigregister
-AdaGradCpp_swigregister(AdaGradCpp)
 
 class LogicalGateCpp(NeuralNetworkNodeCpp):
     __swig_setmethods__ = {}

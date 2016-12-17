@@ -32,12 +32,7 @@
 #include "regularisers/RegulariserCpp.hpp"
 #include "regularisers/L2RegulariserCpp.hpp"
 
-#include "NeuralNetworkNodeCpp.hpp"
-#include "NeuralNetworkCpp.hpp"
-
-#include "LossFunctions/LossFunctionCpp.hpp"
-#include "LossFunctions/SquareLossCpp.hpp"
-
+#include "optimisers/NumericallyOptimisedAlgorithmCpp.hpp"
 #include "optimisers/OptimiserFunctors.hpp"
 #include "optimisers/OptimiserCpp.hpp"
 #include "optimisers/OptimiserCppFunctions.hpp"
@@ -45,6 +40,12 @@
 #include "optimisers/SGDCppFunctions.hpp"
 #include "optimisers/AdaGradCpp.hpp"
 #include "optimisers/AdaGradCppFunctions.hpp"
+
+#include "NeuralNetworkNodeCpp.hpp"
+#include "NeuralNetworkCpp.hpp"
+
+#include "LossFunctions/LossFunctionCpp.hpp"
+#include "LossFunctions/SquareLossCpp.hpp"
 
 #include "NeuralNetworkNodeCppFunctions.hpp"
 #include "NeuralNetworkCppNonParallelFunctions.hpp"

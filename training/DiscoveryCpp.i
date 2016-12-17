@@ -23,7 +23,7 @@ import_array();
 
 %include LossFunctions/LossFunctions.i
 %include regularisers/regularisers.i
-%include NeuralNetwork.i
 %include optimisers/optimisers.i
+%include NeuralNetwork.i
 %include LogicalGates/LogicalGates.i
 %include dropout/dropout.i

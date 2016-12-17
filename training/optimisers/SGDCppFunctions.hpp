@@ -1,9 +1,9 @@
 void SGDCpp::min(/*MPI_Comm comm,*/
-		 NeuralNetworkCpp          *_neural_net, 
-		 thrust::device_vector<float> &_W, 
-		 const float                   _tol, 
-		 const std::int32_t            _max_num_epochs, 
-		 std::vector<float>           &_sum_gradients
+		 NumericallyOptimisedAlgorithmCpp *_numerically_optimised_algorithm, 
+		 thrust::device_vector<float>     &_W, 
+		 const float                       _tol, 
+		 const std::int32_t                _max_num_epochs, 
+		 std::vector<float>               &_sum_gradients
 		 ) {
 		
   std::int32_t batch_begin, batch_end, batch_size, global_batch_size;
@@ -32,14 +32,14 @@ void SGDCpp::min(/*MPI_Comm comm,*/
 	 ) {//batch_num layer
 				
       //We must find out our current values for batch_begin and batch_end. We do so by calling this->Calcbatch_beginEnd, which is inherited from the optimiser class.
-      _neural_net->calc_batch_begin_end(
-				       batch_begin, 
-				       batch_end, 
-				       batch_size, 
-				       batch_num, 
-				       this->num_samples_, 
-				       this->num_batches_
-				       );
+      _numerically_optimised_algorithm->calc_batch_begin_end(
+							     batch_begin, 
+							     batch_end, 
+							     batch_size, 
+							     batch_num, 
+							     this->num_samples_, 
+							     this->num_batches_
+							     );
       
       //Calculate global_batch_size
       global_batch_size = batch_size;
@@ -65,16 +65,16 @@ void SGDCpp::min(/*MPI_Comm comm,*/
       //Call dfdw()
       //Note that it is the responsibility of whoever writes the underlying algorithm to make sure that this->dLdW and this->SumdLdW are passed to ALL processes
       //It is, however, your responsibility to place a barrier after that, if required
-      _neural_net->dfdw(
-		       /*comm,*/
-		       this->dldw_ptr_, 
-		       w_ptr_, 
-		       batch_begin, 
-		       batch_end, 
-		       batch_size, 
-		       batch_num,
-		       epoch_num_
-		       );
+      _numerically_optimised_algorithm->dfdw(
+					     /*comm,*/
+					     this->dldw_ptr_, 
+					     w_ptr_, 
+					     batch_begin, 
+					     batch_end, 
+					     batch_size, 
+					     batch_num,
+					     epoch_num_
+					     );
 				
       //Add all batch_size and store the result in global_batch_size
       //MPI_Allreduce(&batch_size, &global_batch_size, 1, MPI_INT, MPI_SUM, comm);		
