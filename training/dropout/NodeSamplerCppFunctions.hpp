@@ -53,7 +53,7 @@ std::int32_t NodeSamplerCpp::get_num_weights_required() {
   //this function to calculate the dimensionality
   this->dim_ = 0;
 
-  for (auto node: this->hidden_nodes_fed_into_me_ptr)
+  for (auto node: this->hidden_nodes_fed_into_me_ptr_)
     this->dim_ += node->get_dim();
 
   return 0; 
@@ -67,15 +67,15 @@ void NodeSamplerCpp::calc_output(
   
   //Resize output and delta, if necessary
   //Output is stored in the NeuralNetworkNodeCpp base class and stores the output of this node
-  if (static_cast<std::int32_t>(this->output.size()) != this->dim_*_batch_size) {
+  if (static_cast<std::int32_t>(this->output_.size()) != this->dim_*_batch_size) {
     
     //Resize output
-    this->output.resize(this->dim_*_batch_size);
-    this->output_ptr = thrust::raw_pointer_cast(this->output.data());
+    this->output_.resize(this->dim_*_batch_size);
+    this->output_ptr_ = thrust::raw_pointer_cast(this->output_.data());
 
     //Resize delta
-    this->delta.resize(this->dim_*_batch_size);
-    this->delta_ptr = thrust::raw_pointer_cast(this->delta.data());
+    this->delta_.resize(this->dim_*_batch_size);
+    this->delta_ptr_ = thrust::raw_pointer_cast(this->delta_.data());
 
   }
 
@@ -83,11 +83,11 @@ void NodeSamplerCpp::calc_output(
 
   std::int32_t output_begin = 0;//Marks beginning of output, note that output is in column-major order
 
-  if (this->NeuralNet->get_sample() == true) {
+  if (this->neural_net_->get_sample() == true) {
 
     //Transform hidden nodes
     //Calculate derivatives for hidden nodes
-    for (auto node: this->hidden_nodes_fed_into_me_ptr) {
+    for (auto node: this->hidden_nodes_fed_into_me_ptr_) {
 
       input_dim = node->get_dim();//For convenience
 
@@ -118,7 +118,7 @@ void NodeSamplerCpp::calc_output(
 			thrust::make_counting_iterator(this->skip_)
 			+ input_dim*_batch_size,
 			node->get_output().begin(),
-			this->output.begin() + output_begin,
+			this->output_.begin() + output_begin,
 			DropoutFunctors::NodeSampler(
 						     this->random_numbers_ptr_
 						     )
@@ -131,7 +131,7 @@ void NodeSamplerCpp::calc_output(
   
   } else {//If sample is not true
     
-    for (auto node: this->hidden_nodes_fed_into_me_ptr) {
+    for (auto node: this->hidden_nodes_fed_into_me_ptr_) {
 
       input_dim = node->get_dim();//For convenience
 
@@ -139,7 +139,7 @@ void NodeSamplerCpp::calc_output(
 		   node->get_output().begin(),
 		   node->get_output().begin()
 		   + input_dim*_batch_size,
-		   this->output.begin() + output_begin
+		   this->output_.begin() + output_begin
 		   );
 
       output_begin += input_dim*_batch_size;
@@ -157,23 +157,23 @@ void NodeSamplerCpp::calc_delta(std::int32_t _batch_size) {
 
   std::int32_t output_begin = 0;//Marks beginning of output, note that output is in column-major order
 
-  if (this->NeuralNet->get_sample() == true) {
+  if (this->neural_net_->get_sample() == true) {
   
-    for (auto node: this->hidden_nodes_fed_into_me_ptr) {
+    for (auto node: this->hidden_nodes_fed_into_me_ptr_) {
 
       input_dim = node->get_dim();//For convenience
 
       thrust::for_each(
 		       thrust::make_zip_iterator(
 						 thrust::make_tuple(
-								    this->delta.begin()
+								    this->delta_.begin()
 								    + output_begin,
 								    node->get_delta().begin()
 								    )
 						 ),
 		       thrust::make_zip_iterator(
 						 thrust::make_tuple(
-								    this->delta.begin()
+								    this->delta_.begin()
 								    + output_begin
 								    + input_dim*_batch_size,
 								    node->get_delta().begin()
@@ -190,14 +190,14 @@ void NodeSamplerCpp::calc_delta(std::int32_t _batch_size) {
 
   } else {//If sample is not true
 
-    for (auto node: this->hidden_nodes_fed_into_me_ptr) {
+    for (auto node: this->hidden_nodes_fed_into_me_ptr_) {
 
       input_dim = node->get_dim();//For convenience
       
       //Multiply by dropout probability
       thrust::copy(
-		   this->delta.begin() + output_begin,
-		   this->delta.begin() + output_begin
+		   this->delta_.begin() + output_begin,
+		   this->delta_.begin() + output_begin
 		   + input_dim*_batch_size,
 		   node->get_delta().begin()
 		   );

@@ -1,31 +1,6 @@
-//Calculates the number of batches needed
-std::int32_t NeuralNetworkCpp::calc_num_batches (
-						    /*MPI_Comm _comm, */
-						    std::int32_t _num_samples,
-						    std::int32_t _global_batch_size
-						    ) {
-	
-  std::int32_t GlobalI;
-	
-  //Add all local num_samples and store the result in GlobalI
-  //MPI_Allreduce(&I, &GlobalI, 1, MPI_INT, MPI_SUM, comm);
-  //MPI_Barrier(_comm);
-
-  GlobalI = _num_samples;
-	
-  if (_global_batch_size < 1 || _global_batch_size > GlobalI) _global_batch_size = GlobalI;		
-			
-  //Calculate the number of batches needed to divide GlobalI such that the sum of all local batches approximately equals global_batch_size
-  if (GlobalI % _global_batch_size == 0) return GlobalI/_global_batch_size; 
-  else return GlobalI/_global_batch_size + 1;
-
-  //MPI_Barrier(_comm);
-				
-}
-
 void NeuralNetworkCpp::dfdw(/*MPI_Comm comm,*/
-			       float             *_dLdw, 
-			       const float       *_W, 
+			       float                     *_dLdw,
+			       const float         *_W,
 			       const std::int32_t _batch_begin, 
 			       const std::int32_t _batch_end, 
 			       const std::int32_t _batch_size, 
@@ -34,51 +9,51 @@ void NeuralNetworkCpp::dfdw(/*MPI_Comm comm,*/
 			       ) {
   
   //Set pointers contained in the NeuralNetworkNodes class
-  for (std::size_t n=0; n<this->nodes.size(); ++n) 
-    this->nodes[n]->W = _W + this->cumulative_num_weights_required_[n];
+  for (std::size_t n=0; n<this->nodes_.size(); ++n) 
+    this->nodes_[n]->W_ = _W + this->cumulative_num_weights_required_[n];
    
   //Forward propagation
-  for (auto node: this->nodes) 
+  for (auto node: this->nodes_) 
     node->calc_output(_batch_num, _batch_size);
 
   //Initialise delta
   //Needs to be after forward propagation, 
   //because forward propagation might resize delta
-  for (auto node: this->nodes) 
+  for (auto node: this->nodes_) 
     thrust::fill(
-		 node->delta.begin(),
-		 node->delta.end(),
+		 node->delta_.begin(),
+		 node->delta_.end(),
 		 0.f
 	       );
 
   //Calculate loss for dense targets
-  for (std::int32_t n=0; n<this->num_output_nodes_dense; ++n)
-    this->loss->dloss_dyhat_dense (
+  for (std::int32_t n=0; n<this->num_output_nodes_dense_; ++n)
+    this->loss_->dloss_dyhat_dense (
 				   /*MPI_Comm comm, const std::int32_t rank, const std::int32_t size,*/ 
-				   this->dense_targets[n][_batch_num],
-				   this->output_nodes_dense[n]->output,
-				   this->output_nodes_dense[n]->output_ptr,
-				   this->output_nodes_dense[n]->delta
+				   this->dense_targets_[n][_batch_num],
+				   this->output_nodes_dense_[n]->output_,
+				   this->output_nodes_dense_[n]->output_ptr_,
+				   this->output_nodes_dense_[n]->delta_
 				   );
 
   //Calculate loss for sparse targets
-  for (std::int32_t n=0; n<this->num_output_nodes_sparse; ++n)
-    this->loss->dloss_dyhat_sparse (
+  for (std::int32_t n=0; n<this->num_output_nodes_sparse_; ++n)
+    this->loss_->dloss_dyhat_sparse (
 				    /*MPI_Comm comm, const std::int32_t rank, const std::int32_t size,*/ 
-				    this->sparse_targets[n][_batch_num],
-				    this->output_nodes_sparse[n]->output,
-				    this->output_nodes_sparse[n]->output_ptr,
-				    this->output_nodes_sparse[n]->delta
+				    this->sparse_targets_[n][_batch_num],
+				    this->output_nodes_sparse_[n]->output_,
+				    this->output_nodes_sparse_[n]->output_ptr_,
+				    this->output_nodes_sparse_[n]->delta_
 				    );
     
   //Backpropagation
-  for (std::size_t n=1; n<=this->nodes.size(); ++n) 
-    this->nodes[this->nodes.size()-n]->calc_delta(_batch_size);
+  for (std::size_t n=1; n<=this->nodes_.size(); ++n) 
+    this->nodes_[this->nodes_.size()-n]->calc_delta(_batch_size);
 
   //Calculate derivative
-  for (std::size_t n=0; n<this->nodes.size(); ++n) 
-    if (this->nodes[n]->no_weight_updates == false)
-      this->nodes[n]->calc_dLdw(
+  for (std::size_t n=0; n<this->nodes_.size(); ++n) 
+    if (this->nodes_[n]->no_weight_updates_ == false)
+      this->nodes_[n]->calc_dLdw(
 				_dLdw + this->cumulative_num_weights_required_[n], 
 				_batch_num, 
 				_batch_size
@@ -102,30 +77,30 @@ void NeuralNetworkCpp::fit (/*MPI_Comm comm,*/
 			       ) {
 
   //Make sure that neural network has been finalised!
-  if (!this->finalised) throw std::invalid_argument("Neural network has not been finalised!");
+  if (!this->finalised_) throw std::invalid_argument("Neural network has not been finalised!");
 
   //Get batch_size
   std::vector<std::int32_t> batch_size;
-  if (this->dense_input_data.size() > 0) {
+  if (this->dense_input_data_.size() > 0) {
 
-    for (auto data: this->dense_input_data[0])
+    for (auto data: this->dense_input_data_[0])
       batch_size.push_back(data.batch_size);
 
-  } else if (this->sparse_input_data.size() > 0) {
+  } else if (this->sparse_input_data_.size() > 0) {
 
-    for (auto data: this->sparse_input_data[0])
+    for (auto data: this->sparse_input_data_[0])
       batch_size.push_back(data.batch_size);
 
   } else throw std::invalid_argument("No input data provided!");
 
   //Calculate this->num_samples
-  this->num_samples = std::accumulate(batch_size.begin(), batch_size.end(), 0);
+  this->num_samples_ = std::accumulate(batch_size.begin(), batch_size.end(), 0);
 
   //Get num_batches
   std::int32_t num_batches = (std::int32_t)(batch_size.size());
 
   //Make sure that the batch_sizes are identical for all matrices provided!
-  for (auto DataVector: this->dense_input_data) {
+  for (auto DataVector: this->dense_input_data_) {
 
     if (DataVector.size() != batch_size.size()) 
       throw std::invalid_argument("All input and output matrices must have the exact same number of samples!");
@@ -137,7 +112,7 @@ void NeuralNetworkCpp::fit (/*MPI_Comm comm,*/
   }
 
   //Make sure that the batch_sizes are identical for all matrices provided!
-  for (auto DataVector: this->dense_targets) {
+  for (auto DataVector: this->dense_targets_) {
 
     if (DataVector.size() != batch_size.size())
       throw std::invalid_argument("All input and output matrices must have the exact same number of samples!");
@@ -149,7 +124,7 @@ void NeuralNetworkCpp::fit (/*MPI_Comm comm,*/
   }
 
   //Make sure that the batch_sizes are identical for all matrices provided!
-  for (auto DataVector: this->sparse_input_data) {
+  for (auto DataVector: this->sparse_input_data_) {
 
     if (DataVector.size() != batch_size.size())
       throw std::invalid_argument("All input and output matrices must have the exact same number of samples!");
@@ -160,7 +135,7 @@ void NeuralNetworkCpp::fit (/*MPI_Comm comm,*/
 
   }
 
-  for (auto DataVector: this->sparse_targets) {
+  for (auto DataVector: this->sparse_targets_) {
 
     if (DataVector.size() != batch_size.size()) 
       throw std::invalid_argument("All input and output matrices must have the exact same number of samples!");
@@ -171,8 +146,8 @@ void NeuralNetworkCpp::fit (/*MPI_Comm comm,*/
 
   }
 
-  this->optimiser = _optimiser;
-  this->sample = _sample;
+  this->optimiser_ = _optimiser;
+  this->sample_ = _sample;
 
   //Init cuBLAS handle, cuSPARSE handle and matrix descriptor
   cublasCreate(&(this->dense_handle_));
@@ -182,14 +157,14 @@ void NeuralNetworkCpp::fit (/*MPI_Comm comm,*/
   cusparseSetMatIndexBase(this->mat_descr_, CUSPARSE_INDEX_BASE_ZERO);
 
   //Do the actual optimisation
-  this->optimiser->minimise(
+  this->optimiser_->minimise(
 			    this, 
-			    this->num_samples, 
-			    this->W, 
+			    this->num_samples_, 
+			    this->W_, 
 			    _global_batch_size, 
 			    _tol, 
 			    _max_num_epochs, 
-			    this->sum_gradients
+			    this->sum_gradients_
 			    ); 
   
   //Destroy cuBLAS handle, cuSPARSE handle and matrix descriptor

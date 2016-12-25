@@ -5,57 +5,94 @@ class LossFunctionCpp;
 class NeuralNetworkCpp: public NumericallyOptimisedAlgorithmCpp {
 
   friend class NeuralNetworkNodeCpp;
-  //friend class DropoutCpp;
-  //friend class BayesianDropoutCpp;
   
 private:
 	
-  std::vector<NeuralNetworkNodeCpp*> nodes;//Vector containing pointers to the neural network nodes
-  NeuralNetworkNodeCpp** output_nodes; //Raw pointer to the output nodes (which are also contained in nodes)
-  NeuralNetworkNodeCpp** output_nodes_dense; //Raw pointer to output nodes with dense targets
-  NeuralNetworkNodeCpp** output_nodes_sparse; //Raw pointer to output nodes with sparse targets
+  //Vector containing pointers to the neural network nodes
+  std::vector<NeuralNetworkNodeCpp*> nodes_;
 
-  std::vector<std::int32_t> cumulative_num_weights_required_;//Accumulated number of weights required for each neural network node
+  //Raw pointer to the output nodes (which are also contained in nodes)
+  NeuralNetworkNodeCpp** output_nodes_;
 
-  std::vector<std::vector<matrix::DenseMatrix>> dense_input_data;//Dense input data
-  std::vector<std::vector<matrix::CSRMatrix>> sparse_input_data;//Sparse input data
+  //Raw pointer to output nodes with dense targets
+  NeuralNetworkNodeCpp** output_nodes_dense_;
 
-  std::vector<std::vector<matrix::DenseMatrix>> dense_targets;//Dense target data
-  std::vector<std::vector<matrix::COOVector>> sparse_targets;//Sparse target data
+  //Raw pointer to output nodes with sparse targets
+  NeuralNetworkNodeCpp** output_nodes_sparse_;
 
-  std::vector<std::int32_t> dense_input_data_dim;//Number of dimensions in dense input data
-  std::vector<std::int32_t> sparse_input_data_dim;//Number of dimensions in sparse input data
+  //Accumulated number of weights required for each neural network node
+  std::vector<std::int32_t> cumulative_num_weights_required_;
 
-  std::vector<std::int32_t> dense_targets_dim;//Number of dimensions in dense targets
-  std::vector<std::int32_t> sparse_targets_dim;//Number of dimensions in sparse targets
+  //Dense input data
+  std::vector<std::vector<matrix::DenseMatrix>> dense_input_data_;
 
-  thrust::device_vector<float> W;//Weights for the neural network
+  //Sparse input data
+  std::vector<std::vector<matrix::CSRMatrix>> sparse_input_data_;
 
-  LossFunctionCpp *loss;//Pointer to loss function 
+  //Dense target data
+  std::vector<std::vector<matrix::DenseMatrix>> dense_targets_;
 
-  OptimiserCpp *optimiser;//Pointer to optimiser
+  //Sparse target data
+  std::vector<std::vector<matrix::COOVector>> sparse_targets_;
 
-  std::vector<float> sum_gradients;//Sum of squared gradients for each epoch
+  //Number of dimensions in dense input data
+  std::vector<std::int32_t> dense_input_data_dim_;
 
-  std::size_t num_output_nodes_dense;//Number of output nodes with dense targets
-  std::size_t num_output_nodes_sparse;//Number of output nodes with sparse targets
-  std::size_t num_output_nodes;//Number of output nodes (=num_output_nodes_dense + num_output_nodes_sparse), for convenience
+  //Number of dimensions in sparse input data
+  std::vector<std::int32_t> sparse_input_data_dim_;
+
+  //Number of dimensions in dense targets
+  std::vector<std::int32_t> dense_targets_dim_;
+
+  //Number of dimensions in sparse targets
+  std::vector<std::int32_t> sparse_targets_dim_;
+
+  //Weights for the neural network
+  thrust::device_vector<float> W_;
+
+  //Pointer to loss function
+  LossFunctionCpp *loss_;
+
+  //Pointer to optimiser_
+  OptimiserCpp *optimiser_;
+
+  //Sum of squared gradients for each epoch
+  std::vector<float> sum_gradients_;
+
+  //Number of output nodes with dense targets
+  std::size_t num_output_nodes_dense_;
+
+  //Number of output nodes with sparse targets
+  std::size_t num_output_nodes_sparse_;
+
+  //Number of output nodes (=num_output_nodes_dense_
+  //+ num_output_nodes_sparse_), for convenience
+  std::size_t num_output_nodes_;
   
-  std::size_t num_hidden_nodes;//Number of hidden nodes
+  //Number of hidden nodes
+  std::size_t num_hidden_nodes_;
 
-  bool finalised;//Neural network can not be trained unless neural network is finalised
+  //Neural network can not be trained unless neural network is finalised
+  bool finalised_;
 
-  bool sample;//Some nodes have a random component, this is used to activate sampling
+  //Some nodes have a random component, this is used to activate sampling
+  bool sample_;
 
-  std::int32_t num_samples;//Number of samples
+  //Number of samples
+  std::int32_t num_samples_;
 
-  std::int32_t global_batch_size;//Approximate number of samples used for updating the weights in each iteration
+  //Approximate number of samples used for updating the weights
+  //in each iteration
+  std::int32_t global_batch_size;
 
-  cublasHandle_t dense_handle_;//This handle is needed for the cuBLAS library.
+  //This handle is needed for the cuBLAS library.
+  cublasHandle_t dense_handle_;
   
-  cusparseHandle_t sparse_handle_;//This handle is needed for the cuSPARSE library.
+  //This handle is needed for the cuSPARSE library.
+  cusparseHandle_t sparse_handle_;
 
-  cusparseMatDescr_t mat_descr_;//This matrix descriptor is needed for the cuSPARSE library.
+  //This matrix descriptor is needed for the cuSPARSE library.
+  cusparseMatDescr_t mat_descr_;
 	       
 public:
 	
@@ -118,22 +155,6 @@ public:
 				    std::int32_t *_hidden_nodes_fed_into_me, 
 				    std::int32_t  __lengthhidden_nodes_fed_into_me
 				    );
-
-  //Calculates the number of batches needed
-  std::int32_t calc_num_batches (/*MPI_Comm comm,*/
-				 std::int32_t _num_samples, 
-				 std::int32_t _global_batch_size
-				 );
-  
-  //Calculate beginning and end of each batch
-  void calc_batch_begin_end (
-			     std::int32_t      &_batch_begin, 
-			     std::int32_t      &_batch_end, 
-			     std::int32_t      &_batch_size, 
-			     const std::int32_t _batch_num, 
-			     const std::int32_t _num_samples, 
-			     const std::int32_t _num_batches
-			     );
   
   //load_dense_data and load_dense_targets are actually wrappers, which simply call this method
   void load_dense(
@@ -275,17 +296,17 @@ public:
 					    std::int32_t i, 
 					    std::int32_t _batch_num
 					    ) {
-    return this->dense_input_data[i][_batch_num];
+    return this->dense_input_data_[i][_batch_num];
   };
 
   //The nodes need to be able to access the private input data dimension.
   std::vector<std::int32_t>& get_dense_input_data_dim() {
-    return this->dense_input_data_dim;
+    return this->dense_input_data_dim_;
   };
 
   //The nodes need to be able to access the private input data dimension.
   std::vector<std::int32_t>& get_sparse_input_data_dim() {
-    return this->sparse_input_data_dim;
+    return this->sparse_input_data_dim_;
   };
 
   //The nodes need to be able to access the private input data.
@@ -293,13 +314,13 @@ public:
 					   std::int32_t i, 
 					   std::int32_t _batch_num
 					   ) {
-    return this->sparse_input_data[i][_batch_num];
+    return this->sparse_input_data_[i][_batch_num];
   };
 
   //This functions returns the length of sum of the gradients during each training epoch
   //Identical to the number of epochs
   std::int32_t get_sum_gradients_length() {
-    return static_cast<std::int32_t>(this->sum_gradients.size());
+    return static_cast<std::int32_t>(this->sum_gradients_.size());
   };
   
   //This functions returns the sum of the gradients during each training epoch
@@ -307,8 +328,8 @@ public:
 			 float        *_sum_gradients,
 			 std::int32_t  _sum_gradients_size
 			 ) {
-    std::copy(this->sum_gradients.begin(),
-	      this->sum_gradients.end(),
+    std::copy(this->sum_gradients_.begin(),
+	      this->sum_gradients_.end(),
 	      _sum_gradients
 	      );
   };
@@ -319,10 +340,10 @@ public:
     
     std::int32_t output_dim = 0;
 
-    for (auto dim: dense_targets_dim)
+    for (auto dim: dense_targets_dim_)
       output_dim += dim;
 
-    for (auto dim: sparse_targets_dim)
+    for (auto dim: sparse_targets_dim_)
       output_dim += dim;
 
     return output_dim;
@@ -332,7 +353,7 @@ public:
   //This functions returns the boolean that determines whether we should sample
   bool get_sample() {
 
-    return this->sample;
+    return this->sample_;
 
   };
 

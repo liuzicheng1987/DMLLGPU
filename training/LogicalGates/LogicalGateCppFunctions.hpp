@@ -38,8 +38,8 @@ std::int32_t LogicalGateCpp::get_num_weights_required() {
   //but we use this function to make sure all dimensions match!
   if (
       std::any_of(
-		  this->hidden_nodes_fed_into_me_ptr.begin(), 
-		  this->hidden_nodes_fed_into_me_ptr.end(), 
+		  this->hidden_nodes_fed_into_me_ptr_.begin(), 
+		  this->hidden_nodes_fed_into_me_ptr_.end(), 
 		  [this](NeuralNetworkNodeCpp* node) {
 		    return node->get_dim() != this->dim_;
 		  }
@@ -58,15 +58,15 @@ void LogicalGateCpp::calc_output(
 
   //Resize output and delta, if necessary
   //Output is stored in the NeuralNetworkNodeCpp base class and stores the output of this node
-  if (static_cast<std::int32_t>(this->output.size()) < this->dim_*_batch_size) {
+  if (static_cast<std::int32_t>(this->output_.size()) < this->dim_*_batch_size) {
     
     //Resize output
-    this->output.resize(this->dim_*_batch_size);
-    this->output_ptr = thrust::raw_pointer_cast(this->output.data());
+    this->output_.resize(this->dim_*_batch_size);
+    this->output_ptr_ = thrust::raw_pointer_cast(this->output_.data());
     
     //Resize delta
-    this->delta.resize(this->dim_*_batch_size);
-    this->delta_ptr = thrust::raw_pointer_cast(this->delta.data());
+    this->delta_.resize(this->dim_*_batch_size);
+    this->delta_ptr_ = thrust::raw_pointer_cast(this->delta_.data());
     
   }
 
@@ -76,25 +76,25 @@ void LogicalGateCpp::calc_output(
   //Recall the following output function:
   //output: a_ + b_*(c_*input1 + d)*(c_*input2 + d)*...
 
-  switch (this->hidden_nodes_fed_into_me_ptr.size()) {
+  switch (this->hidden_nodes_fed_into_me_ptr_.size()) {
 
   case 2:
     
     thrust::for_each(
 		     thrust::make_zip_iterator(
 					       thrust::make_tuple(
-								  this->hidden_nodes_fed_into_me_ptr[0]->get_output().begin(),
-								  this->hidden_nodes_fed_into_me_ptr[1]->get_output().begin(),
-								  this->output.begin()
+								  this->hidden_nodes_fed_into_me_ptr_[0]->get_output().begin(),
+								  this->hidden_nodes_fed_into_me_ptr_[1]->get_output().begin(),
+								  this->output_.begin()
 								  )
 					       ),
 		     thrust::make_zip_iterator(
 					       thrust::make_tuple(
-								  this->hidden_nodes_fed_into_me_ptr[0]->get_output().begin()
+								  this->hidden_nodes_fed_into_me_ptr_[0]->get_output().begin()
 								  + this->dim_*_batch_size,
-								  this->hidden_nodes_fed_into_me_ptr[1]->get_output().begin() 
+								  this->hidden_nodes_fed_into_me_ptr_[1]->get_output().begin() 
 								  + this->dim_*_batch_size,
-								  this->output.begin()
+								  this->output_.begin()
 								  + this->dim_*_batch_size
 								  )
 					       ),
@@ -112,21 +112,21 @@ void LogicalGateCpp::calc_output(
     thrust::for_each(
 		     thrust::make_zip_iterator(
 					       thrust::make_tuple(
-								  this->hidden_nodes_fed_into_me_ptr[0]->get_output().begin(),
-								  this->hidden_nodes_fed_into_me_ptr[1]->get_output().begin(),
-								  this->hidden_nodes_fed_into_me_ptr[2]->get_output().begin(), 
-								  this->output.begin()
+								  this->hidden_nodes_fed_into_me_ptr_[0]->get_output().begin(),
+								  this->hidden_nodes_fed_into_me_ptr_[1]->get_output().begin(),
+								  this->hidden_nodes_fed_into_me_ptr_[2]->get_output().begin(), 
+								  this->output_.begin()
 								  )
 					       ),
 		     thrust::make_zip_iterator(
 					       thrust::make_tuple(
-								  this->hidden_nodes_fed_into_me_ptr[0]->get_output().begin()
+								  this->hidden_nodes_fed_into_me_ptr_[0]->get_output().begin()
 								  + this->dim_*_batch_size,
-								  this->hidden_nodes_fed_into_me_ptr[1]->get_output().begin() 
+								  this->hidden_nodes_fed_into_me_ptr_[1]->get_output().begin() 
 								  + this->dim_*_batch_size,
-								  this->hidden_nodes_fed_into_me_ptr[2]->get_output().begin() 
+								  this->hidden_nodes_fed_into_me_ptr_[2]->get_output().begin() 
 								  + this->dim_*_batch_size,
-								  this->output.begin()
+								  this->output_.begin()
 								  + this->dim_*_batch_size
 								  )
 					       ),
@@ -145,24 +145,24 @@ void LogicalGateCpp::calc_output(
     thrust::for_each(
 		     thrust::make_zip_iterator(
 					       thrust::make_tuple(
-								  this->hidden_nodes_fed_into_me_ptr[0]->get_output().begin(),
-								  this->hidden_nodes_fed_into_me_ptr[1]->get_output().begin(),
-								  this->hidden_nodes_fed_into_me_ptr[2]->get_output().begin(),
-								  this->hidden_nodes_fed_into_me_ptr[3]->get_output().begin(),								  
-								  this->output.begin()
+								  this->hidden_nodes_fed_into_me_ptr_[0]->get_output().begin(),
+								  this->hidden_nodes_fed_into_me_ptr_[1]->get_output().begin(),
+								  this->hidden_nodes_fed_into_me_ptr_[2]->get_output().begin(),
+								  this->hidden_nodes_fed_into_me_ptr_[3]->get_output().begin(),								  
+								  this->output_.begin()
 								  )
 					       ),
 		     thrust::make_zip_iterator(
 					       thrust::make_tuple(
-								  this->hidden_nodes_fed_into_me_ptr[0]->get_output().begin()
+								  this->hidden_nodes_fed_into_me_ptr_[0]->get_output().begin()
 								  + this->dim_*_batch_size,
-								  this->hidden_nodes_fed_into_me_ptr[1]->get_output().begin() 
+								  this->hidden_nodes_fed_into_me_ptr_[1]->get_output().begin() 
 								  + this->dim_*_batch_size,
-								  this->hidden_nodes_fed_into_me_ptr[2]->get_output().begin() 
+								  this->hidden_nodes_fed_into_me_ptr_[2]->get_output().begin() 
 								  + this->dim_*_batch_size,
-								  this->hidden_nodes_fed_into_me_ptr[3]->get_output().begin() 
+								  this->hidden_nodes_fed_into_me_ptr_[3]->get_output().begin() 
 								  + this->dim_*_batch_size,
-								  this->output.begin()
+								  this->output_.begin()
 								  + this->dim_*_batch_size
 								  )
 					       ),
@@ -182,30 +182,30 @@ void LogicalGateCpp::calc_output(
 
 void LogicalGateCpp::calc_delta(std::int32_t _batch_size) {
 
-  switch (this->hidden_nodes_fed_into_me_ptr.size()) {
+  switch (this->hidden_nodes_fed_into_me_ptr_.size()) {
 
   case 2:
     thrust::for_each(
 		     thrust::make_zip_iterator(
 					       thrust::make_tuple(
-								  this->delta.begin(),
-								  this->hidden_nodes_fed_into_me_ptr[0]->get_output().begin(),
-								  this->hidden_nodes_fed_into_me_ptr[1]->get_output().begin(),								 
-								  this->hidden_nodes_fed_into_me_ptr[0]->get_delta().begin(),
-								  this->hidden_nodes_fed_into_me_ptr[1]->get_delta().begin()
+								  this->delta_.begin(),
+								  this->hidden_nodes_fed_into_me_ptr_[0]->get_output().begin(),
+								  this->hidden_nodes_fed_into_me_ptr_[1]->get_output().begin(),								 
+								  this->hidden_nodes_fed_into_me_ptr_[0]->get_delta().begin(),
+								  this->hidden_nodes_fed_into_me_ptr_[1]->get_delta().begin()
 								  )
 					       ),
 		     thrust::make_zip_iterator(
 					       thrust::make_tuple(
-								  this->delta.begin()
+								  this->delta_.begin()
 								  + this->dim_*_batch_size,						 
-								  this->hidden_nodes_fed_into_me_ptr[0]->get_output().begin()
+								  this->hidden_nodes_fed_into_me_ptr_[0]->get_output().begin()
 								  + this->dim_*_batch_size,
-								  this->hidden_nodes_fed_into_me_ptr[1]->get_output().begin() 
+								  this->hidden_nodes_fed_into_me_ptr_[1]->get_output().begin() 
 								  + this->dim_*_batch_size,
-								  this->hidden_nodes_fed_into_me_ptr[0]->get_delta().begin()
+								  this->hidden_nodes_fed_into_me_ptr_[0]->get_delta().begin()
 								  + this->dim_*_batch_size,
-								  this->hidden_nodes_fed_into_me_ptr[1]->get_delta().begin()
+								  this->hidden_nodes_fed_into_me_ptr_[1]->get_delta().begin()
 								  + this->dim_*_batch_size						    
 								  )
 					       ),
@@ -222,30 +222,30 @@ void LogicalGateCpp::calc_delta(std::int32_t _batch_size) {
     thrust::for_each(
 		     thrust::make_zip_iterator(
 					       thrust::make_tuple(
-								  this->delta.begin(),
-								  this->hidden_nodes_fed_into_me_ptr[0]->get_output().begin(),
-								  this->hidden_nodes_fed_into_me_ptr[1]->get_output().begin(),
-								  this->hidden_nodes_fed_into_me_ptr[2]->get_output().begin(),								 
-								  this->hidden_nodes_fed_into_me_ptr[0]->get_delta().begin(),
-								  this->hidden_nodes_fed_into_me_ptr[1]->get_delta().begin(),
-								  this->hidden_nodes_fed_into_me_ptr[2]->get_delta().begin()
+								  this->delta_.begin(),
+								  this->hidden_nodes_fed_into_me_ptr_[0]->get_output().begin(),
+								  this->hidden_nodes_fed_into_me_ptr_[1]->get_output().begin(),
+								  this->hidden_nodes_fed_into_me_ptr_[2]->get_output().begin(),								 
+								  this->hidden_nodes_fed_into_me_ptr_[0]->get_delta().begin(),
+								  this->hidden_nodes_fed_into_me_ptr_[1]->get_delta().begin(),
+								  this->hidden_nodes_fed_into_me_ptr_[2]->get_delta().begin()
 								  )
 					       ),
 		     thrust::make_zip_iterator(
 					       thrust::make_tuple(
-								  this->delta.begin()
+								  this->delta_.begin()
 								  + this->dim_*_batch_size,						 
-								  this->hidden_nodes_fed_into_me_ptr[0]->get_output().begin()
+								  this->hidden_nodes_fed_into_me_ptr_[0]->get_output().begin()
 								  + this->dim_*_batch_size,
-								  this->hidden_nodes_fed_into_me_ptr[1]->get_output().begin() 
+								  this->hidden_nodes_fed_into_me_ptr_[1]->get_output().begin() 
 								  + this->dim_*_batch_size,
-								  this->hidden_nodes_fed_into_me_ptr[2]->get_output().begin() 
+								  this->hidden_nodes_fed_into_me_ptr_[2]->get_output().begin() 
 								  + this->dim_*_batch_size,
-								  this->hidden_nodes_fed_into_me_ptr[0]->get_delta().begin()
+								  this->hidden_nodes_fed_into_me_ptr_[0]->get_delta().begin()
 								  + this->dim_*_batch_size,
-								  this->hidden_nodes_fed_into_me_ptr[1]->get_delta().begin()
+								  this->hidden_nodes_fed_into_me_ptr_[1]->get_delta().begin()
 								  + this->dim_*_batch_size,
-								  this->hidden_nodes_fed_into_me_ptr[2]->get_delta().begin()
+								  this->hidden_nodes_fed_into_me_ptr_[2]->get_delta().begin()
 								  + this->dim_*_batch_size						    
 								  )
 					       ),
@@ -263,36 +263,36 @@ void LogicalGateCpp::calc_delta(std::int32_t _batch_size) {
     thrust::for_each(
 		     thrust::make_zip_iterator(
 					       thrust::make_tuple(
-								  this->delta.begin(),
-								  this->hidden_nodes_fed_into_me_ptr[0]->get_output().begin(),
-								  this->hidden_nodes_fed_into_me_ptr[1]->get_output().begin(),
-								  this->hidden_nodes_fed_into_me_ptr[2]->get_output().begin(),
-								  this->hidden_nodes_fed_into_me_ptr[3]->get_output().begin(),								  
-								  this->hidden_nodes_fed_into_me_ptr[0]->get_delta().begin(),
-								  this->hidden_nodes_fed_into_me_ptr[1]->get_delta().begin(),
-								  this->hidden_nodes_fed_into_me_ptr[2]->get_delta().begin(),
-								  this->hidden_nodes_fed_into_me_ptr[3]->get_delta().begin()
+								  this->delta_.begin(),
+								  this->hidden_nodes_fed_into_me_ptr_[0]->get_output().begin(),
+								  this->hidden_nodes_fed_into_me_ptr_[1]->get_output().begin(),
+								  this->hidden_nodes_fed_into_me_ptr_[2]->get_output().begin(),
+								  this->hidden_nodes_fed_into_me_ptr_[3]->get_output().begin(),								  
+								  this->hidden_nodes_fed_into_me_ptr_[0]->get_delta().begin(),
+								  this->hidden_nodes_fed_into_me_ptr_[1]->get_delta().begin(),
+								  this->hidden_nodes_fed_into_me_ptr_[2]->get_delta().begin(),
+								  this->hidden_nodes_fed_into_me_ptr_[3]->get_delta().begin()
 								  )
 					       ),
 		     thrust::make_zip_iterator(
 					       thrust::make_tuple(
-								  this->delta.begin()
+								  this->delta_.begin()
 								  + this->dim_*_batch_size,						 
-								  this->hidden_nodes_fed_into_me_ptr[0]->get_output().begin()
+								  this->hidden_nodes_fed_into_me_ptr_[0]->get_output().begin()
 								  + this->dim_*_batch_size,
-								  this->hidden_nodes_fed_into_me_ptr[1]->get_output().begin() 
+								  this->hidden_nodes_fed_into_me_ptr_[1]->get_output().begin() 
 								  + this->dim_*_batch_size,
-								  this->hidden_nodes_fed_into_me_ptr[2]->get_output().begin() 
+								  this->hidden_nodes_fed_into_me_ptr_[2]->get_output().begin() 
 								  + this->dim_*_batch_size,
-								  this->hidden_nodes_fed_into_me_ptr[3]->get_output().begin() 
+								  this->hidden_nodes_fed_into_me_ptr_[3]->get_output().begin() 
 								  + this->dim_*_batch_size,
-								  this->hidden_nodes_fed_into_me_ptr[0]->get_delta().begin()
+								  this->hidden_nodes_fed_into_me_ptr_[0]->get_delta().begin()
 								  + this->dim_*_batch_size,
-								  this->hidden_nodes_fed_into_me_ptr[1]->get_delta().begin()
+								  this->hidden_nodes_fed_into_me_ptr_[1]->get_delta().begin()
 								  + this->dim_*_batch_size,
-								  this->hidden_nodes_fed_into_me_ptr[2]->get_delta().begin()
+								  this->hidden_nodes_fed_into_me_ptr_[2]->get_delta().begin()
 								  + this->dim_*_batch_size,
-								  this->hidden_nodes_fed_into_me_ptr[3]->get_delta().begin()
+								  this->hidden_nodes_fed_into_me_ptr_[3]->get_delta().begin()
 								  + this->dim_*_batch_size
 								  )
 					       ),

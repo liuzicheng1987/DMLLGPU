@@ -24,9 +24,9 @@ ActivationFunctionCpp::~ActivationFunctionCpp() {};
 
 std::int32_t ActivationFunctionCpp::get_num_weights_required() {
 
-  std::int32_t num_weights_required = this->num_input_nodes_cumulative;
+  std::int32_t num_weights_required = this->num_input_nodes_cumulative_;
 
-  for (auto hidden: this->hidden_nodes_fed_into_me_ptr)
+  for (auto hidden: this->hidden_nodes_fed_into_me_ptr_)
     num_weights_required += hidden->get_dim();
 
   num_weights_required += 1;
@@ -43,7 +43,7 @@ void ActivationFunctionCpp::calc_output(
 					   ) {
   
   //Pointer to weights
-  const float *w = this->W;
+  const float *w = this->W_;
   
   //Number of columns in input data - for convenience
   std::int32_t input_dim;
@@ -54,18 +54,18 @@ void ActivationFunctionCpp::calc_output(
 
   //Resize output and delta, if necessary
   //Output is stored in the NeuralNetworkNodeCpp base class and stores the output of this node
-  if (static_cast<std::int32_t>(this->output.size()) != this->dim_*_batch_size) {
+  if (static_cast<std::int32_t>(this->output_.size()) != this->dim_*_batch_size) {
     
     //Resize output
-    this->output.resize(this->dim_*_batch_size);
-    this->output_ptr = this->output.data();
+    this->output_.resize(this->dim_*_batch_size);
+    this->output_ptr_ = this->output_.data();
 
   }
   
   //Transform dense input nodes
-  for (std::int32_t i: this->input_nodes_fed_into_me_dense) {
+  for (std::int32_t i: this->input_nodes_fed_into_me_dense_) {
 
-    input_dim = this->NeuralNet->get_dense_input_data(
+    input_dim = this->neural_net_->get_dense_input_data(
 						      i, 
 						      _batch_num
 						      ).dim;//For convenience
@@ -83,13 +83,13 @@ void ActivationFunctionCpp::calc_output(
 				  this->dim_, //dim1
 				  input_dim, //dim2           
 				  1.f, //alpha
-				  this->NeuralNet->get_dense_input_data(
+				  this->neural_net_->get_dense_input_data(
 								      i,
 								      _batch_num
 								      ).X_ptr, //A
 				  w, //B
 				  beta, //beta
-				  this->output_ptr //C 
+				  this->output_ptr_ //C 
 				  );
  
     w += this->dim_*input_dim;//Increment w to prepare it for next operation
@@ -98,9 +98,9 @@ void ActivationFunctionCpp::calc_output(
   } 
 
   //Transform sparse input nodes
-  for (std::int32_t i: this->input_nodes_fed_into_me_sparse) {
+  for (std::int32_t i: this->input_nodes_fed_into_me_sparse_) {
 
-    input_dim = this->NeuralNet->get_sparse_input_data(i, _batch_num).dim;//For convenience
+    input_dim = this->neural_net_->get_sparse_input_data(i, _batch_num).dim;//For convenience
     
     //output = alpha*(WT)X + beta*output 
     //X: (_batch_size X input_dim)-CSR-matrix
@@ -110,26 +110,26 @@ void ActivationFunctionCpp::calc_output(
 					 _batch_size,//dim0
 					 this->dim_,//dim1
 					 input_dim, //dim2
-					 this->NeuralNet->get_sparse_input_data(
+					 this->neural_net_->get_sparse_input_data(
 										i, 
 										_batch_num
 										).num_non_zero, //nnz
 					 1.f, //alpha
-					 this->NeuralNet->get_sparse_input_data(
+					 this->neural_net_->get_sparse_input_data(
 										i, 
 										_batch_num
 										).X_data_ptr,//data
-					 this->NeuralNet->get_sparse_input_data(
+					 this->neural_net_->get_sparse_input_data(
 										i, 
 										_batch_num
 										).X_indptr_ptr,//indptr
-					 this->NeuralNet->get_sparse_input_data(
+					 this->neural_net_->get_sparse_input_data(
 										i, 
 										_batch_num
 										).X_indices_ptr,//indices
 					 w, //B
 					 beta,//beta
-					 this->output_ptr //C 
+					 this->output_ptr_ //C 
 					 );
 
     
@@ -140,7 +140,7 @@ void ActivationFunctionCpp::calc_output(
   
   //Transform hidden nodes
   //Calculate derivatives for hidden nodes
-  for (auto node: this->hidden_nodes_fed_into_me_ptr) {
+  for (auto node: this->hidden_nodes_fed_into_me_ptr_) {
 
     input_dim = node->get_dim();//For convenience
 
@@ -161,7 +161,7 @@ void ActivationFunctionCpp::calc_output(
 				  node->get_output_ptr(),//A
 				  w, //B
 				  beta,//beta
-				  this->output_ptr //C 
+				  this->output_ptr_ //C 
 				  );
 
     w += this->dim_*input_dim;//Increment w to prepare it for next operation
@@ -174,7 +174,7 @@ void ActivationFunctionCpp::calc_output(
 			    _batch_size,
 			    this->dim_,
 			    w,
-			    this->output
+			    this->output_
 			    );
 
 }

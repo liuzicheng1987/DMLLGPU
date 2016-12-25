@@ -1,6 +1,0 @@
-import numpy as np
-
-for directory in sys.path[1:]:
-    if os.path.isdir(directory):
-        print directory
-        break

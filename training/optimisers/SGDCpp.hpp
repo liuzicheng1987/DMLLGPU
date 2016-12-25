@@ -35,7 +35,6 @@ public:
 	   const float                       _tol, 
 	   const std::int32_t                _max_num_epochs, 
 	   std::vector<float>               &_sum_gradients
-
 	   );
 		
 };
