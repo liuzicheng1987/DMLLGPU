@@ -14,7 +14,8 @@ NeuralNetworkCpp::NeuralNetworkCpp(
   if (_num_output_nodes_dense + _num_output_nodes_sparse <= 0) 
     throw std::invalid_argument("You must provide at least some output nodes!");
 
-  if (std::any_of(
+  if (
+	std::any_of(
 		  _num_input_nodes_dense, 
 		  _num_input_nodes_dense + _num_input_nodes_dense_length, 
 		  [](std::int32_t i){return i <= 0;}
@@ -87,7 +88,7 @@ void NeuralNetworkCpp::init_hidden_node(NeuralNetworkNodeCpp *_hidden_node) {
 
     //Extend hidden nodes vector
     std::vector<NeuralNetworkNodeCpp*>::iterator it = this->nodes_.begin() + this->nodes_.size();
-    this->nodes_.insert(it, num_additional_nodes, nullptr);	
+    this->nodes_.insert(it, num_additional_nodes, nullptr);
 
     //Increase num_hidden_nodes and reset pointers output_nodes, output_nodes_dense 
     //and output_nodes_sparse
@@ -204,7 +205,7 @@ void NeuralNetworkCpp::finalise(/*MPI_Comm comm, std::int32_t rank, std::int32_t
     sparse_targets_dim_[i] = this->output_nodes_[num_output_nodes_dense_ + i]->dim_;
 
   //Calculate cumulative_num_weights_required and initialise W
-  std::int32_t lengthW = 0;
+  std::int32_t length_W = 0;
   
   this->cumulative_num_weights_required_.clear();
 
@@ -215,8 +216,8 @@ void NeuralNetworkCpp::finalise(/*MPI_Comm comm, std::int32_t rank, std::int32_t
     if (node->i_share_weights_with_ < 0) {
 
       //If node does not share weights with another node, then count lengthW
-      this->cumulative_num_weights_required_.push_back(lengthW);
-      lengthW += node->get_num_weights_required();
+      this->cumulative_num_weights_required_.push_back(length_W);
+      length_W += node->get_num_weights_required();
 
     } else {
 
@@ -236,10 +237,10 @@ void NeuralNetworkCpp::finalise(/*MPI_Comm comm, std::int32_t rank, std::int32_t
 
   }
 
-  this->cumulative_num_weights_required_.push_back(lengthW);
+  this->cumulative_num_weights_required_.push_back(length_W);
 
   //Init Whost
-  std::vector<float> Whost(lengthW);
+  std::vector<float> Whost(length_W);
   
   std::mt19937 gen(1);//Note that we deliberately choose a constant seed to get the same output every time we call the function
   std::uniform_real_distribution<float> dist(_weight_init_range*(-1.0f), _weight_init_range);
@@ -327,17 +328,25 @@ void NeuralNetworkCpp::get_input_nodes_fed_into_me_dense(
 
 std::int32_t NeuralNetworkCpp::get_input_nodes_fed_into_me_sparse_length(std::int32_t _node_number) {
 		
-  if (!this->finalised_) throw std::invalid_argument("Neural network has not been finalised!");
-  if (_node_number < 0 || _node_number >= (std::int32_t)(nodes_.size())) std::invalid_argument("node_number out of bounds!");
+  if (!this->finalised_)
+	  throw std::invalid_argument("Neural network has not been finalised!");
 
-  return (std::int32_t)(this->nodes_[_node_number]->input_nodes_fed_into_me_sparse_.size());
+  if (
+		  _node_number < 0
+		  || _node_number >= (std::int32_t)(nodes_.size())
+		  )
+	  std::invalid_argument("node_number out of bounds!");
+
+  return (std::int32_t)(
+		  this->nodes_[_node_number]->input_nodes_fed_into_me_sparse_.size()
+		  );
 		
 };
 
 void NeuralNetworkCpp::get_input_nodes_fed_into_me_sparse(
 							     std::int32_t  _node_number, 
 							     std::int32_t *_input_nodes_fed_into_me_sparse, 
-							     std::int32_t _input_nodes_fed_into_me_sparse_length
+							     std::int32_t  _input_nodes_fed_into_me_sparse_length
 							     ) {
 		
   if (!this->finalised_) throw std::invalid_argument("Neural network has not been finalised!");
@@ -360,13 +369,13 @@ std::int32_t NeuralNetworkCpp::get_hidden_nodes_fed_into_me_length(std::int32_t 
 void NeuralNetworkCpp::get_hidden_nodes_fed_into_me(
 						       std::int32_t  _node_number,
 						       std::int32_t *_hidden_nodes_fed_into_me,
-						       std::int32_t __lengthhidden_nodes_fed_into_me
+						       std::int32_t  _length_hidden_nodes_fed_into_me
 						       ) {
 		
   if (!this->finalised_) throw std::invalid_argument("Neural network has not been finalised!");
   if (_node_number < 0 || _node_number >= (std::int32_t)(nodes_.size())) std::invalid_argument("node_number out of bounds!");
 		
-  for (std::int32_t i=0; i<__lengthhidden_nodes_fed_into_me; ++i)
+  for (std::int32_t i=0; i<_length_hidden_nodes_fed_into_me; ++i)
 	  _hidden_nodes_fed_into_me[i] = this->nodes_[_node_number]->hidden_nodes_fed_into_me_[i];
   		
 };
@@ -598,7 +607,7 @@ void NeuralNetworkCpp::transform(
 				 std::int32_t _Y2_dim, 
 				 bool         _sample, 
 				 std::int32_t _sample_size, 
-				 bool         _Gethidden_nodes
+				 bool         _get_hidden_nodes
 				 ) {
       		
     //Make sure that neural network has been finalised!
@@ -655,7 +664,7 @@ void NeuralNetworkCpp::transform(
     this->sample_ = _sample;
     if (!_sample) _sample_size = 1;
 
-    const double SampleAvg = 1.0/((double)_sample_size);
+    const double sample_avg = 1.0/((double)_sample_size);
 
     //Set pointers contained in the NeuralNetworkNodes class
     for (std::size_t n=0; n<this->nodes_.size(); ++n) 

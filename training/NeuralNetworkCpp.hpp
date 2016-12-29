@@ -103,7 +103,7 @@ public:
 		       std::int32_t     _num_input_nodes_sparse_length, 
 		       std::int32_t     _num_output_nodes_dense, 
 		       std::int32_t     _num_output_nodes_sparse, 
-		       LossFunctionCpp *_loss/*, _RegulariserCpp *_regulariser*/
+		       LossFunctionCpp *_loss
 		       );
 	
   ~NeuralNetworkCpp();
@@ -250,6 +250,10 @@ public:
 	    const bool         _sample
 	    );
 
+  //The purpose of this function is to calculate the batch size
+  //and make sure that the batch sizes in all samples are coherent
+  std::vector<std::int32_t> calculate_batch_size_and_ensure_coherence();
+
   //The purpose of this function is to calculate the gradient of the weights
   void dfdw(/*MPI_Comm comm,*/
 	    float             *_dLdw, 
@@ -268,7 +272,7 @@ public:
 		 std::int32_t _Y2_dim,
 		 bool         _sample,
 		 std::int32_t _sample_size,
-		 bool         _Gethidden_nodes
+		 bool         _get_hidden_nodes
 		 );
   
   //The purpose of this function is to delete the input data used for fitting or transforming after it is no longer needed, so it doesn't take up space on the 
@@ -291,12 +295,9 @@ public:
     return this->mat_descr_;
   };
 
-  //The nodes need to be able to access the private input data.
-  matrix::DenseMatrix& get_dense_input_data(
-					    std::int32_t i, 
-					    std::int32_t _batch_num
-					    ) {
-    return this->dense_input_data_[i][_batch_num];
+  //Relational networks need to be able to access this piece of information
+  std::int32_t get_dense_input_data_size() {
+    return static_cast<std::int32_t>(this->dense_input_data_.size());
   };
 
   //The nodes need to be able to access the private input data dimension.
@@ -304,12 +305,43 @@ public:
     return this->dense_input_data_dim_;
   };
 
+  //Relational networks need to be able to access this piece of information
+  //Careful: Overloaded function
+  std::vector<matrix::DenseMatrix>& get_dense_input_data(
+					    std::int32_t i
+					    ) {
+    return this->dense_input_data_[i];
+  };
+
+  //The nodes need to be able to access the private input data.
+  //Careful: Overloaded function
+  matrix::DenseMatrix& get_dense_input_data(
+					    std::int32_t i, 
+					    std::int32_t _batch_num
+					    ) {
+    return this->dense_input_data_[i][_batch_num];
+  };
+
+  //Relational networks need to be able to access this piece of information
+  std::int32_t get_sparse_input_data_size() {
+    return static_cast<std::int32_t>(this->sparse_input_data_.size());
+  };
+
   //The nodes need to be able to access the private input data dimension.
   std::vector<std::int32_t>& get_sparse_input_data_dim() {
     return this->sparse_input_data_dim_;
   };
 
+  //Relational networks need to be able to access this piece of information
+  //Careful: Overloaded function
+  std::vector<matrix::CSRMatrix>& get_sparse_input_data(
+					    std::int32_t i
+					    ) {
+    return this->sparse_input_data_[i];
+  };
+
   //The nodes need to be able to access the private input data.
+  //Careful: Overloaded function
   matrix::CSRMatrix& get_sparse_input_data(
 					   std::int32_t i, 
 					   std::int32_t _batch_num

@@ -79,19 +79,7 @@ void NeuralNetworkCpp::fit (/*MPI_Comm comm,*/
   //Make sure that neural network has been finalised!
   if (!this->finalised_) throw std::invalid_argument("Neural network has not been finalised!");
 
-  //Get batch_size
-  std::vector<std::int32_t> batch_size;
-  if (this->dense_input_data_.size() > 0) {
-
-    for (auto data: this->dense_input_data_[0])
-      batch_size.push_back(data.batch_size);
-
-  } else if (this->sparse_input_data_.size() > 0) {
-
-    for (auto data: this->sparse_input_data_[0])
-      batch_size.push_back(data.batch_size);
-
-  } else throw std::invalid_argument("No input data provided!");
+  std::vector<std::int32_t> batch_size = this->calculate_batch_size_and_ensure_coherence();
 
   //Calculate this->num_samples
   this->num_samples_ = std::accumulate(batch_size.begin(), batch_size.end(), 0);
@@ -100,48 +88,24 @@ void NeuralNetworkCpp::fit (/*MPI_Comm comm,*/
   std::int32_t num_batches = (std::int32_t)(batch_size.size());
 
   //Make sure that the batch_sizes are identical for all matrices provided!
-  for (auto DataVector: this->dense_input_data_) {
+  for (auto data_vector: this->dense_targets_) {
 
-    if (DataVector.size() != batch_size.size()) 
+    if (data_vector.size() != batch_size.size())
       throw std::invalid_argument("All input and output matrices must have the exact same number of samples!");
 
-    for (std::size_t i=0; i<DataVector.size(); ++i) 
-      if (DataVector[i].batch_size != batch_size[i]) 
+    for (std::size_t i=0; i<data_vector.size(); ++i)
+      if (data_vector[i].batch_size != batch_size[i]) 
 	throw std::invalid_argument("All input and output matrices must have the exact same number of samples!");
 
   }
 
-  //Make sure that the batch_sizes are identical for all matrices provided!
-  for (auto DataVector: this->dense_targets_) {
+  for (auto data_vector: this->sparse_targets_) {
 
-    if (DataVector.size() != batch_size.size())
+    if (data_vector.size() != batch_size.size())
       throw std::invalid_argument("All input and output matrices must have the exact same number of samples!");
 
-    for (std::size_t i=0; i<DataVector.size(); ++i)
-      if (DataVector[i].batch_size != batch_size[i]) 
-	throw std::invalid_argument("All input and output matrices must have the exact same number of samples!");
-
-  }
-
-  //Make sure that the batch_sizes are identical for all matrices provided!
-  for (auto DataVector: this->sparse_input_data_) {
-
-    if (DataVector.size() != batch_size.size())
-      throw std::invalid_argument("All input and output matrices must have the exact same number of samples!");
-
-    for (std::size_t i=0; i<DataVector.size(); ++i) 
-      if (DataVector[i].batch_size != batch_size[i]) 
-	throw std::invalid_argument("All input and output matrices must have the exact same number of samples!");
-
-  }
-
-  for (auto DataVector: this->sparse_targets_) {
-
-    if (DataVector.size() != batch_size.size()) 
-      throw std::invalid_argument("All input and output matrices must have the exact same number of samples!");
-
-    for (std::size_t i=0; i<DataVector.size(); ++i) 
-      if (DataVector[i].batch_size != batch_size[i]) 
+    for (std::size_t i=0; i<data_vector.size(); ++i)
+      if (data_vector[i].batch_size != batch_size[i])
 	throw std::invalid_argument("All input and output matrices must have the exact same number of samples!");
 
   }

@@ -2,13 +2,24 @@ class AggregationCpp: public NeuralNetworkNodeCpp {
 
 private:
 
-  std::int32_t input_network_;//Index signifying input network
+  //Index signifying input network
+  std::int32_t input_network_;
 
-  NeuralNetworkCpp *input_network_ptr_;//Pointer to input network
+  //Pointer to input network
+  NeuralNetworkCpp *input_network_ptr_;
 
-  thrust::device_vector<float> ones_;//This is used to calculate the bias
+  //Pointer to ones_
+  float *ones_ptr_;
 
-  float *ones_ptr_;//Pointer to ones_
+  //Pointer to relational network containing
+  //aggregation
+  RelationalNetworkCpp *relational_net_;
+
+protected:
+
+  //One, if element is included in aggregation,
+  //zero otherwise
+  thrust::device_vector<float> included_in_aggregation_;
 
 public:
 

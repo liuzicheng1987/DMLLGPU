@@ -32,22 +32,44 @@ NeuralNetworkCpp::NeuralNetworkCpp(
 
   //Init num_hidden_nodes
   this->num_hidden_nodes_ = (std::size_t)0;
-  
+
   //Init num_output_nodes
   this->num_output_nodes_dense_ = _num_output_nodes_dense; 
   this->num_output_nodes_sparse_ = _num_output_nodes_sparse;
   this->num_output_nodes_ = _num_output_nodes_dense + _num_output_nodes_sparse;
 
   //Set up input data and target data
-  this->dense_input_data_ = std::vector<std::vector<matrix::DenseMatrix>>(_num_input_nodes_dense_length);
-  this->sparse_input_data_ = std::vector<std::vector<matrix::CSRMatrix>>(_num_input_nodes_sparse_length);
-  this->dense_targets_ = std::vector<std::vector<matrix::DenseMatrix>>(_num_output_nodes_dense);
-  this->sparse_targets_ = std::vector<std::vector<matrix::COOVector>>(_num_output_nodes_sparse);
+  this->dense_input_data_ = std::vector<std::vector<matrix::DenseMatrix>>(
+		  _num_input_nodes_dense_length
+		  );
 
-  this->dense_input_data_dim_ = std::vector<std::int32_t>(_num_input_nodes_dense_length);
-  this->sparse_input_data_dim_ = std::vector<std::int32_t>(_num_input_nodes_sparse_length);
-  this->dense_targets_dim_ = std::vector<std::int32_t>(_num_output_nodes_dense);
-  this->sparse_targets_dim_ = std::vector<std::int32_t>(_num_output_nodes_sparse);
+  this->sparse_input_data_ = std::vector<std::vector<matrix::CSRMatrix>>(
+		  _num_input_nodes_sparse_length
+		  );
+
+  this->dense_targets_ = std::vector<std::vector<matrix::DenseMatrix>>(
+		  _num_output_nodes_dense
+		  );
+
+  this->sparse_targets_ = std::vector<std::vector<matrix::COOVector>>(
+		  _num_output_nodes_sparse
+		  );
+
+  this->dense_input_data_dim_ = std::vector<std::int32_t>(
+		  _num_input_nodes_dense_length
+		  );
+
+  this->sparse_input_data_dim_ = std::vector<std::int32_t>(
+		  _num_input_nodes_sparse_length
+		  );
+
+  this->dense_targets_dim_ = std::vector<std::int32_t>(
+		  _num_output_nodes_dense
+		  );
+
+  this->sparse_targets_dim_ = std::vector<std::int32_t>(
+		  _num_output_nodes_sparse
+		  );
 
   //Transfer number of input nodes
   std::copy(
@@ -797,64 +819,72 @@ void NeuralNetworkCpp::load_coo(
     for (auto& data: this->sparse_targets_) data.clear();
 
   }
+
+    std::vector<std::int32_t> NeuralNetworkCpp::calculate_batch_size_and_ensure_coherence() {
+
+    	//Get batch_size
+    	std::vector<std::int32_t> batch_size;
+
+    	if (this->dense_input_data_.size() > 0) {
+
+    		for (auto data: this->dense_input_data_[0])
+    	      batch_size.push_back(data.batch_size);
+
+    	} else if (this->sparse_input_data_.size() > 0) {
+
+    		for (auto data: this->sparse_input_data_[0])
+    			batch_size.push_back(data.batch_size);
+
+    	} else throw std::invalid_argument("No input data provided!");
+
+    	//Make sure that the batch_sizes are identical for all matrices provided!
+    	for (auto data_vector: this->dense_input_data_) {
+
+    		if (data_vector.size() != batch_size.size())
+    	      throw std::invalid_argument("All input and output matrices must have the exact same number of samples!");
+
+    	    for (std::size_t i=0; i<data_vector.size(); ++i)
+    	      if (data_vector[i].batch_size != batch_size[i])
+
+    	    throw std::invalid_argument("All input and output matrices must have the exact same number of samples!");
+
+    	  }
+
+    	//Make sure that the batch_sizes are identical for all matrices provided
+    	for (auto data_vector: this->sparse_input_data_) {
+
+    	    if (data_vector.size() != batch_size.size())
+    	      throw std::invalid_argument("All input and output matrices must have the exact same number of samples!");
+
+    	    for (std::size_t i=0; i<data_vector.size(); ++i)
+    	    	if (data_vector[i].batch_size != batch_size[i])
+
+    	    throw std::invalid_argument("All input and output matrices must have the exact same number of samples!");
+
+    	 }
+
+    	return batch_size;
+
+    };
 	           
     void NeuralNetworkCpp::transform(
-                                        float       *_Yhat,
-                                        std::int32_t _Y2_num_samples, 
-					std::int32_t _Y2_dim, 
-					bool         _sample, 
-					std::int32_t _sample_size, 
-					bool         _Gethidden_nodes
-					) {
+    		float       *_Yhat,
+    		std::int32_t _Y2_num_samples,
+    		std::int32_t _Y2_dim,
+    		bool         _sample,
+    		std::int32_t _sample_size,
+    		bool         _get_hidden_nodes
+    ) {
 		
     //Make sure that neural network has been finalised!
-    if (!this->finalised_) throw std::invalid_argument("Neural network has not been finalised!");
+    if (!this->finalised_) throw std::invalid_argument(
+    		"Neural network has not been finalised!"
+    		);
   
     //Get batch_size
-    std::vector<std::int32_t> batch_size;
-    
-    if (this->dense_input_data_.size() > 0) {
+    std::vector<std::int32_t> batch_size = this->calculate_batch_size_and_ensure_coherence();
 
-      for (auto data: this->dense_input_data_[0])
-	batch_size.push_back(data.batch_size);
-
-    } else if (this->sparse_input_data_.size() > 0) {
-
-      for (auto data: this->sparse_input_data_[0])
-	batch_size.push_back(data.batch_size);
-
-    } else {
-
-      throw std::invalid_argument("No input data provided!");
-
-    }
-
-    //Get num_batches
-    std::int32_t num_batches = (std::int32_t)(batch_size.size());
-
-    //Make sure that the batch_sizes are identical for all matrices provided!
-    for (auto DataVector: this->dense_input_data_) {
-
-      if (DataVector.size() != batch_size.size()) 
-	throw std::invalid_argument("All input matrices must have the exact same number of samples!");
-
-      for (std::size_t i=0; i<DataVector.size(); ++i) 
-	if (DataVector[i].batch_size != batch_size[i]) 
-	  throw std::invalid_argument("All input matrices must have the exact same number of samples!");
-
-    }
-
-    //Make sure that the batch_sizes are identical for all matrices provided!
-    for (auto DataVector: this->sparse_input_data_) {
-
-      if (DataVector.size() != batch_size.size()) 
-	throw std::invalid_argument("All input matrices must have the exact same number of samples!");
-
-      for (std::size_t i=0; i<DataVector.size(); ++i) 
-	if (DataVector[i].batch_size != batch_size[i]) 
-	  throw std::invalid_argument("All input matrices must have the exact same number of samples!");
-
-    }
+    std::int32_t num_batches = static_cast<std::int32_t>(batch_size.size());
 
     //Store input values
     this->num_samples_ = _Y2_num_samples;
