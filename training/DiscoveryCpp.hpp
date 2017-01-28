@@ -51,6 +51,9 @@
 #include "NeuralNetworkCppNonParallelFunctions.hpp"
 #include "NeuralNetworkCppParallelFunctions.hpp"
 
+#include "RelationalNetwork/RelationalNetworkCpp.hpp"
+#include "RelationalNetwork/RelationalNetworkCppFunctions.hpp"
+
 #include "ActivationFunctions/ActivationFunctions.hpp"
 
 #include "ActivationFunctions/ActivationFunctionCpp.hpp"
@@ -59,6 +62,12 @@
 #include "ActivationFunctions/LogisticActivationFunctionCpp.hpp"
 #include "ActivationFunctions/LinearActivationFunctionCpp.hpp"
 #include "ActivationFunctions/SoftmaxActivationFunctionCpp.hpp"
+
+#include "Aggregations/AggregationFunctors.hpp"
+#include "Aggregations/AggregationCpp.hpp"
+#include "Aggregations/AggregationCppFunctions.hpp"
+#include "Aggregations/SumCpp.hpp"
+#include "Aggregations/SumCppFunctions.hpp"
 
 #include "dropout/DropoutFunctors.hpp"
 #include "dropout/DropoutCpp.hpp"

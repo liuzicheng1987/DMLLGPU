@@ -1,19 +1,19 @@
-class OptimiserCpp {
-	
+class OptimiserCpp
+{
+
 protected:
+  float *w_ptr_; //Pointer to W - for convenience
 
-  float *w_ptr_;//Pointer to W - for convenience
+  thrust::device_vector<float> dldw_; //Derivative of loss function for weight vector
+  float *dldw_ptr_;                   //Pointer to dldw - for convenience
 
-  thrust::device_vector<float> dldw_;//Derivative of loss function for weight vector
-  float *dldw_ptr_;//Pointer to dldw - for convenience
+  thrust::device_vector<float> sum_dldw_; //Sum of dLdw
 
-  thrust::device_vector<float> sum_dldw_;//Sum of dLdw
+  std::int32_t num_samples_; //Number of samples
 
-  std::int32_t num_samples_;//Number of samples 
+  std::int32_t num_batches_; //Number of batches
 
-  std::int32_t num_batches_;//Number of batches
-
-  std::int32_t global_batch_size_;//Sum of batch size in all process
+  std::int32_t global_batch_size_; //Sum of batch size in all process
 
   /*
 
@@ -26,30 +26,27 @@ protected:
   */
 
   virtual void min(/*MPI_Comm comm,*/
-		   NumericallyOptimisedAlgorithmCpp *_numerically_optimised_algorithm, 
-		   thrust::device_vector<float>     &_W, 
-		   const float                       _tol, 
-		   const std::int32_t                _max_num_epochs, 
-		   std::vector<float>               &_sum_gradients
-		   ) {
-    throw std::invalid_argument("This shouldn't happen!\n You need to use an optimising algorithm, not the base class!");
-  }//Function to be accessed from minimise (does the actual work)!
+                   NumericallyOptimisedAlgorithmCpp *_numerically_optimised_algorithm,
+                   thrust::device_vector<float> &_W,
+                   const float _tol,
+                   const std::int32_t _max_num_epochs,
+                   std::vector<float> &_sum_gradients)
+  {
+    throw std::invalid_argument("This shouldn't happen! You need to use an optimising algorithm (like SGD), not the base class!");
+  } //Function to be accessed from minimise (does the actual work)!
 
 public:
-	
   //Constructor
   OptimiserCpp(/*const std::int32_t _size, const std::int32_t _rank*/);
 
   virtual ~OptimiserCpp();
-	
-  void minimise (/*MPI_Comm comm,*/
-		 NumericallyOptimisedAlgorithmCpp *_numerically_optimised_algorithm, 
-		 std::int32_t                      _num_samples, 
-		 thrust::device_vector<float>     &_W, 
-		 std::int32_t                      _global_batch_size, 
-		 const float                       _tol, 
-		 const std::int32_t                _max_num_epochs, 
-		 std::vector<float>               &_sum_gradients
-		 );//Minimise loss function (public function)
-			       		
+
+  void minimise(/*MPI_Comm comm,*/
+                NumericallyOptimisedAlgorithmCpp *_numerically_optimised_algorithm,
+                std::int32_t _num_samples,
+                thrust::device_vector<float> &_W,
+                std::int32_t _global_batch_size,
+                const float _tol,
+                const std::int32_t _max_num_epochs,
+                std::vector<float> &_sum_gradients);
 };

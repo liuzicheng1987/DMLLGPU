@@ -2940,38 +2940,41 @@ SWIG_Python_NonDynamicSetAttr(PyObject *obj, PyObject *name, PyObject *value) {
 #define SWIGTYPE_p_ANDGateCpp swig_types[0]
 #define SWIGTYPE_p_ActivationFunctionCpp swig_types[1]
 #define SWIGTYPE_p_AdaGradCpp swig_types[2]
-#define SWIGTYPE_p_DropoutCpp swig_types[3]
-#define SWIGTYPE_p_L2RegulariserCpp swig_types[4]
-#define SWIGTYPE_p_LinearActivationFunctionCpp swig_types[5]
-#define SWIGTYPE_p_LogicalGateCpp swig_types[6]
-#define SWIGTYPE_p_LogisticActivationFunctionCpp swig_types[7]
-#define SWIGTYPE_p_LossFunctionCpp swig_types[8]
-#define SWIGTYPE_p_NANDGateCpp swig_types[9]
-#define SWIGTYPE_p_NORGateCpp swig_types[10]
-#define SWIGTYPE_p_NeuralNetworkCpp swig_types[11]
-#define SWIGTYPE_p_NeuralNetworkNodeCpp swig_types[12]
-#define SWIGTYPE_p_NodeSamplerCpp swig_types[13]
-#define SWIGTYPE_p_NumericallyOptimisedAlgorithmCpp swig_types[14]
-#define SWIGTYPE_p_ORGateCpp swig_types[15]
-#define SWIGTYPE_p_OptimiserCpp swig_types[16]
-#define SWIGTYPE_p_RegulariserCpp swig_types[17]
-#define SWIGTYPE_p_SGDCpp swig_types[18]
-#define SWIGTYPE_p_SoftmaxActivationFunctionCpp swig_types[19]
-#define SWIGTYPE_p_SquareLossCpp swig_types[20]
-#define SWIGTYPE_p_XNORGateCpp swig_types[21]
-#define SWIGTYPE_p_XORGateCpp swig_types[22]
-#define SWIGTYPE_p_char swig_types[23]
-#define SWIGTYPE_p_float swig_types[24]
-#define SWIGTYPE_p_int swig_types[25]
-#define SWIGTYPE_p_long_long swig_types[26]
-#define SWIGTYPE_p_short swig_types[27]
-#define SWIGTYPE_p_signed_char swig_types[28]
-#define SWIGTYPE_p_unsigned_char swig_types[29]
-#define SWIGTYPE_p_unsigned_int swig_types[30]
-#define SWIGTYPE_p_unsigned_long_long swig_types[31]
-#define SWIGTYPE_p_unsigned_short swig_types[32]
-static swig_type_info *swig_types[34];
-static swig_module_info swig_module = {swig_types, 33, 0, 0, 0, 0};
+#define SWIGTYPE_p_AggregationCpp swig_types[3]
+#define SWIGTYPE_p_DropoutCpp swig_types[4]
+#define SWIGTYPE_p_L2RegulariserCpp swig_types[5]
+#define SWIGTYPE_p_LinearActivationFunctionCpp swig_types[6]
+#define SWIGTYPE_p_LogicalGateCpp swig_types[7]
+#define SWIGTYPE_p_LogisticActivationFunctionCpp swig_types[8]
+#define SWIGTYPE_p_LossFunctionCpp swig_types[9]
+#define SWIGTYPE_p_NANDGateCpp swig_types[10]
+#define SWIGTYPE_p_NORGateCpp swig_types[11]
+#define SWIGTYPE_p_NeuralNetworkCpp swig_types[12]
+#define SWIGTYPE_p_NeuralNetworkNodeCpp swig_types[13]
+#define SWIGTYPE_p_NodeSamplerCpp swig_types[14]
+#define SWIGTYPE_p_NumericallyOptimisedAlgorithmCpp swig_types[15]
+#define SWIGTYPE_p_ORGateCpp swig_types[16]
+#define SWIGTYPE_p_OptimiserCpp swig_types[17]
+#define SWIGTYPE_p_RegulariserCpp swig_types[18]
+#define SWIGTYPE_p_RelationalNetworkCpp swig_types[19]
+#define SWIGTYPE_p_SGDCpp swig_types[20]
+#define SWIGTYPE_p_SoftmaxActivationFunctionCpp swig_types[21]
+#define SWIGTYPE_p_SquareLossCpp swig_types[22]
+#define SWIGTYPE_p_SumCpp swig_types[23]
+#define SWIGTYPE_p_XNORGateCpp swig_types[24]
+#define SWIGTYPE_p_XORGateCpp swig_types[25]
+#define SWIGTYPE_p_char swig_types[26]
+#define SWIGTYPE_p_float swig_types[27]
+#define SWIGTYPE_p_int swig_types[28]
+#define SWIGTYPE_p_long_long swig_types[29]
+#define SWIGTYPE_p_short swig_types[30]
+#define SWIGTYPE_p_signed_char swig_types[31]
+#define SWIGTYPE_p_unsigned_char swig_types[32]
+#define SWIGTYPE_p_unsigned_int swig_types[33]
+#define SWIGTYPE_p_unsigned_long_long swig_types[34]
+#define SWIGTYPE_p_unsigned_short swig_types[35]
+static swig_type_info *swig_types[37];
+static swig_module_info swig_module = {swig_types, 36, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -6062,6 +6065,787 @@ SWIGINTERN PyObject *NeuralNetworkCpp_swigregister(PyObject *SWIGUNUSEDPARM(self
   return SWIG_Py_Void();
 }
 
+SWIGINTERN PyObject *_wrap_new_RelationalNetworkCpp(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  RelationalNetworkCpp *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)":new_RelationalNetworkCpp")) SWIG_fail;
+  {
+    try {
+      result = (RelationalNetworkCpp *)new RelationalNetworkCpp();
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_UnknownError, e.what());
+    } 
+  }
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_RelationalNetworkCpp, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_RelationalNetworkCpp(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  RelationalNetworkCpp *arg1 = (RelationalNetworkCpp *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_RelationalNetworkCpp",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_RelationalNetworkCpp, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_RelationalNetworkCpp" "', argument " "1"" of type '" "RelationalNetworkCpp *""'"); 
+  }
+  arg1 = reinterpret_cast< RelationalNetworkCpp * >(argp1);
+  {
+    try {
+      delete arg1;
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_UnknownError, e.what());
+    } 
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_RelationalNetworkCpp_add_input_network(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  RelationalNetworkCpp *arg1 = (RelationalNetworkCpp *) 0 ;
+  NeuralNetworkCpp *arg2 = (NeuralNetworkCpp *) 0 ;
+  std::int32_t arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:RelationalNetworkCpp_add_input_network",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_RelationalNetworkCpp, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "RelationalNetworkCpp_add_input_network" "', argument " "1"" of type '" "RelationalNetworkCpp *""'"); 
+  }
+  arg1 = reinterpret_cast< RelationalNetworkCpp * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_NeuralNetworkCpp, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "RelationalNetworkCpp_add_input_network" "', argument " "2"" of type '" "NeuralNetworkCpp *""'"); 
+  }
+  arg2 = reinterpret_cast< NeuralNetworkCpp * >(argp2);
+  ecode3 = SWIG_AsVal_int(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "RelationalNetworkCpp_add_input_network" "', argument " "3"" of type '" "std::int32_t""'");
+  } 
+  arg3 = static_cast< std::int32_t >(val3);
+  {
+    try {
+      (arg1)->add_input_network(arg2,arg3);
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_UnknownError, e.what());
+    } 
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_RelationalNetworkCpp_set_output_network(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  RelationalNetworkCpp *arg1 = (RelationalNetworkCpp *) 0 ;
+  NeuralNetworkCpp *arg2 = (NeuralNetworkCpp *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:RelationalNetworkCpp_set_output_network",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_RelationalNetworkCpp, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "RelationalNetworkCpp_set_output_network" "', argument " "1"" of type '" "RelationalNetworkCpp *""'"); 
+  }
+  arg1 = reinterpret_cast< RelationalNetworkCpp * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_NeuralNetworkCpp, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "RelationalNetworkCpp_set_output_network" "', argument " "2"" of type '" "NeuralNetworkCpp *""'"); 
+  }
+  arg2 = reinterpret_cast< NeuralNetworkCpp * >(argp2);
+  {
+    try {
+      (arg1)->set_output_network(arg2);
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_UnknownError, e.what());
+    } 
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_RelationalNetworkCpp_finalise(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  RelationalNetworkCpp *arg1 = (RelationalNetworkCpp *) 0 ;
+  float arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  float val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:RelationalNetworkCpp_finalise",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_RelationalNetworkCpp, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "RelationalNetworkCpp_finalise" "', argument " "1"" of type '" "RelationalNetworkCpp *""'"); 
+  }
+  arg1 = reinterpret_cast< RelationalNetworkCpp * >(argp1);
+  ecode2 = SWIG_AsVal_float(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "RelationalNetworkCpp_finalise" "', argument " "2"" of type '" "float""'");
+  } 
+  arg2 = static_cast< float >(val2);
+  {
+    try {
+      (arg1)->finalise(arg2);
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_UnknownError, e.what());
+    } 
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_RelationalNetworkCpp_load_dense_data(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  RelationalNetworkCpp *arg1 = (RelationalNetworkCpp *) 0 ;
+  std::int32_t arg2 ;
+  std::int32_t arg3 ;
+  float *arg4 = (float *) 0 ;
+  std::int32_t arg5 ;
+  std::int32_t arg6 ;
+  std::int32_t arg7 ;
+  std::int32_t *arg8 = (std::int32_t *) 0 ;
+  std::int32_t arg9 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  PyArrayObject *array4 = NULL ;
+  int is_new_object4 ;
+  int val7 ;
+  int ecode7 = 0 ;
+  PyArrayObject *array8 = NULL ;
+  int is_new_object8 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  PyObject * obj4 = 0 ;
+  PyObject * obj5 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOOOO:RelationalNetworkCpp_load_dense_data",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_RelationalNetworkCpp, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "RelationalNetworkCpp_load_dense_data" "', argument " "1"" of type '" "RelationalNetworkCpp *""'"); 
+  }
+  arg1 = reinterpret_cast< RelationalNetworkCpp * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "RelationalNetworkCpp_load_dense_data" "', argument " "2"" of type '" "std::int32_t""'");
+  } 
+  arg2 = static_cast< std::int32_t >(val2);
+  ecode3 = SWIG_AsVal_int(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "RelationalNetworkCpp_load_dense_data" "', argument " "3"" of type '" "std::int32_t""'");
+  } 
+  arg3 = static_cast< std::int32_t >(val3);
+  {
+    int size[2] = {
+      -1,-1
+    };
+    array4 = obj_to_array_contiguous_allow_conversion(obj3, PyArray_FLOAT, &is_new_object4);
+    if (!array4 || !require_dimensions(array4,2) || !require_size(array4,size,1)) SWIG_fail;
+    arg4 = (float*) array4->data;
+    arg5 = array4->dimensions[0];
+    arg6 = array4->dimensions[1];
+  }
+  ecode7 = SWIG_AsVal_int(obj4, &val7);
+  if (!SWIG_IsOK(ecode7)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode7), "in method '" "RelationalNetworkCpp_load_dense_data" "', argument " "7"" of type '" "std::int32_t""'");
+  } 
+  arg7 = static_cast< std::int32_t >(val7);
+  {
+    int size[1] = {
+      -1
+    };
+    array8 = obj_to_array_contiguous_allow_conversion(obj5, PyArray_INT, &is_new_object8);
+    if (!array8 || !require_dimensions(array8,1) || !require_size(array8,size,1)) SWIG_fail;
+    arg8 = (int*) array8->data;
+    arg9 = array8->dimensions[0];
+  }
+  {
+    try {
+      (arg1)->load_dense_data(arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_UnknownError, e.what());
+    } 
+  }
+  resultobj = SWIG_Py_Void();
+  {
+    if (is_new_object4 && array4) Py_DECREF(array4);
+  }
+  {
+    if (is_new_object8 && array8) Py_DECREF(array8);
+  }
+  return resultobj;
+fail:
+  {
+    if (is_new_object4 && array4) Py_DECREF(array4);
+  }
+  {
+    if (is_new_object8 && array8) Py_DECREF(array8);
+  }
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_RelationalNetworkCpp_load_dense_targets(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  RelationalNetworkCpp *arg1 = (RelationalNetworkCpp *) 0 ;
+  std::int32_t arg2 ;
+  float *arg3 = (float *) 0 ;
+  std::int32_t arg4 ;
+  std::int32_t arg5 ;
+  std::int32_t arg6 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyArrayObject *array3 = NULL ;
+  int is_new_object3 ;
+  int val6 ;
+  int ecode6 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:RelationalNetworkCpp_load_dense_targets",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_RelationalNetworkCpp, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "RelationalNetworkCpp_load_dense_targets" "', argument " "1"" of type '" "RelationalNetworkCpp *""'"); 
+  }
+  arg1 = reinterpret_cast< RelationalNetworkCpp * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "RelationalNetworkCpp_load_dense_targets" "', argument " "2"" of type '" "std::int32_t""'");
+  } 
+  arg2 = static_cast< std::int32_t >(val2);
+  {
+    int size[2] = {
+      -1,-1
+    };
+    array3 = obj_to_array_contiguous_allow_conversion(obj2, PyArray_FLOAT, &is_new_object3);
+    if (!array3 || !require_dimensions(array3,2) || !require_size(array3,size,1)) SWIG_fail;
+    arg3 = (float*) array3->data;
+    arg4 = array3->dimensions[0];
+    arg5 = array3->dimensions[1];
+  }
+  ecode6 = SWIG_AsVal_int(obj3, &val6);
+  if (!SWIG_IsOK(ecode6)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode6), "in method '" "RelationalNetworkCpp_load_dense_targets" "', argument " "6"" of type '" "std::int32_t""'");
+  } 
+  arg6 = static_cast< std::int32_t >(val6);
+  {
+    try {
+      (arg1)->load_dense_targets(arg2,arg3,arg4,arg5,arg6);
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_UnknownError, e.what());
+    } 
+  }
+  resultobj = SWIG_Py_Void();
+  {
+    if (is_new_object3 && array3) Py_DECREF(array3);
+  }
+  return resultobj;
+fail:
+  {
+    if (is_new_object3 && array3) Py_DECREF(array3);
+  }
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_RelationalNetworkCpp_load_time_stamps_output(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  RelationalNetworkCpp *arg1 = (RelationalNetworkCpp *) 0 ;
+  float *arg2 = (float *) 0 ;
+  std::int32_t arg3 ;
+  std::int32_t arg4 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyArrayObject *array2 = NULL ;
+  int is_new_object2 ;
+  int val4 ;
+  int ecode4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:RelationalNetworkCpp_load_time_stamps_output",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_RelationalNetworkCpp, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "RelationalNetworkCpp_load_time_stamps_output" "', argument " "1"" of type '" "RelationalNetworkCpp *""'"); 
+  }
+  arg1 = reinterpret_cast< RelationalNetworkCpp * >(argp1);
+  {
+    int size[1] = {
+      -1
+    };
+    array2 = obj_to_array_contiguous_allow_conversion(obj1, PyArray_FLOAT, &is_new_object2);
+    if (!array2 || !require_dimensions(array2,1) || !require_size(array2,size,1)) SWIG_fail;
+    arg2 = (float*) array2->data;
+    arg3 = array2->dimensions[0];
+  }
+  ecode4 = SWIG_AsVal_int(obj2, &val4);
+  if (!SWIG_IsOK(ecode4)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "RelationalNetworkCpp_load_time_stamps_output" "', argument " "4"" of type '" "std::int32_t""'");
+  } 
+  arg4 = static_cast< std::int32_t >(val4);
+  {
+    try {
+      (arg1)->load_time_stamps_output(arg2,arg3,arg4);
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_UnknownError, e.what());
+    } 
+  }
+  resultobj = SWIG_Py_Void();
+  {
+    if (is_new_object2 && array2) Py_DECREF(array2);
+  }
+  return resultobj;
+fail:
+  {
+    if (is_new_object2 && array2) Py_DECREF(array2);
+  }
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_RelationalNetworkCpp_load_time_stamps_input(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  RelationalNetworkCpp *arg1 = (RelationalNetworkCpp *) 0 ;
+  float *arg2 = (float *) 0 ;
+  std::int32_t arg3 ;
+  std::int32_t *arg4 = (std::int32_t *) 0 ;
+  std::int32_t arg5 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyArrayObject *array2 = NULL ;
+  int is_new_object2 ;
+  PyArrayObject *array4 = NULL ;
+  int is_new_object4 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:RelationalNetworkCpp_load_time_stamps_input",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_RelationalNetworkCpp, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "RelationalNetworkCpp_load_time_stamps_input" "', argument " "1"" of type '" "RelationalNetworkCpp *""'"); 
+  }
+  arg1 = reinterpret_cast< RelationalNetworkCpp * >(argp1);
+  {
+    int size[1] = {
+      -1
+    };
+    array2 = obj_to_array_contiguous_allow_conversion(obj1, PyArray_FLOAT, &is_new_object2);
+    if (!array2 || !require_dimensions(array2,1) || !require_size(array2,size,1)) SWIG_fail;
+    arg2 = (float*) array2->data;
+    arg3 = array2->dimensions[0];
+  }
+  {
+    int size[1] = {
+      -1
+    };
+    array4 = obj_to_array_contiguous_allow_conversion(obj2, PyArray_INT, &is_new_object4);
+    if (!array4 || !require_dimensions(array4,1) || !require_size(array4,size,1)) SWIG_fail;
+    arg4 = (int*) array4->data;
+    arg5 = array4->dimensions[0];
+  }
+  {
+    try {
+      (arg1)->load_time_stamps_input(arg2,arg3,arg4,arg5);
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_UnknownError, e.what());
+    } 
+  }
+  resultobj = SWIG_Py_Void();
+  {
+    if (is_new_object2 && array2) Py_DECREF(array2);
+  }
+  {
+    if (is_new_object4 && array4) Py_DECREF(array4);
+  }
+  return resultobj;
+fail:
+  {
+    if (is_new_object2 && array2) Py_DECREF(array2);
+  }
+  {
+    if (is_new_object4 && array4) Py_DECREF(array4);
+  }
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_RelationalNetworkCpp_add_join_keys_left(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  RelationalNetworkCpp *arg1 = (RelationalNetworkCpp *) 0 ;
+  std::int32_t *arg2 = (std::int32_t *) 0 ;
+  std::int32_t arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyArrayObject *array2 = NULL ;
+  int is_new_object2 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:RelationalNetworkCpp_add_join_keys_left",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_RelationalNetworkCpp, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "RelationalNetworkCpp_add_join_keys_left" "', argument " "1"" of type '" "RelationalNetworkCpp *""'"); 
+  }
+  arg1 = reinterpret_cast< RelationalNetworkCpp * >(argp1);
+  {
+    int size[1] = {
+      -1
+    };
+    array2 = obj_to_array_contiguous_allow_conversion(obj1, PyArray_INT, &is_new_object2);
+    if (!array2 || !require_dimensions(array2,1) || !require_size(array2,size,1)) SWIG_fail;
+    arg2 = (int*) array2->data;
+    arg3 = array2->dimensions[0];
+  }
+  {
+    try {
+      (arg1)->add_join_keys_left(arg2,arg3);
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_UnknownError, e.what());
+    } 
+  }
+  resultobj = SWIG_Py_Void();
+  {
+    if (is_new_object2 && array2) Py_DECREF(array2);
+  }
+  return resultobj;
+fail:
+  {
+    if (is_new_object2 && array2) Py_DECREF(array2);
+  }
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_RelationalNetworkCpp_clean_up(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  RelationalNetworkCpp *arg1 = (RelationalNetworkCpp *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:RelationalNetworkCpp_clean_up",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_RelationalNetworkCpp, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "RelationalNetworkCpp_clean_up" "', argument " "1"" of type '" "RelationalNetworkCpp *""'"); 
+  }
+  arg1 = reinterpret_cast< RelationalNetworkCpp * >(argp1);
+  {
+    try {
+      (arg1)->clean_up();
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_UnknownError, e.what());
+    } 
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_RelationalNetworkCpp_fit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  RelationalNetworkCpp *arg1 = (RelationalNetworkCpp *) 0 ;
+  OptimiserCpp *arg2 = (OptimiserCpp *) 0 ;
+  std::int32_t arg3 ;
+  float arg4 ;
+  std::int32_t arg5 ;
+  bool arg6 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  float val4 ;
+  int ecode4 = 0 ;
+  int val5 ;
+  int ecode5 = 0 ;
+  bool val6 ;
+  int ecode6 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  PyObject * obj4 = 0 ;
+  PyObject * obj5 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOOOO:RelationalNetworkCpp_fit",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_RelationalNetworkCpp, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "RelationalNetworkCpp_fit" "', argument " "1"" of type '" "RelationalNetworkCpp *""'"); 
+  }
+  arg1 = reinterpret_cast< RelationalNetworkCpp * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_OptimiserCpp, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "RelationalNetworkCpp_fit" "', argument " "2"" of type '" "OptimiserCpp *""'"); 
+  }
+  arg2 = reinterpret_cast< OptimiserCpp * >(argp2);
+  ecode3 = SWIG_AsVal_int(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "RelationalNetworkCpp_fit" "', argument " "3"" of type '" "std::int32_t""'");
+  } 
+  arg3 = static_cast< std::int32_t >(val3);
+  ecode4 = SWIG_AsVal_float(obj3, &val4);
+  if (!SWIG_IsOK(ecode4)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "RelationalNetworkCpp_fit" "', argument " "4"" of type '" "float""'");
+  } 
+  arg4 = static_cast< float >(val4);
+  ecode5 = SWIG_AsVal_int(obj4, &val5);
+  if (!SWIG_IsOK(ecode5)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "RelationalNetworkCpp_fit" "', argument " "5"" of type '" "std::int32_t""'");
+  } 
+  arg5 = static_cast< std::int32_t >(val5);
+  ecode6 = SWIG_AsVal_bool(obj5, &val6);
+  if (!SWIG_IsOK(ecode6)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode6), "in method '" "RelationalNetworkCpp_fit" "', argument " "6"" of type '" "bool""'");
+  } 
+  arg6 = static_cast< bool >(val6);
+  {
+    try {
+      (arg1)->fit(arg2,arg3,arg4,arg5,arg6);
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_UnknownError, e.what());
+    } 
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_RelationalNetworkCpp_transform(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  RelationalNetworkCpp *arg1 = (RelationalNetworkCpp *) 0 ;
+  float *arg2 = (float *) 0 ;
+  std::int32_t arg3 ;
+  std::int32_t arg4 ;
+  bool arg5 ;
+  std::int32_t arg6 ;
+  bool arg7 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyArrayObject *array2 = NULL ;
+  int is_new_object2 ;
+  bool val5 ;
+  int ecode5 = 0 ;
+  int val6 ;
+  int ecode6 = 0 ;
+  bool val7 ;
+  int ecode7 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  PyObject * obj4 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOOO:RelationalNetworkCpp_transform",&obj0,&obj1,&obj2,&obj3,&obj4)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_RelationalNetworkCpp, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "RelationalNetworkCpp_transform" "', argument " "1"" of type '" "RelationalNetworkCpp *""'"); 
+  }
+  arg1 = reinterpret_cast< RelationalNetworkCpp * >(argp1);
+  {
+    int size[2] = {
+      -1,-1
+    };
+    array2 = obj_to_array_contiguous_allow_conversion(obj1, PyArray_FLOAT, &is_new_object2);
+    if (!array2 || !require_dimensions(array2,2) || !require_size(array2,size,1)) SWIG_fail;
+    arg2 = (float*) array2->data;
+    arg3 = array2->dimensions[0];
+    arg4 = array2->dimensions[1];
+  }
+  ecode5 = SWIG_AsVal_bool(obj2, &val5);
+  if (!SWIG_IsOK(ecode5)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "RelationalNetworkCpp_transform" "', argument " "5"" of type '" "bool""'");
+  } 
+  arg5 = static_cast< bool >(val5);
+  ecode6 = SWIG_AsVal_int(obj3, &val6);
+  if (!SWIG_IsOK(ecode6)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode6), "in method '" "RelationalNetworkCpp_transform" "', argument " "6"" of type '" "std::int32_t""'");
+  } 
+  arg6 = static_cast< std::int32_t >(val6);
+  ecode7 = SWIG_AsVal_bool(obj4, &val7);
+  if (!SWIG_IsOK(ecode7)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode7), "in method '" "RelationalNetworkCpp_transform" "', argument " "7"" of type '" "bool""'");
+  } 
+  arg7 = static_cast< bool >(val7);
+  {
+    try {
+      (arg1)->transform(arg2,arg3,arg4,arg5,arg6,arg7);
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_UnknownError, e.what());
+    } 
+  }
+  resultobj = SWIG_Py_Void();
+  {
+    if (is_new_object2 && array2) Py_DECREF(array2);
+  }
+  return resultobj;
+fail:
+  {
+    if (is_new_object2 && array2) Py_DECREF(array2);
+  }
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_RelationalNetworkCpp_get_sum_output_dim(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  RelationalNetworkCpp *arg1 = (RelationalNetworkCpp *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  std::int32_t result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:RelationalNetworkCpp_get_sum_output_dim",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_RelationalNetworkCpp, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "RelationalNetworkCpp_get_sum_output_dim" "', argument " "1"" of type '" "RelationalNetworkCpp *""'"); 
+  }
+  arg1 = reinterpret_cast< RelationalNetworkCpp * >(argp1);
+  {
+    try {
+      result = (std::int32_t)(arg1)->get_sum_output_dim();
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_UnknownError, e.what());
+    } 
+  }
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_RelationalNetworkCpp_get_sum_gradients_length(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  RelationalNetworkCpp *arg1 = (RelationalNetworkCpp *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  std::int32_t result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:RelationalNetworkCpp_get_sum_gradients_length",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_RelationalNetworkCpp, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "RelationalNetworkCpp_get_sum_gradients_length" "', argument " "1"" of type '" "RelationalNetworkCpp *""'"); 
+  }
+  arg1 = reinterpret_cast< RelationalNetworkCpp * >(argp1);
+  {
+    try {
+      result = (std::int32_t)(arg1)->get_sum_gradients_length();
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_UnknownError, e.what());
+    } 
+  }
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_RelationalNetworkCpp_get_sum_gradients(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  RelationalNetworkCpp *arg1 = (RelationalNetworkCpp *) 0 ;
+  float *arg2 = (float *) 0 ;
+  std::int32_t arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyArrayObject *array2 = NULL ;
+  int is_new_object2 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:RelationalNetworkCpp_get_sum_gradients",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_RelationalNetworkCpp, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "RelationalNetworkCpp_get_sum_gradients" "', argument " "1"" of type '" "RelationalNetworkCpp *""'"); 
+  }
+  arg1 = reinterpret_cast< RelationalNetworkCpp * >(argp1);
+  {
+    int size[1] = {
+      -1
+    };
+    array2 = obj_to_array_contiguous_allow_conversion(obj1, PyArray_FLOAT, &is_new_object2);
+    if (!array2 || !require_dimensions(array2,1) || !require_size(array2,size,1)) SWIG_fail;
+    arg2 = (float*) array2->data;
+    arg3 = array2->dimensions[0];
+  }
+  {
+    try {
+      (arg1)->get_sum_gradients(arg2,arg3);
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_UnknownError, e.what());
+    } 
+  }
+  resultobj = SWIG_Py_Void();
+  {
+    if (is_new_object2 && array2) Py_DECREF(array2);
+  }
+  return resultobj;
+fail:
+  {
+    if (is_new_object2 && array2) Py_DECREF(array2);
+  }
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *RelationalNetworkCpp_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_RelationalNetworkCpp, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
 SWIGINTERN PyObject *_wrap_new_LogicalGateCpp(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   std::int32_t arg1 ;
@@ -6908,6 +7692,202 @@ SWIGINTERN PyObject *NodeSamplerCpp_swigregister(PyObject *SWIGUNUSEDPARM(self),
   return SWIG_Py_Void();
 }
 
+SWIGINTERN PyObject *_wrap_new_AggregationCpp(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::int32_t arg1 ;
+  std::int32_t arg2 ;
+  std::int32_t arg3 ;
+  bool arg4 ;
+  std::int32_t arg5 ;
+  bool arg6 ;
+  int val1 ;
+  int ecode1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  bool val4 ;
+  int ecode4 = 0 ;
+  int val5 ;
+  int ecode5 = 0 ;
+  bool val6 ;
+  int ecode6 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  PyObject * obj4 = 0 ;
+  PyObject * obj5 = 0 ;
+  AggregationCpp *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOOOO:new_AggregationCpp",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5)) SWIG_fail;
+  ecode1 = SWIG_AsVal_int(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_AggregationCpp" "', argument " "1"" of type '" "std::int32_t""'");
+  } 
+  arg1 = static_cast< std::int32_t >(val1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "new_AggregationCpp" "', argument " "2"" of type '" "std::int32_t""'");
+  } 
+  arg2 = static_cast< std::int32_t >(val2);
+  ecode3 = SWIG_AsVal_int(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "new_AggregationCpp" "', argument " "3"" of type '" "std::int32_t""'");
+  } 
+  arg3 = static_cast< std::int32_t >(val3);
+  ecode4 = SWIG_AsVal_bool(obj3, &val4);
+  if (!SWIG_IsOK(ecode4)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "new_AggregationCpp" "', argument " "4"" of type '" "bool""'");
+  } 
+  arg4 = static_cast< bool >(val4);
+  ecode5 = SWIG_AsVal_int(obj4, &val5);
+  if (!SWIG_IsOK(ecode5)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "new_AggregationCpp" "', argument " "5"" of type '" "std::int32_t""'");
+  } 
+  arg5 = static_cast< std::int32_t >(val5);
+  ecode6 = SWIG_AsVal_bool(obj5, &val6);
+  if (!SWIG_IsOK(ecode6)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode6), "in method '" "new_AggregationCpp" "', argument " "6"" of type '" "bool""'");
+  } 
+  arg6 = static_cast< bool >(val6);
+  {
+    try {
+      result = (AggregationCpp *)new AggregationCpp(arg1,arg2,arg3,arg4,arg5,arg6);
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_UnknownError, e.what());
+    } 
+  }
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_AggregationCpp, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_AggregationCpp(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  AggregationCpp *arg1 = (AggregationCpp *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_AggregationCpp",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_AggregationCpp, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_AggregationCpp" "', argument " "1"" of type '" "AggregationCpp *""'"); 
+  }
+  arg1 = reinterpret_cast< AggregationCpp * >(argp1);
+  {
+    try {
+      delete arg1;
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_UnknownError, e.what());
+    } 
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *AggregationCpp_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_AggregationCpp, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *_wrap_new_SumCpp(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  std::int32_t arg1 ;
+  std::int32_t arg2 ;
+  std::int32_t arg3 ;
+  bool arg4 ;
+  int val1 ;
+  int ecode1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  bool val4 ;
+  int ecode4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  SumCpp *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:new_SumCpp",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  ecode1 = SWIG_AsVal_int(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_SumCpp" "', argument " "1"" of type '" "std::int32_t""'");
+  } 
+  arg1 = static_cast< std::int32_t >(val1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "new_SumCpp" "', argument " "2"" of type '" "std::int32_t""'");
+  } 
+  arg2 = static_cast< std::int32_t >(val2);
+  ecode3 = SWIG_AsVal_int(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "new_SumCpp" "', argument " "3"" of type '" "std::int32_t""'");
+  } 
+  arg3 = static_cast< std::int32_t >(val3);
+  ecode4 = SWIG_AsVal_bool(obj3, &val4);
+  if (!SWIG_IsOK(ecode4)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "new_SumCpp" "', argument " "4"" of type '" "bool""'");
+  } 
+  arg4 = static_cast< bool >(val4);
+  {
+    try {
+      result = (SumCpp *)new SumCpp(arg1,arg2,arg3,arg4);
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_UnknownError, e.what());
+    } 
+  }
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_SumCpp, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_SumCpp(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  SumCpp *arg1 = (SumCpp *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_SumCpp",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_SumCpp, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_SumCpp" "', argument " "1"" of type '" "SumCpp *""'"); 
+  }
+  arg1 = reinterpret_cast< SumCpp * >(argp1);
+  {
+    try {
+      delete arg1;
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_UnknownError, e.what());
+    } 
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *SumCpp_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_SumCpp, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
 static PyMethodDef SwigMethods[] = {
 	 { (char *)"SWIG_PyInstanceMethod_New", (PyCFunction)SWIG_PyInstanceMethod_New, METH_O, NULL},
 	 { (char *)"new_LossFunctionCpp", _wrap_new_LossFunctionCpp, METH_VARARGS, NULL},
@@ -6973,6 +7953,23 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"NeuralNetworkCpp_get_sum_gradients", _wrap_NeuralNetworkCpp_get_sum_gradients, METH_VARARGS, NULL},
 	 { (char *)"NeuralNetworkCpp_get_sum_output_dim", _wrap_NeuralNetworkCpp_get_sum_output_dim, METH_VARARGS, NULL},
 	 { (char *)"NeuralNetworkCpp_swigregister", NeuralNetworkCpp_swigregister, METH_VARARGS, NULL},
+	 { (char *)"new_RelationalNetworkCpp", _wrap_new_RelationalNetworkCpp, METH_VARARGS, NULL},
+	 { (char *)"delete_RelationalNetworkCpp", _wrap_delete_RelationalNetworkCpp, METH_VARARGS, NULL},
+	 { (char *)"RelationalNetworkCpp_add_input_network", _wrap_RelationalNetworkCpp_add_input_network, METH_VARARGS, NULL},
+	 { (char *)"RelationalNetworkCpp_set_output_network", _wrap_RelationalNetworkCpp_set_output_network, METH_VARARGS, NULL},
+	 { (char *)"RelationalNetworkCpp_finalise", _wrap_RelationalNetworkCpp_finalise, METH_VARARGS, NULL},
+	 { (char *)"RelationalNetworkCpp_load_dense_data", _wrap_RelationalNetworkCpp_load_dense_data, METH_VARARGS, NULL},
+	 { (char *)"RelationalNetworkCpp_load_dense_targets", _wrap_RelationalNetworkCpp_load_dense_targets, METH_VARARGS, NULL},
+	 { (char *)"RelationalNetworkCpp_load_time_stamps_output", _wrap_RelationalNetworkCpp_load_time_stamps_output, METH_VARARGS, NULL},
+	 { (char *)"RelationalNetworkCpp_load_time_stamps_input", _wrap_RelationalNetworkCpp_load_time_stamps_input, METH_VARARGS, NULL},
+	 { (char *)"RelationalNetworkCpp_add_join_keys_left", _wrap_RelationalNetworkCpp_add_join_keys_left, METH_VARARGS, NULL},
+	 { (char *)"RelationalNetworkCpp_clean_up", _wrap_RelationalNetworkCpp_clean_up, METH_VARARGS, NULL},
+	 { (char *)"RelationalNetworkCpp_fit", _wrap_RelationalNetworkCpp_fit, METH_VARARGS, NULL},
+	 { (char *)"RelationalNetworkCpp_transform", _wrap_RelationalNetworkCpp_transform, METH_VARARGS, NULL},
+	 { (char *)"RelationalNetworkCpp_get_sum_output_dim", _wrap_RelationalNetworkCpp_get_sum_output_dim, METH_VARARGS, NULL},
+	 { (char *)"RelationalNetworkCpp_get_sum_gradients_length", _wrap_RelationalNetworkCpp_get_sum_gradients_length, METH_VARARGS, NULL},
+	 { (char *)"RelationalNetworkCpp_get_sum_gradients", _wrap_RelationalNetworkCpp_get_sum_gradients, METH_VARARGS, NULL},
+	 { (char *)"RelationalNetworkCpp_swigregister", RelationalNetworkCpp_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_LogicalGateCpp", _wrap_new_LogicalGateCpp, METH_VARARGS, NULL},
 	 { (char *)"delete_LogicalGateCpp", _wrap_delete_LogicalGateCpp, METH_VARARGS, NULL},
 	 { (char *)"LogicalGateCpp_swigregister", LogicalGateCpp_swigregister, METH_VARARGS, NULL},
@@ -7000,53 +7997,80 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"new_NodeSamplerCpp", _wrap_new_NodeSamplerCpp, METH_VARARGS, NULL},
 	 { (char *)"delete_NodeSamplerCpp", _wrap_delete_NodeSamplerCpp, METH_VARARGS, NULL},
 	 { (char *)"NodeSamplerCpp_swigregister", NodeSamplerCpp_swigregister, METH_VARARGS, NULL},
+	 { (char *)"new_AggregationCpp", _wrap_new_AggregationCpp, METH_VARARGS, NULL},
+	 { (char *)"delete_AggregationCpp", _wrap_delete_AggregationCpp, METH_VARARGS, NULL},
+	 { (char *)"AggregationCpp_swigregister", AggregationCpp_swigregister, METH_VARARGS, NULL},
+	 { (char *)"new_SumCpp", _wrap_new_SumCpp, METH_VARARGS, NULL},
+	 { (char *)"delete_SumCpp", _wrap_delete_SumCpp, METH_VARARGS, NULL},
+	 { (char *)"SumCpp_swigregister", SumCpp_swigregister, METH_VARARGS, NULL},
 	 { NULL, NULL, 0, NULL }
 };
 
 
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
+static void *_p_L2RegulariserCppTo_p_RegulariserCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((RegulariserCpp *)  ((L2RegulariserCpp *) x));
+}
+static void *_p_AdaGradCppTo_p_OptimiserCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((OptimiserCpp *)  ((AdaGradCpp *) x));
+}
+static void *_p_SGDCppTo_p_OptimiserCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((OptimiserCpp *)  ((SGDCpp *) x));
+}
 static void *_p_NeuralNetworkCppTo_p_NumericallyOptimisedAlgorithmCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((NumericallyOptimisedAlgorithmCpp *)  ((NeuralNetworkCpp *) x));
 }
-static void *_p_ActivationFunctionCppTo_p_NeuralNetworkNodeCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
-    return (void *)((NeuralNetworkNodeCpp *)  ((ActivationFunctionCpp *) x));
-}
-static void *_p_LogisticActivationFunctionCppTo_p_NeuralNetworkNodeCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
-    return (void *)((NeuralNetworkNodeCpp *) (ActivationFunctionCpp *) ((LogisticActivationFunctionCpp *) x));
-}
-static void *_p_LinearActivationFunctionCppTo_p_NeuralNetworkNodeCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
-    return (void *)((NeuralNetworkNodeCpp *) (ActivationFunctionCpp *) ((LinearActivationFunctionCpp *) x));
-}
-static void *_p_SoftmaxActivationFunctionCppTo_p_NeuralNetworkNodeCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
-    return (void *)((NeuralNetworkNodeCpp *) (ActivationFunctionCpp *) ((SoftmaxActivationFunctionCpp *) x));
+static void *_p_RelationalNetworkCppTo_p_NumericallyOptimisedAlgorithmCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((NumericallyOptimisedAlgorithmCpp *)  ((RelationalNetworkCpp *) x));
 }
 static void *_p_DropoutCppTo_p_NeuralNetworkNodeCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((NeuralNetworkNodeCpp *)  ((DropoutCpp *) x));
 }
-static void *_p_LogicalGateCppTo_p_NeuralNetworkNodeCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
-    return (void *)((NeuralNetworkNodeCpp *)  ((LogicalGateCpp *) x));
+static void *_p_SumCppTo_p_NeuralNetworkNodeCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((NeuralNetworkNodeCpp *) (AggregationCpp *) ((SumCpp *) x));
 }
-static void *_p_ANDGateCppTo_p_NeuralNetworkNodeCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
-    return (void *)((NeuralNetworkNodeCpp *) (LogicalGateCpp *) ((ANDGateCpp *) x));
+static void *_p_AggregationCppTo_p_NeuralNetworkNodeCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((NeuralNetworkNodeCpp *)  ((AggregationCpp *) x));
 }
-static void *_p_ORGateCppTo_p_NeuralNetworkNodeCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
-    return (void *)((NeuralNetworkNodeCpp *) (LogicalGateCpp *) ((ORGateCpp *) x));
+static void *_p_SoftmaxActivationFunctionCppTo_p_NeuralNetworkNodeCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((NeuralNetworkNodeCpp *) (ActivationFunctionCpp *) ((SoftmaxActivationFunctionCpp *) x));
 }
-static void *_p_XORGateCppTo_p_NeuralNetworkNodeCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
-    return (void *)((NeuralNetworkNodeCpp *) (LogicalGateCpp *) ((XORGateCpp *) x));
+static void *_p_LinearActivationFunctionCppTo_p_NeuralNetworkNodeCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((NeuralNetworkNodeCpp *) (ActivationFunctionCpp *) ((LinearActivationFunctionCpp *) x));
 }
-static void *_p_XNORGateCppTo_p_NeuralNetworkNodeCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
-    return (void *)((NeuralNetworkNodeCpp *) (LogicalGateCpp *) ((XNORGateCpp *) x));
+static void *_p_LogisticActivationFunctionCppTo_p_NeuralNetworkNodeCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((NeuralNetworkNodeCpp *) (ActivationFunctionCpp *) ((LogisticActivationFunctionCpp *) x));
 }
-static void *_p_NORGateCppTo_p_NeuralNetworkNodeCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
-    return (void *)((NeuralNetworkNodeCpp *) (LogicalGateCpp *) ((NORGateCpp *) x));
+static void *_p_ActivationFunctionCppTo_p_NeuralNetworkNodeCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((NeuralNetworkNodeCpp *)  ((ActivationFunctionCpp *) x));
+}
+static void *_p_NodeSamplerCppTo_p_NeuralNetworkNodeCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((NeuralNetworkNodeCpp *)  ((NodeSamplerCpp *) x));
 }
 static void *_p_NANDGateCppTo_p_NeuralNetworkNodeCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((NeuralNetworkNodeCpp *) (LogicalGateCpp *) ((NANDGateCpp *) x));
 }
-static void *_p_NodeSamplerCppTo_p_NeuralNetworkNodeCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
-    return (void *)((NeuralNetworkNodeCpp *)  ((NodeSamplerCpp *) x));
+static void *_p_NORGateCppTo_p_NeuralNetworkNodeCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((NeuralNetworkNodeCpp *) (LogicalGateCpp *) ((NORGateCpp *) x));
+}
+static void *_p_XNORGateCppTo_p_NeuralNetworkNodeCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((NeuralNetworkNodeCpp *) (LogicalGateCpp *) ((XNORGateCpp *) x));
+}
+static void *_p_XORGateCppTo_p_NeuralNetworkNodeCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((NeuralNetworkNodeCpp *) (LogicalGateCpp *) ((XORGateCpp *) x));
+}
+static void *_p_ORGateCppTo_p_NeuralNetworkNodeCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((NeuralNetworkNodeCpp *) (LogicalGateCpp *) ((ORGateCpp *) x));
+}
+static void *_p_ANDGateCppTo_p_NeuralNetworkNodeCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((NeuralNetworkNodeCpp *) (LogicalGateCpp *) ((ANDGateCpp *) x));
+}
+static void *_p_LogicalGateCppTo_p_NeuralNetworkNodeCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((NeuralNetworkNodeCpp *)  ((LogicalGateCpp *) x));
+}
+static void *_p_SquareLossCppTo_p_LossFunctionCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((LossFunctionCpp *)  ((SquareLossCpp *) x));
 }
 static void *_p_LogisticActivationFunctionCppTo_p_ActivationFunctionCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((ActivationFunctionCpp *)  ((LogisticActivationFunctionCpp *) x));
@@ -7057,17 +8081,8 @@ static void *_p_LinearActivationFunctionCppTo_p_ActivationFunctionCpp(void *x, i
 static void *_p_SoftmaxActivationFunctionCppTo_p_ActivationFunctionCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((ActivationFunctionCpp *)  ((SoftmaxActivationFunctionCpp *) x));
 }
-static void *_p_SquareLossCppTo_p_LossFunctionCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
-    return (void *)((LossFunctionCpp *)  ((SquareLossCpp *) x));
-}
-static void *_p_AdaGradCppTo_p_OptimiserCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
-    return (void *)((OptimiserCpp *)  ((AdaGradCpp *) x));
-}
-static void *_p_SGDCppTo_p_OptimiserCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
-    return (void *)((OptimiserCpp *)  ((SGDCpp *) x));
-}
-static void *_p_L2RegulariserCppTo_p_RegulariserCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
-    return (void *)((RegulariserCpp *)  ((L2RegulariserCpp *) x));
+static void *_p_SumCppTo_p_AggregationCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((AggregationCpp *)  ((SumCpp *) x));
 }
 static void *_p_ANDGateCppTo_p_LogicalGateCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((LogicalGateCpp *)  ((ANDGateCpp *) x));
@@ -7090,6 +8105,7 @@ static void *_p_NANDGateCppTo_p_LogicalGateCpp(void *x, int *SWIGUNUSEDPARM(newm
 static swig_type_info _swigt__p_ANDGateCpp = {"_p_ANDGateCpp", "ANDGateCpp *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_ActivationFunctionCpp = {"_p_ActivationFunctionCpp", "ActivationFunctionCpp *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_AdaGradCpp = {"_p_AdaGradCpp", "AdaGradCpp *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_AggregationCpp = {"_p_AggregationCpp", "AggregationCpp *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_DropoutCpp = {"_p_DropoutCpp", "DropoutCpp *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_L2RegulariserCpp = {"_p_L2RegulariserCpp", "L2RegulariserCpp *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_LinearActivationFunctionCpp = {"_p_LinearActivationFunctionCpp", "LinearActivationFunctionCpp *", 0, 0, (void*)0, 0};
@@ -7105,9 +8121,11 @@ static swig_type_info _swigt__p_NumericallyOptimisedAlgorithmCpp = {"_p_Numerica
 static swig_type_info _swigt__p_ORGateCpp = {"_p_ORGateCpp", "ORGateCpp *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_OptimiserCpp = {"_p_OptimiserCpp", "OptimiserCpp *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_RegulariserCpp = {"_p_RegulariserCpp", "RegulariserCpp *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_RelationalNetworkCpp = {"_p_RelationalNetworkCpp", "RelationalNetworkCpp *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_SGDCpp = {"_p_SGDCpp", "SGDCpp *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_SoftmaxActivationFunctionCpp = {"_p_SoftmaxActivationFunctionCpp", "SoftmaxActivationFunctionCpp *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_SquareLossCpp = {"_p_SquareLossCpp", "SquareLossCpp *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_SumCpp = {"_p_SumCpp", "SumCpp *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_XNORGateCpp = {"_p_XNORGateCpp", "XNORGateCpp *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_XORGateCpp = {"_p_XORGateCpp", "XORGateCpp *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_char = {"_p_char", "char *", 0, 0, (void*)0, 0};
@@ -7125,6 +8143,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_ANDGateCpp,
   &_swigt__p_ActivationFunctionCpp,
   &_swigt__p_AdaGradCpp,
+  &_swigt__p_AggregationCpp,
   &_swigt__p_DropoutCpp,
   &_swigt__p_L2RegulariserCpp,
   &_swigt__p_LinearActivationFunctionCpp,
@@ -7140,9 +8159,11 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_ORGateCpp,
   &_swigt__p_OptimiserCpp,
   &_swigt__p_RegulariserCpp,
+  &_swigt__p_RelationalNetworkCpp,
   &_swigt__p_SGDCpp,
   &_swigt__p_SoftmaxActivationFunctionCpp,
   &_swigt__p_SquareLossCpp,
+  &_swigt__p_SumCpp,
   &_swigt__p_XNORGateCpp,
   &_swigt__p_XORGateCpp,
   &_swigt__p_char,
@@ -7160,6 +8181,7 @@ static swig_type_info *swig_type_initial[] = {
 static swig_cast_info _swigc__p_ANDGateCpp[] = {  {&_swigt__p_ANDGateCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_ActivationFunctionCpp[] = {  {&_swigt__p_ActivationFunctionCpp, 0, 0, 0},  {&_swigt__p_LogisticActivationFunctionCpp, _p_LogisticActivationFunctionCppTo_p_ActivationFunctionCpp, 0, 0},  {&_swigt__p_LinearActivationFunctionCpp, _p_LinearActivationFunctionCppTo_p_ActivationFunctionCpp, 0, 0},  {&_swigt__p_SoftmaxActivationFunctionCpp, _p_SoftmaxActivationFunctionCppTo_p_ActivationFunctionCpp, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_AdaGradCpp[] = {  {&_swigt__p_AdaGradCpp, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_AggregationCpp[] = {  {&_swigt__p_AggregationCpp, 0, 0, 0},  {&_swigt__p_SumCpp, _p_SumCppTo_p_AggregationCpp, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_DropoutCpp[] = {  {&_swigt__p_DropoutCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_L2RegulariserCpp[] = {  {&_swigt__p_L2RegulariserCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_LinearActivationFunctionCpp[] = {  {&_swigt__p_LinearActivationFunctionCpp, 0, 0, 0},{0, 0, 0, 0}};
@@ -7169,15 +8191,17 @@ static swig_cast_info _swigc__p_LossFunctionCpp[] = {  {&_swigt__p_LossFunctionC
 static swig_cast_info _swigc__p_NANDGateCpp[] = {  {&_swigt__p_NANDGateCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_NORGateCpp[] = {  {&_swigt__p_NORGateCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_NeuralNetworkCpp[] = {  {&_swigt__p_NeuralNetworkCpp, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_NeuralNetworkNodeCpp[] = {  {&_swigt__p_DropoutCpp, _p_DropoutCppTo_p_NeuralNetworkNodeCpp, 0, 0},  {&_swigt__p_NeuralNetworkNodeCpp, 0, 0, 0},  {&_swigt__p_ActivationFunctionCpp, _p_ActivationFunctionCppTo_p_NeuralNetworkNodeCpp, 0, 0},  {&_swigt__p_LogisticActivationFunctionCpp, _p_LogisticActivationFunctionCppTo_p_NeuralNetworkNodeCpp, 0, 0},  {&_swigt__p_LinearActivationFunctionCpp, _p_LinearActivationFunctionCppTo_p_NeuralNetworkNodeCpp, 0, 0},  {&_swigt__p_SoftmaxActivationFunctionCpp, _p_SoftmaxActivationFunctionCppTo_p_NeuralNetworkNodeCpp, 0, 0},  {&_swigt__p_NodeSamplerCpp, _p_NodeSamplerCppTo_p_NeuralNetworkNodeCpp, 0, 0},  {&_swigt__p_LogicalGateCpp, _p_LogicalGateCppTo_p_NeuralNetworkNodeCpp, 0, 0},  {&_swigt__p_ANDGateCpp, _p_ANDGateCppTo_p_NeuralNetworkNodeCpp, 0, 0},  {&_swigt__p_ORGateCpp, _p_ORGateCppTo_p_NeuralNetworkNodeCpp, 0, 0},  {&_swigt__p_XORGateCpp, _p_XORGateCppTo_p_NeuralNetworkNodeCpp, 0, 0},  {&_swigt__p_XNORGateCpp, _p_XNORGateCppTo_p_NeuralNetworkNodeCpp, 0, 0},  {&_swigt__p_NORGateCpp, _p_NORGateCppTo_p_NeuralNetworkNodeCpp, 0, 0},  {&_swigt__p_NANDGateCpp, _p_NANDGateCppTo_p_NeuralNetworkNodeCpp, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_NeuralNetworkNodeCpp[] = {  {&_swigt__p_SumCpp, _p_SumCppTo_p_NeuralNetworkNodeCpp, 0, 0},  {&_swigt__p_DropoutCpp, _p_DropoutCppTo_p_NeuralNetworkNodeCpp, 0, 0},  {&_swigt__p_NeuralNetworkNodeCpp, 0, 0, 0},  {&_swigt__p_AggregationCpp, _p_AggregationCppTo_p_NeuralNetworkNodeCpp, 0, 0},  {&_swigt__p_SoftmaxActivationFunctionCpp, _p_SoftmaxActivationFunctionCppTo_p_NeuralNetworkNodeCpp, 0, 0},  {&_swigt__p_LinearActivationFunctionCpp, _p_LinearActivationFunctionCppTo_p_NeuralNetworkNodeCpp, 0, 0},  {&_swigt__p_LogisticActivationFunctionCpp, _p_LogisticActivationFunctionCppTo_p_NeuralNetworkNodeCpp, 0, 0},  {&_swigt__p_ActivationFunctionCpp, _p_ActivationFunctionCppTo_p_NeuralNetworkNodeCpp, 0, 0},  {&_swigt__p_NodeSamplerCpp, _p_NodeSamplerCppTo_p_NeuralNetworkNodeCpp, 0, 0},  {&_swigt__p_NANDGateCpp, _p_NANDGateCppTo_p_NeuralNetworkNodeCpp, 0, 0},  {&_swigt__p_NORGateCpp, _p_NORGateCppTo_p_NeuralNetworkNodeCpp, 0, 0},  {&_swigt__p_XNORGateCpp, _p_XNORGateCppTo_p_NeuralNetworkNodeCpp, 0, 0},  {&_swigt__p_XORGateCpp, _p_XORGateCppTo_p_NeuralNetworkNodeCpp, 0, 0},  {&_swigt__p_ORGateCpp, _p_ORGateCppTo_p_NeuralNetworkNodeCpp, 0, 0},  {&_swigt__p_ANDGateCpp, _p_ANDGateCppTo_p_NeuralNetworkNodeCpp, 0, 0},  {&_swigt__p_LogicalGateCpp, _p_LogicalGateCppTo_p_NeuralNetworkNodeCpp, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_NodeSamplerCpp[] = {  {&_swigt__p_NodeSamplerCpp, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_NumericallyOptimisedAlgorithmCpp[] = {  {&_swigt__p_NumericallyOptimisedAlgorithmCpp, 0, 0, 0},  {&_swigt__p_NeuralNetworkCpp, _p_NeuralNetworkCppTo_p_NumericallyOptimisedAlgorithmCpp, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_NumericallyOptimisedAlgorithmCpp[] = {  {&_swigt__p_NumericallyOptimisedAlgorithmCpp, 0, 0, 0},  {&_swigt__p_NeuralNetworkCpp, _p_NeuralNetworkCppTo_p_NumericallyOptimisedAlgorithmCpp, 0, 0},  {&_swigt__p_RelationalNetworkCpp, _p_RelationalNetworkCppTo_p_NumericallyOptimisedAlgorithmCpp, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_ORGateCpp[] = {  {&_swigt__p_ORGateCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_OptimiserCpp[] = {  {&_swigt__p_AdaGradCpp, _p_AdaGradCppTo_p_OptimiserCpp, 0, 0},  {&_swigt__p_SGDCpp, _p_SGDCppTo_p_OptimiserCpp, 0, 0},  {&_swigt__p_OptimiserCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_RegulariserCpp[] = {  {&_swigt__p_RegulariserCpp, 0, 0, 0},  {&_swigt__p_L2RegulariserCpp, _p_L2RegulariserCppTo_p_RegulariserCpp, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_RelationalNetworkCpp[] = {  {&_swigt__p_RelationalNetworkCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_SGDCpp[] = {  {&_swigt__p_SGDCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_SoftmaxActivationFunctionCpp[] = {  {&_swigt__p_SoftmaxActivationFunctionCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_SquareLossCpp[] = {  {&_swigt__p_SquareLossCpp, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_SumCpp[] = {  {&_swigt__p_SumCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_XNORGateCpp[] = {  {&_swigt__p_XNORGateCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_XORGateCpp[] = {  {&_swigt__p_XORGateCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_char[] = {  {&_swigt__p_char, 0, 0, 0},{0, 0, 0, 0}};
@@ -7195,6 +8219,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_ANDGateCpp,
   _swigc__p_ActivationFunctionCpp,
   _swigc__p_AdaGradCpp,
+  _swigc__p_AggregationCpp,
   _swigc__p_DropoutCpp,
   _swigc__p_L2RegulariserCpp,
   _swigc__p_LinearActivationFunctionCpp,
@@ -7210,9 +8235,11 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_ORGateCpp,
   _swigc__p_OptimiserCpp,
   _swigc__p_RegulariserCpp,
+  _swigc__p_RelationalNetworkCpp,
   _swigc__p_SGDCpp,
   _swigc__p_SoftmaxActivationFunctionCpp,
   _swigc__p_SquareLossCpp,
+  _swigc__p_SumCpp,
   _swigc__p_XNORGateCpp,
   _swigc__p_XORGateCpp,
   _swigc__p_char,

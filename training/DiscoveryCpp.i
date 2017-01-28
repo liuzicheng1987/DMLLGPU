@@ -25,5 +25,7 @@ import_array();
 %include regularisers/regularisers.i
 %include optimisers/optimisers.i
 %include NeuralNetwork.i
+%include RelationalNetwork/RelationalNetwork.i
 %include LogicalGates/LogicalGates.i
 %include dropout/dropout.i
+%include Aggregations/Aggregations.i

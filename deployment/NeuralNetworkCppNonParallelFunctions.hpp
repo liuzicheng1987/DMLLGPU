@@ -1,734 +1,673 @@
-NeuralNetworkCpp::NeuralNetworkCpp(
-				   std::int32_t    *_num_input_nodes_dense, 
-				   std::int32_t     _num_input_nodes_dense_length, 
-				   std::int32_t    *_num_input_nodes_sparse, 
-				   std::int32_t     _num_input_nodes_sparse_length, 
-				   std::int32_t     _num_output_nodes_dense, 
-				   std::int32_t     _num_output_nodes_sparse
-				   ) {
+NeuralNetworkCpp::NeuralNetworkCpp(std::int32_t *_num_input_nodes_dense,
+		std::int32_t _num_input_nodes_dense_length,
+		std::int32_t *_num_input_nodes_sparse,
+		std::int32_t _num_input_nodes_sparse_length,
+		std::int32_t _num_output_nodes_dense,
+		std::int32_t _num_output_nodes_sparse) {
 
-  //Make that the input is reasonable
-  if (_num_input_nodes_dense_length + _num_input_nodes_sparse_length <= 0) 
-    throw std::invalid_argument("You must provide at least some input nodes!");
+	//Make that the input is reasonable
+	if (_num_input_nodes_dense_length + _num_input_nodes_sparse_length <= 0)
+		throw std::invalid_argument(
+				"You must provide at least some input nodes!");
 
-  if (_num_output_nodes_dense + _num_output_nodes_sparse <= 0) 
-    throw std::invalid_argument("You must provide at least some output nodes!");
+	if (_num_output_nodes_dense + _num_output_nodes_sparse <= 0)
+		throw std::invalid_argument(
+				"You must provide at least some output nodes!");
 
-  if (
-	std::any_of(
-		  _num_input_nodes_dense, 
-		  _num_input_nodes_dense + _num_input_nodes_dense_length, 
-		  [](std::int32_t i){return i <= 0;}
-		  )
-      ) 
-    throw std::invalid_argument("Width of all input matrices must be greater than 0!");
+	if (std::any_of(_num_input_nodes_dense,
+			_num_input_nodes_dense + _num_input_nodes_dense_length,
+			[](std::int32_t i) {return i <= 0;}))
+		throw std::invalid_argument(
+				"Width of all input matrices must be greater than 0!");
 
-  if (std::any_of(
-		  _num_input_nodes_sparse, 
-		  _num_input_nodes_sparse + _num_input_nodes_sparse_length, 
-		  [](std::int32_t i){return i <= 0;}
-		  )
-      ) 
-    throw std::invalid_argument("Width of all input matrices must be greater than 0!");
+	if (std::any_of(_num_input_nodes_sparse,
+			_num_input_nodes_sparse + _num_input_nodes_sparse_length,
+			[](std::int32_t i) {return i <= 0;}))
+		throw std::invalid_argument(
+				"Width of all input matrices must be greater than 0!");
 
+	//Init num_hidden_nodes
+	this->num_hidden_nodes_ = (std::size_t) 0;
 
-  //Init num_hidden_nodes
-  this->num_hidden_nodes_ = (std::size_t)0;
-  
-  //Init num_output_nodes
-  this->num_output_nodes_dense_ = _num_output_nodes_dense; 
-  this->num_output_nodes_sparse_ = _num_output_nodes_sparse;
-  this->num_output_nodes_ = _num_output_nodes_dense + _num_output_nodes_sparse;
+	//Init num_output_nodes
+	this->num_output_nodes_dense_ = _num_output_nodes_dense;
+	this->num_output_nodes_sparse_ = _num_output_nodes_sparse;
+	this->num_output_nodes_ = _num_output_nodes_dense
+			+ _num_output_nodes_sparse;
 
-  //Set up input data and target data
-  this->dense_input_data_ = std::vector<std::vector<matrix::DenseMatrix>>(_num_input_nodes_dense_length);
-  this->sparse_input_data_ = std::vector<std::vector<matrix::CSRMatrix>>(_num_input_nodes_sparse_length);
+	//Set up input data and target data
+	this->dense_input_data_ = std::vector < std::vector
+			< matrix::DenseMatrix >> (_num_input_nodes_dense_length);
+	this->sparse_input_data_ = std::vector < std::vector
+			< matrix::CSRMatrix >> (_num_input_nodes_sparse_length);
 
-  this->dense_input_data_dim_ = std::vector<std::int32_t>(_num_input_nodes_dense_length);
-  this->sparse_input_data_dim_ = std::vector<std::int32_t>(_num_input_nodes_sparse_length);
-  this->dense_targets_dim_ = std::vector<std::int32_t>(_num_output_nodes_dense);
-  this->sparse_targets_dim_ = std::vector<std::int32_t>(_num_output_nodes_sparse);
+	this->dense_input_data_dim_ = std::vector < std::int32_t
+			> (_num_input_nodes_dense_length);
+	this->sparse_input_data_dim_ = std::vector < std::int32_t
+			> (_num_input_nodes_sparse_length);
+	this->dense_targets_dim_ = std::vector < std::int32_t
+			> (_num_output_nodes_dense);
+	this->sparse_targets_dim_ = std::vector < std::int32_t
+			> (_num_output_nodes_sparse);
 
-  //Transfer number of input nodes
-  std::copy(
-	    _num_input_nodes_dense, 
-	    _num_input_nodes_dense + _num_input_nodes_dense_length, 
-	    this->dense_input_data_dim_.data()
-	    );
+	//Transfer number of input nodes
+	std::copy(_num_input_nodes_dense,
+			_num_input_nodes_dense + _num_input_nodes_dense_length,
+			this->dense_input_data_dim_.data());
 
-  std::copy(
-	    _num_input_nodes_sparse, 
-	    _num_input_nodes_sparse + _num_input_nodes_sparse_length, 
-	    this->sparse_input_data_dim_.data()
-	    );
-  		
-  this->nodes_ = std::vector<NeuralNetworkNodeCpp*>(this->num_output_nodes_);		
-  this->output_nodes_ = nodes_.data();
-  this->output_nodes_dense_ = this->output_nodes_;
-  this->output_nodes_sparse_ = this->output_nodes_ + _num_output_nodes_dense;
+	std::copy(_num_input_nodes_sparse,
+			_num_input_nodes_sparse + _num_input_nodes_sparse_length,
+			this->sparse_input_data_dim_.data());
 
-  //Initialise to nullptr
-  std::fill(this->nodes_.begin(), this->nodes_.end(), nullptr);
+	this->nodes_ = std::vector<NeuralNetworkNodeCpp*>(this->num_output_nodes_);
+	this->output_nodes_ = nodes_.data();
+	this->output_nodes_dense_ = this->output_nodes_;
+	this->output_nodes_sparse_ = this->output_nodes_ + _num_output_nodes_dense;
 
-  //Since neural network has not been finalised, set finalised to false
-  this->finalised_ = false;
+	//Initialise to nullptr
+	std::fill(this->nodes_.begin(), this->nodes_.end(), nullptr);
+
+	//Since neural network has not been finalised, set finalised to false
+	this->finalised_ = false;
 
 }
-					 
-NeuralNetworkCpp::~NeuralNetworkCpp()  {};
+
+NeuralNetworkCpp::~NeuralNetworkCpp() {
+}
+;
 
 void NeuralNetworkCpp::init_hidden_node(NeuralNetworkNodeCpp *_hidden_node) {
-	
-  //Make sure that the neural network has not already been finalised!
-  if (this->finalised_) throw std::invalid_argument("Neural network has already been finalised!");
 
-  if (_hidden_node->node_number_ >= this->num_hidden_nodes_) {	
+	//Make sure that the neural network has not already been finalised!
+	if (this->finalised_)
+		throw std::invalid_argument(
+				"Neural network has already been finalised!");
 
-    std::int32_t num_additional_nodes = _hidden_node->node_number_ + 1 - this->num_hidden_nodes_;
+	if (_hidden_node->node_number_ >= this->num_hidden_nodes_) {
 
-    //Extend hidden nodes vector
-    std::vector<NeuralNetworkNodeCpp*>::iterator it = this->nodes_.begin() + this->nodes_.size();
-    this->nodes_.insert(it, num_additional_nodes, nullptr);
+		std::int32_t num_additional_nodes = _hidden_node->node_number_ + 1
+				- this->num_hidden_nodes_;
 
-    //Increase num_hidden_nodes and reset pointers output_nodes, output_nodes_dense 
-    //and output_nodes_sparse
-    this->num_hidden_nodes_ += num_additional_nodes;
-    this->output_nodes_ = nodes_.data() + this->num_hidden_nodes_;
-    this->output_nodes_dense_ = this->output_nodes_;
-    this->output_nodes_sparse_ = this->output_nodes_ + this->num_output_nodes_dense_;
+		//Extend hidden nodes vector
+		std::vector<NeuralNetworkNodeCpp*>::iterator it = this->nodes_.begin()
+				+ this->nodes_.size();
+		this->nodes_.insert(it, num_additional_nodes, nullptr);
 
-    //Increase node_number of output_nodes
-    for (std::int32_t i=0; i<this->num_output_nodes_; ++i)
-      if (this->output_nodes_[i] != nullptr) 
-	this->output_nodes_[i]->node_number_ += num_additional_nodes;
-  
-  }
+		//Increase num_hidden_nodes and reset pointers output_nodes, output_nodes_dense
+		//and output_nodes_sparse
+		this->num_hidden_nodes_ += num_additional_nodes;
+		this->output_nodes_ = nodes_.data() + this->num_hidden_nodes_;
+		this->output_nodes_dense_ = this->output_nodes_;
+		this->output_nodes_sparse_ = this->output_nodes_
+				+ this->num_output_nodes_dense_;
 
-  this->nodes_[_hidden_node->node_number_] = _hidden_node;
-					
-};
+		//Increase node_number of output_nodes
+		for (std::int32_t i = 0; i < this->num_output_nodes_; ++i)
+			if (this->output_nodes_[i] != nullptr)
+				this->output_nodes_[i]->node_number_ += num_additional_nodes;
+
+	}
+
+	this->nodes_[_hidden_node->node_number_] = _hidden_node;
+
+}
+;
 
 void NeuralNetworkCpp::init_output_node(NeuralNetworkNodeCpp *_output_node) {
-		
-  //Make sure that the neural network has not already been finalised!
-  if (this->finalised_) 
-    throw std::invalid_argument("Neural network has already been finalised!");
-  
-  //Make sure that node number is in range
-  if (_output_node->node_number_ >= (std::int32_t)(this->nodes_.size()) || _output_node->node_number_ < 0) 
-    throw std::invalid_argument("Output node: Node number out of range!");
-				
-  this->nodes_[_output_node->node_number_] = _output_node;
-						
-};
 
-void NeuralNetworkCpp::finalise(/*MPI_Comm comm, std::int32_t rank, std::int32_t size,*/float _weight_init_range) {
+	//Make sure that the neural network has not already been finalised!
+	if (this->finalised_)
+		throw std::invalid_argument(
+				"Neural network has already been finalised!");
 
-  //Make sure that neural net has not been finalised already
-  if (this->finalised_ == true)
-    throw std::invalid_argument("Neural network has already been finalised!");
+	//Make sure that node number is in range
+	if (_output_node->node_number_ >= (std::int32_t)(this->nodes_.size())
+			|| _output_node->node_number_ < 0)
+		throw std::invalid_argument("Output node: Node number out of range!");
 
-  //Make sure that all nodes were initialised
-  if (
-      std::any_of(
-		  this->nodes_.begin(), 
-		  this->nodes_.end(), 
-		    [](
-		       NeuralNetworkNodeCpp *node
-		       ) {return node == nullptr;}
-		  )
-      )
-    throw std::invalid_argument("Not all nodes have been initialised!");
-    
-  //Calculate pointer to hidden nodes fed into me
-  for (auto node: this->nodes_) {
+	this->nodes_[_output_node->node_number_] = _output_node;
 
-    node->hidden_nodes_fed_into_me_ptr_.clear();
-    for (auto i: node->hidden_nodes_fed_into_me_)
-      node->hidden_nodes_fed_into_me_ptr_.push_back(this->nodes_[i]);
+}
+;
 
-  }
-   
-  //Transfer number to input nodes to nodes, so we can calculate the number of weights needed
-  for (auto node: this->nodes_) {
+void NeuralNetworkCpp::finalise(
+		/*MPI_Comm comm, std::int32_t rank, std::int32_t size,*/float _weight_init_range) {
 
-    //Set initial value to zero
-    node->num_input_nodes_cumulative_ = 0;
+	//Make sure that neural net has not been finalised already
+	if (this->finalised_ == true)
+		throw std::invalid_argument(
+				"Neural network has already been finalised!");
 
-    //Make sure dense input is in range
-    if (std::any_of (
-		     node->input_nodes_fed_into_me_dense_.begin(),
-		     node->input_nodes_fed_into_me_dense_.end(),
-		     [this](std::int32_t i) {
-		       return 
-			 (i < 0) || 
-			 (
-			  i >= static_cast<std::int32_t>(this->dense_input_data_dim_.size())
-			  );
-		     }
-		     )
-	)
-      throw std::invalid_argument("input_dense out of bounds!");
+	//Make sure that all nodes were initialised
+	if (std::any_of(this->nodes_.begin(), this->nodes_.end(), [](
+			NeuralNetworkNodeCpp *node
+	) {	return node == nullptr;}))
+		throw std::invalid_argument("Not all nodes have been initialised!");
 
-    //Make sure sparse input is in range
-    if (std::any_of (
-		     node->input_nodes_fed_into_me_sparse_.begin(),
-		     node->input_nodes_fed_into_me_sparse_.end(),
-		     [this](std::int32_t i) {
-		       return 
-			 (i < 0) || 
-			 (
-			  i >= static_cast<std::int32_t>(this->sparse_input_data_dim_.size())
-			  );
-    }
-		     )
-	)
-      throw std::invalid_argument("input_sparse out of bounds!");
+	//Calculate pointer to hidden nodes fed into me
+	for (auto node : this->nodes_) {
 
-    //Add dense input
-    for (auto dense: node->input_nodes_fed_into_me_dense_)
-      node->num_input_nodes_cumulative_
-	+= this->dense_input_data_dim_[dense];
-    
-    //Add sparse input
-    for (auto sparse: node->input_nodes_fed_into_me_sparse_)
-      node->num_input_nodes_cumulative_
-	+= this->sparse_input_data_dim_[sparse];
-     
-  }
+		node->hidden_nodes_fed_into_me_ptr_.clear();
+		for (auto i : node->hidden_nodes_fed_into_me_)
+			node->hidden_nodes_fed_into_me_ptr_.push_back(this->nodes_[i]);
 
-  //Transfer number of output nodes to targets
-  for (int i=0; i < this->num_output_nodes_dense_; ++i) 
-    dense_targets_dim_[i] = this->output_nodes_[i]->dim_; 
-  
-  for (int i=0; i < this->num_output_nodes_sparse_; ++i) 
-    sparse_targets_dim_[i] = this->output_nodes_[num_output_nodes_dense_ + i]->dim_;
+	}
 
-  //Calculate cumulative_num_weights_required and initialise W
-  std::int32_t length_W = 0;
-  
-  this->cumulative_num_weights_required_.clear();
+	//Transfer number to input nodes to nodes, so we can calculate the number of weights needed
+	for (auto node : this->nodes_) {
 
-  for (auto node: this->nodes_) {
+		//Set initial value to zero
+		node->num_input_nodes_cumulative_ = 0;
 
-    node->neural_net_ = this;
+		//Make sure dense input is in range
+		if (std::any_of(node->input_nodes_fed_into_me_dense_.begin(),
+				node->input_nodes_fed_into_me_dense_.end(),
+				[this](std::int32_t i) {
+					return
+					(i < 0) ||
+					(
+							i >= static_cast<std::int32_t>(this->dense_input_data_dim_.size())
+					);
+				}))
+			throw std::invalid_argument("input_dense out of bounds!");
 
-    if (node->i_share_weights_with_ < 0) {
+		//Make sure sparse input is in range
+		if (std::any_of(node->input_nodes_fed_into_me_sparse_.begin(),
+				node->input_nodes_fed_into_me_sparse_.end(),
+				[this](std::int32_t i) {
+					return
+					(i < 0) ||
+					(
+							i >= static_cast<std::int32_t>(this->sparse_input_data_dim_.size())
+					);
+				}))
+			throw std::invalid_argument("input_sparse out of bounds!");
 
-      //If node does not share weights with another node, then count lengthW
-      this->cumulative_num_weights_required_.push_back(length_W);
-      length_W += node->get_num_weights_required();
+		//Add dense input
+		for (auto dense : node->input_nodes_fed_into_me_dense_)
+			node->num_input_nodes_cumulative_ +=
+					this->dense_input_data_dim_[dense];
 
-    } else {
+		//Add sparse input
+		for (auto sparse : node->input_nodes_fed_into_me_sparse_)
+			node->num_input_nodes_cumulative_ +=
+					this->sparse_input_data_dim_[sparse];
 
-      //If node does share weights with another node, then make sure num_weights_required match
-      if (
-	  node->get_num_weights_required() !=
-	  this->nodes_[node->i_share_weights_with_]->get_num_weights_required()
-	  )
-	std::invalid_argument("Number of weights of nodes must match for weight sharing to be possible!");
-	
-      this->cumulative_num_weights_required_.push_back(
-						       this->cumulative_num_weights_required_[node->i_share_weights_with_]
-						       );
-      
+	}
 
-    }
+	//Transfer number of output nodes to targets
+	for (int i = 0; i < this->num_output_nodes_dense_; ++i)
+		dense_targets_dim_[i] = this->output_nodes_[i]->dim_;
 
-  }
+	for (int i = 0; i < this->num_output_nodes_sparse_; ++i)
+		sparse_targets_dim_[i] =
+				this->output_nodes_[num_output_nodes_dense_ + i]->dim_;
 
-  this->cumulative_num_weights_required_.push_back(length_W);
+	//Calculate cumulative_num_weights_required and initialise W
+	std::int32_t length_W = 0;
 
-  //Init Whost
-  std::vector<float> Whost(length_W);
-  
-  std::mt19937 gen(1);//Note that we deliberately choose a constant seed to get the same output every time we call the function
-  std::uniform_real_distribution<float> dist(_weight_init_range*(-1.0f), _weight_init_range);
+	this->cumulative_num_weights_required_.clear();
 
-  //Initialise weight vector
-  //The vector of weights associated with the input nodes cannot be a csr_matrix. The solution is to keep a set of weights that always assume the value of 0.0.
-  for (auto node: this->nodes_) {
-         
-    for (
-	 std::int32_t i = cumulative_num_weights_required_[node->node_number_]; 
-	 i < cumulative_num_weights_required_[node->node_number_ + 1]; 
-	 ++i
-	 ) Whost[i] = dist(gen);
-            
-  }
-  
-  //Transfor to device vector
-  this->W_ = std::vector<float>(Whost.data(), Whost.data() + Whost.size());
+	for (auto node : this->nodes_) {
 
-  //Set finalised to true so we know we can now fit the neural network
-  this->finalised_ = true;
-  
+		node->neural_net_ = this;
+
+		if (node->i_share_weights_with_ < 0) {
+
+			//If node does not share weights with another node, then count lengthW
+			this->cumulative_num_weights_required_.push_back(length_W);
+			length_W += node->get_num_weights_required();
+
+		} else {
+
+			//If node does share weights with another node, then make sure num_weights_required match
+			if (node->get_num_weights_required()
+					!= this->nodes_[node->i_share_weights_with_]->get_num_weights_required())
+				std::invalid_argument(
+						"Number of weights of nodes must match for weight sharing to be possible!");
+
+			this->cumulative_num_weights_required_.push_back(
+					this->cumulative_num_weights_required_[node->i_share_weights_with_]);
+
+		}
+
+	}
+
+	this->cumulative_num_weights_required_.push_back(length_W);
+
+	//Init Whost
+	std::vector<float> Whost(length_W);
+
+	std::mt19937 gen(1); //Note that we deliberately choose a constant seed to get the same output every time we call the function
+	std::uniform_real_distribution<float> dist(_weight_init_range * (-1.0f),
+			_weight_init_range);
+
+	//Initialise weight vector
+	//The vector of weights associated with the input nodes cannot be a csr_matrix. The solution is to keep a set of weights that always assume the value of 0.0.
+	for (auto node : this->nodes_) {
+
+		for (std::int32_t i =
+				cumulative_num_weights_required_[node->node_number_];
+				i < cumulative_num_weights_required_[node->node_number_ + 1];
+				++i)
+			Whost[i] = dist(gen);
+
+	}
+
+	//Transfor to device vector
+	this->W_ = std::vector<float>(Whost.data(), Whost.data() + Whost.size());
+
+	//Set finalised to true so we know we can now fit the neural network
+	this->finalised_ = true;
+
 }
 
 std::int32_t NeuralNetworkCpp::get_length_params() {
-		
-  if (!this->finalised_) throw std::invalid_argument("Neural network has not been finalised!");
 
-  return (std::int32_t)(this->W_.size());
-		
-};
+	if (!this->finalised_)
+		throw std::invalid_argument("Neural network has not been finalised!");
+
+	return (std::int32_t)(this->W_.size());
+
+}
+;
 
 void NeuralNetworkCpp::get_params(float *_W, std::int32_t _length_W) {
 
-  if (!this->finalised_) 
-    throw std::invalid_argument("Neural network has not been finalised!");
-  
-  for (std::int32_t i=0; i<_length_W; ++i) 
-    _W[i] = this->W_[i];
+	if (!this->finalised_)
+		throw std::invalid_argument("Neural network has not been finalised!");
+
+	for (std::int32_t i = 0; i < _length_W; ++i)
+		_W[i] = this->W_[i];
 
 }
 
 void NeuralNetworkCpp::set_params(float *_W, std::int32_t _length_W) {
 
-  if (!this->finalised_) 
-    throw std::invalid_argument("Neural network has not been finalised!");
+	if (!this->finalised_)
+		throw std::invalid_argument("Neural network has not been finalised!");
 
-  if (_length_W != static_cast<std::int32_t>(this->W_.size())) 
-    throw std::invalid_argument("Length of provided weight vector does not match expected size!");
-  
-  for (std::int32_t i=0; i<_length_W; ++i) 
-    this->W_[i] = _W[i];
+	if (_length_W != static_cast<std::int32_t>(this->W_.size()))
+		throw std::invalid_argument(
+				"Length of provided weight vector does not match expected size!");
+
+	for (std::int32_t i = 0; i < _length_W; ++i)
+		this->W_[i] = _W[i];
 
 }
 
 std::int32_t NeuralNetworkCpp::get_input_nodes_fed_into_me_dense_length(
-									   std::int32_t _node_number
-									   ) {
-		
-  if (!this->finalised_) throw std::invalid_argument("Neural network has not been finalised!");
-  if (_node_number < 0 || _node_number >= (std::int32_t)(nodes_.size())) std::invalid_argument("node_number out of bounds!");
+		std::int32_t _node_number) {
 
-  return (std::int32_t)(this->nodes_[_node_number]->input_nodes_fed_into_me_dense_.size());
-		
-};
+	if (!this->finalised_)
+		throw std::invalid_argument("Neural network has not been finalised!");
+	if (_node_number < 0 || _node_number >= (std::int32_t)(nodes_.size()))
+		std::invalid_argument("node_number out of bounds!");
+
+	return (std::int32_t)(
+			this->nodes_[_node_number]->input_nodes_fed_into_me_dense_.size());
+
+}
+;
 
 void NeuralNetworkCpp::get_input_nodes_fed_into_me_dense(
-							    std::int32_t  _node_number,
-							    std::int32_t *_input_nodes_fed_into_me_dense, 
-							    std::int32_t  _input_nodes_fed_into_me_dense_length
-							    ) {
-		
-  if (!this->finalised_) throw std::invalid_argument("Neural network has not been finalised!");
-  if (
-      _node_number < 0 || 
-      _node_number >= (std::int32_t)(nodes_.size())
-      ) 
-    std::invalid_argument("node_number out of bounds!");
-		
-  for (std::int32_t i=0; i<_input_nodes_fed_into_me_dense_length; ++i) 
-    _input_nodes_fed_into_me_dense[i] 
-      = this->nodes_[_node_number]->input_nodes_fed_into_me_dense_[i];
-  		
-};
+		std::int32_t _node_number, std::int32_t *_input_nodes_fed_into_me_dense,
+		std::int32_t _input_nodes_fed_into_me_dense_length) {
 
-std::int32_t NeuralNetworkCpp::get_input_nodes_fed_into_me_sparse_length(std::int32_t _node_number) {
-		
-  if (!this->finalised_)
-	  throw std::invalid_argument("Neural network has not been finalised!");
+	if (!this->finalised_)
+		throw std::invalid_argument("Neural network has not been finalised!");
+	if (_node_number < 0 || _node_number >= (std::int32_t)(nodes_.size()))
+		std::invalid_argument("node_number out of bounds!");
 
-  if (
-		  _node_number < 0
-		  || _node_number >= (std::int32_t)(nodes_.size())
-		  )
-	  std::invalid_argument("node_number out of bounds!");
+	for (std::int32_t i = 0; i < _input_nodes_fed_into_me_dense_length; ++i)
+		_input_nodes_fed_into_me_dense[i] =
+				this->nodes_[_node_number]->input_nodes_fed_into_me_dense_[i];
 
-  return (std::int32_t)(
-		  this->nodes_[_node_number]->input_nodes_fed_into_me_sparse_.size()
-		  );
-		
-};
+}
+;
+
+std::int32_t NeuralNetworkCpp::get_input_nodes_fed_into_me_sparse_length(
+		std::int32_t _node_number) {
+
+	if (!this->finalised_)
+		throw std::invalid_argument("Neural network has not been finalised!");
+
+	if (_node_number < 0 || _node_number >= (std::int32_t)(nodes_.size()))
+		std::invalid_argument("node_number out of bounds!");
+
+	return (std::int32_t)(
+			this->nodes_[_node_number]->input_nodes_fed_into_me_sparse_.size());
+
+}
+;
 
 void NeuralNetworkCpp::get_input_nodes_fed_into_me_sparse(
-							     std::int32_t  _node_number, 
-							     std::int32_t *_input_nodes_fed_into_me_sparse, 
-							     std::int32_t  _input_nodes_fed_into_me_sparse_length
-							     ) {
-		
-  if (!this->finalised_) throw std::invalid_argument("Neural network has not been finalised!");
-  if (_node_number < 0 || _node_number >= (std::int32_t)(nodes_.size())) std::invalid_argument("node_number out of bounds!");
-		
-  for (std::int32_t i=0; i<_input_nodes_fed_into_me_sparse_length; ++i)
-	  _input_nodes_fed_into_me_sparse[i] = this->nodes_[_node_number]->input_nodes_fed_into_me_sparse_[i];
-  		
-};
-     
-std::int32_t NeuralNetworkCpp::get_hidden_nodes_fed_into_me_length(std::int32_t _node_number) {
-		
-  if (!this->finalised_) throw std::invalid_argument("Neural network has not been finalised!");
-  if (_node_number < 0 || _node_number >= (std::int32_t)(nodes_.size())) std::invalid_argument("node_number out of bounds!");
+		std::int32_t _node_number,
+		std::int32_t *_input_nodes_fed_into_me_sparse,
+		std::int32_t _input_nodes_fed_into_me_sparse_length) {
 
-  return (std::int32_t)(this->nodes_[_node_number]->hidden_nodes_fed_into_me_.size());
-		
-};
+	if (!this->finalised_)
+		throw std::invalid_argument("Neural network has not been finalised!");
+	if (_node_number < 0 || _node_number >= (std::int32_t)(nodes_.size()))
+		std::invalid_argument("node_number out of bounds!");
 
-void NeuralNetworkCpp::get_hidden_nodes_fed_into_me(
-						       std::int32_t  _node_number,
-						       std::int32_t *_hidden_nodes_fed_into_me,
-						       std::int32_t  _length_hidden_nodes_fed_into_me
-						       ) {
-		
-  if (!this->finalised_) throw std::invalid_argument("Neural network has not been finalised!");
-  if (_node_number < 0 || _node_number >= (std::int32_t)(nodes_.size())) std::invalid_argument("node_number out of bounds!");
-		
-  for (std::int32_t i=0; i<_length_hidden_nodes_fed_into_me; ++i)
-	  _hidden_nodes_fed_into_me[i] = this->nodes_[_node_number]->hidden_nodes_fed_into_me_[i];
-  		
-};
+	for (std::int32_t i = 0; i < _input_nodes_fed_into_me_sparse_length; ++i)
+		_input_nodes_fed_into_me_sparse[i] =
+				this->nodes_[_node_number]->input_nodes_fed_into_me_sparse_[i];
+
+}
+;
+
+std::int32_t NeuralNetworkCpp::get_hidden_nodes_fed_into_me_length(
+		std::int32_t _node_number) {
+
+	if (!this->finalised_)
+		throw std::invalid_argument("Neural network has not been finalised!");
+	if (_node_number < 0 || _node_number >= (std::int32_t)(nodes_.size()))
+		std::invalid_argument("node_number out of bounds!");
+
+	return (std::int32_t)(
+			this->nodes_[_node_number]->hidden_nodes_fed_into_me_.size());
+
+}
+;
+
+void NeuralNetworkCpp::get_hidden_nodes_fed_into_me(std::int32_t _node_number,
+		std::int32_t *_hidden_nodes_fed_into_me,
+		std::int32_t _length_hidden_nodes_fed_into_me) {
+
+	if (!this->finalised_)
+		throw std::invalid_argument("Neural network has not been finalised!");
+	if (_node_number < 0 || _node_number >= (std::int32_t)(nodes_.size()))
+		std::invalid_argument("node_number out of bounds!");
+
+	for (std::int32_t i = 0; i < _length_hidden_nodes_fed_into_me; ++i)
+		_hidden_nodes_fed_into_me[i] =
+				this->nodes_[_node_number]->hidden_nodes_fed_into_me_[i];
+
+}
+;
 
 //Calculates the number of batches needed
-std::int32_t NeuralNetworkCpp::calc_num_batches (
-						    /*MPI_Comm _comm, */
-						    std::int32_t _num_samples,
-						    std::int32_t _global_batch_size
-						    ) {
-	
-  std::int32_t GlobalI;
-	
-  GlobalI = _num_samples;
-	
-  if (_global_batch_size < 1 || _global_batch_size > GlobalI) _global_batch_size = GlobalI;			
-  //Calculate the number of batches needed to divide GlobalI such that the sum of all local batches approximately equals global_batch_size
-  if (GlobalI % _global_batch_size == 0) return GlobalI/_global_batch_size; 
-  else return GlobalI/_global_batch_size + 1;
+std::int32_t NeuralNetworkCpp::calc_num_batches(
+/*MPI_Comm _comm, */
+std::int32_t _num_samples, std::int32_t _global_batch_size) {
 
-				
+	std::int32_t GlobalI;
+
+	GlobalI = _num_samples;
+
+	if (_global_batch_size < 1 || _global_batch_size > GlobalI)
+		_global_batch_size = GlobalI;
+	//Calculate the number of batches needed to divide GlobalI such that the sum of all local batches approximately equals global_batch_size
+	if (GlobalI % _global_batch_size == 0)
+		return GlobalI / _global_batch_size;
+	else
+		return GlobalI / _global_batch_size + 1;
+
 }
-
 
 //batch_begin and batch_end are used to share the burden evenly among the processes
-void NeuralNetworkCpp::calc_batch_begin_end (
-						std::int32_t      &_batch_begin,
-						std::int32_t      &_batch_end, 
-						std::int32_t      &_batch_size, 
-						const std::int32_t _batch_num,
-						const std::int32_t _num_samples,
-						const std::int32_t _num_batches
-						) {
-									
-  //Calculate _batch_begin
-  _batch_begin = _batch_num*(_num_samples/_num_batches);
-		
-  //Calculate _batch_size
-  if (_batch_num < _num_batches-1) _batch_size = _num_samples/_num_batches;
-  else _batch_size = _num_samples - _batch_begin;
-		
-  //Calculate _batch_end
-  _batch_end = _batch_begin + _batch_size;
-	
-}
+void NeuralNetworkCpp::calc_batch_begin_end(std::int32_t &_batch_begin,
+		std::int32_t &_batch_end, std::int32_t &_batch_size,
+		const std::int32_t _batch_num, const std::int32_t _num_samples,
+		const std::int32_t _num_batches) {
 
-void NeuralNetworkCpp::load_dense(
-				     std::vector<matrix::DenseMatrix> &_data,
-				     float                            *_X,
-				     std::int32_t                      _num_samples,
-				     std::int32_t                      _dim,
-				     std::int32_t                      _num_batches
-				     ) {
+	//Calculate _batch_begin
+	_batch_begin = _batch_num * (_num_samples / _num_batches);
 
-  std::int32_t batch_begin, batch_end, batch_size;
+	//Calculate _batch_size
+	if (_batch_num < _num_batches - 1)
+		_batch_size = _num_samples / _num_batches;
+	else
+		_batch_size = _num_samples - _batch_begin;
 
-  for (std::int32_t batch_num = 0; batch_num<_num_batches; ++batch_num) {
-
-    this->calc_batch_begin_end(
-			       batch_begin,
-			       batch_end,
-			       batch_size,
-			       batch_num,
-			       _num_samples,
-			       _num_batches
-			       );
-
-    //Transfer _num_samples and _dim
-    _data[batch_num].batch_size = batch_size;
-    _data[batch_num].dim = _dim;
-    
-    //Set X_ptr
-    _data[batch_num].X_ptr = _X + batch_begin*_dim;
-
-  }
+	//Calculate _batch_end
+	_batch_end = _batch_begin + _batch_size;
 
 }
 
-void NeuralNetworkCpp::load_dense_data(
-					  std::int32_t _num_input_node,
-					  float       *_X,
-					  std::int32_t _num_samples,
-					  std::int32_t _dim,
-					  std::int32_t _global_batch_size
-					  ) {
+void NeuralNetworkCpp::load_dense(std::vector<matrix::DenseMatrix> &_data,
+		float *_X, std::int32_t _num_samples, std::int32_t _dim,
+		std::int32_t _num_batches) {
 
-  if (
-      _num_input_node >= (std::int32_t)(this->dense_input_data_.size()) ||
-      _num_input_node < 0
-      )
-    throw std::invalid_argument("num_input_node out of bounds!");
+	std::int32_t batch_begin, batch_end, batch_size;
 
+	for (std::int32_t batch_num = 0; batch_num < _num_batches; ++batch_num) {
 
-  if (_dim != this->dense_input_data_dim_[_num_input_node])
-    throw std::invalid_argument("Width dim of array provided does not match the width that has been set when initialising the network!");
+		this->calc_batch_begin_end(batch_begin, batch_end, batch_size,
+				batch_num, _num_samples, _num_batches);
 
-  std::int32_t num_batches = calc_num_batches (
-					       /*MPI_Comm comm,*/
-					       _num_samples,
-					       _global_batch_size
-					       );
+		//Transfer _num_samples and _dim
+		_data[batch_num].batch_size = batch_size;
+		_data[batch_num].dim = _dim;
 
-  this->dense_input_data_[_num_input_node] = std::vector<matrix::DenseMatrix>(num_batches);
-  
-  this->load_dense(
-		   this->dense_input_data_[_num_input_node],
-		   _X,
-		   _num_samples,
-		   _dim,
-		   num_batches
-		   );
+		//Set X_ptr
+		_data[batch_num].X_ptr = _X + batch_begin * _dim;
+
+	}
 
 }
 
-void NeuralNetworkCpp::load_csr(
-				   std::vector<matrix::CSRMatrix> &_data,
-				   float                          *_X_data,
-				   std::int32_t                    _X_data_length,
-				   std::int32_t                   *_X_indices,
-				   std::int32_t                    _X_indices_length,
-				   std::int32_t                   *_X_indptr,
-				   std::int32_t                    _X_indptr_length,
-				   std::int32_t                    _num_samples,
-				   std::int32_t                    _dim,
-				   std::int32_t                    _num_batches
-				   ) {
+void NeuralNetworkCpp::load_dense_data(std::int32_t _num_input_node, float *_X,
+		std::int32_t _num_samples, std::int32_t _dim,
+		std::int32_t _global_batch_size) {
 
-  std::int32_t batch_begin, batch_end, batch_size;
+	if (_num_input_node >= (std::int32_t)(this->dense_input_data_.size())
+			|| _num_input_node < 0)
+		throw std::invalid_argument("num_input_node out of bounds!");
 
-  for (std::int32_t batch_num = 0; batch_num<_num_batches; ++batch_num) {
+	if (_dim != this->dense_input_data_dim_[_num_input_node])
+		throw std::invalid_argument(
+				"Width dim of array provided does not match the width that has been set when initialising the network!");
 
-    this->calc_batch_begin_end(
-			       batch_begin,
-			       batch_end,
-			       batch_size,
-			       batch_num,
-			       _num_samples,
-			       _num_batches
-			       );
+	std::int32_t num_batches = calc_num_batches(
+	/*MPI_Comm comm,*/
+	_num_samples, _global_batch_size);
 
-    //Transfer _num_samples and _dim
-    _data[batch_num].batch_size = batch_size;
-    _data[batch_num].dim = _dim;
-    _data[batch_num].num_non_zero = 
-      _X_indptr[batch_end] - _X_indptr[batch_begin];
+	this->dense_input_data_[_num_input_node] = std::vector < matrix::DenseMatrix
+			> (num_batches);
 
-    //Set X_data_ptr    
-    _data[batch_num].X_data_ptr = _X_data + _X_indptr[batch_begin];
+	this->load_dense(this->dense_input_data_[_num_input_node], _X, _num_samples,
+			_dim, num_batches);
 
-    //Set X_indices_ptr   
-    _data[batch_num].X_indices_ptr = _X_indices + _X_indptr[batch_begin];
+}
 
-    //Transfer X_indptr to  and set X_indptr_ptr
-    //Do not forget the last element - it is important
-    _data[batch_num].X_indptr = 
-      std::vector<std::int32_t>(
-				&_X_indptr[batch_begin],
-				&_X_indptr[batch_end] + 1 
+void NeuralNetworkCpp::load_csr(std::vector<matrix::CSRMatrix> &_data,
+		float *_X_data, std::int32_t _X_data_length, std::int32_t *_X_indices,
+		std::int32_t _X_indices_length, std::int32_t *_X_indptr,
+		std::int32_t _X_indptr_length, std::int32_t _num_samples,
+		std::int32_t _dim, std::int32_t _num_batches) {
+
+	std::int32_t batch_begin, batch_end, batch_size;
+
+	for (std::int32_t batch_num = 0; batch_num < _num_batches; ++batch_num) {
+
+		this->calc_batch_begin_end(batch_begin, batch_end, batch_size,
+				batch_num, _num_samples, _num_batches);
+
+		//Transfer _num_samples and _dim
+		_data[batch_num].batch_size = batch_size;
+		_data[batch_num].dim = _dim;
+		_data[batch_num].num_non_zero = _X_indptr[batch_end]
+				- _X_indptr[batch_begin];
+
+		//Set X_data_ptr
+		_data[batch_num].X_data_ptr = _X_data + _X_indptr[batch_begin];
+
+		//Set X_indices_ptr
+		_data[batch_num].X_indices_ptr = _X_indices + _X_indptr[batch_begin];
+
+		//Transfer X_indptr to  and set X_indptr_ptr
+		//Do not forget the last element - it is important
+		_data[batch_num].X_indptr = std::vector < std::int32_t
+				> (&_X_indptr[batch_begin], &_X_indptr[batch_end] + 1
 				//_X_indptr has size batch_size + 1
 				);
-    
-    _data[batch_num].X_indptr_ptr = _data[batch_num].X_indptr.data();
 
-    //Substract value of first elements from all elements in X_indptr
-    for (auto &x: _data[batch_num].X_indptr)
-      x -= _X_indptr[batch_begin];
+		_data[batch_num].X_indptr_ptr = _data[batch_num].X_indptr.data();
 
-  }
+		//Substract value of first elements from all elements in X_indptr
+		for (auto &x : _data[batch_num].X_indptr)
+			x -= _X_indptr[batch_begin];
+
+	}
 
 }
 
 //This function expects a CSR matrix, but transforms it into 
-void NeuralNetworkCpp::load_sparse_data(
-                                               std::int32_t  _num_input_node,
-                                               float        *_X_data,
-                                               std::int32_t  _X_data_length,
-                                               std::int32_t *_X_indices,
-                                               std::int32_t  _X_indices_length,
-                                               std::int32_t *_X_indptr,
-                                               std::int32_t  _X_indptr_length,
-                                               std::int32_t  _num_samples,
-                                               std::int32_t  _dim,
-                                               std::int32_t  _global_batch_size
-      ) {
+void NeuralNetworkCpp::load_sparse_data(std::int32_t _num_input_node,
+		float *_X_data, std::int32_t _X_data_length, std::int32_t *_X_indices,
+		std::int32_t _X_indices_length, std::int32_t *_X_indptr,
+		std::int32_t _X_indptr_length, std::int32_t _num_samples,
+		std::int32_t _dim, std::int32_t _global_batch_size) {
 
-    if (
-    _num_input_node >= (std::int32_t)(this->sparse_input_data_.size()) || 
-      _num_input_node < 0
-			) throw std::invalid_argument("num_input_node out of bounds!");
-  
-    if (_dim != this->sparse_input_data_dim_[_num_input_node]) 
-      throw std::invalid_argument("Width dim of array provided does not match the width that has been set when initialising the network!");
+	if (_num_input_node >= (std::int32_t)(this->sparse_input_data_.size())
+			|| _num_input_node < 0)
+		throw std::invalid_argument("num_input_node out of bounds!");
 
-    std::int32_t num_batches = calc_num_batches (
-    /*MPI_Comm comm,*/
-    _num_samples,
-      _global_batch_size
-      );
+	if (_dim != this->sparse_input_data_dim_[_num_input_node])
+		throw std::invalid_argument(
+				"Width dim of array provided does not match the width that has been set when initialising the network!");
 
-    this->sparse_input_data_[_num_input_node] 
-      = std::vector<matrix::CSRMatrix>(num_batches);
+	std::int32_t num_batches = calc_num_batches(
+	/*MPI_Comm comm,*/
+	_num_samples, _global_batch_size);
 
-    this->load_csr(
-    this->sparse_input_data_[_num_input_node],
-      _X_data,
-      _X_data_length,
-      _X_indices,
-      _X_indices_length,
-      _X_indptr,
-      _X_indptr_length,
-      _num_samples,
-      _dim, 
-      num_batches
-      );
+	this->sparse_input_data_[_num_input_node] = std::vector < matrix::CSRMatrix
+			> (num_batches);
 
-  }
+	this->load_csr(this->sparse_input_data_[_num_input_node], _X_data,
+			_X_data_length, _X_indices, _X_indices_length, _X_indptr,
+			_X_indptr_length, _num_samples, _dim, num_batches);
 
-    
+}
+
 void NeuralNetworkCpp::delete_data() {
 
-    for (auto& data: this->dense_input_data_) data.clear();
-    for (auto& data: this->sparse_input_data_) data.clear();
+	for (auto& data : this->dense_input_data_)
+		data.clear();
+	for (auto& data : this->sparse_input_data_)
+		data.clear();
 
-  }
-	           
-void NeuralNetworkCpp::transform(
-				 float       *_Yhat,
-				 std::int32_t _Y2_num_samples, 
-				 std::int32_t _Y2_dim, 
-				 bool         _sample, 
-				 std::int32_t _sample_size, 
-				 bool         _get_hidden_nodes
-				 ) {
-      		
-    //Make sure that neural network has been finalised!
-    if (!this->finalised_) throw std::invalid_argument("Neural network has not been finalised!");
-  
-    //Get batch_size
-    std::vector<std::int32_t> batch_size;
-    
-    if (this->dense_input_data_.size() > 0) {
+}
 
-      for (auto data: this->dense_input_data_[0])
-	batch_size.push_back(data.batch_size);
+void NeuralNetworkCpp::transform(float *_Yhat, std::int32_t _Y2_num_samples,
+		std::int32_t _Y2_dim, bool _sample, std::int32_t _sample_size,
+		bool _get_hidden_nodes) {
 
-    } else if (this->sparse_input_data_.size() > 0) {
+	//Make sure that neural network has been finalised!
+	if (!this->finalised_)
+		throw std::invalid_argument("Neural network has not been finalised!");
 
-      for (auto data: this->sparse_input_data_[0])
-	batch_size.push_back(data.batch_size);
+	//Get batch_size
+	std::vector < std::int32_t > batch_size;
 
-    } else {
+	if (this->dense_input_data_.size() > 0) {
 
-      throw std::invalid_argument("No input data provided!");
+		for (auto data : this->dense_input_data_[0])
+			batch_size.push_back(data.batch_size);
 
-    }
+	} else if (this->sparse_input_data_.size() > 0) {
 
-    //Get num_batches
-    std::int32_t num_batches = (std::int32_t)(batch_size.size());
+		for (auto data : this->sparse_input_data_[0])
+			batch_size.push_back(data.batch_size);
 
-    //Make sure that the batch_sizes are identical for all matrices provided!
-    for (auto DataVector: this->dense_input_data_) {
+	} else {
 
-      if (DataVector.size() != batch_size.size()) 
-	throw std::invalid_argument("All input matrices must have the exact same number of samples!");
+		throw std::invalid_argument("No input data provided!");
 
-      for (std::size_t i=0; i<DataVector.size(); ++i) 
-	if (DataVector[i].batch_size != batch_size[i]) 
-	  throw std::invalid_argument("All input matrices must have the exact same number of samples!");
+	}
 
-    }
+	//Get num_batches
+	std::int32_t num_batches = (std::int32_t)(batch_size.size());
 
-    //Make sure that the batch_sizes are identical for all matrices provided!
-    for (auto DataVector: this->sparse_input_data_) {
+	//Make sure that the batch_sizes are identical for all matrices provided!
+	for (auto DataVector : this->dense_input_data_) {
 
-      if (DataVector.size() != batch_size.size()) 
-	throw std::invalid_argument("All input matrices must have the exact same number of samples!");
+		if (DataVector.size() != batch_size.size())
+			throw std::invalid_argument(
+					"All input matrices must have the exact same number of samples!");
 
-      for (std::size_t i=0; i<DataVector.size(); ++i) 
-	if (DataVector[i].batch_size != batch_size[i]) 
-	  throw std::invalid_argument("All input matrices must have the exact same number of samples!");
+		for (std::size_t i = 0; i < DataVector.size(); ++i)
+			if (DataVector[i].batch_size != batch_size[i])
+				throw std::invalid_argument(
+						"All input matrices must have the exact same number of samples!");
 
-    }
+	}
 
-    //Store input values
-    this->num_samples_ = _Y2_num_samples;
-    this->sample_ = _sample;
-    if (!_sample) _sample_size = 1;
+	//Make sure that the batch_sizes are identical for all matrices provided!
+	for (auto DataVector : this->sparse_input_data_) {
 
-    const double sample_avg = 1.0/((double)_sample_size);
+		if (DataVector.size() != batch_size.size())
+			throw std::invalid_argument(
+					"All input matrices must have the exact same number of samples!");
 
-    //Set pointers contained in the NeuralNetworkNodes class
-    for (std::size_t n=0; n<this->nodes_.size(); ++n) 
-      this->nodes_[n]->W_ = this->W_.data() + this->cumulative_num_weights_required_[n];
-  
-    //Init YhatTemp
-    std::vector<float> YhatTemp(_Yhat, _Yhat + _Y2_num_samples*_Y2_dim);
-      
-    //Calculate output
-    std::int32_t batch_begin = 0;
-    for (
-	 std::int32_t batch_num = 0; 
-	 batch_num < num_batches; 
-	 ++batch_num, batch_begin += batch_size[batch_num]
-	 ) 
-      for (
-	   std::int32_t iteration = 0;
-	   iteration < _sample_size;
-	   ++iteration
-	   ) {
-    						
-	//Calculate nodes
-	for (auto node: this->nodes_) 
-	  node->calc_output(
-			    batch_num, 
-			    batch_size[batch_num]
-			    );
+		for (std::size_t i = 0; i < DataVector.size(); ++i)
+			if (DataVector[i].batch_size != batch_size[i])
+				throw std::invalid_argument(
+						"All input matrices must have the exact same number of samples!");
 
-	//Add to YhatTemp
-	std::int32_t col_num = 0;
-	for (
-	     std::int32_t node_num = 0; 
-	     node_num < this->num_output_nodes_; 
-	     ++node_num
-	     ) 
-	  for (
-	       std::int32_t dim = 0; 
-	       dim < this->output_nodes_[node_num]->dim_; 
-	       ++dim
-	       ) {
-	    
-	    std::transform (
-			    this->output_nodes_[node_num]->output_.begin()
-			    + dim*batch_size[batch_num], 
-				  
-			    this->output_nodes_[node_num]->output_.begin()
-			    + (dim+1)*batch_size[batch_num], 
-			    
-			    YhatTemp.begin() + _Y2_num_samples*col_num + batch_begin, 
+	}
 
-			    YhatTemp.begin() + _Y2_num_samples*col_num + batch_begin, 
-			    
-			    std::plus<float>()
-			    );		
-	    ++col_num;
-	  }
-      }
-  
-    //Get data from YhatTemp and transpose
-    for (std::int32_t i=0; i<_Y2_num_samples; ++i) 
-      for (std::int32_t j=0; j<_Y2_dim; ++j) 
-	_Yhat[i*_Y2_dim + j] = YhatTemp[j*_Y2_num_samples + i];
-			
-    //Clear data, so it does not unnecessarily take up space
-    this->delete_data();
-      
-};
+	//Store input values
+	this->num_samples_ = _Y2_num_samples;
+	this->sample_ = _sample;
+	if (!_sample)
+		_sample_size = 1;
+
+	const double sample_avg = 1.0 / ((double) _sample_size);
+
+	//Set pointers contained in the NeuralNetworkNodes class
+	for (std::size_t n = 0; n < this->nodes_.size(); ++n)
+		this->nodes_[n]->W_ = this->W_.data()
+				+ this->cumulative_num_weights_required_[n];
+
+	//Init YhatTemp
+	std::vector<float> YhatTemp(_Yhat, _Yhat + _Y2_num_samples * _Y2_dim);
+
+	//Calculate output
+	std::int32_t batch_begin = 0;
+	for (std::int32_t batch_num = 0; batch_num < num_batches;
+			++batch_num, batch_begin += batch_size[batch_num])
+		for (std::int32_t iteration = 0; iteration < _sample_size;
+				++iteration) {
+
+			//Calculate nodes
+			for (auto node : this->nodes_)
+				node->calc_output(batch_num, batch_size[batch_num]);
+
+			//Add to YhatTemp
+			std::int32_t col_num = 0;
+			for (std::int32_t node_num = 0; node_num < this->num_output_nodes_;
+					++node_num)
+				for (std::int32_t dim = 0;
+						dim < this->output_nodes_[node_num]->dim_; ++dim) {
+
+					std::transform(
+							this->output_nodes_[node_num]->output_.begin()
+									+ dim * batch_size[batch_num],
+
+							this->output_nodes_[node_num]->output_.begin()
+									+ (dim + 1) * batch_size[batch_num],
+
+							YhatTemp.begin() + _Y2_num_samples * col_num
+									+ batch_begin,
+
+							YhatTemp.begin() + _Y2_num_samples * col_num
+									+ batch_begin,
+
+							std::plus<float>());
+					++col_num;
+				}
+		}
+
+	//Get data from YhatTemp and transpose
+	for (std::int32_t i = 0; i < _Y2_num_samples; ++i)
+		for (std::int32_t j = 0; j < _Y2_dim; ++j)
+			_Yhat[i * _Y2_dim + j] = YhatTemp[j * _Y2_num_samples + i];
+
+	//Clear data, so it does not unnecessarily take up space
+	this->delete_data();
+
+}

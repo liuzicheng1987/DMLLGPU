@@ -7,10 +7,10 @@ export COMPUTE_CAPABILITY=compute_50
 #However, it would be better to update your setup.py to make distutils build the SWIG module for you, instead of running SWIG manually. Or use a makefile, see for example demo/wrap-swig in the mpi4py sources.
 
 #Compile C++/CUDA sourcecode and create discoveryCpp.py
-swig -c++ -python discoveryCpp.i
-mv discoveryCpp_wrap.cxx discoveryCpp_wrap.cu 
-nvcc -std=c++11 -ccbin g++ -m64 -gencode arch=$COMPUTE_CAPABILITY,code=$COMPUTE_CAPABILITY -g -c discoveryCpp_wrap.cu -lcublas -lcusparse -I/usr/include/python2.7 -I$NUMPY_PATH -Xcompiler -fPIC 
-nvcc -gencode arch=$COMPUTE_CAPABILITY,code=$COMPUTE_CAPABILITY -lcublas -lcusparse -shared discoveryCpp_wrap.o -o _discoveryCpp.so
+swig -c++ -python DiscoveryCpp.i
+mv DiscoveryCpp_wrap.cxx DiscoveryCpp_wrap.cu 
+nvcc -std=c++11 -ccbin g++ -m64 -gencode arch=$COMPUTE_CAPABILITY,code=$COMPUTE_CAPABILITY -g -c DiscoveryCpp_wrap.cu -lcublas -lcusparse -I/usr/include/python2.7 -I$NUMPY_PATH -Xcompiler -fPIC 
+nvcc -gencode arch=$COMPUTE_CAPABILITY,code=$COMPUTE_CAPABILITY -lcublas -lcusparse -shared DiscoveryCpp_wrap.o -o _DiscoveryCpp.so
 
 #If there is trouble loading cuBLAS:
 #sudo ldconfig /usr/local/cuda-7.5/lib64

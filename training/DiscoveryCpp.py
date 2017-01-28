@@ -318,6 +318,37 @@ class NeuralNetworkCpp(NumericallyOptimisedAlgorithmCpp):
 NeuralNetworkCpp_swigregister = _DiscoveryCpp.NeuralNetworkCpp_swigregister
 NeuralNetworkCpp_swigregister(NeuralNetworkCpp)
 
+class RelationalNetworkCpp(NumericallyOptimisedAlgorithmCpp):
+    __swig_setmethods__ = {}
+    for _s in [NumericallyOptimisedAlgorithmCpp]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, RelationalNetworkCpp, name, value)
+    __swig_getmethods__ = {}
+    for _s in [NumericallyOptimisedAlgorithmCpp]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, RelationalNetworkCpp, name)
+    __repr__ = _swig_repr
+    def __init__(self): 
+        this = _DiscoveryCpp.new_RelationalNetworkCpp()
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _DiscoveryCpp.delete_RelationalNetworkCpp
+    __del__ = lambda self : None;
+    def add_input_network(self, *args): return _DiscoveryCpp.RelationalNetworkCpp_add_input_network(self, *args)
+    def set_output_network(self, *args): return _DiscoveryCpp.RelationalNetworkCpp_set_output_network(self, *args)
+    def finalise(self, *args): return _DiscoveryCpp.RelationalNetworkCpp_finalise(self, *args)
+    def load_dense_data(self, *args): return _DiscoveryCpp.RelationalNetworkCpp_load_dense_data(self, *args)
+    def load_dense_targets(self, *args): return _DiscoveryCpp.RelationalNetworkCpp_load_dense_targets(self, *args)
+    def load_time_stamps_output(self, *args): return _DiscoveryCpp.RelationalNetworkCpp_load_time_stamps_output(self, *args)
+    def load_time_stamps_input(self, *args): return _DiscoveryCpp.RelationalNetworkCpp_load_time_stamps_input(self, *args)
+    def add_join_keys_left(self, *args): return _DiscoveryCpp.RelationalNetworkCpp_add_join_keys_left(self, *args)
+    def clean_up(self): return _DiscoveryCpp.RelationalNetworkCpp_clean_up(self)
+    def fit(self, *args): return _DiscoveryCpp.RelationalNetworkCpp_fit(self, *args)
+    def transform(self, *args): return _DiscoveryCpp.RelationalNetworkCpp_transform(self, *args)
+    def get_sum_output_dim(self): return _DiscoveryCpp.RelationalNetworkCpp_get_sum_output_dim(self)
+    def get_sum_gradients_length(self): return _DiscoveryCpp.RelationalNetworkCpp_get_sum_gradients_length(self)
+    def get_sum_gradients(self, *args): return _DiscoveryCpp.RelationalNetworkCpp_get_sum_gradients(self, *args)
+RelationalNetworkCpp_swigregister = _DiscoveryCpp.RelationalNetworkCpp_swigregister
+RelationalNetworkCpp_swigregister(RelationalNetworkCpp)
+
 class LogicalGateCpp(NeuralNetworkNodeCpp):
     __swig_setmethods__ = {}
     for _s in [NeuralNetworkNodeCpp]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
@@ -470,6 +501,40 @@ class NodeSamplerCpp(NeuralNetworkNodeCpp):
     __del__ = lambda self : None;
 NodeSamplerCpp_swigregister = _DiscoveryCpp.NodeSamplerCpp_swigregister
 NodeSamplerCpp_swigregister(NodeSamplerCpp)
+
+class AggregationCpp(NeuralNetworkNodeCpp):
+    __swig_setmethods__ = {}
+    for _s in [NeuralNetworkNodeCpp]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, AggregationCpp, name, value)
+    __swig_getmethods__ = {}
+    for _s in [NeuralNetworkNodeCpp]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, AggregationCpp, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _DiscoveryCpp.new_AggregationCpp(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _DiscoveryCpp.delete_AggregationCpp
+    __del__ = lambda self : None;
+AggregationCpp_swigregister = _DiscoveryCpp.AggregationCpp_swigregister
+AggregationCpp_swigregister(AggregationCpp)
+
+class SumCpp(AggregationCpp):
+    __swig_setmethods__ = {}
+    for _s in [AggregationCpp]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, SumCpp, name, value)
+    __swig_getmethods__ = {}
+    for _s in [AggregationCpp]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, SumCpp, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _DiscoveryCpp.new_SumCpp(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _DiscoveryCpp.delete_SumCpp
+    __del__ = lambda self : None;
+SumCpp_swigregister = _DiscoveryCpp.SumCpp_swigregister
+SumCpp_swigregister(SumCpp)
 
 # This file is compatible with both classic and new-style classes.
 
