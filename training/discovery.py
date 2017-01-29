@@ -10,17 +10,26 @@ import DiscoveryCpp
 
 # Optimisers
 
+
 class SGD(object):
     """
     Stochastic gradient descent optimiser.
     """
 
-    def __init__(self, learning_rate, learning_rate_power):
+    def __init__(
+            self,
+            learning_rate,
+            learning_rate_power,
+            momentum=0.0):
         """
         learning_rate: Learning rate of the optimisation problem
         learning_rate_power: Speed by which learning rate decreases
+        momentum: Momentum of the optimiser
         """
-        self.thisptr = DiscoveryCpp.SGDCpp(learning_rate, learning_rate_power)
+        self.thisptr = DiscoveryCpp.SGDCpp(
+            learning_rate,
+            learning_rate_power,
+            momentum)
 
 
 class AdaGrad(object):
@@ -891,7 +900,7 @@ class RelationalNetwork(object):
         return X_reordered, join_keys_input_reordered
 
     def __create_indptr(self, join_keys_right_reordered):
-        indptr = [0]*(join_keys_right_reordered[0] + 1)
+        indptr = [0] * (join_keys_right_reordered[0] + 1)
         j = 0
         for i in range(len(join_keys_right_reordered)):
             if join_keys_right_reordered[i]\

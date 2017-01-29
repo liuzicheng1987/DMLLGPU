@@ -3868,15 +3868,19 @@ SWIGINTERN PyObject *_wrap_new_SGDCpp(PyObject *SWIGUNUSEDPARM(self), PyObject *
   PyObject *resultobj = 0;
   float arg1 ;
   float arg2 ;
+  float arg3 ;
   float val1 ;
   int ecode1 = 0 ;
   float val2 ;
   int ecode2 = 0 ;
+  float val3 ;
+  int ecode3 = 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
   SGDCpp *result = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OO:new_SGDCpp",&obj0,&obj1)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OOO:new_SGDCpp",&obj0,&obj1,&obj2)) SWIG_fail;
   ecode1 = SWIG_AsVal_float(obj0, &val1);
   if (!SWIG_IsOK(ecode1)) {
     SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_SGDCpp" "', argument " "1"" of type '" "float""'");
@@ -3887,9 +3891,14 @@ SWIGINTERN PyObject *_wrap_new_SGDCpp(PyObject *SWIGUNUSEDPARM(self), PyObject *
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "new_SGDCpp" "', argument " "2"" of type '" "float""'");
   } 
   arg2 = static_cast< float >(val2);
+  ecode3 = SWIG_AsVal_float(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "new_SGDCpp" "', argument " "3"" of type '" "float""'");
+  } 
+  arg3 = static_cast< float >(val3);
   {
     try {
-      result = (SGDCpp *)new SGDCpp(arg1,arg2);
+      result = (SGDCpp *)new SGDCpp(arg1,arg2,arg3);
     } catch (const std::exception& e) {
       SWIG_exception(SWIG_UnknownError, e.what());
     } 

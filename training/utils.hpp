@@ -9,12 +9,13 @@ struct axpy
 {
 
   const T alpha;
-
-  axpy(T _alpha) : alpha(_alpha) {}
+  const T beta;
+  
+  axpy(T _alpha, T _beta) : alpha(_alpha), beta(_beta) {}
 
   __device__ T operator()(const T &x, T &y) const
   {
-    return alpha * x + y;
+    return alpha * x + beta * y;
   }
 };
 

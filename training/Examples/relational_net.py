@@ -123,7 +123,7 @@ relational_network.fit(
     join_keys_output=[join_keys_output],
     time_stamps_output=time_stamps_output,
     Y_dense=[targets],
-    optimiser=discovery.AdaGrad(1000.0),
+    optimiser=discovery.AdaGrad(100.0),
     tol=0.0,
     max_num_epochs=50,
     sample=False
@@ -132,6 +132,7 @@ relational_network.fit(
 plt.plot(
     relational_network.get_sum_gradients()
 )
+plt.grid(True)
 plt.show()
 
 prediction = relational_network.transform(

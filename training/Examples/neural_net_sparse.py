@@ -96,7 +96,7 @@ nn.finalise()
 nn.fit(
     Xsparse=[Xsparse_train], 
     Ysparse=[Ysparse_train], 
-    optimiser=discovery.SGD(1.0, 0.1), 
+    optimiser=discovery.SGD(0.01, 0.1, 0.5), 
     tol=0.0, 
     global_batch_size=2000, 
     max_num_epochs=2000

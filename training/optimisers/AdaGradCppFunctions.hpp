@@ -14,9 +14,9 @@ void AdaGradCpp::min(/*MPI_Comm comm,*/
     //Initialise sum_dldw_squared_
     this->sum_dldw_squared_ = thrust::device_vector<float>(_W.size());
 
-    thrust::for_each(this->sum_dldw_squared_.begin(),
-		     this->sum_dldw_squared_.end(),
-		     thrust::placeholders::_1 = 0.f);
+    thrust::fill(this->sum_dldw_squared_.begin(),
+		 this->sum_dldw_squared_.end(),
+		 0.f);
 
     for (;
 	 this->epoch_num_ < _max_num_epochs;
@@ -34,9 +34,9 @@ void AdaGradCpp::min(/*MPI_Comm comm,*/
 	     ++batch_num)
 	{ //batch_num layer
 
-	    //We must find out our current values for batch_begin and batch_end. 
-		//We do so by calling this->calc_batch_begin_end, 
-		//which is inherited from the optimiser class.
+	    //We must find out our current values for batch_begin and batch_end.
+	    //We do so by calling this->calc_batch_begin_end,
+	    //which is inherited from the optimiser class.
 	    _numerically_optimised_algorithm->calc_batch_begin_end(batch_begin,
 								   batch_end,
 								   batch_size,
@@ -62,8 +62,8 @@ void AdaGradCpp::min(/*MPI_Comm comm,*/
 	    //Barrier: Wait until all processes have reached this point
 	    //MPI_Barrier(comm);
 	    //Call dfdw()
-	    //Note that it is the responsibility of whoever writes the underlying algorithm 
-		//to make sure that this->dLdW and this->SumdLdW are passed to ALL processes
+	    //Note that it is the responsibility of whoever writes the underlying algorithm
+	    //to make sure that this->dLdW and this->SumdLdW are passed to ALL processes
 	    //It is, however, your responsibility to place a barrier after that, if required
 	    _numerically_optimised_algorithm->dfdw(/*comm,*/
 						   this->dldw_ptr_,

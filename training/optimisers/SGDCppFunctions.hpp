@@ -13,6 +13,13 @@ void SGDCpp::min(/*MPI_Comm comm,*/
     //The sum of all sum of gradients - will be recorded in _sum_gradients
     float sum_gradients;
 
+    //Initialise this->update_
+    this->update_ = thrust::device_vector<float>(_W.size());
+
+    thrust::fill(this->update_.begin(),
+		 this->update_.end(),
+		 0.f);
+
     for (;
 	 this->epoch_num_ < _max_num_epochs;
 	 ++(this->epoch_num_))
@@ -85,6 +92,14 @@ void SGDCpp::min(/*MPI_Comm comm,*/
 			      this->sum_dldw_.begin(),
 			      thrust::plus<float>());
 
+	    //Update updates_
+	    thrust::transform(dldw_.begin(),
+			      dldw_.end(),
+			      this->update_.begin(),
+			      this->update_.begin(),
+			      utils::axpy<float>(1.f,
+						 this->momentum_));
+
 	    //Calculate current learning rate
 	    //Learning rates are always divided by the sample size
 	    current_learning_rate =
@@ -95,11 +110,12 @@ void SGDCpp::min(/*MPI_Comm comm,*/
 		(static_cast<float>(global_batch_size));
 
 	    //Update W
-	    thrust::transform(dldw_.begin(),
-			      dldw_.end(),
+	    thrust::transform(this->update_.begin(),
+			      this->update_.end(),
 			      _W.begin(),
 			      _W.begin(),
-			      utils::axpy<float>((-1.f) * current_learning_rate));
+			      utils::axpy<float>((-1.f) * current_learning_rate,
+						 1.f));
 
 	    //Post-update manipulations are used to impose restrictions on the weights,
 	    //such as that all weights must be greater or equal to 0.
