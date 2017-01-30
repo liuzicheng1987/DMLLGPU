@@ -92,6 +92,12 @@ class NeuralNetworkNodeCpp
     {
     }
 
+    //Because the fill function sometimes reallocates the entire vector,
+    //it is necessary to reset delta_ptr_
+    void reset_delta_ptr() {
+        this->delta_ptr_ = thrust::raw_pointer_cast(this->delta_.data());
+    }
+
     //A bunch of getters
 
     std::vector<NeuralNetworkNodeCpp *> &get_hidden_nodes_fed_into_me_ptr()

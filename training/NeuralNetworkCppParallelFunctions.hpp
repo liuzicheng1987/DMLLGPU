@@ -17,6 +17,10 @@ void NeuralNetworkCpp::dfdw(/*MPI_Comm comm,*/
     for (auto node : this->nodes_)
     {
         thrust::fill(node->delta_.begin(), node->delta_.end(), 0.f);
+
+        //Because thrust::fill sometimes reallocates the entire vector,
+        //it is necessary to reset delta_ptr_
+        node->reset_delta_ptr();
     }
 
     //Calculate loss for dense targets

@@ -150,6 +150,11 @@ void AggregationCpp::init_delta_in_input_network()
         thrust::fill(node->get_delta().begin(),
                      node->get_delta().end(),
                      0.f);
+
+        //Because thrust::fill sometimes reallocates the entire vector,
+        //it is necessary to reset delta_ptr_
+        node->reset_delta_ptr();
+
     }
 }
 

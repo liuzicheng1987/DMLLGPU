@@ -442,6 +442,10 @@ void RelationalNetworkCpp::dfdw(/*MPI_Comm comm,*/
     for (NeuralNetworkNodeCpp *node : this->output_network_->get_nodes())
     {
         thrust::fill(node->get_delta().begin(), node->get_delta().end(), 0.f);
+
+        //Because thrust::fill sometimes reallocates the entire vector,
+        //it is necessary to reset delta_ptr_
+        node->reset_delta_ptr();
     }
 
     //Calculate loss for dense targets
