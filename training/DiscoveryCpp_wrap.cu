@@ -2955,26 +2955,29 @@ SWIG_Python_NonDynamicSetAttr(PyObject *obj, PyObject *name, PyObject *value) {
 #define SWIGTYPE_p_NumericallyOptimisedAlgorithmCpp swig_types[15]
 #define SWIGTYPE_p_ORGateCpp swig_types[16]
 #define SWIGTYPE_p_OptimiserCpp swig_types[17]
-#define SWIGTYPE_p_RegulariserCpp swig_types[18]
-#define SWIGTYPE_p_RelationalNetworkCpp swig_types[19]
-#define SWIGTYPE_p_SGDCpp swig_types[20]
-#define SWIGTYPE_p_SoftmaxActivationFunctionCpp swig_types[21]
-#define SWIGTYPE_p_SquareLossCpp swig_types[22]
-#define SWIGTYPE_p_SumCpp swig_types[23]
-#define SWIGTYPE_p_XNORGateCpp swig_types[24]
-#define SWIGTYPE_p_XORGateCpp swig_types[25]
-#define SWIGTYPE_p_char swig_types[26]
-#define SWIGTYPE_p_float swig_types[27]
-#define SWIGTYPE_p_int swig_types[28]
-#define SWIGTYPE_p_long_long swig_types[29]
-#define SWIGTYPE_p_short swig_types[30]
-#define SWIGTYPE_p_signed_char swig_types[31]
-#define SWIGTYPE_p_unsigned_char swig_types[32]
-#define SWIGTYPE_p_unsigned_int swig_types[33]
-#define SWIGTYPE_p_unsigned_long_long swig_types[34]
-#define SWIGTYPE_p_unsigned_short swig_types[35]
-static swig_type_info *swig_types[37];
-static swig_module_info swig_module = {swig_types, 36, 0, 0, 0, 0};
+#define SWIGTYPE_p_RMSPropCpp swig_types[18]
+#define SWIGTYPE_p_RegulariserCpp swig_types[19]
+#define SWIGTYPE_p_RelationalNetworkCpp swig_types[20]
+#define SWIGTYPE_p_SGDCpp swig_types[21]
+#define SWIGTYPE_p_SoftmaxActivationFunctionCpp swig_types[22]
+#define SWIGTYPE_p_SquareLossCpp swig_types[23]
+#define SWIGTYPE_p_SumCpp swig_types[24]
+#define SWIGTYPE_p_XNORGateCpp swig_types[25]
+#define SWIGTYPE_p_XORGateCpp swig_types[26]
+#define SWIGTYPE_p_char swig_types[27]
+#define SWIGTYPE_p_float swig_types[28]
+#define SWIGTYPE_p_int swig_types[29]
+#define SWIGTYPE_p_long_long swig_types[30]
+#define SWIGTYPE_p_short swig_types[31]
+#define SWIGTYPE_p_signed_char swig_types[32]
+#define SWIGTYPE_p_std__vectorT_float_t swig_types[33]
+#define SWIGTYPE_p_thrust__device_vectorT_float_t swig_types[34]
+#define SWIGTYPE_p_unsigned_char swig_types[35]
+#define SWIGTYPE_p_unsigned_int swig_types[36]
+#define SWIGTYPE_p_unsigned_long_long swig_types[37]
+#define SWIGTYPE_p_unsigned_short swig_types[38]
+static swig_type_info *swig_types[40];
+static swig_module_info swig_module = {swig_types, 39, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -4003,6 +4006,155 @@ SWIGINTERN PyObject *AdaGradCpp_swigregister(PyObject *SWIGUNUSEDPARM(self), PyO
   PyObject *obj;
   if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
   SWIG_TypeNewClientData(SWIGTYPE_p_AdaGradCpp, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *_wrap_new_RMSPropCpp(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  float arg1 ;
+  float arg2 ;
+  float val1 ;
+  int ecode1 = 0 ;
+  float val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  RMSPropCpp *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:new_RMSPropCpp",&obj0,&obj1)) SWIG_fail;
+  ecode1 = SWIG_AsVal_float(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_RMSPropCpp" "', argument " "1"" of type '" "float""'");
+  } 
+  arg1 = static_cast< float >(val1);
+  ecode2 = SWIG_AsVal_float(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "new_RMSPropCpp" "', argument " "2"" of type '" "float""'");
+  } 
+  arg2 = static_cast< float >(val2);
+  {
+    try {
+      result = (RMSPropCpp *)new RMSPropCpp(arg1,arg2);
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_UnknownError, e.what());
+    } 
+  }
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_RMSPropCpp, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_RMSPropCpp(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  RMSPropCpp *arg1 = (RMSPropCpp *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_RMSPropCpp",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_RMSPropCpp, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_RMSPropCpp" "', argument " "1"" of type '" "RMSPropCpp *""'"); 
+  }
+  arg1 = reinterpret_cast< RMSPropCpp * >(argp1);
+  {
+    try {
+      delete arg1;
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_UnknownError, e.what());
+    } 
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_RMSPropCpp_min(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  RMSPropCpp *arg1 = (RMSPropCpp *) 0 ;
+  NumericallyOptimisedAlgorithmCpp *arg2 = (NumericallyOptimisedAlgorithmCpp *) 0 ;
+  thrust::device_vector< float > *arg3 = 0 ;
+  float arg4 ;
+  std::int32_t arg5 ;
+  std::vector< float > *arg6 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  float val4 ;
+  int ecode4 = 0 ;
+  int val5 ;
+  int ecode5 = 0 ;
+  void *argp6 = 0 ;
+  int res6 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  PyObject * obj4 = 0 ;
+  PyObject * obj5 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOOOO:RMSPropCpp_min",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_RMSPropCpp, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "RMSPropCpp_min" "', argument " "1"" of type '" "RMSPropCpp *""'"); 
+  }
+  arg1 = reinterpret_cast< RMSPropCpp * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_NumericallyOptimisedAlgorithmCpp, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "RMSPropCpp_min" "', argument " "2"" of type '" "NumericallyOptimisedAlgorithmCpp *""'"); 
+  }
+  arg2 = reinterpret_cast< NumericallyOptimisedAlgorithmCpp * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3, SWIGTYPE_p_thrust__device_vectorT_float_t,  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "RMSPropCpp_min" "', argument " "3"" of type '" "thrust::device_vector< float > &""'"); 
+  }
+  if (!argp3) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "RMSPropCpp_min" "', argument " "3"" of type '" "thrust::device_vector< float > &""'"); 
+  }
+  arg3 = reinterpret_cast< thrust::device_vector< float > * >(argp3);
+  ecode4 = SWIG_AsVal_float(obj3, &val4);
+  if (!SWIG_IsOK(ecode4)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "RMSPropCpp_min" "', argument " "4"" of type '" "float""'");
+  } 
+  arg4 = static_cast< float >(val4);
+  ecode5 = SWIG_AsVal_int(obj4, &val5);
+  if (!SWIG_IsOK(ecode5)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "RMSPropCpp_min" "', argument " "5"" of type '" "std::int32_t""'");
+  } 
+  arg5 = static_cast< std::int32_t >(val5);
+  res6 = SWIG_ConvertPtr(obj5, &argp6, SWIGTYPE_p_std__vectorT_float_t,  0 );
+  if (!SWIG_IsOK(res6)) {
+    SWIG_exception_fail(SWIG_ArgError(res6), "in method '" "RMSPropCpp_min" "', argument " "6"" of type '" "std::vector< float > &""'"); 
+  }
+  if (!argp6) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "RMSPropCpp_min" "', argument " "6"" of type '" "std::vector< float > &""'"); 
+  }
+  arg6 = reinterpret_cast< std::vector< float > * >(argp6);
+  {
+    try {
+      (arg1)->min(arg2,*arg3,arg4,arg5,*arg6);
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_UnknownError, e.what());
+    } 
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *RMSPropCpp_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_RMSPropCpp, SWIG_NewClientData(obj));
   return SWIG_Py_Void();
 }
 
@@ -7923,6 +8075,10 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"new_AdaGradCpp", _wrap_new_AdaGradCpp, METH_VARARGS, NULL},
 	 { (char *)"delete_AdaGradCpp", _wrap_delete_AdaGradCpp, METH_VARARGS, NULL},
 	 { (char *)"AdaGradCpp_swigregister", AdaGradCpp_swigregister, METH_VARARGS, NULL},
+	 { (char *)"new_RMSPropCpp", _wrap_new_RMSPropCpp, METH_VARARGS, NULL},
+	 { (char *)"delete_RMSPropCpp", _wrap_delete_RMSPropCpp, METH_VARARGS, NULL},
+	 { (char *)"RMSPropCpp_min", _wrap_RMSPropCpp_min, METH_VARARGS, NULL},
+	 { (char *)"RMSPropCpp_swigregister", RMSPropCpp_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_NeuralNetworkNodeCpp", _wrap_new_NeuralNetworkNodeCpp, METH_VARARGS, NULL},
 	 { (char *)"delete_NeuralNetworkNodeCpp", _wrap_delete_NeuralNetworkNodeCpp, METH_VARARGS, NULL},
 	 { (char *)"NeuralNetworkNodeCpp_swigregister", NeuralNetworkNodeCpp_swigregister, METH_VARARGS, NULL},
@@ -8027,6 +8183,9 @@ static void *_p_AdaGradCppTo_p_OptimiserCpp(void *x, int *SWIGUNUSEDPARM(newmemo
 static void *_p_SGDCppTo_p_OptimiserCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((OptimiserCpp *)  ((SGDCpp *) x));
 }
+static void *_p_RMSPropCppTo_p_OptimiserCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((OptimiserCpp *)  ((RMSPropCpp *) x));
+}
 static void *_p_NeuralNetworkCppTo_p_NumericallyOptimisedAlgorithmCpp(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((NumericallyOptimisedAlgorithmCpp *)  ((NeuralNetworkCpp *) x));
 }
@@ -8129,6 +8288,7 @@ static swig_type_info _swigt__p_NodeSamplerCpp = {"_p_NodeSamplerCpp", "NodeSamp
 static swig_type_info _swigt__p_NumericallyOptimisedAlgorithmCpp = {"_p_NumericallyOptimisedAlgorithmCpp", "NumericallyOptimisedAlgorithmCpp *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_ORGateCpp = {"_p_ORGateCpp", "ORGateCpp *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_OptimiserCpp = {"_p_OptimiserCpp", "OptimiserCpp *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_RMSPropCpp = {"_p_RMSPropCpp", "RMSPropCpp *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_RegulariserCpp = {"_p_RegulariserCpp", "RegulariserCpp *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_RelationalNetworkCpp = {"_p_RelationalNetworkCpp", "RelationalNetworkCpp *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_SGDCpp = {"_p_SGDCpp", "SGDCpp *", 0, 0, (void*)0, 0};
@@ -8143,6 +8303,8 @@ static swig_type_info _swigt__p_int = {"_p_int", "intptr_t *|int *|int_least32_t
 static swig_type_info _swigt__p_long_long = {"_p_long_long", "int_least64_t *|int_fast64_t *|int64_t *|long long *|intmax_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_short = {"_p_short", "short *|int_least16_t *|int16_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_signed_char = {"_p_signed_char", "signed char *|int_least8_t *|int_fast8_t *|int8_t *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_std__vectorT_float_t = {"_p_std__vectorT_float_t", "std::vector< float > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_thrust__device_vectorT_float_t = {"_p_thrust__device_vectorT_float_t", "thrust::device_vector< float > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_unsigned_char = {"_p_unsigned_char", "unsigned char *|uint_least8_t *|uint_fast8_t *|uint8_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_unsigned_int = {"_p_unsigned_int", "uintptr_t *|uint_least32_t *|uint_fast32_t *|uint32_t *|unsigned int *|uint_fast16_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_unsigned_long_long = {"_p_unsigned_long_long", "uint_least64_t *|uint_fast64_t *|uint64_t *|unsigned long long *|uintmax_t *", 0, 0, (void*)0, 0};
@@ -8167,6 +8329,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_NumericallyOptimisedAlgorithmCpp,
   &_swigt__p_ORGateCpp,
   &_swigt__p_OptimiserCpp,
+  &_swigt__p_RMSPropCpp,
   &_swigt__p_RegulariserCpp,
   &_swigt__p_RelationalNetworkCpp,
   &_swigt__p_SGDCpp,
@@ -8181,6 +8344,8 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_long_long,
   &_swigt__p_short,
   &_swigt__p_signed_char,
+  &_swigt__p_std__vectorT_float_t,
+  &_swigt__p_thrust__device_vectorT_float_t,
   &_swigt__p_unsigned_char,
   &_swigt__p_unsigned_int,
   &_swigt__p_unsigned_long_long,
@@ -8204,7 +8369,8 @@ static swig_cast_info _swigc__p_NeuralNetworkNodeCpp[] = {  {&_swigt__p_SumCpp, 
 static swig_cast_info _swigc__p_NodeSamplerCpp[] = {  {&_swigt__p_NodeSamplerCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_NumericallyOptimisedAlgorithmCpp[] = {  {&_swigt__p_NumericallyOptimisedAlgorithmCpp, 0, 0, 0},  {&_swigt__p_NeuralNetworkCpp, _p_NeuralNetworkCppTo_p_NumericallyOptimisedAlgorithmCpp, 0, 0},  {&_swigt__p_RelationalNetworkCpp, _p_RelationalNetworkCppTo_p_NumericallyOptimisedAlgorithmCpp, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_ORGateCpp[] = {  {&_swigt__p_ORGateCpp, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_OptimiserCpp[] = {  {&_swigt__p_AdaGradCpp, _p_AdaGradCppTo_p_OptimiserCpp, 0, 0},  {&_swigt__p_SGDCpp, _p_SGDCppTo_p_OptimiserCpp, 0, 0},  {&_swigt__p_OptimiserCpp, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_OptimiserCpp[] = {  {&_swigt__p_AdaGradCpp, _p_AdaGradCppTo_p_OptimiserCpp, 0, 0},  {&_swigt__p_SGDCpp, _p_SGDCppTo_p_OptimiserCpp, 0, 0},  {&_swigt__p_OptimiserCpp, 0, 0, 0},  {&_swigt__p_RMSPropCpp, _p_RMSPropCppTo_p_OptimiserCpp, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_RMSPropCpp[] = {  {&_swigt__p_RMSPropCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_RegulariserCpp[] = {  {&_swigt__p_RegulariserCpp, 0, 0, 0},  {&_swigt__p_L2RegulariserCpp, _p_L2RegulariserCppTo_p_RegulariserCpp, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_RelationalNetworkCpp[] = {  {&_swigt__p_RelationalNetworkCpp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_SGDCpp[] = {  {&_swigt__p_SGDCpp, 0, 0, 0},{0, 0, 0, 0}};
@@ -8219,6 +8385,8 @@ static swig_cast_info _swigc__p_int[] = {  {&_swigt__p_int, 0, 0, 0},{0, 0, 0, 0
 static swig_cast_info _swigc__p_long_long[] = {  {&_swigt__p_long_long, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_short[] = {  {&_swigt__p_short, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_signed_char[] = {  {&_swigt__p_signed_char, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_std__vectorT_float_t[] = {  {&_swigt__p_std__vectorT_float_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_thrust__device_vectorT_float_t[] = {  {&_swigt__p_thrust__device_vectorT_float_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_unsigned_char[] = {  {&_swigt__p_unsigned_char, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_unsigned_int[] = {  {&_swigt__p_unsigned_int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_unsigned_long_long[] = {  {&_swigt__p_unsigned_long_long, 0, 0, 0},{0, 0, 0, 0}};
@@ -8243,6 +8411,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_NumericallyOptimisedAlgorithmCpp,
   _swigc__p_ORGateCpp,
   _swigc__p_OptimiserCpp,
+  _swigc__p_RMSPropCpp,
   _swigc__p_RegulariserCpp,
   _swigc__p_RelationalNetworkCpp,
   _swigc__p_SGDCpp,
@@ -8257,6 +8426,8 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_long_long,
   _swigc__p_short,
   _swigc__p_signed_char,
+  _swigc__p_std__vectorT_float_t,
+  _swigc__p_thrust__device_vectorT_float_t,
   _swigc__p_unsigned_char,
   _swigc__p_unsigned_int,
   _swigc__p_unsigned_long_long,

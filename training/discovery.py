@@ -43,6 +43,20 @@ class AdaGrad(object):
         """
         self.thisptr = DiscoveryCpp.AdaGradCpp(learning_rate)
 
+
+class RMSProp(object):
+    """
+    RMSProp optimiser.
+    """
+
+    def __init__(self, learning_rate, gamma=0.9):
+        """
+        learning_rate: Learning rate of the optimisation problem
+        gamma: Decay rate of the previous squared gradients
+        """
+        self.thisptr = DiscoveryCpp.RMSPropCpp(learning_rate, gamma)
+
+
 # Loss functions
 
 

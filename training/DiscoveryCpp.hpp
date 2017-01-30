@@ -40,6 +40,8 @@
 #include "optimisers/SGDCppFunctions.hpp"
 #include "optimisers/AdaGradCpp.hpp"
 #include "optimisers/AdaGradCppFunctions.hpp"
+#include "optimisers/RMSPropCpp.hpp"
+#include "optimisers/RMSPropCppFunctions.hpp"
 
 #include "NeuralNetworkNodeCpp.hpp"
 #include "NeuralNetworkCpp.hpp"

@@ -15,7 +15,9 @@ void NeuralNetworkCpp::dfdw(/*MPI_Comm comm,*/
     //Needs to be after forward propagation,
     //because forward propagation might resize delta
     for (auto node : this->nodes_)
+    {
         thrust::fill(node->delta_.begin(), node->delta_.end(), 0.f);
+    }
 
     //Calculate loss for dense targets
     for (std::int32_t n = 0; n < this->num_output_nodes_dense_; ++n)

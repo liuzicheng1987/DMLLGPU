@@ -56,8 +56,7 @@ void AdaGradCpp::min(/*MPI_Comm comm,*/
 
 	    //You must also recast, the pointer, because thrust::fill
 	    //sometimes completely reallocates the vector
-	    this->dldw_ptr_ = thrust::raw_pointer_cast(
-		this->dldw_.data());
+	    this->dldw_ptr_ = thrust::raw_pointer_cast(this->dldw_.data());
 
 	    //Barrier: Wait until all processes have reached this point
 	    //MPI_Barrier(comm);
