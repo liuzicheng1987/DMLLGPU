@@ -344,7 +344,6 @@ void RelationalNetworkCpp::clean_up()
 
     //Clear dldw_ptr_for_input_networks_ and dldw_input_networks_
     this->dldw_ptr_for_input_networks_.clear();
-    this->dldw_input_networks_.clear();
 
     //Clear data, so it does not unnecessarily take up space on the GPU
     for (NeuralNetworkCpp *input_network : this->input_networks_)
@@ -383,14 +382,6 @@ void RelationalNetworkCpp::fit(/*MPI_Comm comm,*/
 
     //Init cuBLAS handle, cuSPARSE handle and matrix descriptor
     this->init_cublas_cusparse_handles();
-
-    //Set up dldw_input_networks_
-    dldw_input_networks_.clear();
-    for (NeuralNetworkCpp *input_network : this->input_networks_)
-    {
-        dldw_input_networks_.push_back(
-            thrust::device_vector<float>(input_network->get_length_params()));
-    }
 
     //Do the actual optimisation
     this->optimiser_->minimise(this, this->output_network_->get_num_samples(),

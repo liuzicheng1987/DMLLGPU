@@ -13,10 +13,6 @@ class SumCpp : public AggregationCpp
 
     ~SumCpp();
 
-    //One, if element is included in aggregation,
-    //zero otherwise
-    thrust::device_vector<float> included_in_aggregation_;
-
     //Calculate the output of the node
     void calc_output(
         const std::int32_t _batch_num,
