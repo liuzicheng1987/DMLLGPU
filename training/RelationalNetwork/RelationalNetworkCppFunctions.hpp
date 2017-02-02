@@ -533,7 +533,7 @@ void RelationalNetworkCpp::transform(float *_Yhat, std::int32_t _Y2_num_samples,
     //Calculate output
     this->batch_begin_ = 0;
     for (std::int32_t batch_num = 0; batch_num < num_batches;
-         ++batch_num, this->batch_begin_ += batch_size[batch_num])
+         this->batch_begin_ += batch_size[batch_num], ++batch_num)
     {
         for (std::int32_t iteration = 0; iteration < _sample_size;
              ++iteration)

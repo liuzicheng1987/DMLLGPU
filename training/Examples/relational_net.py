@@ -123,7 +123,7 @@ relational_network.fit(
     join_keys_output=[join_keys_output],
     time_stamps_output=time_stamps_output,
     Y_dense=[targets],
-    optimiser=discovery.RMSProp(0.001, 0.9),
+    optimiser=discovery.AdaGrad(1.0),
     tol=0.0,
     max_num_epochs=500,
     sample=False

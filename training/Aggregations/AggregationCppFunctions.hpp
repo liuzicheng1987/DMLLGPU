@@ -117,6 +117,7 @@ void AggregationCpp::initialise(std::int32_t _batch_size)
     thrust::fill(this->output_.begin(),
                  this->output_.begin() + this->dim_ * _batch_size,
                  0.f);
+
 }
 
 void AggregationCpp::init_delta_in_input_network()

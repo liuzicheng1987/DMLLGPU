@@ -34,3 +34,21 @@ public:
   ~SumCpp();
 
 };
+
+//----------------------------------------------------------------------------------------------
+//class AvgCpp
+
+class AvgCpp : public AggregationCpp
+{
+
+public:
+  AvgCpp(
+      std::int32_t _node_number,
+      std::int32_t _dim,
+      std::int32_t _input_network,
+      bool _use_timestamps);
+
+  ~AvgCpp();
+
+};
+
