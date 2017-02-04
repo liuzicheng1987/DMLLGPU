@@ -51,6 +51,9 @@ void FirstCpp::calc_output(
     for (std::int32_t i = 0; i < _batch_size; ++i)
     {
 
+	//This is needed, so ScatterCpp knows which sample to scatter
+	this->relational_net_->set_current_sample(i);
+
 	batch_size_input = this->batch_size_aggregation_considering_timestamps_[i];
 
 	//If join_keys_left[i] (the batch number) is negative
@@ -138,6 +141,9 @@ void FirstCpp::calc_delta(std::int32_t _batch_size)
 
     for (std::int32_t i = 0; i < _batch_size; ++i)
     {
+
+	//This is needed, so ScatterCpp knows which sample to scatter
+	this->relational_net_->set_current_sample(i);
 
 	batch_size_input = this->batch_size_aggregation_considering_timestamps_[i];
 

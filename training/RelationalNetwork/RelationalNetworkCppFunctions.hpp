@@ -149,6 +149,15 @@ void RelationalNetworkCpp::finalise(float _weight_init_range)
         node->set_relational_net(this);
     }
 
+    //Set relational net in all nodes contained in all input networks
+    for (NeuralNetworkCpp *input_net : this->input_networks_)
+    {
+        for (NeuralNetworkNodeCpp *node : input_net->get_nodes())
+        {
+            node->set_relational_net(this);
+        }
+    }
+
     //Initialise weights and calculate cumulative_num_weights_required_
     std::int32_t length_W = 0;
     this->cumulative_num_weights_required_.clear();
@@ -405,10 +414,11 @@ void RelationalNetworkCpp::dfdw(/*MPI_Comm comm,*/
     //Set pointers contained in the NeuralNetworkNodes class
     this->set_node_weights(_W);
 
-    //Record _batch_begin. This is necessary for communication
+    //Record _batch_begin and _batch_size. This is necessary for communication
     //between the RelationalNetworkCpp class and the AggregationCpp
     //class
     this->batch_begin_ = _batch_begin;
+    this->batch_size_ = _batch_size;
 
     //Set this->dldw_ptr_for_input_networks_
     std::int32_t length_dldw = 0;
@@ -535,6 +545,9 @@ void RelationalNetworkCpp::transform(float *_Yhat, std::int32_t _Y2_num_samples,
     for (std::int32_t batch_num = 0; batch_num < num_batches;
          this->batch_begin_ += batch_size[batch_num], ++batch_num)
     {
+
+        this->batch_size_ = batch_size[batch_num];
+
         for (std::int32_t iteration = 0; iteration < _sample_size;
              ++iteration)
         {

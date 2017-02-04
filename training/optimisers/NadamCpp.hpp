@@ -13,6 +13,8 @@ private:
 
   float offset_;
 
+  float m_schedule_;
+
   //Squared gradients
   thrust::device_vector<float> sum_dldw_squared_;
 
@@ -22,11 +24,13 @@ private:
   thrust::device_vector<float> est_mom1_b_;
 
   thrust::device_vector<float> est_mom2_b_;
-  
+
+  float momentum_cache_t_, momentum_cache_t_1_, m_schedule_new_, m_schedule_next_;
+
 public:
   // Initialise Nadam
   NadamCpp(
-  float _learning_rate, float _decay_mom1, float _decay_mom2, float _schedule_decay, float _offset) : OptimiserCpp(/*size, rank*/)
+      float _learning_rate, float _decay_mom1, float _decay_mom2, float _schedule_decay, float _offset) : OptimiserCpp(/*size, rank*/)
   {
 
     //Store the input values
@@ -41,6 +45,8 @@ public:
     this->offset_ = _offset;
 
     this->epoch_num_ = 0;
+
+    this-> m_schedule_ = 1.f;
   }
 
   //Destructor

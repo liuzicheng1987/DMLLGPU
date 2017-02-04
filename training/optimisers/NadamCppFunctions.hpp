@@ -8,15 +8,13 @@ void NadamCpp::min(/*MPI_Comm comm,*/
 
     std::int32_t batch_begin, batch_end, batch_size, global_batch_size;
 
-	// iterations
-	std::int32_t t;
-	
-	// Moment decay schedule
-	float m_schedule_ = 1;
-	float momentum_cache_t_, momentum_cache_t_1_, m_schedule_new_, m_schedule_next_;
+    // iterations
+    std::int32_t t;
 
     //The sum of all sum of gradients - will be recorded in _sum_gradients
     float sum_gradients;
+
+	float beta_1;//Temporary - remove later
 
     //Initialise biased first moment estimate
     this->est_mom1_b_ = thrust::device_vector<float>(_W.size());
@@ -101,16 +99,19 @@ void NadamCpp::min(/*MPI_Comm comm,*/
 			      this->sum_dldw_.begin(),
 			      thrust::plus<float>());
 
-		//Initialising and updating momentum schedule before passing to functor
+	    //Initialising and updating momentum schedule before passing to functor
 
+	    // Due to the recommendations in [http://www.cs.toronto.edu/~fritz/absps/momentum.pdf], i.e. warming momentum schedule
 
-		// Due to the recommendations in [http://www.cs.toronto.edu/~fritz/absps/momentum.pdf], i.e. warming momentum schedule
-		t = epoch_num_ + 1
-		momentum_cache_t_ = beta_1 * (1.f - 0.5 * pow((t * schedule_decay_), 0.96));
-		momentum_cache_t_1_ = beta_1 * (1.f - 0.5 * pow((t + 1) * schedule_decay_), 0.96));
-		m_schedule_new_ = m_schedule * momentum_cache_t_;
-		m_schedule_next_ = m_schedule * momentum_cache_t_ * momentum_cache_t_1_;
-		m_schedule_ = m_schedule_new_;
+	    // Moment decay schedule
+	    float m_schedule = 1.f;
+
+	    t = epoch_num_ + 1;
+	    this->momentum_cache_t_ = beta_1 * (1.f - 0.5 * pow(t * schedule_decay_, 0.96));
+	    this->momentum_cache_t_1_ = beta_1 * (1.f - 0.5 * pow((t + 1) * schedule_decay_, 0.96));
+	    this->m_schedule_new_ = m_schedule * this->momentum_cache_t_;
+	    this->m_schedule_next_ = m_schedule * this->momentum_cache_t_ * this->momentum_cache_t_1_;
+	    m_schedule = this->m_schedule_new_;
 
 	    //Update _W
 	    thrust::for_each(thrust::make_zip_iterator(

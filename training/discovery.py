@@ -432,6 +432,31 @@ class LogicalGate(object):
 
 # Aggregations
 
+class Scatter(object):
+    """
+    Scatter node.
+    Can only be used in the context of relational networks.
+    They are weightless.
+    Scatter is basically the opposite of an aggregation.
+    Whereas an aggregation feeds an input network into the
+    output network, scatter feeds a node from the output
+    network into an input network.
+    """
+
+    def __init__(
+        self,
+        node_number,
+        dim,
+        target_node
+    ):
+        self.node_number = node_number
+
+        self.thisptr = DiscoveryCpp.ScatterCpp(
+            self.node_number,
+            dim,
+            target_node
+        )
+
 
 class StandardAggregation(object):
     """
@@ -513,7 +538,6 @@ class StandardAggregation(object):
             )
 
 # Neural network
-
 
 class NeuralNetwork(object):
     """

@@ -69,6 +69,9 @@
 #include "ActivationFunctions/LinearActivationFunctionCpp.hpp"
 #include "ActivationFunctions/SoftmaxActivationFunctionCpp.hpp"
 
+#include "Aggregations/ScatterCpp.hpp"
+#include "Aggregations/ScatterCppFunctions.hpp"
+
 #include "Aggregations/AggregationFunctors.hpp"
 #include "Aggregations/AggregationCpp.hpp"
 #include "Aggregations/AggregationCppFunctions.hpp"

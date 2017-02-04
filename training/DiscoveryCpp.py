@@ -553,6 +553,23 @@ class NodeSamplerCpp(NeuralNetworkNodeCpp):
 NodeSamplerCpp_swigregister = _DiscoveryCpp.NodeSamplerCpp_swigregister
 NodeSamplerCpp_swigregister(NodeSamplerCpp)
 
+class ScatterCpp(NeuralNetworkNodeCpp):
+    __swig_setmethods__ = {}
+    for _s in [NeuralNetworkNodeCpp]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, ScatterCpp, name, value)
+    __swig_getmethods__ = {}
+    for _s in [NeuralNetworkNodeCpp]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, ScatterCpp, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _DiscoveryCpp.new_ScatterCpp(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _DiscoveryCpp.delete_ScatterCpp
+    __del__ = lambda self : None;
+ScatterCpp_swigregister = _DiscoveryCpp.ScatterCpp_swigregister
+ScatterCpp_swigregister(ScatterCpp)
+
 class AggregationCpp(NeuralNetworkNodeCpp):
     __swig_setmethods__ = {}
     for _s in [NeuralNetworkNodeCpp]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))

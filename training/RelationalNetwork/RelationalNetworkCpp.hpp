@@ -43,6 +43,13 @@ class RelationalNetworkCpp : public NumericallyOptimisedAlgorithmCpp
     //Beginning of the current batch
     std::int32_t batch_begin_;
 
+    //Size of the current batch
+    std::int32_t batch_size_;
+
+    //Current sample within current batch of the output network
+    //This is important for the scatter
+    std::int32_t current_sample_;
+
     //This is the equivalent to cumulative_num_weights_required_ in the
     //NeuralNetworkCpp class. Whereas cumulative_num_weights_required_ in
     //the NeuralNetworkCpp class records individual nodes,
@@ -177,6 +184,12 @@ class RelationalNetworkCpp : public NumericallyOptimisedAlgorithmCpp
         this->output_network_ = _output_network;
     }
 
+    NeuralNetworkCpp *get_output_network()
+    {
+
+        return this->output_network_;
+    }
+
     std::vector<std::int32_t> &get_join_keys_left(std::int32_t _i)
     {
 
@@ -241,5 +254,28 @@ class RelationalNetworkCpp : public NumericallyOptimisedAlgorithmCpp
     {
         std::copy(this->sum_gradients_.begin(), this->sum_gradients_.end(),
                   _sum_gradients);
+    }
+
+    //This function returns the current sample within the current batch
+    //It is needed, so ScatterCpp know which sample in the output_network to get
+    std::int32_t get_current_sample()
+    {
+
+        return this->current_sample_;
+    }
+
+    //This function sets current_sample_
+    //It is needed, so ScatterCpp know which sample in the output_network to get
+    void set_current_sample(std::int32_t _current_sample)
+    {
+
+        this->current_sample_ = _current_sample;
+    }
+
+    //Returns current batch size (of the output network)
+    std::int32_t get_batch_size()
+    {
+
+        return this->batch_size_;
     }
 };

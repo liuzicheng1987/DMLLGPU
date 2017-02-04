@@ -15,13 +15,13 @@ class AggregationCpp : public NeuralNetworkNodeCpp
     //zero otherwise
     thrust::device_vector<float> included_in_aggregation_;
 
-    //Batch size of the aggregations - since timestamps can reduce
-    //the effective batch size!
-    std::vector<std::int32_t> batch_size_aggregation_considering_timestamps_;
-
     //Pointer to included_in_aggregation_
     float *included_in_aggregation_ptr_;
 
+    //Batch size of the aggregations - since timestamps can reduce
+    //the effective batch size!
+    std::vector<std::int32_t> batch_size_aggregation_considering_timestamps_;
+    
     //Pointer to relational net containing this node
     RelationalNetworkCpp *relational_net_;
 

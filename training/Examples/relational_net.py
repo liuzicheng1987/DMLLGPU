@@ -25,12 +25,20 @@ input_network.init_hidden_node(
     )
 )
 
-input_network.init_output_node(
-    discovery.ActivationFunction(
+input_network.init_hidden_node(
+    discovery.Scatter(
         node_number=1,
         dim=10,
+        target_node=0
+    )
+)
+
+input_network.init_output_node(
+    discovery.ActivationFunction(
+        node_number=2,
+        dim=10,
         activation="logistic",
-        hidden=[0]
+        hidden=[0,1]
     )
 )
 
@@ -45,8 +53,16 @@ output_network = discovery.NeuralNetwork(
 )
 
 output_network.init_hidden_node(
-    discovery.StandardAggregation(
+    discovery.ActivationFunction(
         node_number=0,
+        dim=10,
+        input_dense=[0]
+    )
+)
+
+output_network.init_hidden_node(
+    discovery.StandardAggregation(
+        node_number=1,
         dim=10,
         input_network=0,
         use_timestamps=False,
@@ -56,10 +72,10 @@ output_network.init_hidden_node(
 
 output_network.init_output_node(
     discovery.ActivationFunction(
-        node_number=1,
+        node_number=2,
         dim=1,
         activation="linear",
-        hidden=[0]
+        hidden=[1]
     )
 )
 
@@ -83,7 +99,7 @@ relational_network.finalise()
 join_keys_input = []
 targets = []
 for i in range(500):
-    j = int(10.0*np.random.rand(1)[0])
+    j = int(10.0 * np.random.rand(1)[0])
     join_keys_input += [i] * j
     targets += [float(j)]
 
@@ -116,14 +132,14 @@ print scipy.stats.pearsonr(prediction.ravel(), targets.ravel())
 relational_network.fit(
     X_dense_input=[
         [right_table]
-        ],
+    ],
     join_keys_input=[join_keys_input],
     time_stamps_input=[time_stamps_input],
     X_dense_output=[left_table],
     join_keys_output=[join_keys_output],
     time_stamps_output=time_stamps_output,
     Y_dense=[targets],
-    optimiser=discovery.Adam(learning_rate=0.002),
+    optimiser=discovery.AdaGrad(1.0),
     tol=0.0,
     max_num_epochs=500,
     sample=False

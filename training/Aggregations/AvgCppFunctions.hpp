@@ -51,6 +51,9 @@ void AvgCpp::calc_output(
     for (std::int32_t i = 0; i < _batch_size; ++i)
     {
 
+	//This is needed, so ScatterCpp knows which sample to scatter
+	this->relational_net_->set_current_sample(i);
+
 	batch_size_input = this->batch_size_aggregation_considering_timestamps_[i];
 
 	//If join_keys_left[i] (the batch number) is negative
@@ -75,7 +78,7 @@ void AvgCpp::calc_output(
 		//with the inverse of the batch_size
 		thrust::fill(this->included_in_aggregation_.begin(),
 			     this->included_in_aggregation_.end(),
-			     1.f/(static_cast<float>(batch_size_input)));
+			     1.f / (static_cast<float>(batch_size_input)));
 
 		this->included_in_aggregation_ptr_ = thrust::raw_pointer_cast(this->included_in_aggregation_.data());
 	    }
@@ -142,6 +145,9 @@ void AvgCpp::calc_delta(std::int32_t _batch_size)
     for (std::int32_t i = 0; i < _batch_size; ++i)
     {
 
+	//This is needed, so ScatterCpp knows which sample to scatter
+	this->relational_net_->set_current_sample(i);
+
 	batch_size_input = this->batch_size_aggregation_considering_timestamps_[i];
 
 	//If join_keys_left[i] (the batch number) is negative
@@ -164,8 +170,8 @@ void AvgCpp::calc_delta(std::int32_t _batch_size)
 	    //Transfer delta to input network
 	    //In case of the avg aggregation. that means copying the one row in delta to all of the
 	    //rows in delta_input_network and dividing them by batch_size_input
-		//The division is achieved by the value in this->included_in_aggregation_,
-		//which is set in calc_output()
+	    //The division is achieved by the value in this->included_in_aggregation_,
+	    //which is set in calc_output()
 	    //delta_input_network = alpha*included_in_aggregation_(this->delta_ptr_ + i) + beta*delta_input_network
 	    //included_in_aggregation_: (batch_size_input X 1)-matrix
 	    //this->delta_ptr_ + i: (1 X this->dim_)-matrix

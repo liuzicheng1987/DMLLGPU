@@ -1,4 +1,20 @@
 //----------------------------------------------------------------------------------------------
+//class ScatterCpp
+
+class ScatterCpp : public NeuralNetworkNodeCpp
+{
+
+  public:
+    ScatterCpp(
+        std::int32_t _node_number,
+        std::int32_t _dim,
+        std::int32_t _target_node);
+
+    ~ScatterCpp();
+
+};
+
+//----------------------------------------------------------------------------------------------
 //class AggregationCpp
 
 class AggregationCpp : public NeuralNetworkNodeCpp
