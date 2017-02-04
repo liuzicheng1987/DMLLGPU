@@ -1,9 +1,9 @@
-void Nadam::min(/*MPI_Comm comm,*/
-		 NumericallyOptimisedAlgorithmCpp *_numerically_optimised_algorithm,
-		 thrust::device_vector<float> &_W,
-		 const float _tol,
-		 const std::int32_t _max_num_epochs,
-		 std::vector<float> &_sum_gradients)
+void NadamCpp::min(/*MPI_Comm comm,*/
+		   NumericallyOptimisedAlgorithmCpp *_numerically_optimised_algorithm,
+		   thrust::device_vector<float> &_W,
+		   const float _tol,
+		   const std::int32_t _max_num_epochs,
+		   std::vector<float> &_sum_gradients)
 {
 
     std::int32_t batch_begin, batch_end, batch_size, global_batch_size;
@@ -11,18 +11,18 @@ void Nadam::min(/*MPI_Comm comm,*/
     //The sum of all sum of gradients - will be recorded in _sum_gradients
     float sum_gradients;
 
-	//Initialise biased first moment estimate
-	this->est_mom1_b = thrust::device_vector<float>(_W.size());
+    //Initialise biased first moment estimate
+    this->est_mom1_b_ = thrust::device_vector<float>(_W.size());
 
-    thrust::fill(this->est_mom1_b.begin(),
-		 this->est_mom1_b.end(),
-		 0.f);	
+    thrust::fill(this->est_mom1_b_.begin(),
+		 this->est_mom1_b_.end(),
+		 0.f);
 
     //Initialise est_mom2_b
-    this->est_mom2_b = thrust::device_vector<float>(_W.size());
+    this->est_mom2_b_ = thrust::device_vector<float>(_W.size());
 
-    thrust::fill(this->est_mom2_b.begin(),
-		 this->est_mom2_b.end(),
+    thrust::fill(this->est_mom2_b_.begin(),
+		 this->est_mom2_b_.end(),
 		 0.f);
 
     for (;
@@ -97,15 +97,20 @@ void Nadam::min(/*MPI_Comm comm,*/
 	    //Update _W
 	    thrust::for_each(thrust::make_zip_iterator(
 				 thrust::make_tuple(this->dldw_.begin(),
-						    this->est_mom1_b.begin(),
-							this->est_mom2_b.begin(),
+						    this->est_mom1_b_.begin(),
+						    this->est_mom2_b_.begin(),
 						    _W.begin())),
 			     thrust::make_zip_iterator(
 				 thrust::make_tuple(this->dldw_.end(),
-						    this->est_mom1_b.end(),
-							this->est_mom2_b.end(),
+						    this->est_mom1_b_.end(),
+						    this->est_mom2_b_.end(),
 						    _W.end())),
-			     OptimiserFunctors::NadamFunctor(this->epoch_num_ + 1, this->learning_rate_, this->decay_mom1_, this->decay_mom2_, this->schedule_decay_, this->offset_));
+			     OptimiserFunctors::NadamFunctor(this->epoch_num_ + 1,
+							     this->learning_rate_,
+							     this->decay_mom1_,
+							     this->decay_mom2_,
+							     this->schedule_decay_,
+							     this->offset_));
 
 	    //Post-update manipulations are used to impose restrictions on the weights,
 	    //such as that all weights must be greater or equal to 0.

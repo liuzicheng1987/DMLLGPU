@@ -1,4 +1,4 @@
-void Adam::min(/*MPI_Comm comm,*/
+void AdamCpp::min(/*MPI_Comm comm,*/
 		 NumericallyOptimisedAlgorithmCpp *_numerically_optimised_algorithm,
 		 thrust::device_vector<float> &_W,
 		 const float _tol,

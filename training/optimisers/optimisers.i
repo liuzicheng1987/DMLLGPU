@@ -64,28 +64,47 @@ class RMSPropCpp : public OptimiserCpp
 public:
   //Initialise the GradientDescent function
   RMSPropCpp(
-      float _learning_rate, float _gamma) : OptimiserCpp(/*size, rank*/)
-  {
-
-    //Store the input values
-    this->learning_rate_ = _learning_rate;
-
-    this->gamma_ = _gamma;
-
-    this->epoch_num_ = 0;
-  }
+      float _learning_rate, float _gamma) : OptimiserCpp(/*size, rank*/);
 
   //Destructor
-  ~RMSPropCpp() {}
+  ~RMSPropCpp();
 
-  //dev_function_type is defined in OptimiserCpp.hpp!
-  void min(/*MPI_Comm comm,*/
-           NumericallyOptimisedAlgorithmCpp *_numerically_optimised_algorithm,
-           thrust::device_vector<float> &_W,
-           const float _tol,
-           const std::int32_t _max_num_epochs,
-           std::vector<float> &_sum_gradients);
 };
+
+//----------------------------------------------------------------------------------------------
+//class AdamCpp
+  
+class AdamCpp : public OptimiserCpp
+{
+
+
+public:
+  //Initialise the GradientDescent function
+  AdamCpp(
+    float _learning_rate, float decay_mom1_, float decay_mom2_, float offset_) : OptimiserCpp(/*size, rank*/);
+
+  //Destructor
+  ~AdamCpp();
+
+};
+
+//----------------------------------------------------------------------------------------------
+//class NadamCpp
+  
+class NadamCpp : public OptimiserCpp
+{
+
+
+public:
+  //Initialise the GradientDescent function
+  NadamCpp(
+    float _learning_rate, float decay_mom1_, float decay_mom2_, float schedule_decay_, float offset_) : OptimiserCpp(/*size, rank*/);
+
+  //Destructor
+  ~NadamCpp();
+
+};
+
 
 
 				

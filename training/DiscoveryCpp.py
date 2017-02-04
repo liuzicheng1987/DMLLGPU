@@ -211,14 +211,13 @@ class RMSPropCpp(OptimiserCpp):
         except: self.this = this
     __swig_destroy__ = _DiscoveryCpp.delete_RMSPropCpp
     __del__ = lambda self : None;
-    def min(self, *args): return _DiscoveryCpp.RMSPropCpp_min(self, *args)
 RMSPropCpp_swigregister = _DiscoveryCpp.RMSPropCpp_swigregister
 RMSPropCpp_swigregister(RMSPropCpp)
 
 class AdamCpp(OptimiserCpp):
     __swig_setmethods__ = {}
     for _s in [OptimiserCpp]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
-    __setattr__ = lambda self, name, value: _swig_setattr(self, RMSPropCpp, name, value)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, AdamCpp, name, value)
     __swig_getmethods__ = {}
     for _s in [OptimiserCpp]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
     __getattr__ = lambda self, name: _swig_getattr(self, AdamCpp, name)
@@ -229,9 +228,25 @@ class AdamCpp(OptimiserCpp):
         except: self.this = this
     __swig_destroy__ = _DiscoveryCpp.delete_AdamCpp
     __del__ = lambda self : None;
-    def min(self, *args): return _DiscoveryCpp.AdamCpp_min(self, *args)
 AdamCpp_swigregister = _DiscoveryCpp.AdamCpp_swigregister
 AdamCpp_swigregister(AdamCpp)
+
+class NadamCpp(OptimiserCpp):
+    __swig_setmethods__ = {}
+    for _s in [OptimiserCpp]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, NadamCpp, name, value)
+    __swig_getmethods__ = {}
+    for _s in [OptimiserCpp]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, NadamCpp, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _DiscoveryCpp.new_NadamCpp(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _DiscoveryCpp.delete_NadamCpp
+    __del__ = lambda self : None;
+NadamCpp_swigregister = _DiscoveryCpp.NadamCpp_swigregister
+NadamCpp_swigregister(NadamCpp)
 
 class NeuralNetworkNodeCpp(_object):
     __swig_setmethods__ = {}

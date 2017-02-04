@@ -19,10 +19,14 @@ private:
   //Number of epochs we are currently in
   std::int32_t epoch_num_;
 
+  thrust::device_vector<float> est_mom1_b_;
+
+  thrust::device_vector<float> est_mom2_b_;
+  
 public:
-  // Initialise Adam
+  // Initialise Nadam
   NadamCpp(
-      float _learning_rate, float decay_mom1_, float decay_mom2_, float schedule_decay_, float offset_) : OptimiserCpp(/*size, rank*/)
+  float _learning_rate, float _decay_mom1, float _decay_mom2, float _schedule_decay, float _offset) : OptimiserCpp(/*size, rank*/)
   {
 
     //Store the input values

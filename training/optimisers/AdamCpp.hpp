@@ -10,17 +10,18 @@ private:
   float decay_mom2_;
 
   float offset_;
-
   //Squared gradients
   thrust::device_vector<float> sum_dldw_squared_;
 
   //Number of epochs we are currently in
   std::int32_t epoch_num_;
 
+  thrust::device_vector<float> first_moment_;
+
 public:
   // Initialise Adam
   AdamCpp(
-      float _learning_rate, float decay_mom1_, float decay_mom2_, float offset_) : OptimiserCpp(/*size, rank*/)
+      float _learning_rate, float _decay_mom1, float _decay_mom2, float _offset) : OptimiserCpp(/*size, rank*/)
   {
 
     //Store the input values
