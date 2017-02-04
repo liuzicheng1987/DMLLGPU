@@ -99,6 +99,7 @@ void NadamCpp::min(/*MPI_Comm comm,*/
 			      this->sum_dldw_.begin(),
 			      thrust::plus<float>());
 
+<<<<<<< HEAD
 	    //Initialising and updating momentum schedule before passing to functor
 
 	    // Due to the recommendations in [http://www.cs.toronto.edu/~fritz/absps/momentum.pdf], i.e. warming momentum schedule
@@ -112,6 +113,16 @@ void NadamCpp::min(/*MPI_Comm comm,*/
 	    this->m_schedule_new_ = m_schedule * this->momentum_cache_t_;
 	    this->m_schedule_next_ = m_schedule * this->momentum_cache_t_ * this->momentum_cache_t_1_;
 	    m_schedule = this->m_schedule_new_;
+=======
+		//Initialising and updating momentum schedule before passing to functor,
+		//according to recommendations in [http://www.cs.toronto.edu/~fritz/absps/momentum.pdf], i.e. warming momentum schedule
+		t = epoch_num_ + 1
+		momentum_cache_t_ = beta_1_ * (1.f - 0.5 * pow((t * schedule_decay_), 0.96));
+		momentum_cache_t_1_ = beta_1_ * (1.f - 0.5 * pow((t + 1) * schedule_decay_), 0.96));
+		m_schedule_new_ = m_schedule_ * momentum_cache_t_;
+		m_schedule_next_ = m_schedule_ * momentum_cache_t_ * momentum_cache_t_1_;
+		m_schedule_ = m_schedule_new_;
+>>>>>>> d765058e2a55ffbf56577dd885a117931a517ae0
 
 	    //Update _W
 	    thrust::for_each(thrust::make_zip_iterator(
@@ -126,8 +137,8 @@ void NadamCpp::min(/*MPI_Comm comm,*/
 						    _W.end())),
 			     OptimiserFunctors::NadamFunctor(this->epoch_num_ + 1,
 							     this->learning_rate_,
-							     this->decay_mom1_,
-							     this->decay_mom2_,
+							     this->beta_1_,
+							     this->beta_2_,
 							     this->momentum_cache_t_,
 							     this->momentum_cache_t_1_,
 							     this->m_schedule_new_,

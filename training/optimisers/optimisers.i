@@ -98,7 +98,7 @@ class NadamCpp : public OptimiserCpp
 public:
   //Initialise the GradientDescent function
   NadamCpp(
-    float _learning_rate, float decay_mom1_, float decay_mom2_, float schedule_decay_, float offset_) : OptimiserCpp(/*size, rank*/);
+    float _learning_rate, float beta_1_, float beta_2_, float schedule_decay_, float offset_) : OptimiserCpp(/*size, rank*/);
 
   //Destructor
   ~NadamCpp();
