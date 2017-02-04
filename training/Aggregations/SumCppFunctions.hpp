@@ -70,11 +70,11 @@ void SumCpp::calc_output(
 
 		this->included_in_aggregation_.resize(batch_size_input);
 
-		this->included_in_aggregation_ptr_ = thrust::raw_pointer_cast(this->included_in_aggregation_.data());
-
 		thrust::fill(this->included_in_aggregation_.begin(),
 			     this->included_in_aggregation_.end(),
 			     1.f);
+
+		this->included_in_aggregation_ptr_ = thrust::raw_pointer_cast(this->included_in_aggregation_.data());
 	    }
 
 	    //Get aggregation_output, for convenience

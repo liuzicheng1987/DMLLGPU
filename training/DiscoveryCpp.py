@@ -572,6 +572,23 @@ class SumCpp(AggregationCpp):
 SumCpp_swigregister = _DiscoveryCpp.SumCpp_swigregister
 SumCpp_swigregister(SumCpp)
 
+class AvgCpp(AggregationCpp):
+    __swig_setmethods__ = {}
+    for _s in [AggregationCpp]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, AvgCpp, name, value)
+    __swig_getmethods__ = {}
+    for _s in [AggregationCpp]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, AvgCpp, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _DiscoveryCpp.new_AvgCpp(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _DiscoveryCpp.delete_AvgCpp
+    __del__ = lambda self : None;
+AvgCpp_swigregister = _DiscoveryCpp.AvgCpp_swigregister
+AvgCpp_swigregister(AvgCpp)
+
 # This file is compatible with both classic and new-style classes.
 
 

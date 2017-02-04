@@ -74,6 +74,8 @@
 #include "Aggregations/AggregationCppFunctions.hpp"
 #include "Aggregations/SumCpp.hpp"
 #include "Aggregations/SumCppFunctions.hpp"
+#include "Aggregations/AvgCpp.hpp"
+#include "Aggregations/AvgCppFunctions.hpp"
 
 #include "dropout/DropoutFunctors.hpp"
 #include "dropout/DropoutCpp.hpp"

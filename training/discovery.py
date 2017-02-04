@@ -473,6 +473,14 @@ class StandardAggregation(object):
                 use_timestamps
             )
 
+        elif aggregation == "AVG":
+            self.thisptr = DiscoveryCpp.AvgCpp(
+                self.node_number,
+                dim,
+                input_network,
+                use_timestamps
+            )
+
         else:
             warnings.warn(
                 "Standard aggregation of type '"

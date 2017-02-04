@@ -52,11 +52,6 @@ class RelationalNetworkCpp : public NumericallyOptimisedAlgorithmCpp
     //This vector keeps the pointers for the derivatives for the input networks
     std::vector<float *> dldw_ptr_for_input_networks_;
 
-    //This is needed in order to apply backpropagation through the input network
-    //Note that dldw_ptr_for_input_networks_ does NOT point to this device_vector!
-    //Instead, it points to the dldw passed by the optimiser!
-    std::vector<thrust::device_vector<float>> dldw_input_networks_;
-
     //Signifies whether the relational network has been finalised
     bool finalised_;
 
@@ -231,12 +226,6 @@ class RelationalNetworkCpp : public NumericallyOptimisedAlgorithmCpp
     {
 
         return this->dldw_ptr_for_input_networks_[_num_input_network];
-    }
-
-    thrust::device_vector<float> &get_dldw_input_networks(std::int32_t _num_input_network)
-    {
-
-        return this->dldw_input_networks_[_num_input_network];
     }
 
     //This functions returns the length of sum of the gradients during each training epoch

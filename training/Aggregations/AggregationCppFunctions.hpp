@@ -26,8 +26,7 @@ void AggregationCpp::backpropagate_and_calculate_dldw_in_input_network(
     }
 
     //For convenience and readability
-    float *dldw_input_network_ptr = thrust::raw_pointer_cast(
-        this->relational_net_->get_dldw_input_networks(this->input_network_).data());
+    float *dldw_input_network_ptr = this->relational_net_->get_dldw_ptr_for_input_networks(this->input_network_);
 
     //Calculate derivative
     for (std::size_t n = 0; n < this->input_network_ptr_->get_nodes().size(); ++n)
@@ -40,28 +39,6 @@ void AggregationCpp::backpropagate_and_calculate_dldw_in_input_network(
         }
     }
 
-    //cuBLAS status variable - so we can check whether the cuBLAS operation was successful
-    cublasStatus_t cstatus;
-
-    const float alpha = 1.f;
-
-    //For convenience and readability
-    std::int32_t n = static_cast<std::int32_t>(
-        this->relational_net_->get_dldw_input_networks(this->input_network_).size());
-
-    //Add result to dLdw of input network
-    //http://docs.nvidia.com/cuda/cublas/#cublas-lt-t-gt-axpy
-    cstatus = cublasSaxpy(this->input_network_ptr_->get_dense_handle(),                                 //handle
-                          n,                                                                            //n
-                          &alpha,                                                                       //alpha
-                          dldw_input_network_ptr,                                                       //x
-                          1,                                                                            //incx
-                          this->relational_net_->get_dldw_ptr_for_input_networks(this->input_network_), //y
-                          1);                                                                           //incy
-
-    if (cstatus != CUBLAS_STATUS_SUCCESS)
-        throw std::runtime_error(
-            "Something went wrong during saxpy operation when adding dldw for input network!");
 }
 
 void AggregationCpp::calc_batch_size_aggregation_considering_timestamps(
@@ -140,6 +117,7 @@ void AggregationCpp::initialise(std::int32_t _batch_size)
     thrust::fill(this->output_.begin(),
                  this->output_.begin() + this->dim_ * _batch_size,
                  0.f);
+
 }
 
 void AggregationCpp::init_delta_in_input_network()
