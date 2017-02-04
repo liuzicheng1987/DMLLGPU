@@ -571,6 +571,57 @@ class AvgCpp(AggregationCpp):
 AvgCpp_swigregister = _DiscoveryCpp.AvgCpp_swigregister
 AvgCpp_swigregister(AvgCpp)
 
+class CountCpp(AggregationCpp):
+    __swig_setmethods__ = {}
+    for _s in [AggregationCpp]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, CountCpp, name, value)
+    __swig_getmethods__ = {}
+    for _s in [AggregationCpp]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, CountCpp, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _DiscoveryCpp.new_CountCpp(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _DiscoveryCpp.delete_CountCpp
+    __del__ = lambda self : None;
+CountCpp_swigregister = _DiscoveryCpp.CountCpp_swigregister
+CountCpp_swigregister(CountCpp)
+
+class FirstCpp(AggregationCpp):
+    __swig_setmethods__ = {}
+    for _s in [AggregationCpp]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, FirstCpp, name, value)
+    __swig_getmethods__ = {}
+    for _s in [AggregationCpp]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, FirstCpp, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _DiscoveryCpp.new_FirstCpp(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _DiscoveryCpp.delete_FirstCpp
+    __del__ = lambda self : None;
+FirstCpp_swigregister = _DiscoveryCpp.FirstCpp_swigregister
+FirstCpp_swigregister(FirstCpp)
+
+class LastCpp(AggregationCpp):
+    __swig_setmethods__ = {}
+    for _s in [AggregationCpp]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, LastCpp, name, value)
+    __swig_getmethods__ = {}
+    for _s in [AggregationCpp]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, LastCpp, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _DiscoveryCpp.new_LastCpp(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _DiscoveryCpp.delete_LastCpp
+    __del__ = lambda self : None;
+LastCpp_swigregister = _DiscoveryCpp.LastCpp_swigregister
+LastCpp_swigregister(LastCpp)
+
 # This file is compatible with both classic and new-style classes.
 
 

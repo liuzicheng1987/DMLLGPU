@@ -52,3 +52,53 @@ public:
 
 };
 
+//----------------------------------------------------------------------------------------------
+//class CountCpp
+
+class CountCpp : public AggregationCpp
+{
+
+public:
+  CountCpp(
+      std::int32_t _node_number,
+      std::int32_t _input_network,
+      bool _use_timestamps);
+
+  ~CountCpp();
+
+};
+
+//----------------------------------------------------------------------------------------------
+//class FirstCpp
+
+class FirstCpp : public AggregationCpp
+{
+
+public:
+  FirstCpp(
+      std::int32_t _node_number,
+      std::int32_t _dim,      
+      std::int32_t _input_network,
+      bool _use_timestamps);
+
+  ~FirstCpp();
+
+};
+
+//----------------------------------------------------------------------------------------------
+//class LastCpp
+
+class LastCpp : public AggregationCpp
+{
+
+public:
+  LastCpp(
+      std::int32_t _node_number,
+      std::int32_t _dim,      
+      std::int32_t _input_network,
+      bool _use_timestamps);
+
+  ~LastCpp();
+  
+};
+

@@ -421,14 +421,15 @@ class StandardAggregation(object):
         node_number: Number of node in the neural network. Every node number
         must be assigned before neural network is finalised.
         dim: Dimension of the output. Must be identical to output dimension of
-        input network.
+        input network, unless aggregation is "COUNT", in which case dim will
+        be ignored, since the dimension of count aggregations always equals one.
         input_network: Integer signifying which input network is fed into
         aggregation.
         use_timestamps: Boolean signifying whether we the aggregation should
         consider timestamps
         aggregation: Signifies which aggregation to use.
         Expects one of the following:
-        "SUM", "COUNT", "AVG", "MIN", "MAX".
+        "SUM", "COUNT", "AVG", "MIN", "MAX", "FIRST", "LAST"
         """
 
         self.node_number = node_number
@@ -441,8 +442,31 @@ class StandardAggregation(object):
                 use_timestamps
             )
 
+        elif aggregation == "COUNT":
+            self.thisptr = DiscoveryCpp.CountCpp(
+                self.node_number,
+                input_network,
+                use_timestamps
+            )
+
         elif aggregation == "AVG":
             self.thisptr = DiscoveryCpp.AvgCpp(
+                self.node_number,
+                dim,
+                input_network,
+                use_timestamps
+            )
+
+        elif aggregation == "FIRST":
+            self.thisptr = DiscoveryCpp.FirstCpp(
+                self.node_number,
+                dim,
+                input_network,
+                use_timestamps
+            )
+
+        elif aggregation == "LAST":
+            self.thisptr = DiscoveryCpp.LastCpp(
                 self.node_number,
                 dim,
                 input_network,
