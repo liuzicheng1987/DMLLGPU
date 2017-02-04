@@ -57,6 +57,38 @@ class RMSProp(object):
         self.thisptr = DiscoveryCpp.RMSPropCpp(learning_rate, gamma)
 
 
+class Adam(object):
+    """
+    Adam optimiser.
+    """
+
+    def __init__(self, learning_rate=0.0002, decay_mom1=0.9, 
+        decay_mom2=0.999, offset=1e-08):
+        """
+        learning_rate: Learning rate parameter
+        decay_mom1: Exponential decay parameter for first moment estimate
+        decay_mom2: Exponential decay parameter for second moment estimate
+        offset: Safety offset for division by estimate of second moment
+        """
+        self.thisptr = DiscoveryCpp.AdamCpp(learning_rate, decay_mom1, decay_mom2, offset)
+
+
+class Nadam(object):
+    """
+    Adam optimiser with Nesterov momentum
+    //Default params Keras: lr=0.002, beta_1=0.9, beta_2=0.999, epsilon=1e-8, schedule_decay=0.004
+    """
+
+    def __init__(self, learning_rate=0.002, decay_mom1=0.9, 
+        decay_mom2=0.999, schedule_decay=0.004, offset=1e-08):
+        """
+        learning_rate: Learning rate parameter
+        decay_mom1: Exponential decay parameter for first moment estimate
+        decay_mom2: Exponential decay parameter for second moment estimate
+        offset: Safety offset for division by estimate of second moment
+        """
+        self.thisptr = DiscoveryCpp.AdamCpp(learning_rate, decay_mom1, decay_mom2, offset)
+
 # Loss functions
 
 

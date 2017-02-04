@@ -42,6 +42,10 @@
 #include "optimisers/AdaGradCppFunctions.hpp"
 #include "optimisers/RMSPropCpp.hpp"
 #include "optimisers/RMSPropCppFunctions.hpp"
+#include "optimisers/AdamCpp.hpp"
+#include "optimisers/AdamCppFunctions.hpp"
+#include "optimisers/NadamCpp.hpp"
+#include "optimisers/NadamCppFunctions.hpp"
 
 #include "NeuralNetworkNodeCpp.hpp"
 #include "NeuralNetworkCpp.hpp"
