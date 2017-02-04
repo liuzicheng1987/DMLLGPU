@@ -8,6 +8,13 @@ void NadamCpp::min(/*MPI_Comm comm,*/
 
     std::int32_t batch_begin, batch_end, batch_size, global_batch_size;
 
+	// iterations
+	std::int32_t t;
+	
+	// Moment decay schedule
+	float m_schedule_ = 1;
+	float momentum_cache_t_, momentum_cache_t_1_, m_schedule_new_, m_schedule_next_;
+
     //The sum of all sum of gradients - will be recorded in _sum_gradients
     float sum_gradients;
 
@@ -94,6 +101,17 @@ void NadamCpp::min(/*MPI_Comm comm,*/
 			      this->sum_dldw_.begin(),
 			      thrust::plus<float>());
 
+		//Initialising and updating momentum schedule before passing to functor
+
+
+		// Due to the recommendations in [http://www.cs.toronto.edu/~fritz/absps/momentum.pdf], i.e. warming momentum schedule
+		t = epoch_num_ + 1
+		momentum_cache_t_ = beta_1 * (1.f - 0.5 * pow((t * schedule_decay_), 0.96));
+		momentum_cache_t_1_ = beta_1 * (1.f - 0.5 * pow((t + 1) * schedule_decay_), 0.96));
+		m_schedule_new_ = m_schedule * momentum_cache_t_;
+		m_schedule_next_ = m_schedule * momentum_cache_t_ * momentum_cache_t_1_;
+		m_schedule_ = m_schedule_new_;
+
 	    //Update _W
 	    thrust::for_each(thrust::make_zip_iterator(
 				 thrust::make_tuple(this->dldw_.begin(),
@@ -109,7 +127,10 @@ void NadamCpp::min(/*MPI_Comm comm,*/
 							     this->learning_rate_,
 							     this->decay_mom1_,
 							     this->decay_mom2_,
-							     this->schedule_decay_,
+							     this->momentum_cache_t_,
+							     this->momentum_cache_t_1_,
+							     this->m_schedule_new_,
+							     this->m_schedule_next_,
 							     this->offset_));
 
 	    //Post-update manipulations are used to impose restrictions on the weights,
