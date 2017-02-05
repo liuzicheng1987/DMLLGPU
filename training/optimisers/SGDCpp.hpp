@@ -11,9 +11,6 @@ private:
   //momentum_ denotes the weight given to all previous updates
   float momentum_;
   
-  //Number of epochs we are currently in
-  std::int32_t epoch_num_;
-
   //Value, by which weights are actually updated by
   thrust::device_vector<float> update_;
 

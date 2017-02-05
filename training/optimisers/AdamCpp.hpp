@@ -10,11 +10,9 @@ private:
   float decay_mom2_;
 
   float offset_;
+  
   //Squared gradients
   thrust::device_vector<float> sum_dldw_squared_;
-
-  //Number of epochs we are currently in
-  std::int32_t epoch_num_;
 
   thrust::device_vector<float> first_moment_;
 

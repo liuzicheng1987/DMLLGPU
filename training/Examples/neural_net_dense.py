@@ -81,7 +81,7 @@ nn.finalise()
 nn.fit(
     Xdense=[X_train], 
     Ydense=[Y_train], 
-    optimiser=discovery.AdaGrad(0.5), 
+    optimiser=discovery.SGD(), 
     tol=0.0, 
     global_batch_size=2000, 
     max_num_epochs=2000

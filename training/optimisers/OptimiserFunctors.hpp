@@ -143,7 +143,7 @@ struct NadamFunctor
       const float _momentum_cache_t,
       const float _momentum_cache_t_1,
       const float _m_schedule_new,
-      const float _m_schedule_next,                  
+      const float _m_schedule_next,
       const float _offset) : epoch_num(_epoch_num),
                              learning_rate(_learning_rate),
                              beta_1(_beta_1),
@@ -174,8 +174,8 @@ struct NadamFunctor
 
     // \Theta_t = \Theta_(t-1) - ...
     thrust::get<3>(t) -= (learning_rate / (sqrt(thrust::get<2>(t) * (1 - powf(beta_2, (epoch_num - 1)))) + offset)) *
-                             (1.f - momentum_cache_t) * thrust::get<0>(t) / (1.f - m_schedule_new) +
-                         momentum_cache_t_1 * thrust::get<1>(t) / (1.f - m_schedule_next);
+                         (1.f - momentum_cache_t) * thrust::get<0>(t) / (1.f - m_schedule_new) +
+                          momentum_cache_t_1 * thrust::get<1>(t) / (1.f - m_schedule_next);
   }
 };
 

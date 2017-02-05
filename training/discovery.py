@@ -18,8 +18,8 @@ class SGD(object):
 
     def __init__(
             self,
-            learning_rate,
-            learning_rate_power,
+            learning_rate=0.001,
+            learning_rate_power=0.1,
             momentum=0.0):
         """
         learning_rate: Learning rate of the optimisation problem
@@ -37,7 +37,7 @@ class AdaGrad(object):
     Adaptive gradient optimiser.
     """
 
-    def __init__(self, learning_rate):
+    def __init__(self, learning_rate=1.0):
         """
         learning_rate: Learning rate of the optimisation problem
         """
@@ -49,7 +49,7 @@ class RMSProp(object):
     RMSProp optimiser.
     """
 
-    def __init__(self, learning_rate, gamma=0.9):
+    def __init__(self, learning_rate=0.001, gamma=0.9):
         """
         learning_rate: Learning rate of the optimisation problem
         gamma: Decay rate of the previous squared gradients
@@ -62,32 +62,38 @@ class Adam(object):
     Adam optimiser.
     """
 
-    def __init__(self, learning_rate=0.0002, decay_mom1=0.9, 
-        decay_mom2=0.999, offset=1e-08):
+    def __init__(self, learning_rate=0.0002, decay_mom1=0.9,
+                 decay_mom2=0.999, offset=1e-08):
         """
         learning_rate: Learning rate parameter
         decay_mom1: Exponential decay parameter for first moment estimate
         decay_mom2: Exponential decay parameter for second moment estimate
         offset: Safety offset for division by estimate of second moment
         """
-        self.thisptr = DiscoveryCpp.AdamCpp(learning_rate, decay_mom1, decay_mom2, offset)
+        self.thisptr = DiscoveryCpp.AdamCpp(
+            learning_rate, decay_mom1, decay_mom2, offset)
 
 
 class Nadam(object):
     """
     Adam optimiser with Nesterov momentum
-    //Default params Keras: lr=0.002, beta_1=0.9, beta_2=0.999, epsilon=1e-8, schedule_decay=0.004
     """
 
-    def __init__(self, learning_rate=0.002, beta_1=0.9, 
-        beta_2=0.999, schedule_decay=0.004, offset=1e-08):
+    def __init__(self, learning_rate=0.002, beta_1=0.9,
+                 beta_2=0.999, schedule_decay=0.004, offset=1e-08):
         """
         learning_rate: Learning rate parameter
         decay_mom1: Exponential decay parameter for first moment estimate
         decay_mom2: Exponential decay parameter for second moment estimate
+        schedule_decay: ??
         offset: Safety offset for division by estimate of second moment
         """
-        self.thisptr = DiscoveryCpp.AdamCpp(learning_rate, beta_1, beta_2, schedule_decay, offset)
+        self.thisptr = DiscoveryCpp.NadamCpp(
+            learning_rate,
+            beta_1,
+            beta_2,
+            schedule_decay,
+            offset)
 
 # Loss functions
 
@@ -432,6 +438,7 @@ class LogicalGate(object):
 
 # Aggregations
 
+
 class Scatter(object):
     """
     Scatter node.
@@ -538,6 +545,7 @@ class StandardAggregation(object):
             )
 
 # Neural network
+
 
 class NeuralNetwork(object):
     """
