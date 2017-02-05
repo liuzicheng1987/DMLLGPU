@@ -9,8 +9,12 @@ struct AdaGradFunctor
 
   const float learning_rate;
 
+  const float offset;
+
   AdaGradFunctor(
-      const float _learning_rate) : learning_rate(_learning_rate)
+      const float _learning_rate,
+      const float _offset) : learning_rate(_learning_rate),
+                             offset(_offset)
   {
   }
 
@@ -22,9 +26,42 @@ struct AdaGradFunctor
     //t<1> sum_dldw_squared
     //t<2> W
     thrust::get<1>(t) += thrust::get<0>(t) * thrust::get<0>(t);
-    thrust::get<2>(t) -= ((thrust::get<1>(t) == 0.f) ? (0.f) : (
-                                                                   learning_rate * thrust::get<0>(t) /
-                                                                   sqrt(thrust::get<1>(t))));
+    thrust::get<2>(t) -= learning_rate * thrust::get<0>(t) / sqrt(thrust::get<1>(t) + offset);
+    }
+};
+
+//---------------------------------------------------------------------------
+//AdaDeltaFunctor
+
+struct AdaDeltaFunctor
+{
+
+  const float gamma;
+
+  const float offset;
+
+  AdaDeltaFunctor(
+      const float _gamma,
+      const float _offset) : gamma(_gamma),
+                             offset(_offset)
+  {
+  }
+
+  template <typename Tuple>
+  __device__ void operator()(Tuple t)
+  {
+
+    //t<0> dldw
+    //t<1> sum_dldw_squared
+    //t<2> sum_updates_squared
+    //t<3> W
+    thrust::get<1>(t) = gamma * thrust::get<1>(t) + (1.f - gamma) * thrust::get<0>(t) * thrust::get<0>(t);
+
+    float update = (sqrt(thrust::get<2>(t) + offset) / sqrt(thrust::get<1>(t) + offset)) * thrust::get<0>(t);
+
+    thrust::get<3>(t) -= update;
+
+    thrust::get<2>(t) = gamma * thrust::get<2>(t) + (1.f - gamma) * update * update;
   }
 };
 
@@ -174,8 +211,8 @@ struct NadamFunctor
 
     // \Theta_t = \Theta_(t-1) - ...
     thrust::get<3>(t) -= (learning_rate / (sqrt(thrust::get<2>(t) * (1 - powf(beta_2, (epoch_num - 1)))) + offset)) *
-                         (1.f - momentum_cache_t) * thrust::get<0>(t) / (1.f - m_schedule_new) +
-                          momentum_cache_t_1 * thrust::get<1>(t) / (1.f - m_schedule_next);
+                             (1.f - momentum_cache_t) * thrust::get<0>(t) / (1.f - m_schedule_new) +
+                         momentum_cache_t_1 * thrust::get<1>(t) / (1.f - m_schedule_next);
   }
 };
 

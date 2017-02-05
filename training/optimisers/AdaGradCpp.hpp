@@ -4,16 +4,21 @@ class AdaGradCpp : public OptimiserCpp
 private:
   float learning_rate_;
 
+  float offset_;
+
   thrust::device_vector<float> sum_dldw_squared_;
 
 public:
   //Initialise the GradientDescent function
   AdaGradCpp(
-      float _learning_rate) : OptimiserCpp(/*size, rank*/)
+      float _learning_rate,
+      float _offset) : OptimiserCpp(/*size, rank*/)
   {
 
     //Store the input values
     this->learning_rate_ = _learning_rate;
+
+    this->offset_ = _offset;
 
     this->epoch_num_ = 0;
   }

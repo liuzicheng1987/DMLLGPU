@@ -40,6 +40,8 @@
 #include "optimisers/SGDCppFunctions.hpp"
 #include "optimisers/AdaGradCpp.hpp"
 #include "optimisers/AdaGradCppFunctions.hpp"
+#include "optimisers/AdaDeltaCpp.hpp"
+#include "optimisers/AdaDeltaCppFunctions.hpp"
 #include "optimisers/RMSPropCpp.hpp"
 #include "optimisers/RMSPropCppFunctions.hpp"
 #include "optimisers/AdamCpp.hpp"

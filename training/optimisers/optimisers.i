@@ -40,19 +40,37 @@ public:
 				
 };
 
+
 //----------------------------------------------------------------------------------------------
 //class AdaGradCpp
-
 
 class AdaGradCpp: public OptimiserCpp {
 	
 public:
 		
-  AdaGradCpp (float _learning_rate) : OptimiserCpp();
+  AdaGradCpp (float _learning_rate, float _offset) : OptimiserCpp();
 
   ~AdaGradCpp();
 
 };
+
+
+//----------------------------------------------------------------------------------------------
+//class AdaDeltaCpp
+
+class AdaDeltaCpp : public OptimiserCpp
+{
+
+public:
+
+  AdaDeltaCpp(
+      float _gamma,
+      float _offset) : OptimiserCpp();
+
+  ~AdaDeltaCpp() {}
+
+};
+
 
 //----------------------------------------------------------------------------------------------
 //class RMSPropCpp

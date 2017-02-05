@@ -40,7 +40,7 @@ void AdaGradCpp::min(/*MPI_Comm comm,*/
 				 thrust::make_tuple(this->dldw_.end(),
 						    this->sum_dldw_squared_.end(),
 						    _W.end())),
-			     OptimiserFunctors::AdaGradFunctor(this->learning_rate_));
+			     OptimiserFunctors::AdaGradFunctor(this->learning_rate_, this->offset_));
 
 	    //Post-update manipulations are used to impose restrictions on the weights,
 	    //such as that all weights must be greater or equal to 0.

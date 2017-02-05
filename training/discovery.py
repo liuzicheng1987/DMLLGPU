@@ -37,11 +37,27 @@ class AdaGrad(object):
     Adaptive gradient optimiser.
     """
 
-    def __init__(self, learning_rate=1.0):
+    def __init__(self, learning_rate=1.0, offset=0.01):
         """
         learning_rate: Learning rate of the optimisation problem
+        offset: Safety offset for division by estimate of
+        squared gradient
         """
-        self.thisptr = DiscoveryCpp.AdaGradCpp(learning_rate)
+        self.thisptr = DiscoveryCpp.AdaGradCpp(learning_rate, offset)
+
+
+class AdaDelta(object):
+    """
+    AdaDelta optimiser.
+    """
+
+    def __init__(self, gamma=0.95, offset=1e-6):
+        """
+        gamma: Learning rate of the optimisation problem
+        offset: Safety offset for division by estimate of
+        squared gradient and to kick-start optimisation
+        """
+        self.thisptr = DiscoveryCpp.AdaDeltaCpp(gamma, offset)
 
 
 class RMSProp(object):

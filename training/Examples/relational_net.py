@@ -53,6 +53,17 @@ output_network = discovery.NeuralNetwork(
 )
 
 output_network.init_hidden_node(
+input_network.finalise()
+
+#-------------------------------------------
+# Set up output network
+
+output_network = discovery.NeuralNetwork(
+    num_input_nodes_dense=[2],
+    num_output_nodes_dense=1
+)
+
+output_network.init_hidden_node(
     discovery.ActivationFunction(
         node_number=0,
         dim=10,
@@ -139,7 +150,7 @@ relational_network.fit(
     join_keys_output=[join_keys_output],
     time_stamps_output=time_stamps_output,
     Y_dense=[targets],
-    optimiser=discovery.SGD(),
+    optimiser=discovery.AdaDelta(),
     tol=0.0,
     max_num_epochs=500,
     sample=False
