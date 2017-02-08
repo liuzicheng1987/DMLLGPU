@@ -203,6 +203,11 @@ class RelationalNetworkCpp : public NumericallyOptimisedAlgorithmCpp
         return this->join_keys_left_[this->join_key_used_[_input_network]].data() + this->batch_begin_;
     }
 
+    std::int32_t get_join_key_used(std::int32_t i) {
+
+        return this->join_key_used_[i];
+    }
+
     std::int32_t get_batch_size_aggregation(std::int32_t _input_network,
                                             std::int32_t _i)
     {

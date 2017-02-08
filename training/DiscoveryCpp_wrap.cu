@@ -7120,6 +7120,43 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_RelationalNetworkCpp_get_join_key_used(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  RelationalNetworkCpp *arg1 = (RelationalNetworkCpp *) 0 ;
+  std::int32_t arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  std::int32_t result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:RelationalNetworkCpp_get_join_key_used",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_RelationalNetworkCpp, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "RelationalNetworkCpp_get_join_key_used" "', argument " "1"" of type '" "RelationalNetworkCpp *""'"); 
+  }
+  arg1 = reinterpret_cast< RelationalNetworkCpp * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "RelationalNetworkCpp_get_join_key_used" "', argument " "2"" of type '" "std::int32_t""'");
+  } 
+  arg2 = static_cast< std::int32_t >(val2);
+  {
+    try {
+      result = (std::int32_t)(arg1)->get_join_key_used(arg2);
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_UnknownError, e.what());
+    } 
+  }
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_RelationalNetworkCpp_get_sum_gradients_length(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   RelationalNetworkCpp *arg1 = (RelationalNetworkCpp *) 0 ;
@@ -8762,6 +8799,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"RelationalNetworkCpp_fit", _wrap_RelationalNetworkCpp_fit, METH_VARARGS, NULL},
 	 { (char *)"RelationalNetworkCpp_transform", _wrap_RelationalNetworkCpp_transform, METH_VARARGS, NULL},
 	 { (char *)"RelationalNetworkCpp_get_sum_output_dim", _wrap_RelationalNetworkCpp_get_sum_output_dim, METH_VARARGS, NULL},
+	 { (char *)"RelationalNetworkCpp_get_join_key_used", _wrap_RelationalNetworkCpp_get_join_key_used, METH_VARARGS, NULL},
 	 { (char *)"RelationalNetworkCpp_get_sum_gradients_length", _wrap_RelationalNetworkCpp_get_sum_gradients_length, METH_VARARGS, NULL},
 	 { (char *)"RelationalNetworkCpp_get_sum_gradients", _wrap_RelationalNetworkCpp_get_sum_gradients, METH_VARARGS, NULL},
 	 { (char *)"RelationalNetworkCpp_swigregister", RelationalNetworkCpp_swigregister, METH_VARARGS, NULL},

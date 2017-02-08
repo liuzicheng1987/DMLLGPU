@@ -117,7 +117,7 @@ for i in range(500):
 join_keys_input = np.asarray(join_keys_input)
 targets = np.asarray(targets).reshape(len(targets), 1)
 
-right_table = np.random.rand(len(join_keys_input), 2).astype(np.float32)
+right_table = (np.random.rand(len(join_keys_input), 2)*2.0 - 1.0).astype(np.float32)
 
 left_table = np.random.rand(500, 2).astype(np.float32)
 
@@ -150,7 +150,7 @@ relational_network.fit(
     join_keys_output=[join_keys_output],
     time_stamps_output=time_stamps_output,
     Y_dense=[targets],
-    optimiser=discovery.AdaDelta(),
+    optimiser=discovery.AdaGrad(),
     tol=0.0,
     max_num_epochs=500,
     sample=False
@@ -174,3 +174,5 @@ prediction = relational_network.transform(
 )
 
 print scipy.stats.pearsonr(prediction.ravel(), targets.ravel())
+
+print prediction - targets

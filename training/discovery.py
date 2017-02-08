@@ -723,10 +723,10 @@ class NeuralNetwork(object):
 
     def fit(
             self,
-            Xdense=[],
-            Xsparse=[],
-            Ydense=[],
-            Ysparse=[],
+            Xdense=None,
+            Xsparse=None,
+            Ydense=None,
+            Ysparse=None,
             optimiser=SGD(1.0, 0.0),
             global_batch_size=200,
             tol=1e-08,
@@ -756,6 +756,13 @@ class NeuralNetwork(object):
         sample: Whether you want to sample
         root: Number of root process
         """
+
+        # Replace all input vars that are None with
+        # empty lists
+        Xdense = Xdense or []
+        Xsparse = Xsparse or []
+        Ydense = Ydense or []
+        Ysparse = Ysparse or []
 
         # Make sure length of data vectors provided matches lengths that were
         # previously defined
@@ -874,8 +881,8 @@ class NeuralNetwork(object):
 
     def transform(
             self,
-            Xdense=[],
-            Xsparse=[],
+            Xdense=None,
+            Xsparse=None,
             global_batch_size=200,
             sample=False,
             sample_size=100,
@@ -896,6 +903,11 @@ class NeuralNetwork(object):
         get_hidden_nodes: Whether you would like to get the hidden
         nodes as well
         """
+
+        # Replace all input vars that are None with
+        # empty lists
+        Xdense = Xdense or []
+        Xsparse = Xsparse or []
 
         # Make sure length of Xdense matches num_input_nodes_dense_length
         if len(Xdense) != self.num_input_nodes_dense_length:
@@ -1000,6 +1012,78 @@ class RelationalNetwork(object):
 
         # Set output network
         self.thisptr.set_output_network(output_network.thisptr)
+
+    def __display_time(self, start_timing, message):
+
+        stop_timing = datetime.now()
+        time_elapsed = stop_timing - start_timing
+        print message
+        print "Time taken: %.2dh:%.2dm:%.2d.%.6ds" % (
+            time_elapsed.seconds // 3600,
+            (time_elapsed.seconds // 60) % 60,
+            time_elapsed.seconds % 60,
+            time_elapsed.microseconds
+        )
+        print
+
+    def __transform_keys_using_dictionary(self, dictionary, join_keys_raw):
+
+        join_keys = np.zeros(len(join_keys_raw)).astype(np.int32)
+
+        for i, join_key in enumerate(join_keys_raw):
+
+            if join_key in dictionary:
+                join_keys[i] = dictionary[join_key]
+            else:
+                join_keys[i] = -1
+
+        return join_keys
+
+    def __fit_and_transform_join_keys(
+        self,
+        join_keys_input,
+        join_keys_output
+    ):
+
+        # Fit dictionaries
+        dictionaries = []
+
+        for jko in join_keys_output:
+
+            dictionary = dict()
+
+            j = 0
+            for join_key in jko:
+                if join_key not in dictionary:
+                    dictionary[join_key] = j
+                    j += 1
+
+            dictionaries.append(dictionary)
+
+        # Transform
+
+        join_keys_output_transformed = []
+
+        for i, jko in enumerate(join_keys_output):
+
+            join_keys_output_transformed.append(
+                self.__transform_keys_using_dictionary(
+                    dictionaries[i], jko
+                )
+            )
+
+        join_keys_input_transformed = []
+        for i, join_keys in enumerate(join_keys_input):
+
+            join_key_used = self.thisptr.get_join_key_used(i)
+
+            join_keys_input_transformed.append(
+                self.__transform_keys_using_dictionary(
+                    dictionaries[join_key_used], join_keys
+                )
+            )
+
+        return join_keys_input_transformed, join_keys_output_transformed
 
     def __reorder_join_keys_and_data(
             self,
@@ -1156,17 +1240,17 @@ class RelationalNetwork(object):
 
     def fit(
         self,
-        X_dense_input=[],
-        X_sparse_input=[],
-        join_keys_input=[],
-        time_stamps_input=[],
-        X_dense_output=[],
-        X_sparse_output=[],
-        join_keys_output=[],
+        X_dense_input=None,
+        X_sparse_input=None,
+        join_keys_input=None,
+        time_stamps_input=None,
+        X_dense_output=None,
+        X_sparse_output=None,
+        join_keys_output=np.zeros(0).astype(np.int32),
         time_stamps_output=np.zeros(0).astype(np.float32),
-        Y_dense=[],
-        Y_sparse=[],
-        optimiser=SGD(1.0, 0.0),
+        Y_dense=None,
+        Y_sparse=None,
+        optimiser=Adam(),
         global_batch_size=200,
         tol=1e-08,
         max_num_epochs=200,
@@ -1174,23 +1258,44 @@ class RelationalNetwork(object):
         sample=True
     ):
 
+        # Replace all input vars that are None with
+        # empty lists
+        X_dense_input = X_dense_input or []
+        X_sparse_input = X_sparse_input or []
+        join_keys_input = join_keys_input or []
+        time_stamps_input = time_stamps_input or []
+        X_dense_output = X_dense_output or []
+        X_sparse_output = X_sparse_output or []
+        Y_dense = Y_dense or []
+        Y_sparse = Y_sparse or []
+
+        start_timing = datetime.now()
+
+        join_keys_input_transformed, join_keys_output_transformed \
+            = self.__fit_and_transform_join_keys(
+                join_keys_input, join_keys_output
+            )
+
+        self.__display_time(start_timing,
+                            "Relational network built indices")
+
         start_timing = datetime.now()
 
         self.thisptr.clean_up()
 
         self.__load_dense_data_into_input_networks(
             X_dense_input,
-            join_keys_input,
+            join_keys_input_transformed,
             time_stamps_input,
             global_batch_size
         )
 
         self.__load_time_stamps_into_input_networks(
             time_stamps_input,
-            join_keys_input
+            join_keys_input_transformed
         )
 
-        self.__load_join_keys_output(join_keys_output)
+        self.__load_join_keys_output(join_keys_output_transformed)
 
         self.__load_dense_data_into_output_network(
             X_dense_output,
@@ -1207,16 +1312,8 @@ class RelationalNetwork(object):
             global_batch_size
         )
 
-        stop_timing = datetime.now()
-        time_elapsed = stop_timing - start_timing
-        print "Relational network loaded data into GPU."
-        print "Time taken: %.2dh:%.2dm:%.2d.%.6ds" % (
-            time_elapsed.seconds // 3600,
-            (time_elapsed.seconds // 60) % 60,
-            time_elapsed.seconds % 60,
-            time_elapsed.microseconds
-        )
-        print
+        self.__display_time(start_timing,
+                            "Relational network loaded data into GPU.")
 
         start_timing = datetime.now()
 
@@ -1228,32 +1325,34 @@ class RelationalNetwork(object):
             sample
         )
 
-        stop_timing = datetime.now()
-        time_elapsed = stop_timing - start_timing
-        print "Trained relational network."
-        print "Time taken: %.2dh:%.2dm:%.2d.%.6ds" % (
-            time_elapsed.seconds // 3600,
-            (time_elapsed.seconds // 60) % 60,
-            time_elapsed.seconds % 60,
-            time_elapsed.microseconds
-        )
-        print
+        self.__display_time(start_timing,
+                            "Trained relational network.")
 
     def transform(
         self,
-        X_dense_input=[],
-        X_sparse_input=[],
-        join_keys_input=[],
-        time_stamps_input=[],
-        X_dense_output=[],
-        X_sparse_output=[],
-        join_keys_output=[],
+        X_dense_input=None,
+        X_sparse_input=None,
+        join_keys_input=None,
+        time_stamps_input=None,
+        X_dense_output=None,
+        X_sparse_output=None,
+        join_keys_output=np.zeros(0).astype(np.int32),
         time_stamps_output=np.zeros(0).astype(np.float32),
         global_batch_size=200,
         sample=False,
         sample_size=100,
         get_hidden_nodes=False
     ):
+
+        # Replace all input vars that are None with
+        # empty lists
+        X_dense_input = X_dense_input or []
+        X_sparse_input = X_sparse_input or []
+        join_keys_input = join_keys_input or []
+        time_stamps_input = time_stamps_input or []
+        X_dense_output = X_dense_output or []
+        X_sparse_output = X_sparse_output or []
+        join_keys_output = join_keys_output or []
 
         self.thisptr.clean_up()
 

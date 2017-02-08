@@ -412,6 +412,7 @@ class RelationalNetworkCpp(NumericallyOptimisedAlgorithmCpp):
     def fit(self, *args): return _DiscoveryCpp.RelationalNetworkCpp_fit(self, *args)
     def transform(self, *args): return _DiscoveryCpp.RelationalNetworkCpp_transform(self, *args)
     def get_sum_output_dim(self): return _DiscoveryCpp.RelationalNetworkCpp_get_sum_output_dim(self)
+    def get_join_key_used(self, *args): return _DiscoveryCpp.RelationalNetworkCpp_get_join_key_used(self, *args)
     def get_sum_gradients_length(self): return _DiscoveryCpp.RelationalNetworkCpp_get_sum_gradients_length(self)
     def get_sum_gradients(self, *args): return _DiscoveryCpp.RelationalNetworkCpp_get_sum_gradients(self, *args)
 RelationalNetworkCpp_swigregister = _DiscoveryCpp.RelationalNetworkCpp_swigregister

@@ -91,20 +91,16 @@ public:
     //Getters and setters
     std::int32_t get_sum_output_dim();
 
+    //Index of join key used by input network #i
+    std::int32_t get_join_key_used(std::int32_t i);
+
     //This functions returns the length of sum of the gradients during each training epoch
     //Identical to the number of epochs
-    std::int32_t get_sum_gradients_length()
-    {
-        return static_cast<std::int32_t>(this->sum_gradients_.size());
-    }
-
+    std::int32_t get_sum_gradients_length();
+    
     //This functions returns the sum of the gradients during each training epoch
     void get_sum_gradients(float *_sum_gradients,
-                           std::int32_t _sum_gradients_size)
-    {
-        std::copy(this->sum_gradients_.begin(), this->sum_gradients_.end(),
-                  _sum_gradients);
-    }    			
+                           std::int32_t _sum_gradients_size);			
 	
 };
 
